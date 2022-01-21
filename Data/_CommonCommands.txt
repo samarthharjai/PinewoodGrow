@@ -1,0 +1,4 @@
+﻿add-Migration -Context GROWContext -o Data\GMigrations Initial
+
+Update-Database -Context GROWContext
+Update-Database -Context ApplicationDbContext
