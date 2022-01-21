@@ -49,11 +49,11 @@ namespace PinewoodGrow.Data
 				{
 					var genders = new List<Gender>
 					{
-						new Gender { Name = "Male"},
-						new Gender { Name = "Female"},
-						new Gender { Name = "Non-Binary"},
-						new Gender { Name = "Other"},
-						new Gender { Name = "Prefer not to say"}
+						new Gender { ID = 1, Name = "Male"},
+						new Gender { ID = 2, Name = "Female"},
+						new Gender { ID = 3, Name = "Non-Binary"},
+						new Gender { ID = 4, Name = "Other"},
+						new Gender { ID = 5, Name = "Prefer not to say"}
 					};
 					context.Genders.AddRange(genders);
 					context.SaveChanges();
@@ -92,14 +92,14 @@ namespace PinewoodGrow.Data
 				{
 					var situations = new List<Situation>
 					{
-						new Situation { Name = "ODSP"},
-						new Situation { Name = "Ontario Works"},
-						new Situation { Name = "CPP-Disability"},
-						new Situation { Name = "EI"},
-						new Situation { Name = "GAINS (For Seniors)"},
-						new Situation { Name = "Post-Sec. Student"},
-						new Situation { Name = "Other"},
-						new Situation { Name = "Volunteer"}
+						new Situation { ID = 1, Name = "ODSP"},
+						new Situation { ID = 2, Name = "Ontario Works"},
+						new Situation { ID = 3, Name = "CPP-Disability"},
+						new Situation { ID = 4, Name = "EI"},
+						new Situation { ID = 5, Name = "GAINS (For Seniors)"},
+						new Situation { ID = 6, Name = "Post-Sec. Student"},
+						new Situation { ID = 7, Name = "Other"},
+						new Situation { ID = 8, Name = "Volunteer"}
 					};
 					context.Situations.AddRange(situations);
 					context.SaveChanges();
@@ -109,15 +109,15 @@ namespace PinewoodGrow.Data
 				{
 					var dietaries = new List<Dietary>
 					{
-						new Dietary { Name = "Diabetes"},
-						new Dietary { Name = "Obesity"},
-						new Dietary { Name = "Lactose Intolerance"},
-						new Dietary { Name = "Gluten Intolerance/Sensitivity"},
-						new Dietary { Name = "Cancer"},
-						new Dietary { Name = "Heart Disease"},
-						new Dietary { Name = "Osteoperosis"},
-						new Dietary { Name = "Digestive Disorders"},
-						new Dietary { Name = "Food Allergies"}
+						new Dietary { ID = 1, Name = "Diabetes"},
+						new Dietary { ID = 2, Name = "Obesity"},
+						new Dietary { ID = 3, Name = "Lactose Intolerance"},
+						new Dietary { ID = 4, Name = "Gluten Intolerance/Sensitivity"},
+						new Dietary { ID = 5, Name = "Cancer"},
+						new Dietary { ID = 6, Name = "Heart Disease"},
+						new Dietary { ID = 7, Name = "Osteoperosis"},
+						new Dietary { ID = 8, Name = "Digestive Disorders"},
+						new Dietary { ID = 9, Name = "Food Allergies"}
 					};
 					context.Dietaries.AddRange(dietaries);
 					context.SaveChanges();
