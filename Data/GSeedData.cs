@@ -25,6 +25,21 @@ namespace PinewoodGrow.Data
 							HouseIncome = 10000,
 							LICO = true
 						},
+						new Household {
+							ID = 2,
+							HouseIncome = 11730,
+							LICO = true
+						},
+						new Household {
+							ID = 3,
+							HouseIncome = 16300,
+							LICO = true
+						},
+						new Household {
+							ID = 4,
+							HouseIncome = 27300,
+							LICO = true
+						},
 					};
 					context.Households.AddRange(households);
 					context.SaveChanges();
@@ -52,6 +67,21 @@ namespace PinewoodGrow.Data
 							FullAddress = "58 Chestnut Ave.",
 							City = "Welland",
 							PostalCode = "H4K 2V7"
+						},
+						new Address {
+							FullAddress = "28 King St.",
+							City = "Welland",
+							PostalCode = "T7K 2C3"
+						},
+						new Address {
+							FullAddress = "47 Lakeshore Dr.",
+							City = "Port Colborne",
+							PostalCode = "H2Y 8H7"
+						},
+						new Address {
+							FullAddress = "58 Chestnut Ave.",
+							City = "Welland",
+							PostalCode = "H3S 2W1"
 						}
 					};
 					context.Addresses.AddRange(addresses);
@@ -112,7 +142,76 @@ namespace PinewoodGrow.Data
 							Consent = true,
 							CompletedBy = "John Doe",
 							CompletedOn = DateTime.Parse("2021-09-01")
-						});
+						},
+						new Member
+						{
+							HouseholdID = 1,
+							FirstName = "Gregory",
+							LastName = "March",
+							Age = 64,
+							GenderID = 1,
+							AddressID = 2,
+							Telephone = "9028678043",
+							Email = "GMarch@gmail.com",
+							FamilySize = 1,
+							Income = 11730,
+							Notes = "N/A",
+							Consent = true,
+							CompletedBy = "John Doe",
+							CompletedOn = DateTime.Parse("2021-09-01")
+						},
+						new Member
+						{
+							HouseholdID = 1,
+							FirstName = "Anne",
+							LastName = "Milton",
+							Age = 51,
+							GenderID = 2,
+							AddressID = 3,
+							Telephone = "9056726343",
+							Email = "AnneMilton@gmail.com",
+							FamilySize = 1,
+							Income = 16300,
+							Notes = "N/A",
+							Consent = true,
+							CompletedBy = "John Doe",
+							CompletedOn = DateTime.Parse("2021-09-01")
+						},
+						new Member
+						{
+							HouseholdID = 1,
+							FirstName = "Marry",
+							LastName = "Queen",
+							Age = 48,
+							GenderID = 2,
+							AddressID = 1,
+							Telephone = "9051984043",
+							Email = "MarryQ@gmail.com",
+							FamilySize = 1,
+							Income = 15300,
+							Notes = "N/A",
+							Consent = true,
+							CompletedBy = "John Doe",
+							CompletedOn = DateTime.Parse("2021-09-01")
+						},
+						new Member
+						{
+							HouseholdID = 1,
+							FirstName = "Jerry",
+							LastName = "Queen",
+							Age = 46,
+							GenderID = 1,
+							AddressID = 1,
+							Telephone = "9056759243",
+							Email = "JerryQueen@gmail.com",
+							FamilySize = 1,
+							Income = 12000,
+							Notes = "N/A",
+							Consent = true,
+							CompletedBy = "John Doe",
+							CompletedOn = DateTime.Parse("2021-09-01")
+						}
+						);
 					context.SaveChanges();
 				}
 
@@ -124,6 +223,22 @@ namespace PinewoodGrow.Data
 							SituationID = context.Situations.FirstOrDefault(s => s.Name == "ODSP").ID,
 							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Striker" && m.FirstName == "Jacob").ID
 						},
+						new MemberSituation {
+							SituationID = context.Situations.FirstOrDefault(s => s.Name == "Ontario Works").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "March" && m.FirstName == "Gregory").ID
+						},
+						new MemberSituation {
+							SituationID = context.Situations.FirstOrDefault(s => s.Name == "EI").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Milton" && m.FirstName == "Anne").ID
+						},
+						new MemberSituation {
+							SituationID = context.Situations.FirstOrDefault(s => s.Name == "GAINS (For Seniors)").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Marry").ID
+						},
+						new MemberSituation {
+							SituationID = context.Situations.FirstOrDefault(s => s.Name == "ODSP").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Jerry").ID
+						}
 					};
 					context.MemberSituations.AddRange(memberSituations);
 					context.SaveChanges();
@@ -137,11 +252,26 @@ namespace PinewoodGrow.Data
 							DietaryID = context.Dietaries.FirstOrDefault(d => d.Name == "Obesity").ID,
 							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Striker" && m.FirstName == "Jacob").ID
 						},
+						new MemberDietary {
+							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Diabetes").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "March" && m.FirstName == "Gregory").ID
+						},
+						new MemberDietary {
+							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Cancer").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Milton" && m.FirstName == "Anne").ID
+						},
+						new MemberDietary {
+							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Heart Disease").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Marry").ID
+						},
+						new MemberDietary {
+							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Osteoperosis").ID,
+							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Jerry").ID
+						}
 					};
 					context.MemberDietaries.AddRange(memberDietaries);
 					context.SaveChanges();
 				}
-
 			}
 		}
 	}
