@@ -83,7 +83,7 @@ namespace PinewoodGrow.Data
 						new Dietary { Name = "Obesity"},
 						new Dietary { Name = "Lactose Intolerance"},
 						new Dietary { Name = "Gluten Intolerance/Sensitivity"},
-						new Dietary { Name = "Cance"},
+						new Dietary { Name = "Cancer"},
 						new Dietary { Name = "Heart Disease"},
 						new Dietary { Name = "Osteoperosis"},
 						new Dietary { Name = "Digestive Disorders"},
@@ -134,7 +134,7 @@ namespace PinewoodGrow.Data
 					var memberDietaries = new List<MemberDietary>
 					{
 						new MemberDietary {
-							DietaryID = context.Dietaries.FirstOrDefault(d => d.Name == "Cancer").ID,
+							DietaryID = context.Dietaries.FirstOrDefault(d => d.Name == "Obesity").ID,
 							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Striker" && m.FirstName == "Jacob").ID
 						},
 					};
