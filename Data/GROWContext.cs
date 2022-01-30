@@ -27,7 +27,8 @@ namespace PinewoodGrow.Data
 		public DbSet<Dietary> Dietaries { get; set; }
 		public DbSet<Document> Documents { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Prevent Cascade Delete from Household to Member
             modelBuilder.Entity<Household>()
