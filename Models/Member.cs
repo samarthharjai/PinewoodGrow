@@ -10,7 +10,17 @@ namespace PinewoodGrow.Models
 	{
 		public Member()
 		{
+			MemberSituations = new HashSet<MemberSituation>();
+			MemberDietaries = new HashSet<MemberDietary>();
+		}
 
+		[Display(Name = "Member")]
+		public string FullName
+		{
+			get
+			{
+				return FirstName + " " + LastName;
+			}
 		}
 
 		public int ID { get; set; }

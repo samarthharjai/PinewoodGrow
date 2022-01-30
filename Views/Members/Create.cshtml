@@ -8,83 +8,151 @@
 
 <h4>Member</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control" />
-                <span asp-validation-for="Telephone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FamilySize" class="control-label"></label>
-                <input asp-for="FamilySize" class="form-control" />
-                <span asp-validation-for="FamilySize" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Income" class="control-label"></label>
-                <input asp-for="Income" class="form-control" />
-                <span asp-validation-for="Income" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <textarea asp-for="Notes" class="form-control"></textarea>
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Consent" /> @Html.DisplayNameFor(model => model.Consent)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompletedBy" class="control-label"></label>
-                <input asp-for="CompletedBy" class="form-control" />
-                <span asp-validation-for="CompletedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompletedOn" class="control-label"></label>
-                <input asp-for="CompletedOn" class="form-control" />
-                <span asp-validation-for="CompletedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HouseholdID" class="control-label"></label>
-                <select asp-for="HouseholdID" class ="form-control" asp-items="ViewBag.HouseholdID"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="GenderID" class="control-label"></label>
-                <select asp-for="GenderID" class ="form-control" asp-items="ViewBag.GenderID"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddressID" class="control-label"></label>
-                <select asp-for="AddressID" class ="form-control" asp-items="ViewBag.AddressID"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<form asp-action="Create">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<div class="row">
+		<div class="col-md-6">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="FirstName" class="control-label"></label>
+				<input asp-for="FirstName" class="form-control" />
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="LastName" class="control-label"></label>
+				<input asp-for="LastName" class="form-control" />
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Age" class="control-label"></label>
+				<input asp-for="Age" class="form-control" />
+				<span asp-validation-for="Age" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="GenderID" class="control-label"></label>
+				<select asp-for="GenderID" class="form-control" asp-items="ViewBag.GenderID">
+					<option value="">Select a Gender</option>
+				</select>
+				<span asp-validation-for="GenderID" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Telephone" class="control-label"></label>
+				<input asp-for="Telephone" class="form-control" />
+				<span asp-validation-for="Telephone" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Email" class="control-label"></label>
+				<input asp-for="Email" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="FamilySize" class="control-label"></label>
+				<input asp-for="FamilySize" class="form-control" />
+				<span asp-validation-for="FamilySize" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Income" class="control-label"></label>
+				<input asp-for="Income" class="form-control" />
+				<span asp-validation-for="Income" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Notes" class="control-label"></label>
+				<textarea asp-for="Notes" class="form-control"></textarea>
+				<span asp-validation-for="Notes" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
+				<div class="col-md-offset-1">
+					<table>
+						<tr>
+						@{
+							int cntD = 0;
+							List<PinewoodGrow.ViewModels.CheckOptionVM> dietaryCheckboxes = ViewBag.DietaryOptions;
+							foreach (var checkbox in dietaryCheckboxes)
+							{
+								if (cntD++ % 3 == 0)
+								{
+								@:</tr><tr>
+								}
+								@:<td>
+									<input type="checkbox"
+											name="selectedDietaryOptions"
+											value="@checkbox.ID"
+											@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+									@checkbox.DisplayText @:&nbsp;&nbsp;
+								@:</td>
+							}
+						@:</tr>
+						}
+					</table>
+				</div>
+			</div>
+				<div class="form-group">
+					<label class="control-label">@Html.DisplayNameFor(model => model.MemberSituations)</label>
+					<div class="col-md-offset-1">
+						<table>
+							<tr>
+							@{
+								int cntS = 0;
+								List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
+								foreach (var checkbox in situationCheckboxes)
+								{
+									if (cntS++ % 3 == 0)
+									{
+									@:</tr><tr>
+									}
+									@:<td>
+										<input type="checkbox"
+												name="selectedSituationOptions"
+												value="@checkbox.ID"
+												@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+										@checkbox.DisplayText @:&nbsp;&nbsp;
+									@:</td>
+								}
+							@:</tr>
+							}
+						</table>
+					</div>
+				</div>
+
+			<div class="form-group">
+				<label asp-for="CompletedBy" class="control-label"></label>
+				<input asp-for="CompletedBy" class="form-control" />
+				<span asp-validation-for="CompletedBy" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="CompletedOn" class="control-label"></label>
+				<input asp-for="CompletedOn" class="form-control" />
+				<span asp-validation-for="CompletedOn" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="HouseholdID" class="control-label"></label>
+				<select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseholdID">
+					<option value="">Select a Household</option>
+				</select>
+				<span asp-validation-for="HouseholdID" class="text-danger"></span>
+			</div>
+					
+			<div class="form-group">
+				<label asp-for="AddressID" class="control-label"></label>
+				<select asp-for="AddressID" class="form-control" asp-items="ViewBag.AddressID">
+					<option value="">Select a Address</option>
+				</select>
+				<span asp-validation-for="AddressID" class="text-danger"></span>
+			</div>
+			<div class="form-group form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="Consent" /> @Html.DisplayNameFor(model => model.Consent)
+				</label>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Create" class="btn btn-primary" />
+			</div>
+		</div>
+	</div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>

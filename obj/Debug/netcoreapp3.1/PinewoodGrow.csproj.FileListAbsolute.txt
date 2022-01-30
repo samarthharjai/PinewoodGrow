@@ -420,3 +420,4 @@ C:\Users\Hann_\Documents\NC\W22\PROG 1440\PinewoodGrow\PinewoodGrow\obj\Debug\ne
 C:\Users\Hann_\Documents\NC\W22\PROG 1440\PinewoodGrow\PinewoodGrow\obj\Debug\netcoreapp3.1\PinewoodGrow.pdb
 C:\Users\Hann_\Documents\NC\W22\PROG 1440\PinewoodGrow\PinewoodGrow\obj\Debug\netcoreapp3.1\PinewoodGrow.genruntimeconfig.cache
 C:\Users\Hann_\Documents\NC\W22\PROG 1440\PinewoodGrow\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\IncomeChart\Index.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\IncomeChart\Index.cshtml.g.cs

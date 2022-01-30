@@ -145,7 +145,7 @@ namespace PinewoodGrow.Data
 						},
 						new Member
 						{
-							HouseholdID = 1,
+							HouseholdID = 2,
 							FirstName = "Gregory",
 							LastName = "March",
 							Age = 64,
@@ -162,7 +162,7 @@ namespace PinewoodGrow.Data
 						},
 						new Member
 						{
-							HouseholdID = 1,
+							HouseholdID = 3,
 							FirstName = "Anne",
 							LastName = "Milton",
 							Age = 51,
@@ -179,7 +179,7 @@ namespace PinewoodGrow.Data
 						},
 						new Member
 						{
-							HouseholdID = 1,
+							HouseholdID = 4,
 							FirstName = "Marry",
 							LastName = "Queen",
 							Age = 48,
@@ -196,7 +196,7 @@ namespace PinewoodGrow.Data
 						},
 						new Member
 						{
-							HouseholdID = 1,
+							HouseholdID = 4,
 							FirstName = "Jerry",
 							LastName = "Queen",
 							Age = 46,
