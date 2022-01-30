@@ -22,8 +22,21 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Members
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString, int? DietaryID, int? SituationID, string actionButton,
+            string sortDirection = "asc", string sortField = "Member")
         {
+            string[] sortOptions = new[] { "Member", "Age", "Family Size", "Income" };
+
+            ViewData["Filtering"] = ""; //Asume not filtering
+
+            ViewData["DietaryID"] = new SelectList(_context
+                .Dietaries
+                .OrderBy(d => d.Name), "ID", "Name");
+
+            ViewData["SituationID"] = new SelectList(_context
+                .Situations
+                .OrderBy(s => s.Name), "ID", "Name");
+
             var members = from m in _context.Members
                 .Include(m => m.Address)
                 .Include(m => m.Gender)
@@ -31,6 +44,94 @@ namespace PinewoodGrow.Controllers
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
             select m;
+
+            if (DietaryID.HasValue)
+			{
+                members = members.Where(m => m.MemberDietaries.Any(d => d.DietaryID == DietaryID));
+                ViewData["Filtering"] = " show";
+            }
+            if (SituationID.HasValue)
+            {
+                members = members.Where(m => m.MemberSituations.Any(s => s.SituationID == SituationID));
+                ViewData["Filtering"] = " show";
+            }
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                members = members.Where(m => m.LastName.ToUpper().Contains(SearchString.ToUpper())
+                                        || m.FirstName.ToUpper().Contains(SearchString.ToUpper()));
+                ViewData["Filtering"] = " show";
+            }
+
+            if (!String.IsNullOrEmpty(actionButton))
+            {
+                if (sortOptions.Contains(actionButton))
+                {
+                    if (actionButton == sortField)
+                    {
+                        sortDirection = sortDirection == "asc" ? "desc" : "asc";
+                    }
+                    sortField = actionButton;
+                }
+            }
+            
+            if (sortField == "Age")
+            {
+                if (sortDirection == "asc")
+                {
+                    members = members
+                        .OrderByDescending(m => m.Age);
+                }
+                else
+                {
+                    members = members
+                        .OrderBy(m => m.Age);
+                }
+            }
+            else if (sortField == "Family Size")
+            {
+                if (sortDirection == "asc")
+                {
+                    members = members
+                        .OrderBy(m => m.FamilySize);
+                }
+                else
+                {
+                    members = members
+                        .OrderByDescending(m => m.FamilySize);
+                }
+            }
+            else if (sortField == "Income")
+            {
+                if (sortDirection == "asc")
+                {
+                    members = members
+                        .OrderBy(m => m.Income);
+                }
+                else
+                {
+                    members = members
+                        .OrderByDescending(m => m.Income);
+                }
+            }
+            else 
+            {
+                if (sortDirection == "asc")
+                {
+                    members = members
+                        .OrderBy(m => m.LastName)
+                        .ThenBy(m => m.FirstName);
+                }
+                else
+                {
+                    members = members
+                        .OrderByDescending(m => m.LastName)
+                        .ThenByDescending(m => m.FirstName);
+                }
+            }
+
+            ViewData["sortField"] = sortField;
+            ViewData["sortDirection"] = sortDirection;
+
             return View(await members.ToListAsync());
         }
 
