@@ -59,6 +59,13 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
+                /*
+                if (context.Addresses.Any())
+                {
+					context.RemoveRange(context.Addresses);
+                    context.SaveChanges();
+                }*/
+
 				if (!context.Addresses.Any())
 				{
 					var addresses = new List<Address>
