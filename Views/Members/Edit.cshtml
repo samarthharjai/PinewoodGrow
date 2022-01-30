@@ -59,117 +59,7 @@
 				<textarea asp-for="Notes" class="form-control"></textarea>
 				<span asp-validation-for="Notes" class="text-danger"></span>
 			</div>
-			<div class="form-group">
-				<label class="control-label"> Current Documents:</label>
-				<div class="ml-md-3">
-					@{
-						int fileCount = Model.MemberDocuments.Count;
-						if (fileCount > 0)
-						{
-							var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
-							if (fileCount > 1)
-							{
-								<a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
-									<span class="badge badge-info">@fileCount</span> Current Documents...
-								</a>
-								<div class="collapse" id="collapseSum@(Model.ID)">
-									@{
-										foreach (var d in Model.MemberDocuments)
-										{
-											<a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
-										}
-									}
-								</div>
-							}
-							else
-							{
-								<a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
-							}
-						}
-					}
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Upload Additional Documents:</label>
-				<input type="file" class="" name="theFiles" multiple="multiple" />
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="form-group">
-				<label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
-				<div class="col-md-offset-1">
-					<table>
-						<tr>
-						@{
-							int cntD = 0;
-							List<PinewoodGrow.ViewModels.CheckOptionVM> dietaryCheckboxes = ViewBag.DietaryOptions;
-							foreach (var checkbox in dietaryCheckboxes)
-							{
-								if (cntD++ % 3 == 0)
-								{
-								@:</tr><tr>
-								}
-								@:<td>
-									<input type="checkbox"
-											name="selectedDietaryOptions"
-											value="@checkbox.ID"
-											@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-									@checkbox.DisplayText @:&nbsp;&nbsp;
-								@:</td>
-							}
-						@:</tr>
-						}
-					</table>
-				</div>
-				
-			<div class="form-group">
-				<label class="control-label">@Html.DisplayNameFor(model => model.MemberSituations)</label>
-				<div class="col-md-offset-1">
-					<table>
-						<tr>
-						@{
-							int cntS = 0;
-							List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
-							foreach (var checkbox in situationCheckboxes)
-							{
-								if (cntS++ % 3 == 0)
-								{
-								@:</tr><tr>
-								}
-								@:<td>
-									<input type="checkbox"
-											name="selectedSituationOptions"
-											value="@checkbox.ID"
-											@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-									@checkbox.DisplayText @:&nbsp;&nbsp;
-								@:</td>
-							}
-						@:</tr>
-						}
-					</table>
-				</div>
-			</div>
-			<div class="form-group">
-				<label asp-for="CompletedBy" class="control-label"></label>
-				<input asp-for="CompletedBy" class="form-control" />
-				<span asp-validation-for="CompletedBy" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="CompletedOn" class="control-label"></label>
-				<input asp-for="CompletedOn" class="form-control" />
-				<span asp-validation-for="CompletedOn" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="HouseholdID" class="control-label"></label>
-				<select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseholdID"></select>
-				<span asp-validation-for="HouseholdID" class="text-danger"></span>
-			</div>
-					
-			<div class="form-group">
-				<label asp-for="AddressID" class="control-label"></label>
-				<select asp-for="AddressID" class="form-control" asp-items="ViewBag.AddressID"></select>
-				<span asp-validation-for="AddressID" class="text-danger"></span>
-			</div>
+			
 			<div class="form-group form-check">
 				<label class="form-check-label">
 					<input class="form-check-input" asp-for="Consent" /> @Html.DisplayNameFor(model => model.Consent)
@@ -178,9 +68,120 @@
 			<div class="form-group">
 				<input type="submit" value="Save" class="btn btn-primary" />
 			</div>
-
 		</div>
-	</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
+				<div class="col-md-offset-1">
+					<table>
+						<tr>
+							@{
+								int cntD = 0;
+								List<PinewoodGrow.ViewModels.CheckOptionVM> dietaryCheckboxes = ViewBag.DietaryOptions;
+								foreach (var checkbox in dietaryCheckboxes)
+								{
+									if (cntD++ % 3 == 0)
+									{
+									@:</tr><tr>
+									}
+									@:<td>
+										<input type="checkbox"
+												name="selectedDietaryOptions"
+												value="@checkbox.ID"
+												@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+										@checkbox.DisplayText @:&nbsp;&nbsp;
+									@:</td>
+								}
+							@:</tr>
+						}
+					</table>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">@Html.DisplayNameFor(model => model.MemberSituations)</label>
+					<div class="col-md-offset-1">
+						<table>
+							<tr>
+							@{
+								int cntS = 0;
+								List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
+								foreach (var checkbox in situationCheckboxes)
+								{
+									if (cntS++ % 3 == 0)
+									{
+									@:</tr><tr>
+									}
+									@:<td>
+										<input type="checkbox"
+												name="selectedSituationOptions"
+												value="@checkbox.ID"
+												@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+										@checkbox.DisplayText @:&nbsp;&nbsp;
+									@:</td>
+								}
+							@:</tr>
+							}
+						</table>
+					</div>
+				</div>
+				<div class="form-group">
+					<label asp-for="CompletedBy" class="control-label"></label>
+					<input asp-for="CompletedBy" class="form-control" />
+					<span asp-validation-for="CompletedBy" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="CompletedOn" class="control-label"></label>
+					<input asp-for="CompletedOn" class="form-control" />
+					<span asp-validation-for="CompletedOn" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="HouseholdID" class="control-label"></label>
+					<select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseholdID"></select>
+					<span asp-validation-for="HouseholdID" class="text-danger"></span>
+				</div>
+
+				<div class="form-group">
+					<label asp-for="AddressID" class="control-label"></label>
+					<select asp-for="AddressID" class="form-control" asp-items="ViewBag.AddressID"></select>
+					<span asp-validation-for="AddressID" class="text-danger"></span>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label"> Current Documents:</label>
+					<div class="ml-md-3">
+						@{
+							int fileCount = Model.MemberDocuments.Count;
+							if (fileCount > 0)
+							{
+								var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
+								if (fileCount > 1)
+								{
+									<a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
+										<span class="badge badge-info">@fileCount</span> Current Documents...
+									</a>
+									<div class="collapse" id="collapseSum@(Model.ID)">
+										@{
+											foreach (var d in Model.MemberDocuments)
+											{
+												<a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
+											}
+										}
+									</div>
+								}
+								else
+								{
+									<a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
+								}
+							}
+						}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Upload Additional Documents:</label>
+					<input type="file" class="" name="theFiles" multiple="multiple" />
+				</div>
+			</div>
+		</div>
 	</div>
 </form>
 
