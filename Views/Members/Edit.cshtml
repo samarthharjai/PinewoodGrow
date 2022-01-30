@@ -8,7 +8,7 @@
 
 <h4>Member</h4>
 <hr />
-<form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<div class="row">
 		<div class="col-md-6">
@@ -58,6 +58,40 @@
 				<label asp-for="Notes" class="control-label"></label>
 				<textarea asp-for="Notes" class="form-control"></textarea>
 				<span asp-validation-for="Notes" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label class="control-label"> Current Documents:</label>
+				<div class="ml-md-3">
+					@{
+						int fileCount = Model.MemberDocuments.Count;
+						if (fileCount > 0)
+						{
+							var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
+							if (fileCount > 1)
+							{
+								<a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
+									<span class="badge badge-info">@fileCount</span> Current Documents...
+								</a>
+								<div class="collapse" id="collapseSum@(Model.ID)">
+									@{
+										foreach (var d in Model.MemberDocuments)
+										{
+											<a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
+										}
+									}
+								</div>
+							}
+							else
+							{
+								<a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
+							}
+						}
+					}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Upload Additional Documents:</label>
+				<input type="file" class="" name="theFiles" multiple="multiple" />
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -146,6 +180,7 @@
 			</div>
 
 		</div>
+	</div>
 	</div>
 </form>
 

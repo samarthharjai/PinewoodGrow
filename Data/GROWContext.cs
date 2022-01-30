@@ -25,7 +25,8 @@ namespace PinewoodGrow.Data
 		public DbSet<Situation> Situations { get; set; }
 		public DbSet<MemberDietary> MemberDietaries { get; set; }
 		public DbSet<Dietary> Dietaries { get; set; }
-		public DbSet<Document> Documents { get; set; }
+		public DbSet<MemberDocument> MemberDocuments { get; set; }
+		public DbSet<UploadedFile> UploadedFiles { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

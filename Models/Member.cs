@@ -12,6 +12,7 @@ namespace PinewoodGrow.Models
 		{
 			MemberSituations = new HashSet<MemberSituation>();
 			MemberDietaries = new HashSet<MemberDietary>();
+			MemberDocuments = new HashSet<MemberDocument>();
 		}
 
 		[Display(Name = "Member")]
@@ -95,6 +96,7 @@ namespace PinewoodGrow.Models
 		[Display(Name = "Dietary Restrictions")]
 		public ICollection<MemberDietary> MemberDietaries { get; set; }
 
-
+		[Display(Name = "Documents")]
+		public ICollection<MemberDocument> MemberDocuments { get; set; }
 	}
 }

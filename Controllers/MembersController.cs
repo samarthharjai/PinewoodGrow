@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -175,7 +177,8 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID,AddressID")] Member member, string[] selectedDietaryOptions, string[] selectedSituationOptions)
+            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID,AddressID")] Member member,
+            string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles)
         {
             try
             {
@@ -197,6 +200,7 @@ namespace PinewoodGrow.Controllers
                 }
                 if (ModelState.IsValid)
                 {
+                    await AddDocumentsAsync(member, theFiles);
                     _context.Add(member);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -206,16 +210,11 @@ namespace PinewoodGrow.Controllers
             {
                 ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
             }
-            catch (DbUpdateException dex)
+            catch (DbUpdateException )
             {
-                if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed: Patients.OHIP"))
-                {
-                    ModelState.AddModelError("OHIP", "Unable to save changes. Remember, you cannot have duplicate OHIP numbers.");
-                }
-                else
-                {
+                
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-                }
+                
             }
             PopulateAssignedSituationData(member);
             PopulateAssignedDietaryData(member);
@@ -232,6 +231,7 @@ namespace PinewoodGrow.Controllers
             }
 
             var member = await _context.Members
+                .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -252,9 +252,10 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string[] selectedDietaryOptions, string[] selectedSituationOptions)
+        public async Task<IActionResult> Edit(int id, string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles)
         {
             var memberToUpdate = await _context.Members
+                .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -273,6 +274,7 @@ namespace PinewoodGrow.Controllers
             {
                 try
                 {
+                    await AddDocumentsAsync(memberToUpdate, theFiles);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", new { memberToUpdate.ID });
                 }
@@ -443,11 +445,45 @@ namespace PinewoodGrow.Controllers
             }
         }
 
+        private async Task AddDocumentsAsync(Member member, List<IFormFile> theFiles)
+        {
+            foreach (var f in theFiles)
+            {
+                if (f != null)
+                {
+                    string mimeType = f.ContentType;
+                    string fileName = Path.GetFileName(f.FileName);
+                    long fileLength = f.Length;                    
+                    if (!(fileName == "" || fileLength == 0))
+                    {
+                        MemberDocument d = new MemberDocument();
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await f.CopyToAsync(memoryStream);
+                            d.FileContent.Content = memoryStream.ToArray();
+                        }
+                        d.FileContent.MimeType = mimeType;
+                        d.FileName = fileName;
+                        member.MemberDocuments.Add(d);
+                    };
+                }
+            }
+        }
+
         private void PopulateDropDownLists(Member member = null)
         {
             ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
             ViewData["HouseholdID"] = new SelectList(_context.Households, "ID", "ID", member?.HouseholdID);
+        }
+
+        public async Task<FileContentResult> Download(int id)
+        {
+            var theFile = await _context.UploadedFiles
+                .Include(d => d.FileContent)
+                .Where(f => f.ID == id)
+                .FirstOrDefaultAsync();
+            return File(theFile.FileContent.Content, theFile.FileContent.MimeType, theFile.FileName);
         }
 
         private bool MemberExists(int id)
