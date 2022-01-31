@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PinewoodGrow.Models.Household>
+@model IEnumerable<PinewoodGrow.Models.Household>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +6,9 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@*<p>
+    <a asp-action="Create">Create New</a>2
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -20,6 +20,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LICO)
+            </th>
+            <th>
+                Family Name
+            </th>
+            <th>
+                Family Size
             </th>
             <th></th>
         </tr>
@@ -35,6 +41,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LICO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Members.FirstOrDefault().LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Members.Count)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
