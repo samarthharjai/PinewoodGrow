@@ -140,9 +140,25 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var gender = await _context.Genders.FindAsync(id);
-            _context.Genders.Remove(gender);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _context.Genders.Remove(gender);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException dex)
+            {
+                if (dex.GetBaseException().Message.Contains("FOREIGN KEY constraint failed"))
+                {
+                    ModelState.AddModelError("", "Unable to Delete Gender. You cannot delete a Gender that Members have.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            return View(gender);
+
         }
 
         private bool GenderExists(int id)

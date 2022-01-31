@@ -64,6 +64,13 @@ namespace PinewoodGrow.Data
 				.WithMany(s => s.MemberSituations)
 				.HasForeignKey(ms => ms.SituationID)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			//Prevent Cascade Delete
+			modelBuilder.Entity<Gender>()
+				.HasMany<Member>(m => m.Members)
+				.WithOne(g => g.Gender)
+				.HasForeignKey(g => g.GenderID)
+				.OnDelete(DeleteBehavior.Restrict);
 		}
     }
 }

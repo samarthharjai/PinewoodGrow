@@ -112,7 +112,7 @@ namespace PinewoodGrow.Data.GMigrations
                         column: x => x.GenderID,
                         principalTable: "Genders",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Members_Households_HouseholdID",
                         column: x => x.HouseholdID,

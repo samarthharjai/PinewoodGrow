@@ -283,7 +283,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Gender", "Gender")
                         .WithMany("Members")
                         .HasForeignKey("GenderID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PinewoodGrow.Models.Household", "Household")

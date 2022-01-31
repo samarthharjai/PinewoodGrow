@@ -56,12 +56,20 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name")] Dietary dietary)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(dietary);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(dietary);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            
             return View(dietary);
         }
 
@@ -86,23 +94,25 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Dietary dietary)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != dietary.ID)
+            var dietaryToUpdate = await _context.Dietaries.FirstOrDefaultAsync(d => d.ID == id);
+
+            if (dietaryToUpdate == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (await TryUpdateModelAsync<Dietary>(dietaryToUpdate, "", d => d.Name))
             {
                 try
                 {
-                    _context.Update(dietary);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DietaryExists(dietary.ID))
+                    if (!DietaryExists(dietaryToUpdate.ID))
                     {
                         return NotFound();
                     }
@@ -111,9 +121,12 @@ namespace PinewoodGrow.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
             }
-            return View(dietary);
+            return View(dietaryToUpdate);
         }
 
         // GET: Dietaries/Delete/5
@@ -140,9 +153,24 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var dietary = await _context.Dietaries.FindAsync(id);
-            _context.Dietaries.Remove(dietary);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _context.Dietaries.Remove(dietary);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException dex)
+            {
+                if (dex.GetBaseException().Message.Contains("FOREIGN KEY constraint failed"))
+                {
+                    ModelState.AddModelError("", "Unable to Delete Dietary Restriction. You cannot delete a Dietary Restriction that Members have.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            return View(dietary);
         }
 
         private bool DietaryExists(int id)

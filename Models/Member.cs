@@ -24,6 +24,15 @@ namespace PinewoodGrow.Models
 			}
 		}
 
+		[Display(Name = "Phone")]
+		public string TelephoneFormatted
+		{
+			get
+			{
+				return "(" + Telephone.Substring(0, 3) + ") " + Telephone.Substring(3, 3) + "-" + Telephone[6..];
+			}
+		}
+
 		public int ID { get; set; }
 
 		[Display(Name = "First Name")]
