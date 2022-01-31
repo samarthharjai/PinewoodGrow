@@ -36,82 +36,81 @@ chart.render();
 </script>
 <div id="chartContainer" style="height: 500px; width:90%; margin:auto;"></div>
 
+<div style="padding:70px;">
+    <table class="table table-striped" style="width:100%; margin:auto;">
+        <thead>
+            <tr>
+                <th>
+                    Range of Income
+                </th>
+                <th>
+                    No. of Member
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    Under $5000
+                </td>
+                <td>
+                    21
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    $5000 to $9999
+                </td>
+                <td>
+                    13
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    $10000 to $14999
+                </td>
+                <td>
+                    26
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    $15000 to $19999
+                </td>
+                <td>
+                    7
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    $20000 to $24999
+                </td>
+                <td>
+                    5
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    $25000 or more
+                </td>
+                <td>
+                    12
+                </td>
+            </tr>
 
-<table class="table table-striped" style="width:100%; margin:auto; padding-top:100px;">
-    <thead>
-        <tr>
-            <th>
-                Range of Income
-            </th>
-            <th>
-                No. of Member
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                Under $5000
-            </td>
-            <td>
-                21
-            </td>
-        </tr>
-        <tr>
-            <td>
-                $5000 to $9999
-            </td>
-            <td>
-                13
-            </td>
-        </tr>
-        <tr>
-            <td>
-                $10000 to $14999
-            </td>
-            <td>
-                26
-            </td>
-        </tr>
-        <tr>
-            <td>
-                $15000 to $19999
-            </td>
-            <td>
-                7
-            </td>
-        </tr>
-        <tr>
-            <td>
-                $20000 to $24999
-            </td>
-            <td>
-                5
-            </td>
-        </tr>
-        <tr>
-            <td>
-                $25000 or more
-            </td>
-            <td>
-                12
-            </td>
-        </tr>
-
-        @*@foreach (var item in Model)
+        @foreach (var item in ViewBag.data)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Label)
-                </td>
+                    @item.Lable
                 <td>
-                    @Html.DisplayFor(modelItem => item.Y)
+                    @item.Y
                 </td>
             </tr>
-        }*@
-    </tbody>
-</table>
-
+        }
+        </tbody>
+    </table>
+</div>
 
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 

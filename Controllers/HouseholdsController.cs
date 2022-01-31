@@ -22,7 +22,12 @@ namespace PinewoodGrow.Controllers
         // GET: Households
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Households.ToListAsync());
+            var households = from h in _context.Households
+                .Include(h => h.Members)
+
+            select h;
+
+            return View(await households.ToListAsync());
         }
 
         // GET: Households/Details/5
