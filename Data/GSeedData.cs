@@ -70,7 +70,7 @@ namespace PinewoodGrow.Data
 						},
 						new Address {
 							FullAddress = "28 King St.",
-							City = "Welland",
+							City = "Niagara Falls",
 							PostalCode = "T7K 2C3"
 						},
 						new Address {
