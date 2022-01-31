@@ -24,7 +24,9 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	},
     dataPointWidth: 50,
 	data: [{
-		type: "column",
+        type: "column",
+        indexLabelFontSize: 10,
+        fontSize: 20,
 		dataPoints: @Html.Raw(ViewBag.DataPoints)
 	}]
 });
@@ -32,10 +34,10 @@ chart.render();
 
 }
 </script>
-<div id="chartContainer" style="height: 500px; width:70%; margin:auto;"></div>
+<div id="chartContainer" style="height: 500px; width:90%; margin:auto;"></div>
 
 
-<table class="table table-striped" style="width:70%; margin:auto;">
+<table class="table table-striped" style="width:100%; margin:auto; padding-top:100px;">
     <thead>
         <tr>
             <th>
@@ -52,7 +54,7 @@ chart.render();
                 Under $5000
             </td>
             <td>
-                0
+                21
             </td>
         </tr>
         <tr>
@@ -60,7 +62,7 @@ chart.render();
                 $5000 to $9999
             </td>
             <td>
-                0
+                13
             </td>
         </tr>
         <tr>
@@ -68,7 +70,7 @@ chart.render();
                 $10000 to $14999
             </td>
             <td>
-                3
+                26
             </td>
         </tr>
         <tr>
@@ -76,7 +78,7 @@ chart.render();
                 $15000 to $19999
             </td>
             <td>
-                2
+                7
             </td>
         </tr>
         <tr>
@@ -84,7 +86,7 @@ chart.render();
                 $20000 to $24999
             </td>
             <td>
-                0
+                5
             </td>
         </tr>
         <tr>
@@ -92,7 +94,7 @@ chart.render();
                 $25000 or more
             </td>
             <td>
-                0
+                12
             </td>
         </tr>
 
