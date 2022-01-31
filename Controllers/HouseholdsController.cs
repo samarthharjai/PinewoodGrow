@@ -34,6 +34,7 @@ namespace PinewoodGrow.Controllers
             }
 
             var household = await _context.Households
+                .Include(h => h.Members)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (household == null)
             {

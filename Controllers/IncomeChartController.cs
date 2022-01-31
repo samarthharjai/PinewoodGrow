@@ -15,12 +15,12 @@ namespace PinewoodGrow.Controllers
 		{
 			List<DataPoint> dataPoints = new List<DataPoint>();
 
-			dataPoints.Add(new DataPoint("Under $5000", 0));
-			dataPoints.Add(new DataPoint("$5000 to $9999", 0));
-			dataPoints.Add(new DataPoint("$10000 to $14999", 3));
-			dataPoints.Add(new DataPoint("$15000 to $19999", 2));
-			dataPoints.Add(new DataPoint("$20000 to $24999", 0));
-			dataPoints.Add(new DataPoint("$25000 or more", 0));
+			dataPoints.Add(new DataPoint("Under $5000", 21));
+			dataPoints.Add(new DataPoint("$5000 to $9999", 13));
+			dataPoints.Add(new DataPoint("$10000 to $14999", 26));
+			dataPoints.Add(new DataPoint("$15000 to $19999", 7));
+			dataPoints.Add(new DataPoint("$20000 to $24999", 5));
+			dataPoints.Add(new DataPoint("$25000 or more", 12));
 
 
 			ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
