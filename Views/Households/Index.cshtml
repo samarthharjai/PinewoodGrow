@@ -3,69 +3,39 @@
 @{
     ViewData["Title"] = "Index";
 }
-<br />
-<h1 style="text-align: center;">Household Information</h1>
 
-<br />
-<p>
-    <a asp-action="Create" class="btn btn-sm btn-info right float-right">Create Household</a>
-</p>
-<br />
+<h1>Index</h1>
 
-<div class="table-responsive-lg">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.HouseIncome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LICO)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HouseIncome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LICO)
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-danger ml-1">Delete</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-
-@*<table class="table table-striped">
+@*<p>
+    <a asp-action="Create">Create New</a>2
+</p>*@
+<table class="table">
     <thead>
         <tr>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.HouseIncome)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LICO)
             </th>
+            <th>
+                Family Name
+            </th>
+            <th>
+                Family Size
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+@foreach (var item in Model) {
         <tr>
-            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HouseIncome)
             </td>
@@ -73,14 +43,17 @@
                 @Html.DisplayFor(modelItem => item.LICO)
             </td>
             <td>
-                <div class="btn-group">
-                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </div>    
+                @Html.DisplayFor(modelItem => item.Members.FirstOrDefault().LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Members.Count)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-*@

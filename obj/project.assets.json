@@ -9196,11 +9196,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Hann_\\Documents\\NC\\W22\\PROG 1440\\PinewoodGrow\\PinewoodGrow\\PinewoodGrow.csproj",
+      "projectUniqueName": "C:\\Users\\Hann_\\Documents\\NC\\W22\\PROG 1440\\PinewoodGrow\\PinewoodGrow.csproj",
       "projectName": "PinewoodGrow",
-      "projectPath": "C:\\Users\\Hann_\\Documents\\NC\\W22\\PROG 1440\\PinewoodGrow\\PinewoodGrow\\PinewoodGrow.csproj",
+      "projectPath": "C:\\Users\\Hann_\\Documents\\NC\\W22\\PROG 1440\\PinewoodGrow\\PinewoodGrow.csproj",
       "packagesPath": "C:\\Users\\Hann_\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Hann_\\Documents\\NC\\W22\\PROG 1440\\PinewoodGrow\\PinewoodGrow\\obj\\",
+      "outputPath": "C:\\Users\\Hann_\\Documents\\NC\\W22\\PROG 1440\\PinewoodGrow\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
