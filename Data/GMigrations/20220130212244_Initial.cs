@@ -16,8 +16,8 @@ namespace PinewoodGrow.Data.GMigrations
                     FullAddress = table.Column<string>(maxLength: 150, nullable: false),
                     City = table.Column<string>(maxLength: 100, nullable: false),
                     PostalCode = table.Column<string>(nullable: false),
-                    Latitude = table.Column<float>(nullable: false),
-                    Longitude = table.Column<float>(nullable: false)
+                    Latitude = table.Column<double>(nullable: true),
+                    Longitude = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,18 +35,6 @@ namespace PinewoodGrow.Data.GMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dietaries", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Documents",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Documents", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,6 +169,46 @@ namespace PinewoodGrow.Data.GMigrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UploadedFiles",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FileName = table.Column<string>(maxLength: 255, nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
+                    MemberID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UploadedFiles", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_UploadedFiles_Members_MemberID",
+                        column: x => x.MemberID,
+                        principalTable: "Members",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FileContent",
+                columns: table => new
+                {
+                    FileContentID = table.Column<int>(nullable: false),
+                    Content = table.Column<byte[]>(nullable: true),
+                    MimeType = table.Column<string>(maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileContent", x => x.FileContentID);
+                    table.ForeignKey(
+                        name: "FK_FileContent_UploadedFiles_FileContentID",
+                        column: x => x.FileContentID,
+                        principalTable: "UploadedFiles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Households_ID",
                 table: "Households",
@@ -211,12 +239,17 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "IX_MemberSituations_MemberID",
                 table: "MemberSituations",
                 column: "MemberID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadedFiles_MemberID",
+                table: "UploadedFiles",
+                column: "MemberID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Documents");
+                name: "FileContent");
 
             migrationBuilder.DropTable(
                 name: "MemberDietaries");
@@ -225,13 +258,16 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "MemberSituations");
 
             migrationBuilder.DropTable(
+                name: "UploadedFiles");
+
+            migrationBuilder.DropTable(
                 name: "Dietaries");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                name: "Situations");
 
             migrationBuilder.DropTable(
-                name: "Situations");
+                name: "Members");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

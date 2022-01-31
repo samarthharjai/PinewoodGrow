@@ -9,14 +9,14 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220121190151_Initial")]
+    [Migration("20220130212244_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.18");
+                .HasAnnotation("ProductVersion", "3.1.21");
 
             modelBuilder.Entity("PinewoodGrow.Models.Address", b =>
                 {
@@ -34,10 +34,10 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(150);
 
-                    b.Property<float>("Latitude")
+                    b.Property<double?>("Latitude")
                         .HasColumnType("REAL");
 
-                    b.Property<float>("Longitude")
+                    b.Property<double?>("Longitude")
                         .HasColumnType("REAL");
 
                     b.Property<string>("PostalCode")
@@ -65,15 +65,21 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("Dietaries");
                 });
 
-            modelBuilder.Entity("PinewoodGrow.Models.Document", b =>
+            modelBuilder.Entity("PinewoodGrow.Models.FileContent", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FileContentID")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ID");
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("BLOB");
 
-                    b.ToTable("Documents");
+                    b.Property<string>("MimeType")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(255);
+
+                    b.HasKey("FileContentID");
+
+                    b.ToTable("FileContent");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Gender", b =>
@@ -226,6 +232,48 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("Situations");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.UploadedFile", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(255);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("UploadedFiles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("UploadedFile");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.MemberDocument", b =>
+                {
+                    b.HasBaseType("PinewoodGrow.Models.UploadedFile");
+
+                    b.Property<int>("MemberID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("MemberID");
+
+                    b.HasDiscriminator().HasValue("MemberDocument");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.FileContent", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.UploadedFile", "UploadedFile")
+                        .WithOne("FileContent")
+                        .HasForeignKey("PinewoodGrow.Models.FileContent", "FileContentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.Member", b =>
                 {
                     b.HasOne("PinewoodGrow.Models.Address", "Address")
@@ -274,6 +322,15 @@ namespace PinewoodGrow.Data.GMigrations
                         .WithMany("MemberSituations")
                         .HasForeignKey("SituationID")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.MemberDocument", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Member", "Member")
+                        .WithMany("MemberDocuments")
+                        .HasForeignKey("MemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

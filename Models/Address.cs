@@ -28,9 +28,9 @@ namespace PinewoodGrow.Models
         [DataType(DataType.PostalCode)]
         public string PostalCode { get; set; }
 
-		public float Latitude { get; set; }
+		public double? Latitude { get; set; }
 
-		public float Longitude { get; set; }
+		public double? Longitude { get; set; }
 
 		public ICollection<Member> Members { get; set; }
     }

@@ -1,113 +1,209 @@
 ﻿@model IEnumerable<PinewoodGrow.Models.Member>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+	<a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telephone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FamilySize)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Income)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Consent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompletedBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompletedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Household)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telephone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FamilySize)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Income)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Consent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompletedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompletedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Household.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address.City)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
+<form asp-action="Index" method="get">
+	<input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
+	<input type="hidden" name="sortField" value="@ViewData["sortField"]" />
+	<div class="form-horizontal">
+		<button class="btn btn-outline-secondary" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+			Filter/Search
+		</button>
+		<div class="collapse @(ViewData["Filtering"])" id="collapseFilter">
+			<div class="card card-body bg-light">
+				<div class="row">
+					<div class="form-group col-md-4">
+						<label class="control-label">Filter by Dietary Restriction:</label>
+						@Html.DropDownList("DietaryID", null, "None", htmlAttributes: new { @class = "form-control" })
+					</div>
+					<div class="form-group col-md-6">
+						<label class="control-label">Search Patient Name:</label>
+						@Html.TextBox("SearchString", null, new { @class = "form-control" })
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						<label class="control-label">Filter by Living Situation:</label>
+						@Html.DropDownList("SituationID", null, "None", htmlAttributes: new { @class = "form-control" })
+					</div>
+					<div class="form-group col-md-4 align-self-end">
+						<input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+						<a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					<input type="submit" name="actionButton" value="Member" class="btn btn-link" />
+				</th>
+				<th>
+					<input type="submit" name="actionButton" value="Age" class="btn btn-link" />
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Telephone)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Email)
+				</th>
+				<th>
+					<input type="submit" name="actionButton" value="Family Size" class="btn btn-link" />
+				</th>
+				<th>
+					<input type="submit" name="actionButton" value="Income" class="btn btn-link" />
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Notes)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.MemberDietaries)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.MemberSituations)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Consent)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.CompletedBy)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.CompletedOn)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Household)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Gender)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Address)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.FullName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Age)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Telephone)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Email)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.FamilySize)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Income)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Notes)
+					</td>
+					<td>
+						@{
+							int condCount = item.MemberDietaries.Count;
+							if (condCount > 0)
+							{
+								string firstCond = item.MemberDietaries.FirstOrDefault().Dietary.Name;
+								if (condCount > 1)
+								{
+									string condList = firstCond;
+									var c = item.MemberDietaries.ToList();
+									for (int i = 1; i < condCount; i++)
+									{
+										condList += ", " + c[i].Dietary.Name;
+									}
+									<a tabindex="0" class="" role="button" data-toggle="popover"
+									   data-trigger="focus" title="Dietary Conditions" data-placement="bottom"
+									   data-content="@condList">
+										@firstCond... <span class="badge badge-info">@condCount</span>
+									</a>
+								}
+								else
+								{
+									@firstCond
+								}
+							}
+						}
+					</td>
+					<td>
+						@{
+							int sitCount = item.MemberSituations.Count;
+							if (sitCount > 0)
+							{
+								string firstSit = item.MemberSituations.FirstOrDefault().Situation.Name;
+								if (sitCount > 1)
+								{
+									string sitList = firstSit;
+									var s = item.MemberSituations.ToList();
+									for (int i = 1; i < sitCount; i++)
+									{
+										sitList += ", " + s[i].Situation.Name;
+									}
+									<a tabindex="0" class="" role="button" data-toggle="popover"
+									   data-trigger="focus" title="Situations" data-placement="bottom"
+									   data-content="@sitList">
+										@firstSit... <span class="badge badge-info">@sitCount</span>
+									</a>
+								}
+								else
+								{
+									@firstSit
+								}
+							}
+						}
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Consent)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.CompletedBy)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.CompletedOn)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Household.ID)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Gender.Name)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Address.City)
+					</td>
+					<td>
+						<a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+						<a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+						<a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</form>
+@section Scripts {
+	<script type="text/javascript">
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+	</script>
 }
-    </tbody>
-</table>
