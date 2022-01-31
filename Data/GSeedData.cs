@@ -59,82 +59,81 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
-                /*
-                if (context.Addresses.Any())
+                /*if (context.Addresses.Any())
                 {
 					context.RemoveRange(context.Addresses);
                     context.SaveChanges();
                 }*/
-
-				if (!context.Addresses.Any())
+                if (!context.Addresses.Any())
 				{
 					var addresses = new List<Address>
 					{
 						new Address {
-							FullAddress = "4352 5th Ave",
+							ID = 1,
+                            FullAddress = "4352 5th Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4R2",
 							Latitude = 43.1105654,
 							Longitude = -79.0797108,
 						},
 						new Address {
-							FullAddress = "4300 Fourth Ave",
+                            FullAddress = "4300 Fourth Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4N2",
 							Latitude = 43.1110322,
 							Longitude = -79.0786221,
 						},
 						new Address {
-							FullAddress = "4322 6th Ave",
+                            FullAddress = "4322 6th Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4S8",
 							Latitude = 43.110500,
 							Longitude = -79.0807247,
 						},
 						new Address {
-							FullAddress = "4447 3rd Ave",
+                            FullAddress = "4447 3rd Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4L1",
 							Latitude = 43.1110133,
 							Longitude = -79.0807247,
 						},
 						new Address {
-							FullAddress = "4447 3rd Ave",
+                            FullAddress = "4447 3rd Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4L1",
 							Latitude = 43.1110133,
 							Longitude = -79.0807247,
 						},
 						new Address {
-							FullAddress = "5125 Bridge St",
+                            FullAddress = "5125 Bridge St",
 							City = "Niagara Falls",
 							PostalCode = "L2E 2S9",
 							Latitude = 43.1087576,
 							Longitude = -79.0795157,
 						},
 						new Address {
-							FullAddress = "4467 Fourth Ave",
+                            FullAddress = "4467 Fourth Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4N4",
 							Latitude = 43.1090393,
 							Longitude = -79.078987,
 						},
 						new Address {
-							FullAddress = "4342 3rd Ave",
+                            FullAddress = "4342 3rd Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4K6",
 							Latitude = 43.1108061,
 							Longitude = -79.0772197,
 						},
 						new Address {
-							FullAddress = "5155 Bridge St",
+                            FullAddress = "5155 Bridge St",
 							City = "Niagara Falls",
 							PostalCode = "L2E 2T2",
 							Latitude = 43.108767,
 							Longitude = -79.080085,
 						},
 						new Address {
-							FullAddress = "4407 2nd Ave",
+                            FullAddress = "4407 2nd Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4H1",
 							Latitude = 43.1099135,
@@ -336,6 +335,7 @@ namespace PinewoodGrow.Data
 							Longitude = -79.0812546,
 						},
 					};
+
 					context.Addresses.AddRange(addresses);
 					context.SaveChanges();
 				}
@@ -376,8 +376,11 @@ namespace PinewoodGrow.Data
 				}
 
 				if (!context.Members.Any())
-				{
-					context.Members.AddRange(
+                {
+
+                    var addressIDs = context.Addresses.Select(a => a.ID).ToList();
+
+                    context.Members.AddRange(
 						new Member
 						{
 							HouseholdID = 1,
@@ -385,7 +388,7 @@ namespace PinewoodGrow.Data
 							LastName = "Striker",
 							Age = 22,
 							GenderID = 1,
-							AddressID = 1,
+							AddressID = addressIDs[1],
 							Telephone = "9056778043",
 							Email = "JStriker@gmail.com",
 							FamilySize = 1,
@@ -402,7 +405,7 @@ namespace PinewoodGrow.Data
 							LastName = "March",
 							Age = 64,
 							GenderID = 1,
-							AddressID = 2,
+							AddressID = addressIDs[2],
 							Telephone = "9028678043",
 							Email = "GMarch@gmail.com",
 							FamilySize = 1,
@@ -419,7 +422,7 @@ namespace PinewoodGrow.Data
 							LastName = "Milton",
 							Age = 51,
 							GenderID = 2,
-							AddressID = 3,
+							AddressID = addressIDs[3],
 							Telephone = "9056726343",
 							Email = "AnneMilton@gmail.com",
 							FamilySize = 1,
@@ -436,7 +439,7 @@ namespace PinewoodGrow.Data
 							LastName = "Queen",
 							Age = 48,
 							GenderID = 2,
-							AddressID = 1,
+							AddressID = addressIDs[4],
 							Telephone = "9051984043",
 							Email = "MarryQ@gmail.com",
 							FamilySize = 1,
@@ -453,7 +456,7 @@ namespace PinewoodGrow.Data
 							LastName = "Queen",
 							Age = 46,
 							GenderID = 1,
-							AddressID = 1,
+							AddressID = addressIDs[4],
 							Telephone = "9056759243",
 							Email = "JerryQueen@gmail.com",
 							FamilySize = 1,
