@@ -59,17 +59,18 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
-				/*if (context.Addresses.Any())
-				{
+				/*
+                if (context.Addresses.Any())
+                {
 					context.RemoveRange(context.Addresses);
-					context.SaveChanges();
-				}*/
+                    context.SaveChanges();
+                }*/
+
 				if (!context.Addresses.Any())
 				{
 					var addresses = new List<Address>
 					{
 						new Address {
-							ID = 1,
 							FullAddress = "4352 5th Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4R2",
@@ -335,7 +336,6 @@ namespace PinewoodGrow.Data
 							Longitude = -79.0812546,
 						},
 					};
-
 					context.Addresses.AddRange(addresses);
 					context.SaveChanges();
 				}
@@ -377,9 +377,6 @@ namespace PinewoodGrow.Data
 
 				if (!context.Members.Any())
 				{
-
-					var addressIDs = context.Addresses.Select(a => a.ID).ToList();
-
 					context.Members.AddRange(
 						new Member
 						{
@@ -388,7 +385,7 @@ namespace PinewoodGrow.Data
 							LastName = "Striker",
 							Age = 22,
 							GenderID = 1,
-							AddressID = addressIDs[1],
+							AddressID = 1,
 							Telephone = "9056778043",
 							Email = "JStriker@gmail.com",
 							FamilySize = 1,
@@ -405,7 +402,7 @@ namespace PinewoodGrow.Data
 							LastName = "March",
 							Age = 64,
 							GenderID = 1,
-							AddressID = addressIDs[2],
+							AddressID = 2,
 							Telephone = "9028678043",
 							Email = "GMarch@gmail.com",
 							FamilySize = 1,
@@ -422,7 +419,7 @@ namespace PinewoodGrow.Data
 							LastName = "Milton",
 							Age = 51,
 							GenderID = 2,
-							AddressID = addressIDs[3],
+							AddressID = 3,
 							Telephone = "9056726343",
 							Email = "AnneMilton@gmail.com",
 							FamilySize = 1,
@@ -439,7 +436,7 @@ namespace PinewoodGrow.Data
 							LastName = "Queen",
 							Age = 48,
 							GenderID = 2,
-							AddressID = addressIDs[4],
+							AddressID = 1,
 							Telephone = "9051984043",
 							Email = "MarryQ@gmail.com",
 							FamilySize = 1,
@@ -456,7 +453,7 @@ namespace PinewoodGrow.Data
 							LastName = "Queen",
 							Age = 46,
 							GenderID = 1,
-							AddressID = addressIDs[4],
+							AddressID = 1,
 							Telephone = "9056759243",
 							Email = "JerryQueen@gmail.com",
 							FamilySize = 1,
@@ -531,4 +528,3 @@ namespace PinewoodGrow.Data
 		}
 	}
 }
-
