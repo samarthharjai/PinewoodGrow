@@ -25,7 +25,7 @@
             {
                 types: ['address'],
                 componentRestrictions: { 'country': ['CA'] },
-                fields: ['geometry', 'name']
+                fields: ['geometry', 'name', 'address_component']
             });
         autocomplete.addListener('place_changed', onPlaceChanged);
 
@@ -72,8 +72,15 @@
    
                 //Centers the map around searched locaiton
 
-                map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng()});
+                map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
+                console.log(place.address_components);
 
+                //Gets Address Full Name
+                console.log(place.name);
+                //Gets Postal Code
+                console.log(place.address_components.find(a => a.types[0] === 'postal_code').long_name);
+                //Gets City
+                console.log(place.address_components.find(a => a.types[0] === 'locality').long_name);
             }
         }
     }

@@ -178,11 +178,14 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID,AddressID,Address")] Member member,
-            string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles)
+            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID")] Member member,
+            string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles,
+            string Lat, string Lng, string AddressName, string postal, string city)
         {
             try
             {
+                member.AddressID =  await GetAddressID(Lat, Lng, AddressName, postal, city);
+               
                 if (selectedDietaryOptions != null)
                 {
                     foreach (var dietary in selectedDietaryOptions)
@@ -488,6 +491,28 @@ namespace PinewoodGrow.Controllers
                 .FirstOrDefaultAsync();
             return File(theFile.FileContent.Content, theFile.FileContent.MimeType, theFile.FileName);
         }
+
+        private async Task<int> GetAddressID(string Lat, string Lng, string AddressName, string postal, string city)
+        {
+
+            var tempAddress = new Address()
+            {
+                FullAddress = AddressName,
+                PostalCode = postal,
+                City = city,
+                Latitude = string.IsNullOrEmpty(Lat) ? (double?)null : Convert.ToDouble(Lat),
+                Longitude = string.IsNullOrEmpty(Lng) ? (double?)null : Convert.ToDouble(Lng),
+            };
+
+            if (!_context.Addresses.Any(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode))
+            {
+                _context.Addresses.Add(tempAddress);
+                await _context.SaveChangesAsync();
+            }
+            return  (await _context.Addresses.FirstOrDefaultAsync(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode)).ID;
+
+        }
+
 
         private bool MemberExists(int id)
         {
