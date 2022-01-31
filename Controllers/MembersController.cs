@@ -149,6 +149,7 @@ namespace PinewoodGrow.Controllers
                 .Include(m => m.Address)
                 .Include(m => m.Gender)
                 .Include(m => m.Household)
+                .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .AsNoTracking()
@@ -177,7 +178,7 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID,AddressID")] Member member,
+            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID,AddressID,Address")] Member member,
             string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles)
         {
             try
@@ -231,6 +232,7 @@ namespace PinewoodGrow.Controllers
             }
 
             var member = await _context.Members
+                .Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -255,6 +257,7 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> Edit(int id, string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles)
         {
             var memberToUpdate = await _context.Members
+                .Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -270,7 +273,7 @@ namespace PinewoodGrow.Controllers
 
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.Telephone, m => m.Email,
                 m => m.FamilySize, m => m.Income, m => m.Notes, m => m.Consent, m => m.CompletedBy, m => m.CompletedOn, m => m.HouseholdID, 
-                m => m.GenderID, m => m.AddressID))
+                m => m.GenderID, m => m.AddressID, m => m.Address))
             {
                 try
                 {
