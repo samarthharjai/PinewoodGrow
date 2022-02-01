@@ -3,6 +3,7 @@ C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\P
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\PubTmp\Out\wwwroot\favicon.ico
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\PubTmp\Out\wwwroot\Images\GrowMapIcon.png
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\PubTmp\Out\wwwroot\Images\Logo Trans - Grow.png
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\PubTmp\Out\wwwroot\js\GeoLocateAutoComplete.js
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\PubTmp\Out\wwwroot\js\site.js
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\PubTmp\Out\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Release\netcoreapp3.1\win-x86\PubTmp\Out\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
