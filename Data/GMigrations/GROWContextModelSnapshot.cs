@@ -102,8 +102,8 @@ namespace PinewoodGrow.Data.GMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("HouseIncome")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("HouseIncome")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("LICO")
                         .HasColumnType("INTEGER");
@@ -157,8 +157,8 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("HouseholdID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Income")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("Income")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()

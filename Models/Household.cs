@@ -20,7 +20,22 @@ namespace PinewoodGrow.Models
 		[Required(ErrorMessage = "You cannot leave the House Income blank.")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 22186, ErrorMessage = "Income must be between $0 and $22,186.")]
-		public int HouseIncome { get; set; }
+		public decimal HouseIncome {
+			get 
+			{
+				{
+					decimal income = 0;
+
+					foreach (Member m in Members)
+					{
+						income += m.Income;
+					}
+
+					return income;
+				};
+			}
+			set { }
+		}
 
 		[Required(ErrorMessage = "You cannot leave the LICO unselected.")]
 		public bool LICO { get; set; }

@@ -66,7 +66,7 @@ namespace PinewoodGrow.Models
 		[Required(ErrorMessage = "You cannot leave the Income blank.")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 22186, ErrorMessage = "Income must be between $0 and $22,186.")]
-		public int Income { get; set; }
+		public decimal Income { get; set; }
 
 		[StringLength(2000, ErrorMessage = "Member Notes cannot be more than 2000 characters long.")]
 		[DataType(DataType.MultilineText)]
