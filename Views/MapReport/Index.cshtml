@@ -1,0 +1,96 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1 id="test">Maps</h1>
+
+<div style="margin: 22px">
+    <div class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+               aria-label="Search" id="autocomplete">
+    </div>
+</div>
+<div id="map" style="height: 900px; width: 100%"></div>
+
+<script>
+    let autocomplete;
+
+    function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('autocomplete'),
+            {
+                types: ['address'],
+                componentRestrictions: { 'country': ['CA'] },
+                fields: ['geometry', 'name', 'address_component']
+            });
+        autocomplete.addListener('place_changed', onPlaceChanged);
+
+        // The location of Grow
+        const Grow = { lat: 43.1103481, lng: -79.0789613 };
+        // The map, centered at Grow
+        const map = new window.google.maps.Map(document.getElementById("map"),
+            {
+                zoom: 16,
+                center: Grow,
+                mapId: 'db31debbd2731710'
+            });
+
+        const MainMarker = new google.maps.Marker({
+            position: Grow,
+            map: map,
+            title: 'Grow',
+            icon: 'https://localhost:44339/images/GrowMapIcon.png'
+        });
+
+        @{
+            List<PinewoodGrow.ViewModels.MapMarker> mapMarkers = ViewBag.Markers;
+            foreach (var mapMarker in mapMarkers)
+            {
+                <text>
+                    var marker = new window.google.maps.Marker({
+                        map: map,
+                        position: { lat: @mapMarker.Lat, lng: @mapMarker.Lng },
+                        title: '@mapMarker.Address',
+                    });
+                </text>
+            }
+
+
+
+        }
+    
+    
+        function onPlaceChanged() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                document.getElementById('autocomplete').placeholder = 'Enter a place';
+            } else {
+   
+                //Centers the map around searched locaiton
+
+                map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
+                console.log(place.address_components);
+
+                //Gets Address Full Name
+                console.log(place.name);
+                //Gets Postal Code
+                console.log(place.address_components.find(a => a.types[0] === 'postal_code').long_name);
+                //Gets City
+                console.log(place.address_components.find(a => a.types[0] === 'locality').long_name);
+            }
+        }
+    }
+
+</script>
+<script
+
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer>
+</script>
+
+
+@*</body>
+    </html>*@

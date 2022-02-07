@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PinewoodGrow.Models.Household>
+
+@{ ViewData["Title"] = "Index"; }
+<br />
+<h1 style="text-align: center">Household List</h1>
+
+<p>
+        <a asp-action="Create">Create New</a>2
+    </p>
+
+<style>
+    table {
+        margin: 0 auto;
+    }
+</style>
+
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HouseIncome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LICO)
+            </th>
+            <th>
+                Family Name
+            </th>
+            <th>
+                Family Size
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HouseIncome)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LICO)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Members.FirstOrDefault().LastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Members.Count)
+    </td>
+    <td>
+        <div class="btn-group">
+            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
+            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Details</a>
+            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-danger ml-1">Delete</a>
+        </div>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+
