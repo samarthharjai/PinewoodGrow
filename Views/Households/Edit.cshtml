@@ -10,18 +10,44 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="LICO" /> @Html.DisplayNameFor(model => model.LICO)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+		<form asp-action="Edit" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="ID" />
+			<div class="form-group form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="LICO" /> @Html.DisplayNameFor(model => model.LICO)
+				</label>
+			</div>
+			<div class="form-group">
+				<label asp-for="FamilySize" class="control-label"></label>
+				<input asp-for="FamilySize" class="form-control" />
+				<span asp-validation-for="FamilySize" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Dependants" class="control-label"></label>
+				<input asp-for="Dependants" class="form-control" />
+				<span asp-validation-for="Dependants" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Address.FullAddress" class="control-label"></label>
+				<input asp-for="Address.FullAddress" class="form-control" />
+				<span asp-validation-for="Address.FullAddress" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Address.City" class="control-label"></label>
+				<input asp-for="Address.City" class="form-control" />
+				<span asp-validation-for="Address.City" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Address.PostalCode" class="control-label"></label>
+				<input asp-for="Address.PostalCode" class="form-control" />
+				<span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" />
+			</div>
+		</form>
     </div>
 </div>
 

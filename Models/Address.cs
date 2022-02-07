@@ -10,7 +10,7 @@ namespace PinewoodGrow.Models
 	{
         public Address()
         {
-            Members = new HashSet<Member>();
+            
         }
         public int ID { get; set; }
 
@@ -32,6 +32,6 @@ namespace PinewoodGrow.Models
 
 		public double? Longitude { get; set; }
 
-		public ICollection<Member> Members { get; set; }
+		public Household Household { get; set; }
     }
 }

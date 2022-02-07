@@ -16,34 +16,7 @@ namespace PinewoodGrow.Data
 			using (var context = new GROWContext(
 				serviceProvider.GetRequiredService<DbContextOptions<GROWContext>>()))
 			{
-				if (!context.Households.Any())
-				{
-					var households = new List<Household>
-					{
-						new Household {
-							ID = 1,
-							HouseIncome = 10000,
-							LICO = true
-						},
-						new Household {
-							ID = 2,
-							HouseIncome = 11730,
-							LICO = true
-						},
-						new Household {
-							ID = 3,
-							HouseIncome = 16300,
-							LICO = true
-						},
-						new Household {
-							ID = 4,
-							HouseIncome = 27300,
-							LICO = true
-						},
-					};
-					context.Households.AddRange(households);
-					context.SaveChanges();
-				}
+				
 
 				if (!context.Genders.Any())
 				{
@@ -59,18 +32,12 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
-				/*
-                if (context.Addresses.Any())
-                {
-					context.RemoveRange(context.Addresses);
-                    context.SaveChanges();
-                }*/
-
 				if (!context.Addresses.Any())
 				{
 					var addresses = new List<Address>
 					{
 						new Address {
+							
 							FullAddress = "4352 5th Ave",
 							City = "Niagara Falls",
 							PostalCode = "L2E 4R2",
@@ -340,6 +307,47 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
+				if (!context.Households.Any())
+				{
+					var households = new List<Household>
+					{
+						new Household {
+							ID = 1,
+							HouseIncome = 10000,
+							FamilySize = 1,
+							Dependants = 0,
+							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4R2").ID,
+							LICO = true
+						},
+						new Household {
+							ID = 2,
+							HouseIncome = 11730,
+							FamilySize = 1,
+							Dependants = 0,
+							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4N2").ID,
+							LICO = true
+						},
+						new Household {
+							ID = 3,
+							HouseIncome = 16300,
+							FamilySize = 1,
+							Dependants = 0,
+							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4S8").ID,
+							LICO = true
+						},
+						new Household {
+							ID = 4,
+							HouseIncome = 27300,
+							FamilySize = 2,
+							Dependants = 0,
+							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4L1").ID,
+							LICO = true
+						},
+					};
+					context.Households.AddRange(households);
+					context.SaveChanges();
+				}
+
 				if (!context.Situations.Any())
 				{
 					var situations = new List<Situation>
@@ -385,10 +393,10 @@ namespace PinewoodGrow.Data
 							LastName = "Striker",
 							Age = 22,
 							GenderID = 1,
-							AddressID = 1,
+							//AddressID = 1,
 							Telephone = "9056778043",
 							Email = "JStriker@gmail.com",
-							FamilySize = 1,
+
 							Income = 10000,
 							Notes = "N/A",
 							Consent = true,
@@ -402,10 +410,10 @@ namespace PinewoodGrow.Data
 							LastName = "March",
 							Age = 64,
 							GenderID = 1,
-							AddressID = 2,
+							//AddressID = 2,
 							Telephone = "9028678043",
 							Email = "GMarch@gmail.com",
-							FamilySize = 1,
+
 							Income = 11730,
 							Notes = "N/A",
 							Consent = true,
@@ -419,10 +427,10 @@ namespace PinewoodGrow.Data
 							LastName = "Milton",
 							Age = 51,
 							GenderID = 2,
-							AddressID = 3,
+							//AddressID = 3,
 							Telephone = "9056726343",
 							Email = "AnneMilton@gmail.com",
-							FamilySize = 1,
+
 							Income = 16300,
 							Notes = "N/A",
 							Consent = true,
@@ -436,10 +444,10 @@ namespace PinewoodGrow.Data
 							LastName = "Queen",
 							Age = 48,
 							GenderID = 2,
-							AddressID = 1,
+							//AddressID = 1,
 							Telephone = "9051984043",
 							Email = "MarryQ@gmail.com",
-							FamilySize = 2,
+
 							Income = 15300,
 							Notes = "N/A",
 							Consent = true,
@@ -453,10 +461,10 @@ namespace PinewoodGrow.Data
 							LastName = "Queen",
 							Age = 46,
 							GenderID = 1,
-							AddressID = 1,
+							//AddressID = 1,
 							Telephone = "9056759243",
 							Email = "JerryQueen@gmail.com",
-							FamilySize = 2,
+
 							Income = 12000,
 							Notes = "N/A",
 							Consent = true,

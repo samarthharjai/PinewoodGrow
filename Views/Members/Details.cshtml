@@ -17,9 +17,9 @@
                     <th scope="col">@Html.DisplayNameFor(model => model.Age)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.Gender)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Address.FullAddress)</th>
+                   @* <th scope="col">@Html.DisplayNameFor(model => model.Address.FullAddress)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.Address.City)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Address.PostalCode)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.Address.PostalCode)</th>*@
                     <th scope="col">@Html.DisplayNameFor(model => model.Telephone)</th>
                     @*<th scope="col">@Html.DisplayNameFor(model => model.CreatedOn)</th>*@
                 </tr>
@@ -31,9 +31,9 @@
                     <td>@Html.DisplayFor(model => model.Age)</td>
                     <td>@Html.DisplayFor(model => model.Gender.Name)</td>
                     <td>@Html.DisplayFor(model => model.Email)</td>
-                    <td>@Html.DisplayFor(model => model.Address.FullAddress)</td>
+                    @*<td>@Html.DisplayFor(model => model.Address.FullAddress)</td>
                     <td>@Html.DisplayFor(model => model.Address.City)</td>
-                    <td>@Html.DisplayFor(model => model.Address.PostalCode)</td>
+                    <td>@Html.DisplayFor(model => model.Address.PostalCode)</td>*@
                     <td>@Html.DisplayFor(model => model.Telephone)</td>
                 </tr>
             </tbody>
@@ -84,10 +84,10 @@
                     <th>@Html.DisplayNameFor(model => model.Income)</th>
                     <td>@Html.DisplayFor(model => model.Income)</td>
                 </tr>
-                <tr>
+                @*<tr>
                     <th>@Html.DisplayNameFor(model => model.FamilySize)</th>
                     <td>@Html.DisplayFor(model => model.FamilySize)</td>
-                </tr>
+                </tr>*@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Household)</th>
                     <td>@Html.DisplayFor(model => model.Household.ID)</td>

@@ -40,7 +40,7 @@ namespace PinewoodGrow.Controllers
                 .OrderBy(s => s.Name), "ID", "Name");
 
             var members = from m in _context.Members
-                .Include(m => m.Address)
+                //.Include(m => m.Address)
                 .Include(m => m.Gender)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
@@ -94,12 +94,12 @@ namespace PinewoodGrow.Controllers
                 if (sortDirection == "asc")
                 {
                     members = members
-                        .OrderBy(m => m.FamilySize);
+                        .OrderBy(m => m.Household.FamilySize);
                 }
                 else
                 {
                     members = members
-                        .OrderByDescending(m => m.FamilySize);
+                        .OrderByDescending(m => m.Household.FamilySize);
                 }
             }
             else if (sortField == "Income")
@@ -146,7 +146,7 @@ namespace PinewoodGrow.Controllers
             }
 
             var member = await _context.Members
-                .Include(m => m.Address)
+                //.Include(m => m.Address)
                 .Include(m => m.Gender)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDocuments)
@@ -179,12 +179,13 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,Telephone,Email,FamilySize,Income" +
             ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID")] Member member,
-            string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles,
-            string Lat, string Lng, string AddressName, string postal, string city)
+            string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles
+            )
+            //string Lat, string Lng, string AddressName, string postal, string city
         {
             try
             {
-                member.AddressID =  await GetAddressID(Lat, Lng, AddressName, postal, city);
+                //member.AddressID =  await GetAddressID(Lat, Lng, AddressName, postal, city);
                
                 if (selectedDietaryOptions != null)
                 {
@@ -235,7 +236,7 @@ namespace PinewoodGrow.Controllers
             }
 
             var member = await _context.Members
-                .Include(m => m.Address)
+                //.Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -260,7 +261,7 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> Edit(int id, string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles)
         {
             var memberToUpdate = await _context.Members
-                .Include(m => m.Address)
+                //.Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -275,8 +276,9 @@ namespace PinewoodGrow.Controllers
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
 
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.Telephone, m => m.Email,
-                m => m.FamilySize, m => m.Income, m => m.Notes, m => m.Consent, m => m.CompletedBy, m => m.CompletedOn, m => m.HouseholdID, 
-                m => m.GenderID, m => m.AddressID, m => m.Address))
+                m => m.Income, m => m.Notes, m => m.Consent, m => m.CompletedBy, m => m.CompletedOn, m => m.HouseholdID, 
+                m => m.GenderID))
+            //m => m.FamilySize, m => m.AddressID, m => m.Address
             {
                 try
                 {
@@ -320,7 +322,7 @@ namespace PinewoodGrow.Controllers
             }
 
             var member = await _context.Members
-                .Include(m => m.Address)
+                //.Include(m => m.Address)
                 .Include(m => m.Gender)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
@@ -341,7 +343,7 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var member = await _context.Members
-               .Include(m => m.Address)
+               //.Include(m => m.Address)
                .Include(m => m.Gender)
                .Include(m => m.Household)
                .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
@@ -478,7 +480,7 @@ namespace PinewoodGrow.Controllers
 
         private void PopulateDropDownLists(Member member = null)
         {
-            ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
+            //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
             ViewData["HouseholdID"] = new SelectList(_context.Households, "ID", "ID", member?.HouseholdID);
         }
@@ -492,7 +494,7 @@ namespace PinewoodGrow.Controllers
             return File(theFile.FileContent.Content, theFile.FileContent.MimeType, theFile.FileName);
         }
 
-        private async Task<int> GetAddressID(string Lat, string Lng, string AddressName, string postal, string city)
+        /*private async Task<int> GetAddressID(string Lat, string Lng, string AddressName, string postal, string city)
         {
 
             var tempAddress = new Address()
@@ -511,7 +513,7 @@ namespace PinewoodGrow.Controllers
             }
             return  (await _context.Addresses.FirstOrDefaultAsync(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode)).ID;
 
-        }
+        }*/
 
 
         private bool MemberExists(int id)

@@ -37,8 +37,19 @@ namespace PinewoodGrow.Models
 			set { }
 		}
 
+		[Display(Name = "Family Size")]
+		[Required(ErrorMessage = "You cannot leave the Family Size blank.")]
+		[Range(1, 115, ErrorMessage = "Family Size must be greater than 0.")]
+		public int FamilySize { get; set; }
+
+		[Range(-1, 115, ErrorMessage = "Dependants cannot be less than 0.")]
+		public int Dependants { get; set; }
+
 		[Required(ErrorMessage = "You cannot leave the LICO unselected.")]
 		public bool LICO { get; set; }
+
+		public int AddressID { get; set; }
+		public Address Address { get; set; }
 
 		public ICollection<Member> Members { get; set; }
 	}

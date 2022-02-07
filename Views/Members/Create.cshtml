@@ -12,61 +12,61 @@
     <input type="hidden" id="AddressName" name="AddressName"/>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
-        <div class="col-md-6">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control"/>
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control"/>
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control"/>
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GenderID" class="control-label"></label>
-                <select asp-for="GenderID" class="form-control" asp-items="ViewBag.GenderID">
-                    <option value="">Select a Gender</option>
-                </select>
-                <span asp-validation-for="GenderID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control"/>
-                <span asp-validation-for="Telephone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control"/>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address.FullAddress" class="control-label"></label>
-                <input asp-for="Address.FullAddress" class="form-control" id="autocomplete"/>
-                <span asp-validation-for="Address.FullAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address.City" class="control-label"></label>
-                <input asp-for="Address.City" class="form-control" id="city" name="city"/>
-                <span asp-validation-for="Address.City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address.PostalCode" class="control-label"></label>
-                <input asp-for="Address.PostalCode" class="form-control" id="postal" name="postal"/>
-                <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FamilySize" class="control-label"></label>
-                <input asp-for="FamilySize" class="form-control"/>
-                <span asp-validation-for="FamilySize" class="text-danger"></span>
-            </div>
-        </div>
+		<div class="col-md-6">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="FirstName" class="control-label"></label>
+				<input asp-for="FirstName" class="form-control" />
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="LastName" class="control-label"></label>
+				<input asp-for="LastName" class="form-control" />
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Age" class="control-label"></label>
+				<input asp-for="Age" class="form-control" />
+				<span asp-validation-for="Age" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="GenderID" class="control-label"></label>
+				<select asp-for="GenderID" class="form-control" asp-items="ViewBag.GenderID">
+					<option value="">Select a Gender</option>
+				</select>
+				<span asp-validation-for="GenderID" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Telephone" class="control-label"></label>
+				<input asp-for="Telephone" class="form-control" />
+				<span asp-validation-for="Telephone" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Email" class="control-label"></label>
+				<input asp-for="Email" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+			@*<div class="form-group">
+			<label asp-for="Address.FullAddress" class="control-label"></label>
+			<input asp-for="Address.FullAddress" class="form-control" id="autocomplete"/>
+			<span asp-validation-for="Address.FullAddress" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Address.City" class="control-label"></label>
+			<input asp-for="Address.City" class="form-control" id="city" name="city"/>
+			<span asp-validation-for="Address.City" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Address.PostalCode" class="control-label"></label>
+			<input asp-for="Address.PostalCode" class="form-control" id="postal" name="postal"/>
+			<span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="FamilySize" class="control-label"></label>
+			<input asp-for="FamilySize" class="form-control"/>
+			<span asp-validation-for="FamilySize" class="text-danger"></span>
+		</div>*@
+		</div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Income" class="control-label"></label>

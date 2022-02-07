@@ -57,10 +57,7 @@ namespace PinewoodGrow.Models
 		[DataType(DataType.EmailAddress)]
 		public string Email { get; set; }
 
-		[Display(Name = "Family Size")]
-		[Required(ErrorMessage = "You cannot leave the Family Size blank.")]
-		[Range(1, 115, ErrorMessage = "Family Size must be greater than 0.")]
-		public int FamilySize { get; set; }
+		
 
 		
 		[Required(ErrorMessage = "You cannot leave the Income blank.")]
@@ -95,11 +92,6 @@ namespace PinewoodGrow.Models
 		[Required(ErrorMessage = "You cannot leave Gender blank")]
 		public int GenderID { get; set; }
 		public Gender Gender { get; set; }
-
-		[Display(Name = "City")]
-		[Required(ErrorMessage = "You cannot leave Address blank")]
-		public int AddressID { get; set; }
-		public Address Address { get; set; }
 
 		[Display(Name = "Member Situation")]
 		[Required(ErrorMessage = "You cannot leave Member Situation blank")]

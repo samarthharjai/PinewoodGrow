@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220201175724_Initial")]
+    [Migration("20220207164620_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,6 +104,15 @@ namespace PinewoodGrow.Data.GMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AddressID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Dependants")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FamilySize")
+                        .HasColumnType("INTEGER");
+
                     b.Property<decimal>("HouseIncome")
                         .HasColumnType("TEXT");
 
@@ -111,6 +120,9 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AddressID")
+                        .IsUnique();
 
                     b.HasIndex("ID")
                         .IsUnique();
@@ -122,9 +134,6 @@ namespace PinewoodGrow.Data.GMigrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AddressID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Age")
@@ -144,9 +153,6 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("FamilySize")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -176,8 +182,6 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("AddressID");
 
                     b.HasIndex("GenderID");
 
@@ -274,14 +278,17 @@ namespace PinewoodGrow.Data.GMigrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PinewoodGrow.Models.Member", b =>
+            modelBuilder.Entity("PinewoodGrow.Models.Household", b =>
                 {
                     b.HasOne("PinewoodGrow.Models.Address", "Address")
-                        .WithMany("Members")
-                        .HasForeignKey("AddressID")
+                        .WithOne("Household")
+                        .HasForeignKey("PinewoodGrow.Models.Household", "AddressID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
+            modelBuilder.Entity("PinewoodGrow.Models.Member", b =>
+                {
                     b.HasOne("PinewoodGrow.Models.Gender", "Gender")
                         .WithMany("Members")
                         .HasForeignKey("GenderID")

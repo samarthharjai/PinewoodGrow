@@ -64,39 +64,15 @@
 				<th>
 					<input type="submit" disabled="disabled" value="Email" class="btn btn-link" />
 				</th>
-				<th>
-					<input type="submit" name="actionButton" value="Family Size" class="btn btn-link" />
-				</th>
+				
 				<th>
 					<input type="submit" name="actionButton" value="Income" class="btn btn-link" />
 				</th>
-				@*<th>
-					@Html.DisplayNameFor(model => model.Notes)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.MemberDietaries)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.MemberSituations)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Consent)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.CompletedBy)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.CompletedOn)
-				</th>*@
-				@*<th>
-					@Html.DisplayNameFor(model => model.Household)
-				</th>*@
+				
 	            <th>
 		            <input type="submit" disabled="disabled" value="Gender" class="btn btn-link" />
 	            </th>
-				@*<th>
-					@Html.DisplayNameFor(model => model.Address)
-				</th>*@
+				
 				<th></th>
 			</tr>
 		</thead>
@@ -116,92 +92,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FamilySize)
-                </td>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.Income)
                 </td>
-                @*<td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>*@
-                @*<td>
-            @{
-                int condCount = item.MemberDietaries.Count;
-                if (condCount > 0)
-                {
-                    string firstCond = item.MemberDietaries.FirstOrDefault().Dietary.Name;
-                    if (condCount > 1)
-                    {
-                        string condList = firstCond;
-                        var c = item.MemberDietaries.ToList();
-                        for (int i = 1; i < condCount; i++)
-                        {
-                            condList += ", " + c[i].Dietary.Name;
-                        }
-                        <a tabindex="0" class="" role="button" data-toggle="popover"
-                           data-trigger="focus" title="Dietary Conditions" data-placement="bottom"
-                           data-content="@condList">
-                            @firstCond... <span class="badge badge-info">@condCount</span>
-                        </a>
-                    }
-                    else
-                    {
-                        @firstCond
-                    }
-                }
-            }
-        </td>*@
-                @*<td>
-            @{
-                int sitCount = item.MemberSituations.Count;
-                if (sitCount > 0)
-                {
-                    string firstSit = item.MemberSituations.FirstOrDefault().Situation.Name;
-                    if (sitCount > 1)
-                    {
-                        string sitList = firstSit;
-                        var s = item.MemberSituations.ToList();
-                        for (int i = 1; i < sitCount; i++)
-                        {
-                            sitList += ", " + s[i].Situation.Name;
-                        }
-                        <a tabindex="0" class="" role="button" data-toggle="popover"
-                           data-trigger="focus" title="Situations" data-placement="bottom"
-                           data-content="@sitList">
-                            @firstSit... <span class="badge badge-info">@sitCount</span>
-                        </a>
-                    }
-                    else
-                    {
-                        @firstSit
-                    }
-                }
-            }
-        </td>*@
-                @*<td>
-            @Html.DisplayFor(modelItem => item.Consent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompletedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompletedOn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Household.ID)
-        </td>*@
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.Gender.Name)
                 </td>
-                @*<td>
-            @Html.DisplayFor(modelItem => item.Address.City)
-        </td>*@
+                
                 <td>
                     <div class="btn-group">
                         <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
                         <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Details</a>
-                        @*<a asp-action="Delete" asp-route-id="@item.ID">Delete</a>*@
+                        
                     </div>
 
                 </td>

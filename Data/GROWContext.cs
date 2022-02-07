@@ -43,6 +43,11 @@ namespace PinewoodGrow.Data
 			.HasIndex(h => h.ID)
 			.IsUnique();
 
+			/*modelBuilder.Entity<Household>()
+			.HasOne(a => a.Address)
+			.WithOne(h => h.Household)
+			.HasForeignKey<Address>(a => a.ID);*/
+
 			//Many to Many Intersection
 			modelBuilder.Entity<MemberDietary>()
 			.HasKey(t => new { t.DietaryID, t.MemberID });
