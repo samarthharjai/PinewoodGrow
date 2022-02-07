@@ -19,6 +19,7 @@ namespace PinewoodGrow.Controllers
             _context = context;
         }
 
+
         // GET: Households
         public async Task<IActionResult> Index()
         {
