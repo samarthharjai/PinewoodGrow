@@ -27,7 +27,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
         type: "column",
         indexLabelFontSize: 10,
         fontSize: 20,
-		dataPoints: @Html.Raw(ViewBag.DataPoints)
+		dataPoints: @Html.Raw(ViewData["graphData"])
 	}]
 });
 chart.render();
@@ -50,65 +50,16 @@ chart.render();
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    Under $5000
-                </td>
-                <td>
-                    16
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    $5000 to $9999
-                </td>
-                <td>
-                    13
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    $10000 to $14999
-                </td>
-                <td>
-                    20
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    $15000 to $19999
-                </td>
-                <td>
-                    7
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    $20000 to $24999
-                </td>
-                <td>
-                    5
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    $25000 or more
-                </td>
-                <td>
-                    12
-                </td>
-            </tr>
-
-        @*@foreach (var item in ViewBag.data)
+        @foreach (var item in ViewData["tableData"] as List<DataPoint>)
         {
             <tr>
                 <td>
-                    @item.Lable
+                    @item.Label
                 <td>
                     @item.Y
                 </td>
             </tr>
-        }*@
+        }
         </tbody>
     </table>
 </div>
