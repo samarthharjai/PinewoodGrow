@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Aidan\\Documents\\GitHub\\PinewoodGrow\\PinewoodGrow.csproj": {}
+    "C:\\Users\\taewo\\Source\\Repos\\samarthharjai\\PinewoodGrow\\PinewoodGrow.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Aidan\\Documents\\GitHub\\PinewoodGrow\\PinewoodGrow.csproj": {
+    "C:\\Users\\taewo\\Source\\Repos\\samarthharjai\\PinewoodGrow\\PinewoodGrow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Aidan\\Documents\\GitHub\\PinewoodGrow\\PinewoodGrow.csproj",
+        "projectUniqueName": "C:\\Users\\taewo\\Source\\Repos\\samarthharjai\\PinewoodGrow\\PinewoodGrow.csproj",
         "projectName": "PinewoodGrow",
-        "projectPath": "C:\\Users\\Aidan\\Documents\\GitHub\\PinewoodGrow\\PinewoodGrow.csproj",
-        "packagesPath": "C:\\Users\\Aidan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Aidan\\Documents\\GitHub\\PinewoodGrow\\obj\\",
+        "projectPath": "C:\\Users\\taewo\\Source\\Repos\\samarthharjai\\PinewoodGrow\\PinewoodGrow.csproj",
+        "packagesPath": "C:\\Users\\taewo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\taewo\\Source\\Repos\\samarthharjai\\PinewoodGrow\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Aidan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\taewo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
@@ -95,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

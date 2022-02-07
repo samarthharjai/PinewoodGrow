@@ -11,6 +11,7 @@ namespace PinewoodGrow.Models
 		public Household()
 		{
 			Members = new HashSet<Member>();
+			MemberHouseholds = new HashSet<MemberHousehold>();
 		}
 
 		[Display(Name = "Household")]
@@ -40,6 +41,13 @@ namespace PinewoodGrow.Models
 		[Required(ErrorMessage = "You cannot leave the LICO unselected.")]
 		public bool LICO { get; set; }
 
+		[Display(Name = "Dependents")]
+		public int Dependents { get; set; }
+
+
 		public ICollection<Member> Members { get; set; }
+
+		[Display(Name = "Member Households")]
+		public ICollection<MemberHousehold> MemberHouseholds { get; set; }
 	}
 }

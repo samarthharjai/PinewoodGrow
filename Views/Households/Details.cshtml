@@ -28,6 +28,26 @@
             @Html.DisplayFor(model => model.LICO)
         </dd>
         <dt class="col-sm-2">
+            Family Size
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Members.Count)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Members.FirstOrDefault().Address.FullAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Members.FirstOrDefault().Address.FullAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Dependents)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Dependents)
+        </dd>
+
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Members)
         </dt>
         <dd class="col-sm-10">

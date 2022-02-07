@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220201175724_Initial")]
+    [Migration("20220207054050_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,6 +102,9 @@ namespace PinewoodGrow.Data.GMigrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Dependents")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("HouseIncome")
@@ -199,6 +202,21 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasIndex("MemberID");
 
                     b.ToTable("MemberDietaries");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.MemberHousehold", b =>
+                {
+                    b.Property<int>("MemberID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HouseholdID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MemberID", "HouseholdID");
+
+                    b.HasIndex("HouseholdID");
+
+                    b.ToTable("MemberHouseholds");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.MemberSituation", b =>
@@ -305,6 +323,21 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.HasOne("PinewoodGrow.Models.Member", "Member")
                         .WithMany("MemberDietaries")
+                        .HasForeignKey("MemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.MemberHousehold", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Household", "Household")
+                        .WithMany("MemberHouseholds")
+                        .HasForeignKey("HouseholdID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Member", "Member")
+                        .WithMany("MemberHouseholds")
                         .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -8,26 +8,52 @@
 
 <h4>Household</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-		<form asp-action="Create">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group form-check">
-				<label class="form-check-label">
-					<input class="form-check-input" asp-for="LICO" /> @Html.DisplayNameFor(model => model.LICO)
-				</label>
-			</div>
-			<div class="form-group">
-				<label asp-for="HouseIncome" class="control-label"></label>
-				<input asp-for="HouseIncome" class="form-control" />
-				<span asp-validation-for="HouseIncome" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<input type="submit" value="Create" class="btn btn-primary" />
-			</div>
-		</form>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="LICO" /> @Html.DisplayNameFor(model => model.LICO)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="HouseIncome" class="control-label"></label>
+                <input asp-for="HouseIncome" class="form-control" />
+                <span asp-validation-for="HouseIncome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dependents" class="control-label"></label>
+                <input asp-for="Dependents" class="form-control" />
+                <span asp-validation-for="Dependents" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label"> Exisiting Members</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label"> Choose Members</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
@@ -35,4 +61,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/multiselect.js"></script>
 }
