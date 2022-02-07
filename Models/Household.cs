@@ -13,13 +13,13 @@ namespace PinewoodGrow.Models
 			Members = new HashSet<Member>();
 		}
 
-		[Display(Name = "Household")]
+		[Display(Name = "Household #")]
 		public int ID { get; set; }
 
 		[Display(Name = "Household Income")]
 		[Required(ErrorMessage = "You cannot leave the House Income blank.")]
 		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "Income must be between $0 and $22,186.")]
+		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
 		public decimal HouseIncome {
 			get 
 			{

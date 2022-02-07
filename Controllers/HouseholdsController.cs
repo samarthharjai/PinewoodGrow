@@ -65,12 +65,12 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,HouseIncome,LICO,FamilySize,Dependants")] Household household
-            ,string Lat, string Lng, string AddressName, string postal, string city)
+        public async Task<IActionResult> Create([Bind("ID,HouseIncome,LICO,FamilySize,Dependants")] Household household,
+            string Lat, string Lng, string AddressName, string postal, string city)
         {
             try
 			{
-                //household.AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city);
+                household.AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city);
 
                 if (ModelState.IsValid)
                 {
