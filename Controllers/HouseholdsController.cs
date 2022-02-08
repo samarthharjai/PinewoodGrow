@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
+using PinewoodGrow.Utilities;
 
 namespace PinewoodGrow.Controllers
 {
@@ -20,14 +21,19 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Households
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, int? pageSizeID)
         {
             var households = from h in _context.Households
                 .Include(h => h.Members)
 
             select h;
 
-            return View(await households.ToListAsync());
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Household>.CreateAsync(households.AsNoTracking(), page ?? 1, pageSize);
+
+            //return View(await households.ToListAsync());
+            return View(pagedData);
         }
 
         // GET: Households/Details/5

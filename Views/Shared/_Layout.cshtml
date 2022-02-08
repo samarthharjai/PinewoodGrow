@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Members" asp-action="Index"><img src="~/Images/Logo Trans - Grow.png" /></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Images/Logo Trans - Grow.png" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -28,11 +28,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Households" asp-action="Index">Households</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="IncomeChart" asp-action="Index">Income Report</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MapReport" asp-action="Index">Map Report</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,8 +37,8 @@
                                 <a class="dropdown-item" asp-area="" asp-controller="Dietaries" asp-action="Index">Diertary Restrictions</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Genders" asp-action="Index">Genders</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Situations" asp-action="Index">Situations</a>
-                                @* <a class="dropdown-item" asp-area="" asp-controller="IncomeChart" asp-action="Index">Income Report</a>*@
-                                @*<a class="dropdown-item" asp-area="" asp-controller="MapReport" asp-action="Index">Map Report</a>*@
+                                <a class="dropdown-item" asp-area="" asp-controller="IncomeChart" asp-action="Index">Income Report</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="MapReport" asp-action="Index">Map Report</a>
                             </div>
                         </li>
                     </ul>

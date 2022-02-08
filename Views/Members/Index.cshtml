@@ -51,42 +51,48 @@
     </div>
 	<table class="table table-striped">
 		<thead>
-			<tr>
-				<th>
-					<input type="submit" name="actionButton" value="Member" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" name="actionButton" value="Age" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" disabled="disabled" value="Telephone" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" disabled="disabled" value="Email" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" name="actionButton" value="Family Size" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" name="actionButton" value="Income" class="btn btn-link" />
-				</th>
-	            <th>
-		            <input type="submit" disabled="disabled" value="Gender" class="btn btn-link" />
-	            </th>
-				<th></th>
-			</tr>
+            <tr>
+                @*<th>
+                    <input type="submit" disabled="disabled" value="Member #" class="btn btn-link" />
+                </th>*@
+                <th>
+                    <input type="submit" name="actionButton" value="Member" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Age" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" value="Telephone" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" value="Email" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Family Size" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Income" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" value="Gender" class="btn btn-link" />
+                </th>
+                <th></th>
+            </tr>
 		</thead>
 		<tbody>
 			@foreach (var item in Model)
 			{
             <tr>
-                <td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.MemNumber)
+                </td>*@
+                <td style="column-width: 400px;">
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Age)
                 </td>
-                <td>
+                <td style="column-width: 500px;">
                     @Html.DisplayFor(modelItem => item.TelephoneFormatted)
                 </td>
                 <td>
@@ -98,7 +104,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Income)
                 </td>
-                
                 <td>
                     @Html.DisplayFor(modelItem => item.Gender.Name)
                 </td>
@@ -114,6 +119,7 @@
 			}
 		</tbody>
 	</table>
+    <partial name="_PagingNavBar"/>
 </form>
 @section Scripts {
 	<script type="text/javascript">
