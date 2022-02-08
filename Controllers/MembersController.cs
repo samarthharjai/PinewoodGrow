@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 using PinewoodGrow.ViewModels;
+using PinewoodGrow.Utilities;
 
 namespace PinewoodGrow.Controllers
 {
@@ -24,7 +25,7 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Members
-        public async Task<IActionResult> Index(string SearchString, int? DietaryID, int? SituationID, string actionButton,
+        public async Task<IActionResult> Index(string SearchString, int? page, int? pageSizeID, int? DietaryID, int? SituationID, string actionButton,
             string sortDirection = "asc", string sortField = "Member")
         {
             string[] sortOptions = new[] { "Member", "Age", "Family Size", "Income" };
@@ -66,6 +67,7 @@ namespace PinewoodGrow.Controllers
 
             if (!String.IsNullOrEmpty(actionButton))
             {
+                page = 1;
                 if (sortOptions.Contains(actionButton))
                 {
                     if (actionButton == sortField)
@@ -134,7 +136,12 @@ namespace PinewoodGrow.Controllers
             ViewData["sortField"] = sortField;
             ViewData["sortDirection"] = sortDirection;
 
-            return View(await members.ToListAsync());
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Member>.CreateAsync(members.AsNoTracking(), page ?? 1, pageSize);
+
+            //return View(await members.ToListAsync());
+            return View(pagedData);
         }
 
         // GET: Members/Details/5

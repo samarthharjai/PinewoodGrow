@@ -21,11 +21,11 @@ namespace PinewoodGrow.Models
 		//[Required(ErrorMessage = "You cannot leave the House Income blank.")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
-		public decimal HouseIncome {
+		public double HouseIncome {
 			get 
 			{
 				{
-					decimal income = 0;
+					double income = 0;
 
 					foreach (Member m in Members)
 					{
