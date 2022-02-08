@@ -343,48 +343,46 @@ namespace PinewoodGrow.Data
 
 				if (!context.Households.Any())
 				{
-					var households = new List<Household>
+					/*var households = new List<Household>
 					{
 						new Household {
 							ID = 1,
-							HouseIncome = 10000,
-							FamilySize = 1,
+                            FamilySize = 1,
 							Dependants = 0,
 							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4R2").ID,
 							LICO = true
 						},
 						new Household {
 							ID = 2,
-							HouseIncome = 11730,
-							FamilySize = 1,
+                            FamilySize = 1,
 							Dependants = 0,
 							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4N2").ID,
 							LICO = true
 						},
 						new Household {
 							ID = 3,
-							HouseIncome = 16300,
-							FamilySize = 1,
+                            FamilySize = 1,
 							Dependants = 0,
 							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4S8").ID,
 							LICO = true
 						},
 						new Household {
 							ID = 4,
-							HouseIncome = 27300,
-							FamilySize = 2,
+                            FamilySize = 2,
 							Dependants = 0,
 							AddressID = context.Addresses.FirstOrDefault(a => a.PostalCode == "L2E 4L1").ID,
 							LICO = true
 						},
 					};
 					context.Households.AddRange(households);
-					context.SaveChanges();
+					context.SaveChanges();*/
+					SeedData.SeedHouseHolds.Initialize(serviceProvider);
+
 				}
 
 				
 
-				if (!context.Members.Any())
+				/*if (!context.Members.Any())
 				{
 					var members = new List<Member>
 					{
@@ -466,9 +464,9 @@ namespace PinewoodGrow.Data
 					};
 					context.Members.AddRange(members);
 					context.SaveChanges();
-				}
+				}*/
 
-				if (!context.MemberSituations.Any())
+				/*if (!context.MemberSituations.Any())
 				{
 					var memberSituations = new List<MemberSituation>
 					{
@@ -524,7 +522,7 @@ namespace PinewoodGrow.Data
 					};
 					context.MemberDietaries.AddRange(memberDietaries);
 					context.SaveChanges();
-				}
+				}*/
 			}
 		}
 	}

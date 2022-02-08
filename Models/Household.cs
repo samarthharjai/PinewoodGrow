@@ -34,8 +34,11 @@ namespace PinewoodGrow.Models
 					return income;
 				};
 			}
-			set { }
-		}
+            set
+            {
+
+            }
+        }
 
 		[Display(Name = "Family Size")]
 		[Required(ErrorMessage = "You cannot leave the Family Size blank.")]
