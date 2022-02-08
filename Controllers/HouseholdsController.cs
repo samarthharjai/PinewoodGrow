@@ -80,7 +80,7 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult>
-            Create(int Dependants, bool LICO, string FirstName, string LastName, int Age, string Telephone, string Email, double Income, string Notes, bool consent, string CompletedBy, DateTime CompletedOn, int GenderID,
+            Create(int Dependants, bool LICO, string FirstName, string LastName, DateTime DOB, string Telephone, string Email, double Income, string Notes, bool consent, string CompletedBy, DateTime CompletedOn, int GenderID,
                 string[] selectedOptions, string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles,
         string Lat, string Lng, string AddressName, string postal, string city)
         {
@@ -96,7 +96,7 @@ namespace PinewoodGrow.Controllers
             {
                 FirstName = FirstName,
                 LastName = LastName,
-                Age = Age,
+                DOB = DOB,
                 Telephone = Telephone,
                 Email = Email,
                 Income = Income,

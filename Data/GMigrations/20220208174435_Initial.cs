@@ -69,7 +69,7 @@ namespace PinewoodGrow.Data.GMigrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    HouseIncome = table.Column<decimal>(nullable: false),
+                    HouseIncome = table.Column<double>(nullable: false),
                     FamilySize = table.Column<int>(nullable: false),
                     Dependants = table.Column<int>(nullable: false),
                     LICO = table.Column<bool>(nullable: false),
@@ -94,10 +94,10 @@ namespace PinewoodGrow.Data.GMigrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    Age = table.Column<int>(nullable: false),
+                    DOB = table.Column<DateTime>(nullable: true),
                     Telephone = table.Column<string>(maxLength: 11, nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    Income = table.Column<decimal>(nullable: false),
+                    Income = table.Column<double>(nullable: false),
                     Notes = table.Column<string>(maxLength: 2000, nullable: true),
                     Consent = table.Column<bool>(nullable: false),
                     CompletedBy = table.Column<string>(maxLength: 100, nullable: false),

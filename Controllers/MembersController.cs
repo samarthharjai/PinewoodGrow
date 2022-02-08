@@ -83,12 +83,12 @@ namespace PinewoodGrow.Controllers
                 if (sortDirection == "asc")
                 {
                     members = members
-                        .OrderByDescending(m => m.Age);
+                        .OrderByDescending(m => m.DOB);
                 }
                 else
                 {
                     members = members
-                        .OrderBy(m => m.Age);
+                        .OrderBy(m => m.DOB);
                 }
             }
             else if (sortField == "Family Size")

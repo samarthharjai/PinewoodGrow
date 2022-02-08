@@ -107,7 +107,7 @@ namespace PinewoodGrow.Data.SeedData
                     CompletedBy = Volenteers[rnd.Next(0, Volenteers.Length)],
                     CompletedOn = DateTime.Today,
                     GenderID = getRandomGender(),
-                    Age = getRandomAge(),
+                    DOB = RandomDay(),
                 };
                 
                 Members.Add(member);
@@ -158,6 +158,13 @@ namespace PinewoodGrow.Data.SeedData
                 int i when i <= 99 => rnd.Next(66, 85), // 9% age range 66- 85
                 _ => rnd.Next(86, 100) // 1% age range 86 - 100
             };
+        }
+
+        private static DateTime RandomDay()
+        {
+            DateTime start = new DateTime(1950, 1, 1);
+            int range = (new DateTime(2001, 1, 1) - start).Days;
+            return start.AddDays(rnd.Next(range));
         }
 
 

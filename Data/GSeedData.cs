@@ -481,7 +481,7 @@ namespace PinewoodGrow.Data
 
                     foreach (var member in Members)
                     {
-                        if (member.Age > 65)
+                        if (Int32.Parse(member.Age) > 65)
                         {
 							ToAdd.Add(new MemberSituation
                             {

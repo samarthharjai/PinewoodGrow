@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220208042414_Initial")]
+    [Migration("20220208174435_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,8 +113,8 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("FamilySize")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("HouseIncome")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("HouseIncome")
+                        .HasColumnType("REAL");
 
                     b.Property<bool>("LICO")
                         .HasColumnType("INTEGER");
@@ -135,9 +135,6 @@ namespace PinewoodGrow.Data.GMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("CompletedBy")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -148,6 +145,9 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.Property<bool>("Consent")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("DOB")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -164,8 +164,8 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("HouseholdID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Income")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Income")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("LastName")
                         .IsRequired()
