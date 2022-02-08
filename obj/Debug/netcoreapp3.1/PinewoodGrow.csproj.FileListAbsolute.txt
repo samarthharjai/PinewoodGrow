@@ -1062,3 +1062,5 @@ C:\Users\Owner\Desktop\PinewoodGrow\obj\Debug\netcoreapp3.1\PinewoodGrow.pdb
 C:\Users\Owner\Desktop\PinewoodGrow\obj\Debug\netcoreapp3.1\PinewoodGrow.genruntimeconfig.cache
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_PageSizeModal.cshtml.g.cs
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_PagingNavBar.cshtml.g.cs
+C:\Users\Owner\Desktop\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_PageSizeModal.cshtml.g.cs
+C:\Users\Owner\Desktop\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_PagingNavBar.cshtml.g.cs
