@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PinewoodGrow.Data
 {
 	public static class GSeedData
-	{
+    {
+        public static Random rnd = new Random();
 		public static void Initialize(IServiceProvider serviceProvider)
 		{
 
@@ -466,64 +468,70 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}*/
 
-				/*if (!context.MemberSituations.Any())
+				if (!context.MemberSituations.Any())
 				{
-					var memberSituations = new List<MemberSituation>
-					{
-						new MemberSituation {
-							SituationID = context.Situations.FirstOrDefault(s => s.Name == "ODSP").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Striker" && m.FirstName == "Jacob").ID
-						},
-						new MemberSituation {
-							SituationID = context.Situations.FirstOrDefault(s => s.Name == "Ontario Works").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "March" && m.FirstName == "Gregory").ID
-						},
-						new MemberSituation {
-							SituationID = context.Situations.FirstOrDefault(s => s.Name == "EI").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Milton" && m.FirstName == "Anne").ID
-						},
-						new MemberSituation {
-							SituationID = context.Situations.FirstOrDefault(s => s.Name == "GAINS (For Seniors)").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Marry").ID
-						},
-						new MemberSituation {
-							SituationID = context.Situations.FirstOrDefault(s => s.Name == "ODSP").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Jerry").ID
-						}
-					};
-					context.MemberSituations.AddRange(memberSituations);
-					context.SaveChanges();
-				}
+
+
+                    var Members = context.Members.Select(a=> a).ToList();
+                    var Situations = context.Situations.Select(a => a).ToList();
+                    var SituationIDs = Situations.Where(a => a.Name != "Volunteer" && a.Name != "Other" && a.Name != "GAINS (For Seniors)").Select(a=> a.ID).ToArray();
+                    var ToAdd = new List<MemberSituation>();
+
+                    var Gains = context.Situations.FirstOrDefault(a => a.Name == "GAINS (For Seniors)").ID;
+
+                    foreach (var member in Members)
+                    {
+                        if (member.Age > 65)
+                        {
+							ToAdd.Add(new MemberSituation
+                            {
+                                MemberID = member.ID, 
+                                SituationID = Gains
+                            });
+                        }
+
+                        if (rnd.Next(1, 3) == 2)
+                        {
+                            ToAdd.Add(new MemberSituation
+                            {
+                                MemberID = member.ID,
+                                SituationID = SituationIDs[rnd.Next(0, SituationIDs.Length)]
+                            });
+                        }
+                    }
+					context.AddRange(ToAdd);
+                    context.SaveChanges();
+
+                }
 
 				if (!context.MemberDietaries.Any())
 				{
-					var memberDietaries = new List<MemberDietary>
-					{
-						new MemberDietary {
-							DietaryID = context.Dietaries.FirstOrDefault(d => d.Name == "Obesity").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Striker" && m.FirstName == "Jacob").ID
-						},
-						new MemberDietary {
-							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Diabetes").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "March" && m.FirstName == "Gregory").ID
-						},
-						new MemberDietary {
-							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Cancer").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Milton" && m.FirstName == "Anne").ID
-						},
-						new MemberDietary {
-							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Heart Disease").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Marry").ID
-						},
-						new MemberDietary {
-							DietaryID = context.Dietaries.FirstOrDefault(s => s.Name == "Osteoperosis").ID,
-							MemberID = context.Members.FirstOrDefault(m => m.LastName == "Queen" && m.FirstName == "Jerry").ID
-						}
-					};
-					context.MemberDietaries.AddRange(memberDietaries);
-					context.SaveChanges();
-				}*/
-			}
+
+
+                    var Members = context.Members.Select(a => a).ToList();
+                    var Dietaries = context.Dietaries.Select(a => a.ID).ToArray();
+                    var ToAdd = new List<MemberDietary>();
+
+                    var Gains = context.Situations.FirstOrDefault(a => a.Name == "GAINS (For Seniors)").ID;
+
+                    foreach (var member in Members)
+                    {
+                      
+                        if (rnd.Next(1, 3) == 2)
+                        {
+                            ToAdd.Add(new MemberDietary
+							{
+                                MemberID = member.ID,
+                                DietaryID= Dietaries[rnd.Next(0, Dietaries.Length)]
+                            });
+                        }
+                    }
+                    context.AddRange(ToAdd);
+                    context.SaveChanges();
+
+				}
+            }
 		}
+	
 	}
 }
