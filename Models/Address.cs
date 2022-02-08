@@ -10,7 +10,16 @@ namespace PinewoodGrow.Models
 	{
         public Address()
         {
-            
+            Households = new HashSet<Household>();
+        }
+
+        [Display(Name = "Address")]
+        public string FormalAddress
+        {
+            get
+            {
+                return FullAddress + ", " + City + ", " + PostalCode;
+            }
         }
         public int ID { get; set; }
 
@@ -32,6 +41,6 @@ namespace PinewoodGrow.Models
 
 		public double? Longitude { get; set; }
 
-		public Household Household { get; set; }
+        public ICollection<Household> Households { get; set; }
     }
 }

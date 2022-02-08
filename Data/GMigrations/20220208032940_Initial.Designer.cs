@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220207201303_Initial")]
+    [Migration("20220208032940_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,7 +107,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("AddressID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Dependants")
+                    b.Property<int>("Dependents")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("FamilySize")
@@ -121,8 +121,7 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AddressID")
-                        .IsUnique();
+                    b.HasIndex("AddressID");
 
                     b.HasIndex("ID")
                         .IsUnique();
@@ -205,6 +204,21 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("MemberDietaries");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.MemberHousehold", b =>
+                {
+                    b.Property<int>("MemberID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HouseholdID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MemberID", "HouseholdID");
+
+                    b.HasIndex("HouseholdID");
+
+                    b.ToTable("MemberHouseholds");
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.MemberSituation", b =>
                 {
                     b.Property<int>("SituationID")
@@ -281,8 +295,8 @@ namespace PinewoodGrow.Data.GMigrations
             modelBuilder.Entity("PinewoodGrow.Models.Household", b =>
                 {
                     b.HasOne("PinewoodGrow.Models.Address", "Address")
-                        .WithOne("Household")
-                        .HasForeignKey("PinewoodGrow.Models.Household", "AddressID")
+                        .WithMany("Households")
+                        .HasForeignKey("AddressID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -314,6 +328,21 @@ namespace PinewoodGrow.Data.GMigrations
                         .WithMany("MemberDietaries")
                         .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.MemberHousehold", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Household", "Household")
+                        .WithMany("MemberHouseholds")
+                        .HasForeignKey("HouseholdID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Member", "Member")
+                        .WithMany("MemberHouseholds")
+                        .HasForeignKey("MemberID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

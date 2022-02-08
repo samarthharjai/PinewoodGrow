@@ -27,6 +27,7 @@ namespace PinewoodGrow.Data
 		public DbSet<Dietary> Dietaries { get; set; }
 		public DbSet<MemberDocument> MemberDocuments { get; set; }
 		public DbSet<UploadedFile> UploadedFiles { get; set; }
+		public DbSet<MemberHousehold> MemberHouseholds { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +38,17 @@ namespace PinewoodGrow.Data
                 .WithOne(h => h.Household)
                 .HasForeignKey(h => h.HouseholdID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+			//Add this so you don't get Cascade Delete
+			modelBuilder.Entity<Member>()
+				.HasMany<MemberHousehold>(p => p.MemberHouseholds)
+				.WithOne(c => c.Member)
+				.HasForeignKey(c => c.MemberID)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			//Add a composite primary key to MemberHousehold
+			modelBuilder.Entity<MemberHousehold>()
+			.HasKey(p => new { p.MemberID, p.HouseholdID });
 
 			//Add a unique index to the Household Number
 			modelBuilder.Entity<Household>()

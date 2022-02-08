@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
+using PinewoodGrow.ViewModels;
 
 namespace PinewoodGrow.Controllers
 {
@@ -20,14 +21,14 @@ namespace PinewoodGrow.Controllers
             _context = context;
         }
 
-
         // GET: Households
         public async Task<IActionResult> Index()
         {
             var households = from h in _context.Households
-                .Include(h => h.Members)
-                .Include(h => h.Address)
-            select h;
+                             .Include(h => h.Members)
+                             .Include(h => h.Address)
+                             .Include(h => h.MemberHouseholds)
+                             select h;
 
             return View(await households.ToListAsync());
         }
@@ -43,9 +44,8 @@ namespace PinewoodGrow.Controllers
             var household = await _context.Households
                 .Include(h => h.Members)
                 .Include(h => h.Address)
-                .AsNoTracking()
+                .Include(h => h.MemberHouseholds)
                 .FirstOrDefaultAsync(m => m.ID == id);
-
             if (household == null)
             {
                 return NotFound();
@@ -57,6 +57,8 @@ namespace PinewoodGrow.Controllers
         // GET: Households/Create
         public IActionResult Create()
         {
+            Household household = new Household();
+            PopulateAssignedMemberData(household);
             return View();
         }
 
@@ -65,21 +67,24 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,HouseIncome,LICO,FamilySize,Dependants")] Household household,
-            string Lat, string Lng, string AddressName, string postal, string city)
+        public async Task<IActionResult> Create([Bind("ID,HouseIncome,LICO")] Household household, string[] selectedOptions)
         {
+            UpdateHouseholdMembers(selectedOptions, household);
+
             try
-			{
-                household.AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city);
+            {
+                //Nothing to do for the BONUS becuase no Athletes can have this as their main sport
+                //since it has not been created yet.
+                UpdateHouseholdMembers(selectedOptions, household);
 
                 if (ModelState.IsValid)
                 {
                     _context.Add(household);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", new { household.ID });
                 }
             }
-            catch (RetryLimitExceededException )
+            catch (RetryLimitExceededException /* dex */)
             {
                 ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
             }
@@ -88,6 +93,7 @@ namespace PinewoodGrow.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
 
+            PopulateAssignedMemberData(household);
             return View(household);
         }
 
@@ -100,13 +106,17 @@ namespace PinewoodGrow.Controllers
             }
 
             var household = await _context.Households
-                .Include(h => h.Address)
-                .FirstOrDefaultAsync(h => h.ID == id);
+                .Include(d => d.Address)
+                .Include(d => d.MemberHouseholds)
+                .ThenInclude(d => d.Member)
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (household == null)
             {
                 return NotFound();
             }
+
+            PopulateAssignedMemberData(household);
             return View(household);
         }
 
@@ -115,42 +125,58 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id)
-		{
-			var householdToUpdate = await _context.Households
-				.Include(h => h.Address)
-				.FirstOrDefaultAsync(h => h.ID == id);
+        public async Task<IActionResult> Edit(int id, [Bind("ID,HouseIncome,LICO")] Household household, string[] selectedOptions)
+        {
+            var householdToupdate = await _context.Households
+                .Include(d => d.Address)
+                .Include(d => d.MemberHouseholds)
+                .ThenInclude(d => d.Member)
+                .FirstOrDefaultAsync(m => m.ID == id);
 
-			if (householdToUpdate == null)
-			{
-				return NotFound();
-			}
+            //Check that you got it or exit with a not found error
+            if (householdToupdate == null)
+            {
+                return NotFound();
+            }
 
-			if (await TryUpdateModelAsync<Household>(householdToUpdate, "", h => h.HouseIncome, h => h.LICO, h => h.FamilySize,
-				h => h.Dependants, h => h.Address.ID, h => h.Address))
-			{
-				try
-				{
-					await _context.SaveChangesAsync();
-					return RedirectToAction("Details", new { householdToUpdate.ID });
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!HouseholdExists(householdToUpdate.ID))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-			}
-			return View(householdToUpdate);
-		}
+            UpdateHouseholdMembers(selectedOptions, householdToupdate);
 
-		// GET: Households/Delete/5
-		public async Task<IActionResult> Delete(int? id)
+            //Try updating it with the values posted
+            if (await TryUpdateModelAsync<Household>(householdToupdate, "",
+                d => d.ID))
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", new { householdToupdate.ID });
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MemberExists(householdToupdate.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+
+            PopulateAssignedMemberData(householdToupdate);
+            return View(householdToupdate);
+        }
+
+        // GET: Households/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -158,9 +184,8 @@ namespace PinewoodGrow.Controllers
             }
 
             var household = await _context.Households
-                .Include(h => h.Address)
+                .Include(h => h.MemberHouseholds)
                 .FirstOrDefaultAsync(m => m.ID == id);
-
             if (household == null)
             {
                 return NotFound();
@@ -174,37 +199,90 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var household = await _context.Households
-                .Include(h => h.Address)
-                .FirstOrDefaultAsync(m => m.ID == id);
-
+            var household = await _context.Households.FindAsync(id);
             _context.Households.Remove(household);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<int> GetAddressID(string Lat, string Lng, string AddressName, string postal, string city)
+        private void PopulateAssignedMemberData(Household household)
         {
-
-            var tempAddress = new Address()
+            //For this to work, you must have Included the child collection in the parent object
+            //For the BONUS we leave out Athletes with this sport as their main one.
+            var allOptions = _context.Members.Where(m => m.HouseholdID != household.ID);
+            var currentOptionsHS = new HashSet<int>(household.MemberHouseholds.Select(b => b.MemberID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var s in allOptions)
             {
-                FullAddress = AddressName,
-                PostalCode = postal,
-                City = city,
-                Latitude = string.IsNullOrEmpty(Lat) ? (double?)null : Convert.ToDouble(Lat),
-                Longitude = string.IsNullOrEmpty(Lng) ? (double?)null : Convert.ToDouble(Lng),
-            };
-
-            if (!_context.Addresses.Any(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode))
-            {
-                _context.Addresses.Add(tempAddress);
-                await _context.SaveChangesAsync();
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.FullName
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.FullName
+                    });
+                }
             }
-            return (await _context.Addresses.FirstOrDefaultAsync(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode)).ID;
 
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+
+        private void UpdateHouseholdMembers(string[] selectedOptions, Household householdToUpdate)
+        {
+            //This is an alternate approach to what I demonstrated in class.
+            //Instetad of trying to follow the logic in the tutorial, we are
+            //just clearing them out and adding the selected ones back in.
+            //Note: the earlier code is shown below in comments
+            
+            if (selectedOptions == null)
+            {
+                householdToUpdate.MemberHouseholds = new List<MemberHousehold>();
+                return;
+            }
+
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(householdToUpdate.MemberHouseholds.Select(b => b.MemberID));
+            foreach (var s in _context.Members)
+            {
+                if (selectedOptionsHS.Contains(s.ID.ToString()))//it is selected
+                {
+                    if (!currentOptionsHS.Contains(s.ID))//but not currently in the Doctor's collection - Add it!
+                    {
+                        householdToUpdate.MemberHouseholds.Add(new MemberHousehold
+                        {
+                            MemberID = s.ID,
+                            HouseholdID = householdToUpdate.ID
+                        });
+                    }
+                }
+                else //not selected
+                {
+                    if (currentOptionsHS.Contains(s.ID))//but is currently in the Doctor's collection - Remove it!
+                    {
+                        MemberHousehold specToRemove = householdToUpdate.MemberHouseholds.FirstOrDefault(d => d.MemberID == s.ID);
+                        _context.Remove(specToRemove);
+                    }
+                }
+            }
         }
 
         private bool HouseholdExists(int id)
+        {
+            return _context.Households.Any(e => e.ID == id);
+        }
+
+        private bool MemberExists(int id)
         {
             return _context.Households.Any(e => e.ID == id);
         }
