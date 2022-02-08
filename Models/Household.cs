@@ -14,7 +14,7 @@ namespace PinewoodGrow.Models
 			MemberHouseholds = new HashSet<MemberHousehold>();
 		}
 
-		[Display(Name = "Household #")]
+		[Display(Name = "Member #")]
 		public int ID { get; set; }
 
 		[Display(Name = "Household Income")]
