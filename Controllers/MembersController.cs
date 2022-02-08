@@ -184,7 +184,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,Telephone,Email,FamilySize,Income" +
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
             ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID")] Member member,
             string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles
             )
@@ -282,7 +282,7 @@ namespace PinewoodGrow.Controllers
             UpdateMemberDietaries(selectedDietaryOptions, memberToUpdate);
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
 
-            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.Telephone, m => m.Email,
+            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, m => m.Email,
                 m => m.Income, m => m.Notes, m => m.Consent, m => m.CompletedBy, m => m.CompletedOn, m => m.HouseholdID, 
                 m => m.GenderID))
             //m => m.FamilySize, m => m.AddressID, m => m.Address
