@@ -29,7 +29,10 @@ namespace PinewoodGrow.Models
 		{
 			get
 			{
-				return "(" + Telephone.Substring(0, 3) + ") " + Telephone.Substring(3, 3) + "-" + Telephone[6..];
+				if (Telephone.Length == 10)
+					return "(" + Telephone.Substring(0, 3) + ") " + Telephone.Substring(3, 3) + "-" + Telephone[6..];
+				else
+					return Telephone.Substring(0, 1) + "(" + Telephone.Substring(1, 3) + ") " + Telephone.Substring(4, 3) + "-" + Telephone[7..];
 			}
 		}
 
@@ -50,6 +53,7 @@ namespace PinewoodGrow.Models
 		public int Age { get; set; }
 
 		[Required(ErrorMessage = "You cannot leave the Telephone blank.")]
+		[StringLength(11, ErrorMessage = "Phone number By cannot be more than 11 characters long.")]
 		[DataType(DataType.PhoneNumber)]
 		public string Telephone { get; set; }
 
