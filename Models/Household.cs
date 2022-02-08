@@ -17,7 +17,7 @@ namespace PinewoodGrow.Models
 		public int ID { get; set; }
 
 		[Display(Name = "Household Income")]
-		[Required(ErrorMessage = "You cannot leave the House Income blank.")]
+		//[Required(ErrorMessage = "You cannot leave the House Income blank.")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
 		public decimal HouseIncome {
@@ -48,8 +48,36 @@ namespace PinewoodGrow.Models
 		[Range(-1, 115, ErrorMessage = "Dependants cannot be less than 0.")]
 		public int Dependants { get; set; }
 
-		[Required(ErrorMessage = "You cannot leave the LICO unselected.")]
-		public bool LICO { get; set; }
+		//[Required(ErrorMessage = "You cannot leave the LICO unselected.")]
+		public bool LICO {
+			get
+			{
+				{
+					bool calcLICO = false;
+
+					if (FamilySize == 1 && HouseIncome <= 22186)
+						calcLICO = true;
+					else if (FamilySize == 2 && HouseIncome <= 27619)
+						calcLICO = true;
+					else if (FamilySize == 3 && HouseIncome <= 33953)
+						calcLICO = true;
+					else if (FamilySize == 4 && HouseIncome <= 41225)
+						calcLICO = true;
+					else if (FamilySize == 5 && HouseIncome <= 46757)
+						calcLICO = true;
+					else if (FamilySize == 6 && HouseIncome <= 52734)
+						calcLICO = true;
+					else if (FamilySize == 7 && HouseIncome <= 58712)
+						calcLICO = true;
+
+					return calcLICO;
+				};
+			}
+			set
+			{
+
+			}
+		}
 
 		public int AddressID { get; set; }
 		public Address Address { get; set; }
