@@ -14,12 +14,16 @@
                aria-label="Search" id="autocomplete">
     </div>
 </div>
+<input type="button" value="Hide Purple" onclick="filter()"/>
 <div id="map" style="height: 900px; width: 100%"></div>
 
 <script>
     let autocomplete;
+    var MarkersArr = [];
 
-    function initAutocomplete() {
+    function initMap() {
+ 
+
         autocomplete = new google.maps.places.Autocomplete(
             document.getElementById('autocomplete'),
             {
@@ -46,24 +50,38 @@
             icon: 'https://localhost:44339/images/GrowMapIcon.png'
         });
 
+
+     
+
         @{
             List<PinewoodGrow.ViewModels.MapMarker> mapMarkers = ViewBag.Markers;
             foreach (var mapMarker in mapMarkers)
             {
+
                 <text>
-                    var marker = new window.google.maps.Marker({
+                var marker = new window.google.maps.Marker({
                         map: map,
+                        category: '@mapMarker.Category',
                         position: { lat: @mapMarker.Lat, lng: @mapMarker.Lng },
                         title: '@mapMarker.Address',
+                        icon: '@mapMarker.Color',
+                        /*icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png',
+                        icon_background_color: '#7B9EB0',
+                        icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet"*/
                     });
+                MarkersArr.push(marker);
                 </text>
+
             }
 
+            
 
 
         }
-    
-    
+
+
+        
+
         function onPlaceChanged() {
             var place = autocomplete.getPlace();
             if (!place.geometry) {
@@ -71,7 +89,7 @@
             } else {
    
                 //Centers the map around searched locaiton
-
+                console.log(place);
                 map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
                 console.log(place.address_components);
 
@@ -85,10 +103,23 @@
         }
     }
 
+    function filter() {
+       
+        for (var i = 0; i < MarkersArr.length; i++) {
+            console.log(MarkersArr[i].category);
+            if (MarkersArr[i].category === "Mid") {
+                MarkersArr[i].setMap(null);
+                console.log("Hidden");
+                }
+            else
+                MarkersArr[i].setMap(map);
+        
+        }
+    }
 </script>
 <script
 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initMap" async defer>
 </script>
 
 
