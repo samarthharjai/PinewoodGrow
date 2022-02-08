@@ -88,7 +88,7 @@ namespace PinewoodGrow.Models
 		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 		public DateTime CompletedOn { get; set; }
 
-		[Display(Name = "Household")]
+		[Display(Name = "Household #")]
 		[Required(ErrorMessage = "You cannot leave Household blank")]
 		public int HouseholdID { get; set; }
 		public Household Household { get; set; }
