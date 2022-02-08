@@ -90,6 +90,7 @@ namespace PinewoodGrow.Data.SeedData
         {
             var Members = new List<Member>();
             var FamilyName = GetRandomLastName();
+
             for (var i = 0; i < count; i++)
             {
                 var firstName = GetRandomFirstName();
@@ -100,7 +101,7 @@ namespace PinewoodGrow.Data.SeedData
                     LastName = FamilyName,
                     Telephone = GetRandomPhone(),
                     Email = GetRandomEmail(firstName, FamilyName),
-                    Income = getRandomIncome(),
+                    Income = getRandomIncome() / count,
                     Notes = LoremIpsum(10, 50, 1, 4, 1),
                     Consent = true,
                     CompletedBy = Volenteers[rnd.Next(0, Volenteers.Length)],
@@ -108,6 +109,7 @@ namespace PinewoodGrow.Data.SeedData
                     GenderID = getRandomGender(),
                     Age = getRandomAge(),
                 };
+                
                 Members.Add(member);
             }
 
