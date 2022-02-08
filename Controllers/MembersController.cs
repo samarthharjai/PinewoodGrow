@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
-using PinewoodGrow.Utilities;
 using PinewoodGrow.ViewModels;
 
 namespace PinewoodGrow.Controllers
@@ -25,7 +24,7 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Members
-        public async Task<IActionResult> Index(string SearchString, int? page, int? pageSizeID, int? DietaryID, int? SituationID, string actionButton,
+        public async Task<IActionResult> Index(string SearchString, int? DietaryID, int? SituationID, string actionButton,
             string sortDirection = "asc", string sortField = "Member")
         {
             string[] sortOptions = new[] { "Member", "Age", "Family Size", "Income" };
@@ -42,8 +41,8 @@ namespace PinewoodGrow.Controllers
 
             var members = from m in _context.Members
                 .Include(m => m.Address)
-                .Include(m => m.Volunteer)
                 .Include(m => m.Gender)
+                .Include(m => m.Volunteer)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -68,7 +67,6 @@ namespace PinewoodGrow.Controllers
 
             if (!String.IsNullOrEmpty(actionButton))
             {
-                page = 1; //reset the page to start
                 if (sortOptions.Contains(actionButton))
                 {
                     if (actionButton == sortField)
@@ -84,12 +82,12 @@ namespace PinewoodGrow.Controllers
                 if (sortDirection == "asc")
                 {
                     members = members
-                        .OrderByDescending(m => m.DOB);
+                        .OrderByDescending(m => m.Age);
                 }
                 else
                 {
                     members = members
-                        .OrderBy(m => m.DOB);
+                        .OrderBy(m => m.Age);
                 }
             }
             else if (sortField == "Family Size")
@@ -137,12 +135,7 @@ namespace PinewoodGrow.Controllers
             ViewData["sortField"] = sortField;
             ViewData["sortDirection"] = sortDirection;
 
-            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
-            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
-            var pagedData = await PaginatedList<Member>.CreateAsync(members.AsNoTracking(), page ?? 1, pageSize);
-
-            //return View(await members.ToListAsync());
-            return View(pagedData);
+            return View(await members.ToListAsync());
         }
 
         // GET: Members/Details/5
@@ -186,8 +179,8 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,DOB,MemNumber,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID,VolunteerID")] Member member,
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
+            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID,VolunteerID, DietNotes")] Member member,
             string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles,
             string Lat, string Lng, string AddressName, string postal, string city)
         {
@@ -246,6 +239,7 @@ namespace PinewoodGrow.Controllers
             var member = await _context.Members
                 .Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
+                .Include(m => m.Volunteer)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -271,6 +265,7 @@ namespace PinewoodGrow.Controllers
             var memberToUpdate = await _context.Members
                 .Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
+                .Include(m => m.Volunteer)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -283,9 +278,9 @@ namespace PinewoodGrow.Controllers
             UpdateMemberDietaries(selectedDietaryOptions, memberToUpdate);
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
 
-            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.DOB,m => m.MemNumber, m => m.Telephone, m => m.Email,
+            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, m => m.Email,
                 m => m.FamilySize, m => m.Income, m => m.Notes, m => m.Consent, m => m.CompletedBy, m => m.CompletedOn, m => m.HouseholdID, 
-                m => m.GenderID, m => m.AddressID, m => m.Address, m => m.VolunteerID))
+                m => m.GenderID, m => m.AddressID, m => m.VolunteerID, m => m.DietNotes, m => m.Address))
             {
                 try
                 {

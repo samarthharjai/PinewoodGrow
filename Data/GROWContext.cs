@@ -20,7 +20,6 @@ namespace PinewoodGrow.Data
 		public DbSet<Member> Members { get; set; }
 		public DbSet<Household> Households { get; set; }
 		public DbSet<Gender> Genders{ get; set; }
-		public DbSet<Volunteer> Volunteers { get; set; }
 		public DbSet<Address> Addresses { get; set; }
 		public DbSet<MemberSituation> MemberSituations { get; set; }
 		public DbSet<Situation> Situations { get; set; }
@@ -28,6 +27,7 @@ namespace PinewoodGrow.Data
 		public DbSet<Dietary> Dietaries { get; set; }
 		public DbSet<MemberDocument> MemberDocuments { get; set; }
 		public DbSet<UploadedFile> UploadedFiles { get; set; }
+		public DbSet<Volunteer> Volunteers { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -71,6 +71,12 @@ namespace PinewoodGrow.Data
 				.HasMany<Member>(m => m.Members)
 				.WithOne(g => g.Gender)
 				.HasForeignKey(g => g.GenderID)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Volunteer>()
+				.HasMany<Member>(m => m.Members)
+				.WithOne(v => v.Volunteer)
+				.HasForeignKey(v => v.VolunteerID)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
     }
