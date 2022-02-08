@@ -14,7 +14,7 @@ namespace PinewoodGrow.Models
         }
         public int ID { get; set; }
 
-        [Display(Name = "Gender")]
+        [Display(Name = "Completed By")]
         [Required(ErrorMessage = "You cannot leave the name blank.")]
         [StringLength(50, ErrorMessage = "Name cannot be more than 50 characters long.")]
         public string Name { get; set; }

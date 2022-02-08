@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Samarth\\Documents\\Developer\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj": {}
+    "C:\\Users\\Samarth\\Downloads\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Samarth\\Documents\\Developer\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj": {
+    "C:\\Users\\Samarth\\Downloads\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Samarth\\Documents\\Developer\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj",
+        "projectUniqueName": "C:\\Users\\Samarth\\Downloads\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj",
         "projectName": "PinewoodGrow",
-        "projectPath": "C:\\Users\\Samarth\\Documents\\Developer\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj",
+        "projectPath": "C:\\Users\\Samarth\\Downloads\\PinewoodGrow-v.1.00\\PinewoodGrow.csproj",
         "packagesPath": "C:\\Users\\Samarth\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Samarth\\Documents\\Developer\\PinewoodGrow-v.1.00\\obj\\",
+        "outputPath": "C:\\Users\\Samarth\\Downloads\\PinewoodGrow-v.1.00\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

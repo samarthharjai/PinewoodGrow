@@ -14,14 +14,9 @@
         <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
-            @*<div class="form-group">
-                <label asp-for="MemNumber" class="control-label"></label>
-                <input asp-for="MemNumber" class="form-control" readonly />
-                <span asp-validation-for="MemNumber" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control"/>
+                <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,14 +26,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="DOB" class="control-label"></label>
-                <input asp-for="DOB" class="form-control"/>
+                <input asp-for="DOB" class="form-control" />
                 <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GenderID" class="control-label"></label>
-                <select asp-for="GenderID" class="form-control" asp-items="ViewBag.GenderID">
-                    
-                </select>
+                <select asp-for="GenderID" class="form-control" asp-items="ViewBag.GenderID"></select>
                 <span asp-validation-for="GenderID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,7 +44,7 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                 <label asp-for="Address.FullAddress" class="control-label"></label>
                 <input asp-for="Address.FullAddress" class="form-control" />
                 <span asp-validation-for="Address.FullAddress" class="text-danger"></span>
@@ -70,9 +63,13 @@
                 <label asp-for="FamilySize" class="control-label"></label>
                 <input asp-for="FamilySize" class="form-control" />
                 <span asp-validation-for="FamilySize" class="text-danger"></span>
-            </div>*@
+            </div>
 
-            
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Consent" /> @Html.DisplayNameFor(model => model.Consent)
+                </label>
+            </div>
 
         </div>
         <div class="col-md-6">
@@ -95,17 +92,18 @@
                                     {
                 @:</tr><tr>
                 }
-            @:<td>
-                <input type="checkbox"
-                       name="selectedDietaryOptions"
-                       value="@checkbox.ID"
-                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                @checkbox.DisplayText @:&nbsp;&nbsp;
-                            @:</td>
-                        }
-            @:</tr>
+                @:<td>
+                    <input type="checkbox"
+                           name="selectedDietaryOptions"
+                           value="@checkbox.ID"
+                           @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                    @checkbox.DisplayText @:&nbsp;&nbsp;
+                                @:</td>
+                            }
+                @:</tr>
                             }
                         </table>
+                        <textarea asp-for="DietNotes" class="form-control" />
                     </div>
 
                     <div class="form-group">
@@ -114,22 +112,22 @@
                             <table>
                                 <tr>
                                     @{ int cntS = 0;
-                                        List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
-                                        foreach (var checkbox in situationCheckboxes)
-                                        {
-                                            if (cntS++ % 3 == 0)
-                                            {
-                        @:</tr><tr>
-                        }
-            @:<td>
-                <input type="checkbox"
-                       name="selectedSituationOptions"
-                       value="@checkbox.ID"
-                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                @checkbox.DisplayText @:&nbsp;&nbsp;
-                            @:</td>
-                        }
-            @:</tr>
+                                                    List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
+                                                    foreach (var checkbox in situationCheckboxes)
+                                                    {
+                                                        if (cntS++ % 3 == 0)
+                                                        {
+                                    @:</tr><tr>
+                                    }
+                    @:<td>
+                        <input type="checkbox"
+                               name="selectedSituationOptions"
+                               value="@checkbox.ID"
+                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                        @checkbox.DisplayText @:&nbsp;&nbsp;
+                                    @:</td>
+                                }
+                @:</tr>
                                     }
                                 </table>
                             </div>
@@ -149,11 +147,11 @@
                             <input asp-for="CompletedOn" class="form-control" />
                             <span asp-validation-for="CompletedOn" class="text-danger"></span>
                         </div>
-                        @*<div class="form-group">
+                        <div class="form-group">
                             <label asp-for="HouseholdID" class="control-label"></label>
                             <select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseholdID"></select>
                             <span asp-validation-for="HouseholdID" class="text-danger"></span>
-                        </div>*@
+                        </div>
                         <div class="form-group">
                             <label asp-for="Notes" class="control-label"></label>
                             <textarea asp-for="Notes" class="form-control"></textarea>
@@ -163,33 +161,28 @@
                             <label class="control-label"> Current Documents:</label>
                             <div class="ml-md-3">
                                 @{ int fileCount = Model.MemberDocuments.Count;
-                                    if (fileCount > 0)
-                                    {
-                                        var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
-                                        if (fileCount > 1)
-                                        {
-                        <a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
-                            <span class="badge badge-info">@fileCount</span> Current Documents...
-                        </a>
-                                            <div class="collapse" id="collapseSum@(Model.ID)">
-                                                @{ foreach (var d in Model.MemberDocuments)
+                                                if (fileCount > 0)
+                                                {
+                                                    var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
+                                                    if (fileCount > 1)
                                                     {
-                                <a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br /> } }
-                                            </div> }
-                                        else
-                                        {
-                        <a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a> }
-                } }
+                                    <a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
+                                        <span class="badge badge-info">@fileCount</span> Current Documents...
+                                    </a>
+                                                        <div class="collapse" id="collapseSum@(Model.ID)">
+                                                            @{ foreach (var d in Model.MemberDocuments)
+                                                                                    {
+                                                                <a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br /> } }
+                                                        </div> }
+                                                                        else
+                                                                        {
+                                                        <a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a> }
+                                                                    } }
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Upload Additional Documents:</label>
                             <input type="file" class="" name="theFiles" multiple="multiple" />
-                        </div>
-                        <div class="form-group form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" asp-for="Consent" /> @Html.DisplayNameFor(model => model.Consent)
-                            </label>
                         </div>
                     </div>
                 </div>
