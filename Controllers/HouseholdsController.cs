@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -73,21 +75,65 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,HouseIncome,LICO")] Household household, string[] selectedOptions)
+        public async Task<IActionResult>
+            Create(int Dependants, bool LICO, string FirstName, string LastName, int Age, string Telephone, string Email, double Income, string Notes, bool consent, string CompletedBy, DateTime CompletedOn, int GenderID,
+                string[] selectedOptions, string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles,
+        string Lat, string Lng, string AddressName, string postal, string city)
         {
-            UpdateHouseholdMembers(selectedOptions, household);
+            var household = new Household
+            {
+                AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city),
+                LICO = true,
+                FamilySize = 1,
+                Dependants = Dependants
+            };
+
+            var member = new Member
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Age = Age,
+                Telephone = Telephone,
+                Email = Email,
+                Income = Income,
+                Notes = Notes,
+                Consent = true,
+                CompletedBy = CompletedBy,
+                CompletedOn = CompletedOn,
+                GenderID = GenderID,
+            };
 
             try
             {
-                //Nothing to do for the BONUS becuase no Athletes can have this as their main sport
-                //since it has not been created yet.
-                UpdateHouseholdMembers(selectedOptions, household);
 
+
+                await _context.AddAsync(household);
+                await _context.SaveChangesAsync();
+
+                if (selectedDietaryOptions != null)
+                {
+                    foreach (var dietary in selectedDietaryOptions)
+                    {
+                        var dietaryToAdd = new MemberDietary { MemberID = member.ID, DietaryID = int.Parse(dietary) };
+                        member.MemberDietaries.Add(dietaryToAdd);
+                    }
+                }
+                if (selectedSituationOptions != null)
+                {
+                    foreach (var situation in selectedSituationOptions)
+                    {
+                        var situationToAdd = new MemberSituation { MemberID = member.ID, SituationID = int.Parse(situation) };
+                        member.MemberSituations.Add(situationToAdd);
+                    }
+                }
+
+                member.HouseholdID = household.ID;
                 if (ModelState.IsValid)
                 {
-                    _context.Add(household);
+                    await AddDocumentsAsync(member, theFiles);
+                    await _context.AddAsync(member);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Details", new { household.ID });
+                    return RedirectToAction(nameof(Details), new { id = household.ID });
                 }
             }
             catch (RetryLimitExceededException /* dex */)
@@ -96,11 +142,15 @@ namespace PinewoodGrow.Controllers
             }
             catch (DbUpdateException)
             {
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-            }
 
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+
+            }
+            PopulateAssignedSituationData(member);
+            PopulateAssignedDietaryData(member);
+            PopulateDropDownLists(member);
             PopulateAssignedMemberData(household);
-            return View(household);
+            return View(new MemberHouseHoldModel() { Household = household, Member = member });
         }
 
         // GET: Households/Edit/5
@@ -211,6 +261,7 @@ namespace PinewoodGrow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        
         private void PopulateAssignedMemberData(Household household)
         {
             //For this to work, you must have Included the child collection in the parent object
@@ -250,7 +301,7 @@ namespace PinewoodGrow.Controllers
             //Instetad of trying to follow the logic in the tutorial, we are
             //just clearing them out and adding the selected ones back in.
             //Note: the earlier code is shown below in comments
-            
+
             if (selectedOptions == null)
             {
                 householdToUpdate.MemberHouseholds = new List<MemberHousehold>();
@@ -282,12 +333,171 @@ namespace PinewoodGrow.Controllers
                 }
             }
         }
+        private void PopulateAssignedDietaryData(Member member)
+        {
+            //For this to work, you must have Included the PatientConditions 
+            //in the Patient
+            var allOptions = _context.Dietaries;
+            var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
+            var checkBoxes = new List<CheckOptionVM>();
+            foreach (var option in allOptions)
+            {
+                checkBoxes.Add(new CheckOptionVM
+                {
+                    ID = option.ID,
+                    DisplayText = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
+            }
+            ViewData["DietaryOptions"] = checkBoxes;
+        }
+        private void UpdateMemberDietaries(string[] selectedDietaryOptions, Member memberToUpdate)
+        {
+            if (selectedDietaryOptions == null)
+            {
+                memberToUpdate.MemberDietaries = new List<MemberDietary>();
+                return;
+            }
+
+            var selectedOptionsHS = new HashSet<string>(selectedDietaryOptions);
+            var memberOptionsHS = new HashSet<int>
+                (memberToUpdate.MemberDietaries.Select(d => d.DietaryID));
+            foreach (var option in _context.Dietaries)
+            {
+                if (selectedOptionsHS.Contains(option.ID.ToString()))
+                {
+                    if (!memberOptionsHS.Contains(option.ID))
+                    {
+                        memberToUpdate.MemberDietaries.Add(new MemberDietary { MemberID = memberToUpdate.ID, DietaryID = option.ID });
+                    }
+                }
+                else
+                {
+                    if (memberOptionsHS.Contains(option.ID))
+                    {
+                        MemberDietary dietaryToRemove = memberToUpdate.MemberDietaries.SingleOrDefault(d => d.DietaryID == option.ID);
+                        _context.Remove(dietaryToRemove);
+                    }
+                }
+            }
+        }
+
+        private void PopulateAssignedSituationData(Member member)
+        {
+            //For this to work, you must have Included the PatientConditions 
+            //in the Patient
+            var allOptions = _context.Situations;
+            var currentOptionIDs = new HashSet<int>(member.MemberSituations.Select(b => b.SituationID));
+            var checkBoxes = new List<CheckOptionVM>();
+            foreach (var option in allOptions)
+            {
+                checkBoxes.Add(new CheckOptionVM
+                {
+                    ID = option.ID,
+                    DisplayText = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
+            }
+            ViewData["SituationOptions"] = checkBoxes;
+        }
+        private void UpdateMemberSituation(string[] selectedSituationOptions, Member memberToUpdate)
+        {
+            if (selectedSituationOptions == null)
+            {
+                memberToUpdate.MemberSituations = new List<MemberSituation>();
+                return;
+            }
+
+            var selectedOptionsHS = new HashSet<string>(selectedSituationOptions);
+            var memberOptionsHS = new HashSet<int>
+                (memberToUpdate.MemberSituations.Select(s => s.SituationID));
+            foreach (var option in _context.Dietaries)
+            {
+                if (selectedOptionsHS.Contains(option.ID.ToString()))
+                {
+                    if (!memberOptionsHS.Contains(option.ID))
+                    {
+                        memberToUpdate.MemberSituations.Add(new MemberSituation { MemberID = memberToUpdate.ID, SituationID = option.ID });
+                    }
+                }
+                else
+                {
+                    if (memberOptionsHS.Contains(option.ID))
+                    {
+                        MemberSituation situationToRemove = memberToUpdate.MemberSituations.SingleOrDefault(s => s.SituationID == option.ID);
+                        _context.Remove(situationToRemove);
+                    }
+                }
+            }
+        }
+
+        private async Task AddDocumentsAsync(Member member, List<IFormFile> theFiles)
+        {
+            foreach (var f in theFiles)
+            {
+                if (f != null)
+                {
+                    string mimeType = f.ContentType;
+                    string fileName = Path.GetFileName(f.FileName);
+                    long fileLength = f.Length;
+                    if (!(fileName == "" || fileLength == 0))
+                    {
+                        MemberDocument d = new MemberDocument();
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await f.CopyToAsync(memoryStream);
+                            d.FileContent.Content = memoryStream.ToArray();
+                        }
+                        d.FileContent.MimeType = mimeType;
+                        d.FileName = fileName;
+                        member.MemberDocuments.Add(d);
+                    };
+                }
+            }
+        }
+
+        private void PopulateDropDownLists(Member member = null)
+        {
+            //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
+            ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
+            ViewData["HouseholdID"] = new SelectList(_context.Households, "ID", "ID", member?.HouseholdID);
+        }
+
+        public async Task<FileContentResult> Download(int id)
+        {
+            var theFile = await _context.UploadedFiles
+                .Include(d => d.FileContent)
+                .Where(f => f.ID == id)
+                .FirstOrDefaultAsync();
+            return File(theFile.FileContent.Content, theFile.FileContent.MimeType, theFile.FileName);
+        }
 
         private bool HouseholdExists(int id)
         {
             return _context.Households.Any(e => e.ID == id);
         }
 
+
+        private async Task<int> GetAddressID(string Lat, string Lng, string AddressName, string postal, string city)
+        {
+
+            var tempAddress = new Address()
+            {
+                FullAddress = AddressName,
+                PostalCode = postal,
+                City = city,
+                Latitude = string.IsNullOrEmpty(Lat) ? (double?)null : Convert.ToDouble(Lat),
+                Longitude = string.IsNullOrEmpty(Lng) ? (double?)null : Convert.ToDouble(Lng),
+            };
+
+            if (!_context.Addresses.Any(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode))
+            {
+                _context.Addresses.Add(tempAddress);
+                await _context.SaveChangesAsync();
+            }
+            return (await _context.Addresses.FirstOrDefaultAsync(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode)).ID;
+
+        }
         private bool MemberExists(int id)
         {
             return _context.Households.Any(e => e.ID == id);
