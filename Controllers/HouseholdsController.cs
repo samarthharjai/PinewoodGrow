@@ -65,10 +65,6 @@ namespace PinewoodGrow.Controllers
         // GET: Households/Create
         public IActionResult Create()
         {
-            var member = new Member();
-            PopulateAssignedDietaryData(member);
-            PopulateAssignedSituationData(member);
-            PopulateDropDownLists();
             Household household = new Household();
             PopulateAssignedMemberData(household);
             return View();
