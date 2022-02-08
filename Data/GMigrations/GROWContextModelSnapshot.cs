@@ -105,7 +105,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("AddressID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Dependents")
+                    b.Property<int>("Dependants")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("FamilySize")
@@ -176,7 +176,8 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.Property<string>("Telephone")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(11);
 
                     b.HasKey("ID");
 

@@ -70,7 +70,7 @@ namespace PinewoodGrow.Data.SeedData
                 HouseIncome = 10000,
                 AddressID = address,
                 FamilySize = FamilyCount + DependantCount, // Total Family Size
-                Dependents = DependantCount,
+                Dependants = DependantCount,
                 LICO = true,
             };
             context.Add(house);
