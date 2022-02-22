@@ -14,7 +14,7 @@ namespace PinewoodGrow
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static  void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -26,7 +26,7 @@ namespace PinewoodGrow
                 {
                     var context = services.GetRequiredService<GROWContext>();
                     context.Database.Migrate();
-                    GSeedData.Initialize(services);
+                     GSeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {
@@ -46,3 +46,6 @@ namespace PinewoodGrow
                 });
     }
 }
+//_message="An item with the same key has already been added. Key: ChIJS3EXEzFD04kRxOg93TUaJBI"
+//Message="An item with the same key has already been added. Key: ChIJ4b6H3DND04kR7As4iJJThxM"
+//ChIJdcUvjjFD04kRq6g4mn5ujvU

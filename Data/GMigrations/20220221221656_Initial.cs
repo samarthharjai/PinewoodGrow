@@ -16,6 +16,7 @@ namespace PinewoodGrow.Data.GMigrations
                     FullAddress = table.Column<string>(maxLength: 150, nullable: false),
                     City = table.Column<string>(maxLength: 100, nullable: false),
                     PostalCode = table.Column<string>(nullable: false),
+                    PlaceID = table.Column<string>(nullable: true),
                     Latitude = table.Column<double>(nullable: true),
                     Longitude = table.Column<double>(nullable: true)
                 },
@@ -48,6 +49,21 @@ namespace PinewoodGrow.Data.GMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genders", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroceryStores",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    FullAddress = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Latitude = table.Column<double>(nullable: false),
+                    Longitude = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroceryStores", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,6 +100,40 @@ namespace PinewoodGrow.Data.GMigrations
                         principalTable: "Addresses",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TravelDetails",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    GroceryDistance = table.Column<double>(nullable: false),
+                    GroceryDrive = table.Column<double>(nullable: false),
+                    GroceryBike = table.Column<double>(nullable: false),
+                    GroceryWalk = table.Column<double>(nullable: false),
+                    GrowDistance = table.Column<double>(nullable: false),
+                    GrowDrive = table.Column<double>(nullable: false),
+                    GrowBike = table.Column<double>(nullable: false),
+                    GrowWalk = table.Column<double>(nullable: false),
+                    GroceryID = table.Column<string>(nullable: true),
+                    AddressID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TravelDetails", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_TravelDetails_Addresses_AddressID",
+                        column: x => x.AddressID,
+                        principalTable: "Addresses",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TravelDetails_GroceryStores_GroceryID",
+                        column: x => x.GroceryID,
+                        principalTable: "GroceryStores",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -271,6 +321,17 @@ namespace PinewoodGrow.Data.GMigrations
                 column: "MemberID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TravelDetails_AddressID",
+                table: "TravelDetails",
+                column: "AddressID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TravelDetails_GroceryID",
+                table: "TravelDetails",
+                column: "GroceryID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UploadedFiles_MemberID",
                 table: "UploadedFiles",
                 column: "MemberID");
@@ -291,6 +352,9 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "MemberSituations");
 
             migrationBuilder.DropTable(
+                name: "TravelDetails");
+
+            migrationBuilder.DropTable(
                 name: "UploadedFiles");
 
             migrationBuilder.DropTable(
@@ -298,6 +362,9 @@ namespace PinewoodGrow.Data.GMigrations
 
             migrationBuilder.DropTable(
                 name: "Situations");
+
+            migrationBuilder.DropTable(
+                name: "GroceryStores");
 
             migrationBuilder.DropTable(
                 name: "Members");

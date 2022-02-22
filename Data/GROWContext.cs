@@ -10,7 +10,7 @@ namespace PinewoodGrow.Data
 {
 	public class GROWContext : DbContext
 	{
-		
+
 
 		public GROWContext(DbContextOptions<GROWContext> options)
 			: base(options)
@@ -19,7 +19,7 @@ namespace PinewoodGrow.Data
 
 		public DbSet<Member> Members { get; set; }
 		public DbSet<Household> Households { get; set; }
-		public DbSet<Gender> Genders{ get; set; }
+		public DbSet<Gender> Genders { get; set; }
 		public DbSet<Address> Addresses { get; set; }
 		public DbSet<MemberSituation> MemberSituations { get; set; }
 		public DbSet<Situation> Situations { get; set; }
@@ -28,16 +28,34 @@ namespace PinewoodGrow.Data
 		public DbSet<MemberDocument> MemberDocuments { get; set; }
 		public DbSet<UploadedFile> UploadedFiles { get; set; }
 		public DbSet<MemberHousehold> MemberHouseholds { get; set; }
-
+        public DbSet<GroceryStore> GroceryStores { get; set; }
+		public DbSet<TravelDetail> TravelDetails { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //Prevent Cascade Delete from Household to Member
-            modelBuilder.Entity<Household>()
-                .HasMany<Member>(m => m.Members)
-                .WithOne(h => h.Household)
-                .HasForeignKey(h => h.HouseholdID)
+		{
+
+            //Store details
+            modelBuilder.Entity<GroceryStore>()
+                .HasMany(g=> g.TravelDetails)
+                .WithOne(t=> t.GroceryStore)
+                .HasForeignKey(t=> t.GroceryID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+			//Travel Details
+            modelBuilder.Entity<Address>()
+                .HasOne(c => c.TravelDetail)
+                .WithOne(c => c.Address)
+                .HasForeignKey<TravelDetail>(c=> c.AddressID);
+            
+
+
+
+			//Prevent Cascade Delete from Household to Member
+			modelBuilder.Entity<Household>()
+				.HasMany<Member>(m => m.Members)
+				.WithOne(h => h.Household)
+				.HasForeignKey(h => h.HouseholdID)
+				.OnDelete(DeleteBehavior.Restrict);
 
 			//Add this so you don't get Cascade Delete
 			modelBuilder.Entity<Member>()
@@ -54,12 +72,12 @@ namespace PinewoodGrow.Data
 			modelBuilder.Entity<Household>()
 				.HasIndex(h => h.ID)
 				.IsUnique();
-/*
-			modelBuilder.Entity<Household>()
-				.HasOne(a => a.Address)
-				.WithOne(h => h.Household)
-				.HasForeignKey<Address>(a => a.ID);
-*/
+			/*
+						modelBuilder.Entity<Household>()
+							.HasOne(a => a.Address)
+							.WithOne(h => h.Household)
+							.HasForeignKey<Address>(a => a.ID);
+			*/
 			//Many to Many Intersection
 			modelBuilder.Entity<MemberDietary>()
 			.HasKey(t => new { t.DietaryID, t.MemberID });
@@ -89,5 +107,5 @@ namespace PinewoodGrow.Data
 				.HasForeignKey(g => g.GenderID)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
-    }
+	}
 }

@@ -14,13 +14,9 @@ namespace PinewoodGrow.Models
         }
 
         [Display(Name = "Address")]
-        public string FormalAddress
-        {
-            get
-            {
-                return FullAddress + ", " + City + ", " + PostalCode;
-            }
-        }
+        public string FormalAddress => FullAddress + ", " + City + ", " + PostalCode;
+            
+        
         public int ID { get; set; }
 
         [Display(Name = "Address")]
@@ -37,10 +33,14 @@ namespace PinewoodGrow.Models
         [DataType(DataType.PostalCode)]
         public string PostalCode { get; set; }
 
+        public string PlaceID { get; set; }
+
 		public double? Latitude { get; set; }
 
 		public double? Longitude { get; set; }
 
         public ICollection<Household> Households { get; set; }
+
+        public TravelDetail TravelDetail { get; set; }
     }
 }

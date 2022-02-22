@@ -38,6 +38,9 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<double?>("Longitude")
                         .HasColumnType("REAL");
 
+                    b.Property<string>("PlaceID")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -94,6 +97,28 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasKey("ID");
 
                     b.ToTable("Genders");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.GroceryStore", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("GroceryStores");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Household", b =>
@@ -249,6 +274,52 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("Situations");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.TravelDetail", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AddressID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("GroceryBike")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("GroceryDistance")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("GroceryDrive")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("GroceryID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("GroceryWalk")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("GrowBike")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("GrowDistance")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("GrowDrive")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("GrowWalk")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AddressID")
+                        .IsUnique();
+
+                    b.HasIndex("GroceryID");
+
+                    b.ToTable("TravelDetails");
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.UploadedFile", b =>
                 {
                     b.Property<int>("ID")
@@ -358,6 +429,20 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasForeignKey("SituationID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.TravelDetail", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Address", "Address")
+                        .WithOne("TravelDetail")
+                        .HasForeignKey("PinewoodGrow.Models.TravelDetail", "AddressID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.GroceryStore", "GroceryStore")
+                        .WithMany("TravelDetails")
+                        .HasForeignKey("GroceryID")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.MemberDocument", b =>

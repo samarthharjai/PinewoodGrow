@@ -3,26 +3,92 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-
+@*Lowest
+Low
+Mid
+High
+Top*@
 <h1 id="test">Maps</h1>
+@*<style>
+    
+    .custom-control-input:focus ~ 
+          .custom-control-label::before  {
+        /* when the button is toggled off 
+  it is still in focus and a violet border will appear */
+        border-color: violet !important;
+        /* box shadow is blue by default
+  but we do not want any shadow hence we have set 
+  all the values as 0 */
+        box-shadow:
+                  0 0 0 0rem rgba(0, 0, 0, 0) !important;
+    }
+  
+    /*sets the background color of
+          switch to violet when it is checked*/
+    .custom-control-input:checked ~
+    .custom-control-label::before  {
+        border-color: violet !important;
+        background-color: violet !important;
+    }
+  
+    /*sets the background color of
+          switch to violet when it is active*/
+    .custom-control-input:active ~
+    .custom-control-label::before  {
+        background-color: violet !important;
+        border-color: violet !important;
+    }
+  
+    /*sets the border color of switch
+          to violet when it is not checked*/
+    .custom-control-input:focus:
+    not(:checked) ~ .custom-control-label::before {
+                      border-color: violet !important;
+                  }
+    
+</style>*@
 
 <div style="margin: 22px">
     <div class="form-inline d-flex justify-content-center md-form form-sm mt-0">
         <i class="fas fa-search" aria-hidden="true"></i>
-        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+        <input  class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
                aria-label="Search" id="autocomplete">
+
+    </div>
+    <div class="row">
+        <div class="custom-control custom-switch m-3">
+            <input type="checkbox" checked="checked" class="custom-control-input purple" id="TopSwitch" style="" onclick="filter()">
+            <label class="custom-control-label purple" for="TopSwitch">20-25k</label>
+        </div>
+        <div class="custom-control custom-switch m-3">
+            <input type="checkbox" checked="checked" class="custom-control-input" id="HighSwitch" onclick="filter()">
+            <label class="custom-control-label" for="HighSwitch">15-20k</label>
+        </div>
+        <div class="custom-control custom-switch m-3">
+            <input type="checkbox" checked="checked" class="custom-control-input" id="MidSwitch" onclick="filter()">
+            <label class="custom-control-label" for="MidSwitch">10-15k</label>
+        </div>
+        <div class="custom-control custom-switch m-3">
+            <input type="checkbox" checked="checked" class="custom-control-input" id="LowSwitch" onclick="filter()">
+            <label class="custom-control-label" for="LowSwitch">5-10k</label>
+        </div>
+        <div class="custom-control custom-switch m-3">
+            <input type="checkbox" checked="checked" class="custom-control-input" id="LowestSwitch" onclick="filter()">
+            <label class="custom-control-label" for="LowestSwitch">0-5k</label>
+        </div>
+        <textarea id="output" style="width: 70vw; height: 70vh; margin: 10vh 10vw"></textarea>
     </div>
 </div>
-<input type="button" value="Hide Purple" onclick="filter()"/>
 <div id="map" style="height: 900px; width: 100%"></div>
 
 <script>
     let autocomplete;
     var MarkersArr = [];
-
+    var map;
     function initMap() {
- 
+
+
+
 
         autocomplete = new google.maps.places.Autocomplete(
             document.getElementById('autocomplete'),
@@ -36,7 +102,7 @@
         // The location of Grow
         const Grow = { lat: 43.1103481, lng: -79.0789613 };
         // The map, centered at Grow
-        const map = new window.google.maps.Map(document.getElementById("map"),
+        map = new window.google.maps.Map(document.getElementById("map"),
             {
                 zoom: 16,
                 center: Grow,
@@ -51,7 +117,7 @@
         });
 
 
-     
+
 
         @{
             List<PinewoodGrow.ViewModels.MapMarker> mapMarkers = ViewBag.Markers;
@@ -59,7 +125,8 @@
             {
 
                 <text>
-                var marker = new window.google.maps.Marker({
+
+                    var marker = new window.google.maps.Marker({
                         map: map,
                         category: '@mapMarker.Category',
                         position: { lat: @mapMarker.Lat, lng: @mapMarker.Lng },
@@ -69,25 +136,25 @@
                         icon_background_color: '#7B9EB0',
                         icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet"*/
                     });
-                MarkersArr.push(marker);
+                    MarkersArr.push(marker);
                 </text>
 
             }
 
-            
+
 
 
         }
+        MarkersArr.forEach(m=> console.log(m.title));
 
 
-        
 
         function onPlaceChanged() {
             var place = autocomplete.getPlace();
             if (!place.geometry) {
                 document.getElementById('autocomplete').placeholder = 'Enter a place';
             } else {
-   
+
                 //Centers the map around searched locaiton
                 console.log(place);
                 map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
@@ -99,29 +166,44 @@
                 console.log(place.address_components.find(a => a.types[0] === 'postal_code').long_name);
                 //Gets City
                 console.log(place.address_components.find(a => a.types[0] === 'locality').long_name);
+
             }
         }
     }
 
     function filter() {
-       
+        var Top = document.getElementById('TopSwitch').checked;
+        var High = document.getElementById('HighSwitch').checked;
+        var Mid = document.getElementById('MidSwitch').checked;
+        var Low = document.getElementById('LowSwitch').checked;
+        var Lowest = document.getElementById('LowestSwitch').checked;
+
+
+
         for (var i = 0; i < MarkersArr.length; i++) {
-            console.log(MarkersArr[i].category);
-            if (MarkersArr[i].category === "Mid") {
-                MarkersArr[i].setMap(null);
-                console.log("Hidden");
-                }
-            else
+            if ((MarkersArr[i].category === "Top" && Top) ||
+                (MarkersArr[i].category === "High" && High) ||
+                (MarkersArr[i].category === "Mid" && Mid) ||
+                (MarkersArr[i].category === "Low" && Low) ||
+                (MarkersArr[i].category === "Lowest" && Lowest)) {
                 MarkersArr[i].setMap(map);
-        
+                console.log("Hidden");
+            }
+
+
+            else
+                MarkersArr[i].setMap(null);
+
         }
     }
 </script>
-<script
-
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initMap" async defer>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initMap" async defer>
 </script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 
 @*</body>
     </html>*@
+
+
+

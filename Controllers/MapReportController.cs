@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PinewoodGrow.Data;
+using PinewoodGrow.Data.Repositorys;
 using PinewoodGrow.ViewModels;
 
 namespace PinewoodGrow.Controllers
@@ -13,9 +14,11 @@ namespace PinewoodGrow.Controllers
     public class MapReportController : Controller
     {
         private readonly GROWContext _context;
+        private readonly TravelDataRepository travelDataRepository;
 
         public MapReportController(GROWContext context)
         {
+            travelDataRepository = new TravelDataRepository();
             _context = context;
         }
 
@@ -27,10 +30,6 @@ namespace PinewoodGrow.Controllers
 
             //Converts List of Addresses to map markers exudes all entries that do not have enter lat/longs
 
-            /*Markers = _context.Addresses
-                .Where(a => a.Latitude != 0 && a.Longitude != 0)
-                .Select(a => new MapMarker() { Address = a.FullAddress, Lat = (double)a.Latitude, Lng = (double)a.Longitude }).ToList();*/
-
             Markers = _context.Households.Include(a => a.Address)
                 .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
                 .Select(a=> new MapMarker()
@@ -38,12 +37,13 @@ namespace PinewoodGrow.Controllers
                     Address = a.Address.FullAddress,
                     Lat = (double)a.Address.Latitude, 
                     Lng = (double)a.Address.Longitude, 
-                    Income = (double)a.HouseIncome,
-                    Color = GetColor((double)a.HouseIncome),
+                    Income = a.HouseIncome,
+                    Color = GetColor(a.HouseIncome),
                     FamilySize = a.FamilySize,
-                    Category = GetCategory((double)a.HouseIncome)
+                    Category = GetCategory(a.HouseIncome)
 
                 }).ToList();
+
 
 
             ViewData["Markers"] = Markers;
@@ -78,3 +78,26 @@ namespace PinewoodGrow.Controllers
     }
 
 }
+
+/*if (!_context.TravelDetails.Any())
+{
+    var (travel, groceryStores) = await TravelDataRepository.GetAllDetails(_context.Addresses.ToList(), _context.GroceryStores.ToList());
+    await _context.AddRangeAsync(groceryStores);
+    await _context.SaveChangesAsync();
+    await _context.AddRangeAsync(travel);
+    await _context.SaveChangesAsync();
+}
+
+var x = "";*/
+
+
+
+
+
+
+
+
+/*
+ViewData["stores"] = _context.GroceryStores.ToList();
+
+ViewData["travel"] = _context.TravelDetails.Include(a => a.Address).ToList();*/
