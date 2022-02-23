@@ -76,20 +76,159 @@ Top*@
             <input type="checkbox" checked="checked" class="custom-control-input" id="LowestSwitch" onclick="filter()">
             <label class="custom-control-label" for="LowestSwitch">0-5k</label>
         </div>
-        <textarea id="output" style="width: 70vw; height: 70vh; margin: 10vh 10vw"></textarea>
+        @*<textarea id="output" style="width: 70vw; height: 70vh; margin: 10vh 10vw"></textarea>*@
     </div>
 </div>
 <div id="map" style="height: 900px; width: 100%"></div>
 
 <script>
+    const template = document.createElement('template');
+    template.innerHTML = `
+<style>
+.popup {
+    width: 400px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.pop-title{
+
+}
+.pop-title img{
+    position:relative;
+    top: -60px;
+}
+.pop-title h1 {
+    font-size: 24px;
+    margin-bottom: 0;
+
+}
+.popup h2{
+    font-size: 20px
+    margin-top: 0;
+}
+.popup h2, h3 {
+    font-weight: 300;
+}
+.popup h3 {
+   width: 60%;
+}
+
+
+.pop-content li {
+    display: flex;
+
+    width: 90px;
+}
+.list-time{
+    float:left;
+}
+
+.list-time > p{
+display: inline-block;
+margin: 0 10px;
+
+font-size: 17px;
+    font-weight: 300;
+}
+#groceryName{
+margin-top: 60px;
+}
+}
+
+
+</style>
+    <div class="popup">
+    <div class="pop-title">
+
+    <h1 id="FullAddress"></h1>
+    <h2>Household</h2>
+
+    </div>
+    <div class="pop-content">
+        <div class="row">
+            <dl>
+                <dt>Income:</dt>
+                <dd id="income"></dd>
+                <dt>Family Size:</dt>
+                <dd id="size"></dd>
+            </dl>
+    </div>
+
+        <div class="row">
+            <h2>Travel</h2>
+            <h3>Grow Community Center</h3>
+                <ul>
+                    <li class="list-time">
+                        <img src="svg/distance.svg" alt="Distance to Grow community Center, in meters"/>
+                        <p id="growDistance"></p>
+                    </li>
+                    <li class="list-time">
+                    <img src="svg/drive.svg" alt="Time to Drive to Grow Community Center, in seconds"/>
+                    <p id="growDrive"></p>
+                    </li>
+                    <li class="list-time" >
+                    <img src="svg/bike.svg" alt="Time to bike"/>
+                    <p id="growBike"></p>
+                    </li>
+                    <li class="list-time">
+                    <img src="svg/walk.svg" alt="time to walk"/>
+                    <p id="growWalk"></p>
+                    </li>
+                </ul>
+            <h3 name="groceryName" id="groceryName"></h3>
+            <ul>
+                <li class="list-time">
+                    <img src="svg/distance.svg" alt="Distance to nearest grocery store, in meters"/>
+                    <p id="groceryDistance"></p>
+                </li>
+                <li class="list-time">
+                <img src="svg/drive.svg" alt="Time to Drive to nearest grocery store, in seconds"/>
+                <p id="groceryDrive"></p>
+                </li>
+                <li class="list-time">
+                    <img src="svg/bike.svg" alt="time to bike"/>
+                    <p id="groceryBike"></p>
+                    </li>
+                <li class="list-time">
+                <img src="svg/walk.svg" alt="time to walk"/>
+                <p id="groceryWalk"></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</div>
+`;
+    class pop extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({ mode: 'open' });
+            this.shadowRoot.appendChild(template.content.cloneNode(true));
+            this.shadowRoot.getElementById('FullAddress').innerText = this.getAttribute('name');
+            this.shadowRoot.getElementById('income').innerText = this.getAttribute('data-income');
+            this.shadowRoot.getElementById('size').innerText = this.getAttribute('data-size');
+            this.shadowRoot.getElementById('growDistance').innerText = this.getAttribute('data-growDistance');
+            this.shadowRoot.getElementById('growDrive').innerText = this.getAttribute('data-growDrive');
+            this.shadowRoot.getElementById('growBike').innerText = this.getAttribute('data-growBike');
+            this.shadowRoot.getElementById('growWalk').innerText = this.getAttribute('data-growWalk');
+            this.shadowRoot.getElementById('groceryName').innerText = this.getAttribute('data-groceryName');
+            this.shadowRoot.getElementById('groceryDistance').innerText =  this.getAttribute('data-groceryDistance');
+            this.shadowRoot.getElementById('groceryDrive').innerText = this.getAttribute('data-groceryDrive');
+            this.shadowRoot.getElementById('groceryBike').innerText = this.getAttribute('data-groceryBike');
+            this.shadowRoot.getElementById('groceryWalk').innerText = this.getAttribute('data-groceryWalk');
+        }
+    }
+
+    window.customElements.define('marker-pop', pop);
+
+
     let autocomplete;
     var MarkersArr = [];
     var map;
+
+
     function initMap() {
-
-
-
-
+        const infoWindow = new google.maps.InfoWindow();
         autocomplete = new google.maps.places.Autocomplete(
             document.getElementById('autocomplete'),
             {
@@ -113,7 +252,7 @@ Top*@
             position: Grow,
             map: map,
             title: 'Grow',
-            icon: 'https://localhost:44339/images/GrowMapIcon.png'
+            icon: '/images/GrowMapIcon.png'
         });
 
 
@@ -132,21 +271,29 @@ Top*@
                         position: { lat: @mapMarker.Lat, lng: @mapMarker.Lng },
                         title: '@mapMarker.Address',
                         icon: '@mapMarker.Color',
+                        content: '<marker-pop name="@mapMarker.Address"></marker-pop>'
                         /*icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png',
                         icon_background_color: '#7B9EB0',
                         icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet"*/
                     });
-                    MarkersArr.push(marker);
+                    google.maps.event.addListener(marker, 'click', function(){
+                        infoWindow.close(); // Close previously opened infowindow
+                        infoWindow.setContent(`<marker-pop name="@mapMarker.Address" data-size="@mapMarker.FamilySize" data-income="@mapMarker.Income"
+                                                data-growDrive="@mapMarker.GrowDrive" data-growBike= "@mapMarker.GrowBike" data-growWalk="@mapMarker.GrowWalk"  data-growDistance="@mapMarker.GrowDistance"
+                                                data-groceryDrive = "@mapMarker.GroceryDrive" data-groceryBike = "@mapMarker.GroceryBike" data-groceryWalk = "@mapMarker.GroceryWalk" data-groceryDistance = "@mapMarker.GroceryDistance"
+                                                data-groceryName = "@mapMarker.GroceryName"></marker-pop>`);
+                        infoWindow.open(map, this);
+                    });
                 </text>
 
             }
-
-
-
-
         }
-        MarkersArr.forEach(m=> console.log(m.title));
+        MarkersArr.forEach(m => console.log(m.title));
 
+
+        google.maps.event.addListener(map, "click", function(event) {
+            infoWindow.close();
+        });
 
 
         function onPlaceChanged() {

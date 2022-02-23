@@ -31,6 +31,8 @@ namespace PinewoodGrow.Controllers
             //Converts List of Addresses to map markers exudes all entries that do not have enter lat/longs
 
             Markers = _context.Households.Include(a => a.Address)
+                .ThenInclude(t=> t.TravelDetail)
+                .ThenInclude(t=> t.GroceryStore)
                 .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
                 .Select(a=> new MapMarker()
                 {
@@ -40,8 +42,16 @@ namespace PinewoodGrow.Controllers
                     Income = a.HouseIncome,
                     Color = GetColor(a.HouseIncome),
                     FamilySize = a.FamilySize,
-                    Category = GetCategory(a.HouseIncome)
-
+                    Category = GetCategory(a.HouseIncome),
+                    GrowDistance = a.Address.TravelDetail.GrowDistance,
+                    GrowDrive = a.Address.TravelDetail.GrowDrive,
+                    GrowBike= a.Address.TravelDetail.GrowBike,
+                    GrowWalk = a.Address.TravelDetail.GrowWalk,
+                    GroceryName = a.Address.TravelDetail.GroceryStore.Name,
+                    GroceryDistance = a.Address.TravelDetail.GroceryDistance,
+                    GroceryDrive = a.Address.TravelDetail.GroceryDrive,
+                    GroceryBike = a.Address.TravelDetail.GroceryBike,
+                    GroceryWalk = a.Address.TravelDetail.GroceryWalk,
                 }).ToList();
 
 

@@ -368,7 +368,7 @@ namespace PinewoodGrow.Data
                         {
                             ID = "ChIJm9VTOy1D04kRklz9MMK3bek",
                             FullAddress = "4167 Victoria Ave, Niagara Falls",
-                            Name = "Lococo&#x27;s (Victoria) - Fresh Fruits, Vegetables and Meats",
+                            Name = "Lococo's (Victoria) - Fresh Fruits, Vegetables and Meats",
                             Latitude = 43.1133892,
                             Longitude = -79.07392759999999
                         },
@@ -376,7 +376,7 @@ namespace PinewoodGrow.Data
                         {
                             ID = "ChIJZSRqZ01D04kRA8V_zFSvB98",
                             FullAddress = "6161 Thorold Stone Rd, Niagara Falls",
-                            Name = "Commisso&#x27;s Fresh Foods",
+                            Name = "Commisso's Fresh Foods",
                             Latitude = 43.1161111,
                             Longitude = -79.0977778
                         },
