@@ -140,9 +140,24 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var volunteer = await _context.Volunteers.FindAsync(id);
-            _context.Volunteers.Remove(volunteer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _context.Volunteers.Remove(volunteer);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException dex)
+            {
+                if (dex.GetBaseException().Message.Contains("FOREIGN KEY constraint failed"))
+                {
+                    ModelState.AddModelError("", "Unable to Delete Volunteer. You cannot delete a Volunteer that has created Members.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            return View(volunteer);
         }
 
         private bool VolunteerExists(int id)
