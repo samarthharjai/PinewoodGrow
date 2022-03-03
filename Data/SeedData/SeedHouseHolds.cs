@@ -106,7 +106,7 @@ namespace PinewoodGrow.Data.SeedData
                     Income = getRandomIncome() / count,
                     Notes = LoremIpsum(10, 50, 1, 4, 1),
                     Consent = true,
-                    CompletedBy = Volenteers[rnd.Next(0, Volenteers.Length)],
+                    VolunteerID = getRandomVolunteer(),
                     CompletedOn = DateTime.Today,
                     GenderID = getRandomGender(),
                     DOB = RandomDay(),
@@ -171,6 +171,18 @@ namespace PinewoodGrow.Data.SeedData
 
 
         private static int getRandomGender()
+        {
+            return rnd.Next(0, 100) switch
+            {
+                int i when i <= 5 => 5, //Perfer not to say 5%
+                int i when i <= 10 => 4, //Other 5%
+                int i when i <= 20 => 3, //Non-Bianary 10%
+                int i when i <= 60 => 2, //Female 40%
+                _ => 1 // Male 40%
+            };
+        }
+
+        private static int getRandomVolunteer()
         {
             return rnd.Next(0, 100) switch
             {

@@ -12,6 +12,7 @@ namespace PinewoodGrow.Models
 		{
 			MemberSituations = new HashSet<MemberSituation>();
 			MemberDietaries = new HashSet<MemberDietary>();
+			MemberIllnesses = new HashSet<MemberIllness>();
 			MemberDocuments = new HashSet<MemberDocument>();
 			MemberHouseholds = new HashSet<MemberHousehold>();
 		}
@@ -110,8 +111,8 @@ namespace PinewoodGrow.Models
 
 		[Display(Name = "Completed By")]
 		[Required(ErrorMessage = "You cannot leave the Completed By blank.")]
-		[StringLength(100, ErrorMessage = "Completed By cannot be more than 100 characters long.")]
-		public string CompletedBy { get; set; }
+		public int VolunteerID { get; set; }
+		public Volunteer Volunteer { get; set; }
 
 		[Display(Name = "Completed On")]
 		[Required(ErrorMessage = "You cannot leave the Completed On blank.")]
@@ -135,6 +136,9 @@ namespace PinewoodGrow.Models
 
 		[Display(Name = "Dietary Restrictions")]
 		public ICollection<MemberDietary> MemberDietaries { get; set; }
+
+		[Display(Name = "Illnesses")]
+		public ICollection<MemberIllness> MemberIllnesses { get; set; }
 
 		[Display(Name = "Documents")]
 		public ICollection<MemberDocument> MemberDocuments { get; set; }

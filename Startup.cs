@@ -67,7 +67,7 @@ namespace PinewoodGrow
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Members}/{action=Index}/{id?}");
+                    pattern: "{controller=Households}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

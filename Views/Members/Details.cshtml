@@ -17,11 +17,7 @@
                     <th scope="col">@Html.DisplayNameFor(model => model.Age)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.Gender)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
-                   @* <th scope="col">@Html.DisplayNameFor(model => model.Address.FullAddress)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Address.City)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Address.PostalCode)</th>*@
                     <th scope="col">@Html.DisplayNameFor(model => model.Telephone)</th>
-                    @*<th scope="col">@Html.DisplayNameFor(model => model.CreatedOn)</th>*@
                 </tr>
             </thead>
             <tbody>
@@ -31,9 +27,6 @@
                     <td>@Html.DisplayFor(model => model.Age)</td>
                     <td>@Html.DisplayFor(model => model.Gender.Name)</td>
                     <td>@Html.DisplayFor(model => model.Email)</td>
-                    @*<td>@Html.DisplayFor(model => model.Address.FullAddress)</td>
-                    <td>@Html.DisplayFor(model => model.Address.City)</td>
-                    <td>@Html.DisplayFor(model => model.Address.PostalCode)</td>*@
                     <td>@Html.DisplayFor(model => model.Telephone)</td>
                 </tr>
             </tbody>
@@ -84,17 +77,13 @@
                     <th>@Html.DisplayNameFor(model => model.Income)</th>
                     <td>@Html.DisplayFor(model => model.Income)</td>
                 </tr>
-                @*<tr>
-                    <th>@Html.DisplayNameFor(model => model.FamilySize)</th>
-                    <td>@Html.DisplayFor(model => model.FamilySize)</td>
-                </tr>*@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Household)</th>
                     <td>@Html.DisplayFor(model => model.Household.ID)</td>
                 </tr>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.CompletedBy)</th>
-                    <td>@Html.DisplayFor(model => model.CompletedBy)</td>
+                    <th>@Html.DisplayNameFor(model => model.VolunteerID)</th>
+                    <td>@Html.DisplayFor(model => model.Volunteer.Name)</td>
                 </tr>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.CompletedOn)</th>
@@ -112,76 +101,106 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Notes)</th>
-                    <td>@Html.DisplayFor(model => model.Notes)</td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.MemberDietaries)</th>
-                    <td>
-                        @{
-                            int condCount = Model.MemberDietaries.Count;
-                            if (condCount > 0)
-                            {
-                                string firstCond = Model.MemberDietaries.FirstOrDefault().Dietary.Name;
-                                if (condCount > 1)
-                                {
-                                    string condList = firstCond;
-                                    var c = Model.MemberDietaries.ToList();
-                                    for (int i = 1; i < condCount; i++)
-                                    {
-                                        condList += ", " + c[i].Dietary.Name;
-                                    }
-                                    <a tabindex="0" class="" role="button" data-toggle="popover"
-                                       data-trigger="focus" title="Dietart Conditions" data-placement="bottom"
-                                       data-content="@condList">
-                                        @firstCond... <span class="badge badge-info">@condCount</span>
-                                    </a>
-                                }
-                                else
-                                {
-                                    @firstCond
-                                }
-                            }
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.MemberDocuments)</th>
-                    <td>
-                        @{
-                            int fileCount = Model.MemberDocuments.Count;
-                            if (fileCount > 0)
-                            {
-                                var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
-                                if (fileCount > 1)
-                                {
-                                    <a class="" role="button" data-toggle="collapse" href="#collapseDocs@(Model.ID)" aria-expanded="false" aria-controls="collapseDocs@(Model.ID)">
-                                        <span class="badge badge-info">@fileCount</span> Documents...
-                                    </a>
-                                    <div class="collapse" id="collapseDocs@(Model.ID)">
-                                        @{
-                                            foreach (var d in Model.MemberDocuments)
-                                            {
-                                                <a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
-                                            }
-                                        }
-                                    </div>
-                                }
-                                else
-                                {
-                                    <a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
-                                }
-                            }
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Consent)</th>
-                    <td>@Html.DisplayFor(model => model.Consent)</td>
-                </tr>
-            </tbody>
+			<tbody>
+				<tr>
+					<th>@Html.DisplayNameFor(model => model.Notes)</th>
+					<td>@Html.DisplayFor(model => model.Notes)</td>
+				</tr>
+				<tr>
+					<th>@Html.DisplayNameFor(model => model.MemberDietaries)</th>
+					<td>
+						@{
+							int condCount = Model.MemberDietaries.Count;
+							if (condCount > 0)
+							{
+								string firstCond = Model.MemberDietaries.FirstOrDefault().Dietary.Name;
+								if (condCount > 1)
+								{
+									string condList = firstCond;
+									var c = Model.MemberDietaries.ToList();
+									for (int i = 1; i < condCount; i++)
+									{
+										condList += ", " + c[i].Dietary.Name;
+									}
+									<a tabindex="0" class="" role="button" data-toggle="popover"
+									   data-trigger="focus" title="Dietary Conditions" data-placement="bottom"
+									   data-content="@condList">
+										@firstCond... <span class="badge badge-info">@condCount</span>
+									</a>
+								}
+								else
+								{
+									@firstCond
+								}
+							}
+						}
+					</td>
+				</tr>
+				<tr>
+					<th>@Html.DisplayNameFor(model => model.MemberIllnesses)</th>
+					<td>
+						@{
+							int illCount = Model.MemberIllnesses.Count;
+							if (illCount > 0)
+							{
+								string firstIll = Model.MemberIllnesses.FirstOrDefault().Illness.Name;
+								if (illCount > 1)
+								{
+									string illList = firstIll;
+									var c = Model.MemberIllnesses.ToList();
+									for (int i = 1; i < condCount; i++)
+									{
+										illList += ", " + c[i].Illness.Name;
+									}
+									<a tabindex="0" class="" role="button" data-toggle="popover"
+									   data-trigger="focus" title="Illnesses" data-placement="bottom"
+									   data-content="@illList">
+										@firstIll... <span class="badge badge-info">@condCount</span>
+									</a>
+								}
+								else
+								{
+									@firstIll
+								}
+							}
+						}
+					</td>
+				</tr>
+				<tr>
+					<th>@Html.DisplayNameFor(model => model.MemberDocuments)</th>
+					<td>
+						@{
+							int fileCount = Model.MemberDocuments.Count;
+							if (fileCount > 0)
+							{
+								var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
+								if (fileCount > 1)
+								{
+									<a class="" role="button" data-toggle="collapse" href="#collapseDocs@(Model.ID)" aria-expanded="false" aria-controls="collapseDocs@(Model.ID)">
+										<span class="badge badge-info">@fileCount</span> Documents...
+									</a>
+									<div class="collapse" id="collapseDocs@(Model.ID)">
+										@{
+											foreach (var d in Model.MemberDocuments)
+											{
+												<a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
+											}
+										}
+									</div>
+								}
+								else
+								{
+									<a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
+								}
+							}
+						}
+					</td>
+				</tr>
+				<tr>
+					<th>@Html.DisplayNameFor(model => model.Consent)</th>
+					<td>@Html.DisplayFor(model => model.Consent)</td>
+				</tr>
+			</tbody>
         </table>
     </div>
 </div>

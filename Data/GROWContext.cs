@@ -25,6 +25,9 @@ namespace PinewoodGrow.Data
 		public DbSet<Situation> Situations { get; set; }
 		public DbSet<MemberDietary> MemberDietaries { get; set; }
 		public DbSet<Dietary> Dietaries { get; set; }
+		public DbSet<MemberIllness> MemberIllnesses { get; set; }
+		public DbSet<Illness> Illnesses { get; set; }
+		public DbSet<Volunteer> Volunteers { get; set; }
 		public DbSet<MemberDocument> MemberDocuments { get; set; }
 		public DbSet<UploadedFile> UploadedFiles { get; set; }
 		public DbSet<MemberHousehold> MemberHouseholds { get; set; }
@@ -86,6 +89,10 @@ namespace PinewoodGrow.Data
 			modelBuilder.Entity<MemberSituation>()
 			.HasKey(t => new { t.SituationID, t.MemberID });
 
+			//Many to Many Intersection
+			modelBuilder.Entity<MemberIllness>()
+			.HasKey(t => new { t.IllnessID, t.MemberID });
+
 			//Prevent Cascade Delete
 			modelBuilder.Entity<MemberDietary>()
 				.HasOne(md => md.Dietary)
@@ -101,10 +108,24 @@ namespace PinewoodGrow.Data
 				.OnDelete(DeleteBehavior.Restrict);
 
 			//Prevent Cascade Delete
+			modelBuilder.Entity<MemberIllness>()
+				.HasOne(mi => mi.Illness)
+				.WithMany(i => i.MemberIllnesses)
+				.HasForeignKey(mi => mi.IllnessID)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			//Prevent Cascade Delete
 			modelBuilder.Entity<Gender>()
 				.HasMany<Member>(m => m.Members)
 				.WithOne(g => g.Gender)
 				.HasForeignKey(g => g.GenderID)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			//Prevent Cascade Delete
+			modelBuilder.Entity<Volunteer>()
+				.HasMany<Member>(m => m.Members)
+				.WithOne(v => v.Volunteer)
+				.HasForeignKey(v => v.VolunteerID)
 				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}

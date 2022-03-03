@@ -1068,3 +1068,13 @@ C:\Users\Owner\Desktop\PinewoodGrow\bin\Debug\netcoreapp3.1\System.Net.Http.Form
 C:\Users\Owner\Desktop\PinewoodGrow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
 C:\Users\Aidan\Documents\GitHub\PinewoodGrow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Illnesses\Create.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Illnesses\Delete.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Illnesses\Details.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Illnesses\Edit.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Illnesses\Index.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Volunteers\Create.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Volunteers\Delete.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Volunteers\Details.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Volunteers\Edit.cshtml.g.cs
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Volunteers\Index.cshtml.g.cs

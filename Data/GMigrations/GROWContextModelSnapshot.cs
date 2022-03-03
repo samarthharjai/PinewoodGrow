@@ -156,16 +156,27 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("Households");
                 });
 
-            modelBuilder.Entity("PinewoodGrow.Models.Member", b =>
+            modelBuilder.Entity("PinewoodGrow.Models.Illness", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CompletedBy")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(50);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Illnesses");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.Member", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CompletedOn")
                         .HasColumnType("TEXT");
@@ -208,11 +219,16 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(11);
 
+                    b.Property<int>("VolunteerID")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ID");
 
                     b.HasIndex("GenderID");
 
                     b.HasIndex("HouseholdID");
+
+                    b.HasIndex("VolunteerID");
 
                     b.ToTable("Members");
                 });
@@ -245,6 +261,21 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasIndex("HouseholdID");
 
                     b.ToTable("MemberHouseholds");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.MemberIllness", b =>
+                {
+                    b.Property<int>("IllnessID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MemberID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("IllnessID", "MemberID");
+
+                    b.HasIndex("MemberID");
+
+                    b.ToTable("MemberIllnesses");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.MemberSituation", b =>
@@ -345,6 +376,22 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("UploadedFile");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.Volunteer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(50);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Volunteers");
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.MemberDocument", b =>
                 {
                     b.HasBaseType("PinewoodGrow.Models.UploadedFile");
@@ -388,6 +435,12 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasForeignKey("HouseholdID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
+                        .WithMany("Members")
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.MemberDietary", b =>
@@ -417,6 +470,21 @@ namespace PinewoodGrow.Data.GMigrations
                         .WithMany("MemberHouseholds")
                         .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.MemberIllness", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Illness", "Illness")
+                        .WithMany("MemberIllnesses")
+                        .HasForeignKey("IllnessID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Member", "Member")
+                        .WithMany("MemberIllnesses")
+                        .HasForeignKey("MemberID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

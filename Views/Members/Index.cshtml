@@ -41,6 +41,10 @@
 						<label class="control-label">Filter by Living Situation:</label>
 						@Html.DropDownList("SituationID", null, "None", htmlAttributes: new { @class = "form-control" })
 					</div>
+					@*<div class="form-group col-md-4">
+						<label class="control-label">Filter by Illnesses:</label>
+						@Html.DropDownList("IllnessID", null, "None", htmlAttributes: new { @class = "form-control" })
+					</div>*@
 					<div class="form-group col-md-4 align-self-end">
 						<input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
 						<a asp-action="Index" class="btn btn-outline-dark">Clear</a>

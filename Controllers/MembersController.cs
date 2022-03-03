@@ -25,8 +25,8 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Members
-        public async Task<IActionResult> Index(string SearchString, int? page, int? pageSizeID, int? DietaryID, int? SituationID, string actionButton,
-            string sortDirection = "asc", string sortField = "Member")
+        public async Task<IActionResult> Index(string SearchString, int? page, int? pageSizeID, int? DietaryID, int? SituationID, int? IllnessID,
+            string actionButton, string sortDirection = "asc", string sortField = "Member")
         {
             string[] sortOptions = new[] { "Member", "Age", "Family Size", "Income" };
 
@@ -43,9 +43,11 @@ namespace PinewoodGrow.Controllers
             var members = from m in _context.Members
                 //.Include(m => m.Address)
                 .Include(m => m.Gender)
+                .Include(m => m.Volunteer)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
+                .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
             select m;
 
             if (DietaryID.HasValue)
@@ -56,6 +58,11 @@ namespace PinewoodGrow.Controllers
             if (SituationID.HasValue)
             {
                 members = members.Where(m => m.MemberSituations.Any(s => s.SituationID == SituationID));
+                ViewData["Filtering"] = " show";
+            }
+            if (IllnessID.HasValue)
+            {
+                members = members.Where(m => m.MemberIllnesses.Any(i => i.IllnessID == IllnessID));
                 ViewData["Filtering"] = " show";
             }
             if (!String.IsNullOrEmpty(SearchString))
@@ -155,10 +162,12 @@ namespace PinewoodGrow.Controllers
             var member = await _context.Members
                 //.Include(m => m.Address)
                 .Include(m => m.Gender)
+                .Include(m => m.Volunteer)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
+                .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
@@ -175,6 +184,7 @@ namespace PinewoodGrow.Controllers
             var member = new Member();
             PopulateAssignedDietaryData(member);
             PopulateAssignedSituationData(member);
+            PopulateAssignedIllnessData(member);
             PopulateDropDownLists();
             return View();
         }
@@ -185,8 +195,8 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,CompletedBy,CompletedOn,HouseholdID,GenderID")] Member member,
-            string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles
+            ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID")] Member member,
+            string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles
             )
             //string Lat, string Lng, string AddressName, string postal, string city
         {
@@ -210,6 +220,14 @@ namespace PinewoodGrow.Controllers
                         member.MemberSituations.Add(situationToAdd);
                     }
                 }
+                if (selectedIllnessOptions != null)
+                {
+                    foreach (var illness in selectedIllnessOptions)
+                    {
+                        var illnessToAdd = new MemberIllness { MemberID = member.ID, IllnessID = int.Parse(illness) };
+                        member.MemberIllnesses.Add(illnessToAdd);
+                    }
+                }
                 if (ModelState.IsValid)
                 {
                     await AddDocumentsAsync(member, theFiles);
@@ -230,6 +248,7 @@ namespace PinewoodGrow.Controllers
             }
             PopulateAssignedSituationData(member);
             PopulateAssignedDietaryData(member);
+            PopulateAssignedIllnessData(member);
             PopulateDropDownLists(member);
             return View(member);
         }
@@ -247,6 +266,7 @@ namespace PinewoodGrow.Controllers
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
+                .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (member == null)
@@ -256,6 +276,7 @@ namespace PinewoodGrow.Controllers
 
             PopulateAssignedSituationData(member);
             PopulateAssignedDietaryData(member);
+            PopulateAssignedIllnessData(member);
             PopulateDropDownLists(member);
             return View(member);
         }
@@ -265,13 +286,15 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string[] selectedDietaryOptions, string[] selectedSituationOptions, List<IFormFile> theFiles)
+        public async Task<IActionResult> Edit(int id, string[] selectedDietaryOptions, string[] selectedSituationOptions
+            , string[] selectedIllnessOptions, List<IFormFile> theFiles)
         {
             var memberToUpdate = await _context.Members
                 //.Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
+                .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (memberToUpdate == null)
@@ -281,9 +304,10 @@ namespace PinewoodGrow.Controllers
 
             UpdateMemberDietaries(selectedDietaryOptions, memberToUpdate);
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
+            UpdateMemberIllnesses(selectedIllnessOptions, memberToUpdate);
 
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, m => m.Email,
-                m => m.Income, m => m.Notes, m => m.Consent, m => m.CompletedBy, m => m.CompletedOn, m => m.HouseholdID, 
+                m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, 
                 m => m.GenderID))
             //m => m.FamilySize, m => m.AddressID, m => m.Address
             {
@@ -316,6 +340,7 @@ namespace PinewoodGrow.Controllers
             }
             PopulateAssignedSituationData(memberToUpdate);
             PopulateAssignedDietaryData(memberToUpdate);
+            PopulateAssignedIllnessData(memberToUpdate);
             PopulateDropDownLists(memberToUpdate);
             return View(memberToUpdate);
         }
@@ -331,9 +356,11 @@ namespace PinewoodGrow.Controllers
             var member = await _context.Members
                 //.Include(m => m.Address)
                 .Include(m => m.Gender)
+                .Include(m => m.Volunteer)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
+                .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
@@ -352,9 +379,11 @@ namespace PinewoodGrow.Controllers
             var member = await _context.Members
                //.Include(m => m.Address)
                .Include(m => m.Gender)
+               .Include(m => m.Volunteer)
                .Include(m => m.Household)
                .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
+               .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                .FirstOrDefaultAsync(m => m.ID == id);
 
             _context.Members.Remove(member);
@@ -460,6 +489,53 @@ namespace PinewoodGrow.Controllers
             }
         }
 
+        private void PopulateAssignedIllnessData(Member member)
+        {
+            var allOptions = _context.Illnesses;
+            var currentOptionIDs = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
+            var checkBoxes = new List<CheckOptionVM>();
+            foreach (var option in allOptions)
+            {
+                checkBoxes.Add(new CheckOptionVM
+                {
+                    ID = option.ID,
+                    DisplayText = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
+            }
+            ViewData["IllnessOptions"] = checkBoxes;
+        }
+        private void UpdateMemberIllnesses(string[] selectedIllnessOptions, Member memberToUpdate)
+        {
+            if (selectedIllnessOptions == null)
+            {
+                memberToUpdate.MemberIllnesses = new List<MemberIllness>();
+                return;
+            }
+
+            var selectedOptionsHS = new HashSet<string>(selectedIllnessOptions);
+            var memberOptionsHS = new HashSet<int>
+                (memberToUpdate.MemberIllnesses.Select(i => i.IllnessID));
+            foreach (var option in _context.Illnesses)
+            {
+                if (selectedOptionsHS.Contains(option.ID.ToString()))
+                {
+                    if (!memberOptionsHS.Contains(option.ID))
+                    {
+                        memberToUpdate.MemberIllnesses.Add(new MemberIllness { MemberID = memberToUpdate.ID, IllnessID = option.ID });
+                    }
+                }
+                else
+                {
+                    if (memberOptionsHS.Contains(option.ID))
+                    {
+                        MemberIllness illnessToRemove = memberToUpdate.MemberIllnesses.SingleOrDefault(i => i.IllnessID == option.ID);
+                        _context.Remove(illnessToRemove);
+                    }
+                }
+            }
+        }
+
         private async Task AddDocumentsAsync(Member member, List<IFormFile> theFiles)
         {
             foreach (var f in theFiles)
@@ -489,6 +565,7 @@ namespace PinewoodGrow.Controllers
         {
             //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
+            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "Name", member?.VolunteerID);
             ViewData["HouseholdID"] = new SelectList(_context.Households, "ID", "ID", member?.HouseholdID);
         }
 

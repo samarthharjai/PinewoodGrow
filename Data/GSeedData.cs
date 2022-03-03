@@ -47,7 +47,7 @@ namespace PinewoodGrow.Data
 						new Situation { ID = 5, Name = "GAINS (For Seniors)"},
 						new Situation { ID = 6, Name = "Post-Sec. Student"},
 						new Situation { ID = 7, Name = "Other"},
-						new Situation { ID = 8, Name = "Volunteer"}
+						new Situation { ID = 8, Name = "Employed"}
 					};
 					context.Situations.AddRange(situations);
 					context.SaveChanges();
@@ -57,13 +57,9 @@ namespace PinewoodGrow.Data
 				{
 					var dietaries = new List<Dietary>
 					{
-						new Dietary { ID = 1, Name = "Diabetes"},
 						new Dietary { ID = 2, Name = "Obesity"},
 						new Dietary { ID = 3, Name = "Lactose Intolerance"},
 						new Dietary { ID = 4, Name = "Gluten Intolerance/Sensitivity"},
-						new Dietary { ID = 5, Name = "Cancer"},
-						new Dietary { ID = 6, Name = "Heart Disease"},
-						new Dietary { ID = 7, Name = "Osteoperosis"},
 						new Dietary { ID = 8, Name = "Digestive Disorders"},
 						new Dietary { ID = 9, Name = "Food Allergies"}
 					};
@@ -71,7 +67,34 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
-				if (!context.Addresses.Any())
+                if (!context.Illnesses.Any())
+                {
+                    var illnesses = new List<Illness>
+                    {
+                        new Illness { ID = 1, Name = "Diabetes"},
+                        new Illness { ID = 5, Name = "Cancer"},
+                        new Illness { ID = 6, Name = "Heart Disease"},
+                        new Illness { ID = 7, Name = "Osteoperosis"}
+                    };
+                    context.Illnesses.AddRange(illnesses);
+                    context.SaveChanges();
+                }
+
+                if (!context.Volunteers.Any())
+                {
+                    var volunteers = new List<Volunteer>
+                    {
+                        new Volunteer { ID = 1, Name = "Gregory March"},
+                        new Volunteer { ID = 2, Name = "Abigale Summer"},
+                        new Volunteer { ID = 3, Name = "Trevor Smith"},
+                        new Volunteer { ID = 4, Name = "Johnny Barns"},
+                        new Volunteer { ID = 5, Name = "Annie Westford"}
+                    };
+                    context.Volunteers.AddRange(volunteers);
+                    context.SaveChanges();
+                }
+
+                if (!context.Addresses.Any())
 				{
                     var addresses = new List<Address>
             {
@@ -408,7 +431,7 @@ namespace PinewoodGrow.Data
 
 
                     var y = addressDictionary["ChIJTejKxjND04kR97mx7WIDcqo"];
-                    var u= "";
+                    //var u= "";
                     var travels = new List<TravelDetail>
                     {
                         new TravelDetail
@@ -923,6 +946,31 @@ namespace PinewoodGrow.Data
                     context.SaveChanges();
 
 				}
+
+                if (!context.MemberIllnesses.Any())
+                {
+
+
+                    var Members = context.Members.Select(a => a).ToList();
+                    var Illnesses = context.Illnesses.Select(a => a.ID).ToArray();
+                    var ToAdd = new List<MemberIllness>();
+
+                    foreach (var member in Members)
+                    {
+
+                        if (rnd.Next(1, 3) == 2)
+                        {
+                            ToAdd.Add(new MemberIllness
+                            {
+                                MemberID = member.ID,
+                                IllnessID = Illnesses[(rnd.Next(0, Illnesses.Length))]
+                            });
+                        }
+                    }
+                    context.AddRange(ToAdd);
+                    context.SaveChanges();
+
+                }
             }
 		}
 	

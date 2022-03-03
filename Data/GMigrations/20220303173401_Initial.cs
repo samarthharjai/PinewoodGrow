@@ -67,6 +67,19 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Illnesses",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Illnesses", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Situations",
                 columns: table => new
                 {
@@ -77,6 +90,19 @@ namespace PinewoodGrow.Data.GMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Situations", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Volunteers",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Volunteers", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,7 +177,7 @@ namespace PinewoodGrow.Data.GMigrations
                     Income = table.Column<double>(nullable: false),
                     Notes = table.Column<string>(maxLength: 2000, nullable: true),
                     Consent = table.Column<bool>(nullable: false),
-                    CompletedBy = table.Column<string>(maxLength: 100, nullable: false),
+                    VolunteerID = table.Column<int>(nullable: false),
                     CompletedOn = table.Column<DateTime>(nullable: false),
                     HouseholdID = table.Column<int>(nullable: false),
                     GenderID = table.Column<int>(nullable: false)
@@ -169,6 +195,12 @@ namespace PinewoodGrow.Data.GMigrations
                         name: "FK_Members_Households_HouseholdID",
                         column: x => x.HouseholdID,
                         principalTable: "Households",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Members_Volunteers_VolunteerID",
+                        column: x => x.VolunteerID,
+                        principalTable: "Volunteers",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -219,6 +251,30 @@ namespace PinewoodGrow.Data.GMigrations
                         principalTable: "Members",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MemberIllnesses",
+                columns: table => new
+                {
+                    IllnessID = table.Column<int>(nullable: false),
+                    MemberID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemberIllnesses", x => new { x.IllnessID, x.MemberID });
+                    table.ForeignKey(
+                        name: "FK_MemberIllnesses_Illnesses_IllnessID",
+                        column: x => x.IllnessID,
+                        principalTable: "Illnesses",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MemberIllnesses_Members_MemberID",
+                        column: x => x.MemberID,
+                        principalTable: "Members",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,6 +363,11 @@ namespace PinewoodGrow.Data.GMigrations
                 column: "HouseholdID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MemberIllnesses_MemberID",
+                table: "MemberIllnesses",
+                column: "MemberID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Members_GenderID",
                 table: "Members",
                 column: "GenderID");
@@ -315,6 +376,11 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "IX_Members_HouseholdID",
                 table: "Members",
                 column: "HouseholdID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Members_VolunteerID",
+                table: "Members",
+                column: "VolunteerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MemberSituations_MemberID",
@@ -350,6 +416,9 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "MemberHouseholds");
 
             migrationBuilder.DropTable(
+                name: "MemberIllnesses");
+
+            migrationBuilder.DropTable(
                 name: "MemberSituations");
 
             migrationBuilder.DropTable(
@@ -360,6 +429,9 @@ namespace PinewoodGrow.Data.GMigrations
 
             migrationBuilder.DropTable(
                 name: "Dietaries");
+
+            migrationBuilder.DropTable(
+                name: "Illnesses");
 
             migrationBuilder.DropTable(
                 name: "Situations");
@@ -375,6 +447,9 @@ namespace PinewoodGrow.Data.GMigrations
 
             migrationBuilder.DropTable(
                 name: "Households");
+
+            migrationBuilder.DropTable(
+                name: "Volunteers");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

@@ -23,13 +23,13 @@
 					@Html.DisplayNameFor(model => model.ID)
 				</th>
 				<th>
+					Family Name
+				</th>
+				<th>
 					@Html.DisplayNameFor(model => model.HouseIncome)
 				</th>
 				<th>
 					@Html.DisplayNameFor(model => model.LICO)
-				</th>
-				<th>
-					Family Name
 				</th>
 				<th>
 					Family Size
@@ -48,14 +48,15 @@
 					@Html.DisplayFor(modelItem => item.ID)
 				</td>
 				<td>
+					@Html.DisplayFor(modelItem => item.FamilyName)
+				</td>
+				<td>
 					@Html.DisplayFor(modelItem => item.HouseIncome)
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.LICO)
 				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.FamilyName)
-				</td>
+
 				@*<td>
 			@{
 				int memberCount = item.Members.Count;
