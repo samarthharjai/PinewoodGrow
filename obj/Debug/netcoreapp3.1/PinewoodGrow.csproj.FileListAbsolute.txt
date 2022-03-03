@@ -1066,3 +1066,5 @@ C:\Users\Owner\Desktop\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_
 C:\Users\Owner\Desktop\PinewoodGrow\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_PagingNavBar.cshtml.g.cs
 C:\Users\Owner\Desktop\PinewoodGrow\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
 C:\Users\Owner\Desktop\PinewoodGrow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\Aidan\Documents\GitHub\PinewoodGrow\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll

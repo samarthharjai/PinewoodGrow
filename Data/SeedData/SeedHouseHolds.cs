@@ -58,32 +58,34 @@ namespace PinewoodGrow.Data.SeedData
 
             //List of addresses
             var AddressIDs = context.Addresses.Select(a => a.ID).ToArray();
-        GenderIDs = context.Genders.Select(g => g.ID).ToArray();
-        foreach (var address in AddressIDs)
-        {
-            //Number of dependents
-            var DependantCount = rnd.Next(0, 5);
-            //Number of non Dependants
-            var FamilyCount = rnd.Next(1, 4);
-            var house = new Household()
+            GenderIDs = context.Genders.Select(g => g.ID).ToArray();
+            foreach (var address in AddressIDs)
             {
-                HouseIncome = 10000,
-                AddressID = address,
-                FamilySize = FamilyCount + DependantCount, // Total Family Size
-                Dependants = DependantCount,
-                LICO = true,
-            };
-            context.Add(house);
-            context.SaveChanges();
+                //Number of dependents
+                var DependantCount = rnd.Next(0, 5);
+                //Number of non Dependants
+                var FamilyCount = rnd.Next(1, 4);
+                var house = new Household()
+                {
+                    HouseIncome = 10000,
+                    AddressID = address,
+                    FamilySize = FamilyCount + DependantCount, // Total Family Size
+                    FamilyName = "",
+                    Dependants = DependantCount,
+                    LICO = true,
+                };
+                context.Add(house);
+                context.SaveChanges();
 
-            //Add members to household
-            var Members = GetMembers(house.ID, FamilyCount); 
+                //Add members to household
+                var Members = GetMembers(house.ID, FamilyCount);
 
-            context.AddRange(Members);
-            context.SaveChanges();
+                house.FamilyName = Members.FirstOrDefault().LastName;
 
-        }
+                context.AddRange(Members);
+                context.SaveChanges();
 
+            }
         }
 
         private static List<Member> GetMembers(int houseID, int count)

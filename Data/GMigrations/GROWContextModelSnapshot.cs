@@ -133,6 +133,10 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("Dependants")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("FamilyName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("FamilySize")
                         .HasColumnType("INTEGER");
 

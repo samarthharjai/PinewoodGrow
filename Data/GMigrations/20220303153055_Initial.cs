@@ -87,6 +87,7 @@ namespace PinewoodGrow.Data.GMigrations
                         .Annotation("Sqlite:Autoincrement", true),
                     HouseIncome = table.Column<double>(nullable: false),
                     FamilySize = table.Column<int>(nullable: false),
+                    FamilyName = table.Column<string>(nullable: false),
                     Dependants = table.Column<int>(nullable: false),
                     LICO = table.Column<bool>(nullable: false),
                     AddressID = table.Column<int>(nullable: false)

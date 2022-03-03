@@ -46,6 +46,11 @@ namespace PinewoodGrow.Models
 		[Range(1, 115, ErrorMessage = "Family Size must be greater than 0.")]
 		public int FamilySize { get; set; }
 
+		[Display(Name = "Family Name")]
+		[Required(ErrorMessage = "You cannot leave the Family Name blank.")]
+		[Range(1, 115, ErrorMessage = "Family Name must be longer than 0 characters.")]
+		public string FamilyName { get; set; }
+
 		[Range(-1, 115, ErrorMessage = "Dependants cannot be less than 0.")]
 		public int Dependants { get; set; }
 
