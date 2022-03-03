@@ -94,6 +94,21 @@ namespace PinewoodGrow.Data
                     context.SaveChanges();
                 }
 
+                if (!context.Payments.Any())
+                {
+                    var payments = new List<Payment>
+                    {
+                        new Payment { ID = 1, Type = "Cash"},
+                        new Payment { ID = 2, Type = "Cheque"},
+                        new Payment { ID = 3, Type = "Credit Card"},
+                        new Payment { ID = 4, Type = "Debit Card"},
+                        new Payment { ID = 5, Type = "Master Card"},
+                        new Payment { ID = 6, Type = "Visa"}
+                    };
+                    context.Payments.AddRange(payments);
+                    context.SaveChanges();
+                }
+
                 if (!context.Addresses.Any())
 				{
                     var addresses = new List<Address>
