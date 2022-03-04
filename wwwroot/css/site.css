@@ -18,10 +18,29 @@ a {
   border-color: #1861ac;
 }
 
+.gm-style-iw .gm-style-iw-c gm-style-iw {
+    width: 400px !important;
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 2px 2px 0 0;
+    padding: 0;
+}
+
+.gm-style .gm-style-iw-c {
+    padding: 0;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.gm-style .gm-style-iw-c
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
