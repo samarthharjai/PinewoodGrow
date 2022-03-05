@@ -143,13 +143,14 @@
 </div>
 <div id="map" style="height: 900px; width: 100%"></div>
 
-
-
-
 <script src="js/MapPopup.js"></script>
+
+<script src="js/StorePopup.js"></script>
+
 <script>
 
     window.customElements.define('marker-pop', pop);
+    window.customElements.define('store-pop', storePop);
     let autocomplete;
     var MarkersArr = [];
     var map;
@@ -178,15 +179,42 @@
             position: Grow,
             map: map,
             title: 'Grow',
-            icon: '/images/GrowMapIcon.png'
+            icon: '/images/GrowMapIcon.png',
+
         });
         google.maps.event.addListenerOnce(map, 'idle', function(){
             window.jQuery('gm-style-iw gm-style-iw-c').prev('div').remove();
         });
 
+
+        //Creates markers for All Grocery Stores
+
+        @{
+            List<PinewoodGrow.ViewModels.StoreMapMarker> Stores = ViewBag.Stores;
+            foreach (var store in Stores)
+            {
+                <text>
+
+                    var marker = new window.google.maps.Marker({
+                        map: map,
+                        category: 'store',
+                        position: { lat: @store.Lat, lng: @store.Lng },
+                        title: '@store.Name',
+                        icon: '/images/storeIcon.png',
+
+                    });
+                    google.maps.event.addListener(marker, 'click', function(){
+                        infoWindow.close(); // Close previously opened infowindow
+                        infoWindow.setContent(`<store-pop name="@store.Name" data-fullAddress="@store.FullAddress" data-households="@store.HouseholdCount" data-members="@store.MemberCount"></store-pop>`);
+                        infoWindow.open(map, this);
+                    });
+                </text>
+            }
+        }
+
         //Creates markers for all households
         @{
-            List<PinewoodGrow.ViewModels.MapMarker> mapMarkers = ViewBag.Markers;
+                List<PinewoodGrow.ViewModels.MapMarker> mapMarkers = ViewBag.Markers;
             foreach (var mapMarker in mapMarkers)
             {
 
@@ -228,7 +256,7 @@
                 document.getElementById('autocomplete').placeholder = 'Enter a place';
                 return;
             }
-                map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
+            map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
 
         }
     }

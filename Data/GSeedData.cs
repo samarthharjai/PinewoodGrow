@@ -422,7 +422,7 @@ namespace PinewoodGrow.Data
                         {
                             ID = "ChIJnW3xZDpD04kRPFDm3Gj7_FE",
                             FullAddress = "5124 Morrison St, Niagara Falls",
-                            Name = "Morrison Variety &amp; Grocery",
+                            Name = "Morrison Variety & Grocery",
                             Latitude = 43.104396,
                             Longitude = -79.079185
                         },

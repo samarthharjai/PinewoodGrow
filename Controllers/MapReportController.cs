@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PinewoodGrow.Data;
 using PinewoodGrow.Data.Repositorys;
+using PinewoodGrow.Models;
 using PinewoodGrow.ViewModels;
 
 namespace PinewoodGrow.Controllers
@@ -25,7 +26,7 @@ namespace PinewoodGrow.Controllers
 
         public async Task<IActionResult> Index()
         {
-
+       
             var Markers = new List<MapMarker>();
 
             //Converts List of Addresses to map markers exudes all entries that do not have enter lat/longs
@@ -36,7 +37,15 @@ namespace PinewoodGrow.Controllers
                 .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
                 .Select(a => new MapMarker(a, a.HouseIncome)).ToList();
 
-
+  
+            ViewData["Stores"] = _context.GroceryStores.Select(g => 
+                new StoreMapMarker(g, _context.Households
+                    .Include(a => a.Address)
+                    .ThenInclude(a => a.TravelDetail)
+                    .ThenInclude(a => a.GroceryStore)
+                    .Where(a => a.Address.TravelDetail.GroceryStore.ID == g.ID)
+                    .ToList())
+                ).ToList();
 
             ViewData["Markers"] = Markers;
 

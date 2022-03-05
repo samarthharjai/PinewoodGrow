@@ -11,6 +11,8 @@ namespace PinewoodGrow.Models
         {
             TravelDetails = new HashSet<TravelDetail>();
         }
+  
+        public int MemberCount => TravelDetails.Count;
         public string ID { get; set; }
 
         public string FullAddress { get; set; }
@@ -20,6 +22,7 @@ namespace PinewoodGrow.Models
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
+
 
         public ICollection<TravelDetail> TravelDetails { get; set; }
 
