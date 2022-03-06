@@ -10,7 +10,7 @@
 <hr />
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
+        <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
     </div>
     <input type="hidden" id="Lat" name="Lat" />
     <input type="hidden" id="Lng" name="Lng" />
@@ -26,19 +26,19 @@
             </div>
             <div class="form-group">
                 <label asp-for="Household.Address.PostalCode" class="control-label"></label>
-                <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" name="postal" />
+                <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
                 <span asp-validation-for="Household.Address.PostalCode" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Household.Dependants" class="control-label"></label>
-                <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" class="form-control" />
+                <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" placeholder="e.g. 2" class="form-control" />
                 <span asp-validation-for="Household.Dependants" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Household.FamilyName" class="control-label"></label>
-                <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" class="form-control" />
+                <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" placeholder="e.g. Doe" class="form-control" />
                 <span asp-validation-for="Household.FamilyName" class="text-danger"></span>
             </div>
         </div>
@@ -84,13 +84,6 @@
                 <label asp-for="Member.Income" class="control-label"></label>
                 <input asp-for="Member.Income" class="form-control" id="txtIncome" placeholder="e.g. 1000.00" />
                 <span asp-validation-for="Member.Income" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Member.HouseholdID" class="control-label"></label>
-                <select asp-for="Member.HouseholdID" class="form-control" id="ddlHousehold" asp-items="ViewBag.HouseholdID">
-                    <option value="">Select a Household</option>
-                </select>
-                <span asp-validation-for="Member.HouseholdID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Member.VolunteerID" class="control-label"></label>
@@ -221,8 +214,27 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/multiselect.js"></script>
-    <script src="~/js/sampledata.js"></script>
+    <script src="~/js/multiselect.js"></script> 
 }
+
+<script>
+    document.getElementById("btnSampleDataHouse").addEventListener("click", function () {
+        document.getElementById("autocomplete").value = "5951 Main St, Niagara Falls, ON , Canada";
+        document.getElementById("postal").value = "L2G 5Z7";
+        document.getElementById("txtDependants").value = "2";
+        document.getElementById("txtFamilyName").value = "Doe";
+        document.getElementById("txtFirstName").value = "Jane";
+        document.getElementById("txtLastName").value = "Doe";
+        document.getElementById("txtAge").value = "1984-02-04";
+        document.getElementById("ddlGender").value = "2";
+        document.getElementById("txtPhone").value = "6367727614";
+        document.getElementById("txtEmail").value = "sample@gmail.com";
+        document.getElementById("txtIncome").value = "1600";
+        document.getElementById("txtComplete").value = "2";
+        document.getElementById("chkIllnesses").value = "2";
+        document.getElementById("chkSituations").value = "7";
+    })
+</script>
+
 <script src="~/js/GeoLocateAutoComplete.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer></script>

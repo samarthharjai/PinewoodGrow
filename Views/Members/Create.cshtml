@@ -189,7 +189,22 @@
             </form>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-	<script src="~/js/sampledata.js"></script>
 }
+
+<script>
+    document.getElementById("btnSampleData").addEventListener("click", function () {
+        document.getElementById("txtFirstName").value = "Jone";
+        document.getElementById("txtLastName").value = "Doe";
+        document.getElementById("txtAge").value = "2001-02-08";
+        document.getElementById("ddlGender").value = "1";
+        document.getElementById("txtPhone").value = "6367727345";
+        document.getElementById("txtEmail").value = "sample@gmail.com";
+        document.getElementById("txtIncome").value = "500";
+        document.getElementById("txtComplete").value = "2";
+        document.getElementById("ddlHousehold").value = "1";
+        document.getElementById("chkIllnesses").value = "1";
+        document.getElementById("chkSituations").value = "1";
+    })
+</script>
 <script src="~/js/GeoLocateAutoComplete.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer></script>
