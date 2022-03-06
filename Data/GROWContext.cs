@@ -28,11 +28,16 @@ namespace PinewoodGrow.Data
 		public DbSet<MemberIllness> MemberIllnesses { get; set; }
 		public DbSet<Illness> Illnesses { get; set; }
 		public DbSet<Volunteer> Volunteers { get; set; }
+
+		public DbSet<Reciept> Reciepts { get; set; }
+
+		public DbSet<ProductUnitPrice> ProductUnitPrices { get; set; }
 		public DbSet<Sale> Sales { get; set; }
 		public DbSet<Payment> Payments { get; set; }
 		public DbSet<SaleDetail> SaleDetails { get; set; }
 		public DbSet<Product> Products { get; set; }
-		public DbSet<ProductType> ProductTypes { get; set; }
+
+		public DbSet<Invoice> Invoices { get; set; }
 		public DbSet<MemberDocument> MemberDocuments { get; set; }
 		public DbSet<UploadedFile> UploadedFiles { get; set; }
 		public DbSet<MemberHousehold> MemberHouseholds { get; set; }
@@ -60,6 +65,12 @@ namespace PinewoodGrow.Data
 				.HasMany<Member>(m => m.Members)
 				.WithOne(h => h.Household)
 				.HasForeignKey(h => h.HouseholdID)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Product>()
+				.HasMany<ProductUnitPrice>(d => d.productUnitPrices)
+				.WithOne(p => p.Product)
+				.HasForeignKey(p => p.ProductID)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			//Add this so you don't get Cascade Delete
@@ -106,6 +117,12 @@ namespace PinewoodGrow.Data
 				.HasForeignKey(md => md.DietaryID)
 				.OnDelete(DeleteBehavior.Restrict);
 
+			/*modelBuilder.Entity<Invoice>()
+				.HasOne(md => md.Reciepts)
+				.WithMany(d => d.Invoices)
+				.HasForeignKey(md => md.RecieptID)
+				.OnDelete(DeleteBehavior.Restrict);*/
+
 			//Prevent Cascade Delete
 			modelBuilder.Entity<MemberSituation>()
 				.HasOne(ms => ms.Situation)
@@ -140,18 +157,10 @@ namespace PinewoodGrow.Data
 				.WithOne(s => s.Sale)
 				.HasForeignKey(v => v.SaleID)
 				.OnDelete(DeleteBehavior.Restrict);
-
-			//Prevent Cascade Delete
-			modelBuilder.Entity<ProductType>()
-				.HasMany<Product>(p => p.Products)
-				.WithOne(p => p.ProductType)
-				.HasForeignKey(p => p.ProductTypeID)
-				.OnDelete(DeleteBehavior.Restrict);
-
-			//Add a unique index to the Product Number
-			modelBuilder.Entity<Product>()
-				.HasIndex(p => p.ID)
-				.IsUnique();
 		}
+
+		public DbSet<PinewoodGrow.Models.Invoice> Invoice { get; set; }
+
+		public DbSet<PinewoodGrow.Models.Reciept> InvoiceGen { get; set; }
 	}
 }
