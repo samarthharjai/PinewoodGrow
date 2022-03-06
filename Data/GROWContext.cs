@@ -32,6 +32,7 @@ namespace PinewoodGrow.Data
 		public DbSet<Payment> Payments { get; set; }
 		public DbSet<SaleDetail> SaleDetails { get; set; }
 		public DbSet<Product> Products { get; set; }
+		public DbSet<ProductType> ProductTypes { get; set; }
 		public DbSet<MemberDocument> MemberDocuments { get; set; }
 		public DbSet<UploadedFile> UploadedFiles { get; set; }
 		public DbSet<MemberHousehold> MemberHouseholds { get; set; }
@@ -139,6 +140,18 @@ namespace PinewoodGrow.Data
 				.WithOne(s => s.Sale)
 				.HasForeignKey(v => v.SaleID)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			//Prevent Cascade Delete
+			modelBuilder.Entity<ProductType>()
+				.HasMany<Product>(p => p.Products)
+				.WithOne(p => p.ProductType)
+				.HasForeignKey(p => p.ProductTypeID)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			//Add a unique index to the Product Number
+			modelBuilder.Entity<Product>()
+				.HasIndex(p => p.ID)
+				.IsUnique();
 		}
 	}
 }

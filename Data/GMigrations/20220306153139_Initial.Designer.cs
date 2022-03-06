@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220303183636_Initial")]
+    [Migration("20220306153139_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -322,12 +322,36 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(99);
 
+                    b.Property<int>("ProductTypeID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double>("UnitPrice")
                         .HasColumnType("REAL");
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ID")
+                        .IsUnique();
+
+                    b.HasIndex("ProductTypeID");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.ProductType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(99);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Sale", b =>
@@ -589,6 +613,15 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Situation", "Situation")
                         .WithMany("MemberSituations")
                         .HasForeignKey("SituationID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.Product", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.ProductType", "ProductType")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductTypeID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

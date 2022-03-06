@@ -25,6 +25,11 @@ namespace PinewoodGrow.Models
         [Range(0.00, 999.99, ErrorMessage = "Unit Price must be between $0 and $999.99")]
         public double UnitPrice { get; set; }
 
+        [Display(Name = "Product Type")]
+        [Required(ErrorMessage = "You cannot leave Product Type blank")]
+        public int ProductTypeID { get; set; }
+        public ProductType ProductType { get; set; }
+
         public ICollection<SaleDetail> SaleDetails { get; set; }
     }
 }

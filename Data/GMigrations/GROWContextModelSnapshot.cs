@@ -320,12 +320,36 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(99);
 
+                    b.Property<int>("ProductTypeID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<double>("UnitPrice")
                         .HasColumnType("REAL");
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ID")
+                        .IsUnique();
+
+                    b.HasIndex("ProductTypeID");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.ProductType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(99);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Sale", b =>
@@ -587,6 +611,15 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Situation", "Situation")
                         .WithMany("MemberSituations")
                         .HasForeignKey("SituationID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.Product", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.ProductType", "ProductType")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductTypeID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

@@ -93,17 +93,16 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "ProductTypes",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 99, nullable: false),
-                    UnitPrice = table.Column<double>(nullable: false)
+                    Type = table.Column<string>(maxLength: 99, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ID);
+                    table.PrimaryKey("PK_ProductTypes", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,6 +185,27 @@ namespace PinewoodGrow.Data.GMigrations
                         name: "FK_TravelDetails_GroceryStores_GroceryID",
                         column: x => x.GroceryID,
                         principalTable: "GroceryStores",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(maxLength: 99, nullable: false),
+                    UnitPrice = table.Column<double>(nullable: false),
+                    ProductTypeID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductTypes_ProductTypeID",
+                        column: x => x.ProductTypeID,
+                        principalTable: "ProductTypes",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -476,6 +496,17 @@ namespace PinewoodGrow.Data.GMigrations
                 column: "MemberID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_ID",
+                table: "Products",
+                column: "ID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductTypeID",
+                table: "Products",
+                column: "ProductTypeID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SaleDetails_ProductID",
                 table: "SaleDetails",
                 column: "ProductID");
@@ -555,6 +586,9 @@ namespace PinewoodGrow.Data.GMigrations
 
             migrationBuilder.DropTable(
                 name: "GroceryStores");
+
+            migrationBuilder.DropTable(
+                name: "ProductTypes");
 
             migrationBuilder.DropTable(
                 name: "Members");
