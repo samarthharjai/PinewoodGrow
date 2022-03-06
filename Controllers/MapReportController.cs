@@ -47,6 +47,8 @@ namespace PinewoodGrow.Controllers
                     .ToList())
                 ).ToList();
 
+            ViewData["TravelStats"] = new TravelStats(_context.TravelDetails.Select(a => a).ToList());
+
             ViewData["Markers"] = Markers;
 
             /*ViewData["Points"] = Markers.Select(a => new LatLong() { Lat = a.Lat, Long = a.Long }).ToList();*/

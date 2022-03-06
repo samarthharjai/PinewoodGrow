@@ -1,4 +1,5 @@
-﻿
+﻿@using PinewoodGrow.ViewModels
+
 
 @{
     ViewData["Title"] = "Index";
@@ -11,103 +12,9 @@
 <div class="test1">
     <h1 id="test">Maps</h1>
 </div>
+<link rel="stylesheet" href="/css/MapStyle.css"/>
 <style>
 
-    .purple:focus ~ .purple::before {
-        border-color: #8e67fd !important;
-        box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0) !important;
-    }
-
-    .purple:checked ~ .purple::before {
-        border-color: #8e67fd !important;
-        background-color: #8e67fd !important;
-    }
-
-    .purple:active ~ .purple::before {
-        background-color: #8e67fd !important;
-        border-color: #8e67fd !important;
-    }
-
-    .purple:focus:not(:checked) ~ .purple::before {
-        border-color: #8e67fd !important;
-    }
-
-
-    .yellow:focus ~ .yellow::before {
-        border-color: #fdf569 !important;
-        box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0) !important;
-    }
-
-    .yellow:checked ~ .yellow::before {
-        border-color: #fdf569 !important;
-        background-color: #fdf569 !important;
-    }
-
-    .yellow:active ~ .yellow::before {
-        background-color: #fdf569 !important;
-        border-color: #fdf569 !important;
-    }
-
-    .yellow:focus:not(:checked) ~ .yellow::before {
-        border-color: #fdf569 !important;
-    }
-
-    .green:focus ~ .green::before {
-        border-color: #00e64d !important;
-        box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0) !important;
-    }
-
-    .green:checked ~ .green::before {
-        border-color: #00e64d !important;
-        background-color: #00e64d !important;
-    }
-
-    .green:active ~ .green::before {
-        background-color: #00e64d !important;
-        border-color: #00e64d !important;
-    }
-
-    .green:focus:not(:checked) ~ .green::before {
-        border-color: #00e64d !important;
-    }
-
-    .red:focus ~ .red::before {
-        border-color: #fd7567 !important;
-        box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0) !important;
-    }
-
-    .red:checked ~ .red::before {
-        border-color: #fd7567 !important;
-        background-color: #fd7567 !important;
-    }
-
-    .red:active ~ .red::before {
-        background-color: #fd7567 !important;
-        border-color: #fd7567 !important;
-    }
-
-    .red:focus:not(:checked) ~ .red::before {
-        border-color: #fd7567 !important;
-    }
-
-    .blue:focus ~ .blue::before {
-        border-color: #6a92fc !important;
-        box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0) !important;
-    }
-
-    .blue:checked ~ .blue::before {
-        border-color: #6a92fc !important;
-        background-color: #6a92fc !important;
-    }
-
-    .blue:active ~ .blue::before {
-        background-color: #6a92fc !important;
-        border-color: #6a92fc !important;
-    }
-
-    .blue:focus:not(:checked) ~ .blue::before {
-        border-color: #6a92fc !important;
-    }
 </style>
 
 <div style="margin: 22px">
@@ -143,11 +50,64 @@
 </div>
 <div id="map" style="height: 900px; width: 100%"></div>
 
-<script src="js/MapPopup.js"></script>
+@{
+    TravelStats stats = ViewBag.TravelStats;
+}
 
-<script src="js/StorePopup.js"></script>
+<div class="travel-container">
+    <div class="travel-title">
+        <h1>Average Travel Times & Distance</h1>
+    </div>
+    <div class="travel-display colored">
+        <div class="distance bg-white">
+            <div class="distance-title-color">
+                <h2>Grow</h2>
+            </div>
+            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow"/>
+            <p>@stats.Grow.DistanceFormat</p>
+        </div> 
+        <div class="travel-avg">
+            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow"/>
+            <p>@stats.Grow.DriveFormat</p>
+        </div>
+        <div class="travel-avg">
+            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow"/>
+            <p>@stats.Grow.BikeFormat</p>
+        </div>
+        <div class="travel-avg">
+            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow"/>
+            <p>@stats.Grow.WalkFormat</p>
+        </div>
+    </div>
+    <div class="travel-display colored">
+        <div class="distance bg-white">
+            <div class="distance-title-color">
+                <h2>Grocery</h2>
+            </div>
+            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow"/>
+            <p>@stats.Store.DistanceFormat</p>
+        </div> 
+        <div class="travel-avg">
+            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow"/>
+            <p>@stats.Store.DriveFormat</p>
+        </div>
+        <div class="travel-avg">
+            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow"/>
+            <p>@stats.Store.BikeFormat</p>
+        </div>
+        <div class="travel-avg">
+            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow"/>
+            <p>@stats.Store.WalkFormat</p>
+        </div>
+  
+    </div>
+</div>
 
-<script>
+
+
+    <script src="js/MapPopup.js"></script>
+    <script src="js/StorePopup.js"></script>
+    <script>
 
     window.customElements.define('marker-pop', pop);
     window.customElements.define('store-pop', storePop);
@@ -281,14 +241,14 @@
                 MarkersArr[i].setMap(null);
         }
     }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initMap" async defer>
-</script>
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initMap" async defer>
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 
-@*</body>
-    </html>*@
+    @*</body>
+        </html>*@
 
 
 
