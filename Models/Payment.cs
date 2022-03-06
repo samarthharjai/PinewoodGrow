@@ -11,7 +11,6 @@ namespace PinewoodGrow.Models
         public Payment()
         {
             Sales = new HashSet<Sale>();
-            Invoices = new HashSet<Invoice>();
         }
         public int ID { get; set; }
 
@@ -20,7 +19,5 @@ namespace PinewoodGrow.Models
         public string Type { get; set; }
 
         public ICollection<Sale> Sales { get; set; }
-
-        public ICollection<Invoice> Invoices { get; set; }
     }
 }

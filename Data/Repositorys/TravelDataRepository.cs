@@ -11,7 +11,7 @@ using PinewoodGrow.Utilities;
 
 namespace PinewoodGrow.Data.Repositorys
 {
-
+  
 
     /*internal struct Location
     {
@@ -41,12 +41,10 @@ namespace PinewoodGrow.Data.Repositorys
         public string status { get; set; }
 
     }*/
-    public class TravelDataRepository
+    public  class  TravelDataRepository 
     {
         private static readonly HttpClient client = new HttpClient();
-
-        //Grow Place ID used in Distance Matrix
-        internal const string growID = "ChIJN7B0Fp9D04kRjFOKVQ0oblk";
+        private const int radius = 2000;
 
 
         public TravelDataRepository()
@@ -55,59 +53,64 @@ namespace PinewoodGrow.Data.Repositorys
                 new Uri("https://maps.googleapis.com/maps/api/place/nearbysearch");
         }
 
-        /// <summary>
-        /// Get all Travel detail infomation from list of addresses. Returns list of Travel Details, and a List of grocery Stores in a tuple
-        /// </summary>
-        /// <param name="addresses"> List of addresses you wish to get the travel details off</param>
-        /// <param name="stores">Optional Inital list of stores, </param>
-        /// <returns></returns>
-        public static async Task<Tuple<List<TravelDetail>, List<GroceryStore>>> GetAllTravelDetails(List<Address> addresses, List<GroceryStore> stores = null)
+        public static async Task<Tuple<List<TravelDetail>, List<GroceryStore>>> GetAllDetails(List<Address> addresses, List<GroceryStore> stores)
         {
+     
+
             var details = new List<TravelDetail>();
-            stores ??= new List<GroceryStore>();
+       
+
             foreach (var address in addresses)
             {
-                var (travel, store) = await GetTravelTimes(address);
-
+                var (travel, _stores) = await getData(address, stores);
+        
                 details.Add(travel);
-                if (stores.All(a => a.ID != store.ID)) stores.Add(store);
+                stores = _stores;
             }
 
             return Tuple.Create(details, stores);
         }
+        
 
-        /// <summary>
-        /// Gets travel information for a specific address, returns tuple, travel detail and grocery store
-        /// </summary>
-        /// <param name="address">Specific address used to get travel details</param>
-        /// <returns></returns>
-        public static async Task<Tuple<TravelDetail, GroceryStore>> GetTravelTimes(Address address)
+            public static async Task<Tuple<TravelDetail, List<GroceryStore>>> getData(Address address, List<GroceryStore> groceryStores)
         {
-            //Gets rough estimate of closest grocery stores based on distance of a direct line from address to selected location
-            var request = $"/maps/api/place/nearbysearch/json?location={address.Latitude},%20{address.Longitude}&rankby=distance&keyword=supermarket%20store&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&";
+            var request =
+                $"/maps/api/place/nearbysearch/json?location={address.Latitude},%20{address.Longitude}&rankby=distance&keyword=supermarket%20store&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&";
+
             var response = await client.GetAsync(request);
             if (!response.IsSuccessStatusCode) throw new Exception("Could not access the Nearest Grocery Stores");
 
             var jsonString = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(JsonConvert.DeserializeObject<object>(jsonString));
+             Console.WriteLine(JsonConvert.DeserializeObject<object>(jsonString));
 
             var root = await response.Content.ReadAsAsync<Root>();
 
+            var grocery = root.results[0];
 
-            //The two closest stores returned from the api
-            var possibleStores = new List<GroceryStore>
+            if (groceryStores.All(g => g.ID != grocery.place_id))
             {
-                GetStore(root.results[0]),
-                GetStore(root.results[1]),
+                groceryStores.Add(new GroceryStore
+                {
+                    ID = grocery.place_id,
+                    Name = grocery.name,
+                    FullAddress = grocery.vicinity,
+                    Latitude = grocery.geometry.location.lat,
+                    Longitude = grocery.geometry.location.lng,
+                });
 
+            }
+
+
+            var travel = new TravelDetail
+            {
+                GroceryID = grocery.place_id,
+                AddressID = address.ID,
             };
-            //Evaluates actual travel times of two closest stores to equate the closest store based on durataion rather than distance
-            //Additionally Completes first Distance matrix call, getting both the distance and driving duration for Grow, and Grocery store
-            var (travel, grocery) = await ConfirmNearestStore(possibleStores, address);
 
-            string[] travelTypes = { "bicycling", "walking" };
 
-            //Gets travel duration for biking and walking
+            string[] travelTypes = { "driving", "bicycling", "walking"};
+            var growID = "ChIJN7B0Fp9D04kRjFOKVQ0oblk";
+
             foreach (var type in travelTypes)
             {
                 var Distancerequest = $"/maps/api/distancematrix/json?origins=place_id:{address.PlaceID}&destinations=place_id:{growID}%7Cplace_id:{travel.GroceryID}&mode={type}&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&";
@@ -115,8 +118,16 @@ namespace PinewoodGrow.Data.Repositorys
                 if (!Distanceresponse.IsSuccessStatusCode) throw new Exception("Could not Get Distance matrix");
                 var values = JObject.Parse(await Distanceresponse.Content.ReadAsStringAsync());
 
+            
                 switch (type)
                 {
+                    case "driving":
+                        travel.GrowDrive = ((double)values["rows"][0]["elements"][0]["duration"]["value"]);
+                        travel.GrowDistance = ((double)values["rows"][0]["elements"][0]["distance"]["value"]);
+
+                        travel.GroceryDrive = ((double)values["rows"][0]["elements"][1]["duration"]["value"]);
+                        travel.GroceryDistance = ((double)values["rows"][0]["elements"][1]["distance"]["value"]);
+                        break;
                     case "bicycling":
                         travel.GrowBike = ((double)values["rows"][0]["elements"][0]["duration"]["value"]);
                         travel.GroceryBike = ((double)values["rows"][0]["elements"][1]["duration"]["value"]);
@@ -128,80 +139,16 @@ namespace PinewoodGrow.Data.Repositorys
                 }
 
             }
-            return Tuple.Create(travel, grocery);
+
+            //var x = 1;
+            return Tuple.Create(travel, groceryStores);
+
+
+
         }
-        /// <summary>
-        /// Converts result from api call to Grocery store object
-        /// </summary>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        internal static GroceryStore GetStore(Result result)
-        {
-            return new GroceryStore
-            {
-                ID = result.place_id,
-                Name = result.name,
-                FullAddress = result.vicinity,
-                Latitude = result.geometry.location.lat,
-                Longitude = result.geometry.location.lng
-            };
-        }
-        /// <summary>
-        /// Calculates driving duration between household and its two nearest grocery stores to deterimin the closest store based on duration.
-        /// Returns the closest Grocery store and Traveldetail containing both the grocery store and grows travel distance and driving duration 
-        /// </summary>
-        /// <param name="possibleStores">List of 2 closest Stores</param>
-        /// <param name="address">Address origin point of distance calculation</param>
-        /// <returns></returns>
-        internal static async Task<Tuple<TravelDetail, GroceryStore>> ConfirmNearestStore(List<GroceryStore> possibleStores, Address address)
-        {
-            var Distancerequest = $"/maps/api/distancematrix/json?origins=place_id:{address.PlaceID}&destinations=place_id:{growID}%7Cplace_id:{possibleStores[0].ID}%7Cplace_id:{possibleStores[1].ID}&mode=driving&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&";
-            var Distanceresponse = await client.GetAsync(Distancerequest);
-            if (!Distanceresponse.IsSuccessStatusCode) throw new Exception("Could not Get Distance matrix");
-            var values = JObject.Parse(await Distanceresponse.Content.ReadAsStringAsync());
-
-            var element = 1;
-
-
-            if (((double)values["rows"][0]["elements"][1]["duration"]["value"]) >
-                ((double)values["rows"][0]["elements"][2]["duration"]["value"]))
-            {
-                element = 2;    //if second store duration is lesser, use it
-            }
-
-            var travel = new TravelDetail
-            {
-                GroceryID = possibleStores[element - 1].ID,
-                AddressID = address.ID,
-                GrowDrive = ((double)values["rows"][0]["elements"][0]["duration"]["value"]),
-                GrowDistance = ((double)values["rows"][0]["elements"][0]["distance"]["value"]),
-                GroceryDrive = ((double)values["rows"][0]["elements"][element]["duration"]["value"]),
-                GroceryDistance = ((double)values["rows"][0]["elements"][element]["distance"]["value"]),
-            };
-
-            var groceryStore = possibleStores[element - 1];
-            return Tuple.Create(travel, groceryStore);
-        }
-
-
+    
     }
 }
-//	PlaceID ChIJbf6m4jFD04kR1yYC_1dzufs
-// 	Latitude 43.1090012
-// 	Longitude -79.0757509
-
-
-//Your everything Store  , Closet Place Id ChIJQ5LXLi9D04kRXMX3xTAM3FM
-// Lococo's (Victoria) Vegetables and Meats, second place ID ChIJm9VTOy1D04kRklz9MMK3bek"
-
-// https://maps.googleapis.com//maps/api/place/nearbysearch/json?location=43.1090012,%20-79.0757509&rankby=distance&keyword=supermarket%20store&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&"
-
-//https://maps.googleapis.com/maps/api/distancematrix/json?origins=place_id:ChIJbf6m4jFD04kR1yYC_1dzufs&destinations=place_id:ChIJN7B0Fp9D04kRjFOKVQ0oblk%7Cplace_id:ChIJQ5LXLi9D04kRXMX3xTAM3FM%7Cplace_id:ChIJm9VTOy1D04kRklz9MMK3bek&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&
-
-
-// https://maps.googleapis.com//maps/api/place/nearbysearch/json?location=42.96808,%20-79.18249999999999&rankby=distance&keyword=supermarket%20store&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&
-
-
 
 
 //https://maps.googleapis.com/maps/api/distancematrix/json?origins=place_id:ChIJ53qpLDJD04kR7KjCIsq7cTc&destinations=place_id:ChIJN7B0Fp9D04kRjFOKVQ0oblk%7Cplace_id:ChIJdcUvjjFD04kRq6g4mn5ujvU&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&

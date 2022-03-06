@@ -11,9 +11,6 @@ namespace PinewoodGrow.Models
         public Product()
         {
             SaleDetails = new HashSet<SaleDetail>();
-            productUnitPrices = new HashSet<ProductUnitPrice>();
-            Invoices = new HashSet<Invoice>();
-
         }
         public int ID { get; set; }
 
@@ -28,14 +25,6 @@ namespace PinewoodGrow.Models
         [Range(0.00, 999.99, ErrorMessage = "Unit Price must be between $0 and $999.99")]
         public double UnitPrice { get; set; }
 
-        [Display(Name = "Product Type")]
-        [Required(ErrorMessage = "You cannot leave Product Type blank")]
-        public int ProductTypeID { get; set; }
-        public ProductType ProductType { get; set; }
-
         public ICollection<SaleDetail> SaleDetails { get; set; }
-        public ICollection<ProductUnitPrice> productUnitPrices { get; set; }
-
-        public ICollection<Invoice> Invoices { get; set; }
     }
 }

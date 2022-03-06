@@ -53,40 +53,7 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
-                if (!context.Products.Any())
-                {
-                    var products = new List<Product>
-                    {
-                        new Product { ID = 1, Name = "Anise / Fennel", UnitPrice = 1.50},
-                        new Product { ID = 2, Name = "Apples", UnitPrice = 0.10},
-                        new Product { ID = 3, Name = "Avocado large", UnitPrice = 1.00},
-                        new Product { ID = 4, Name = "Avocado small", UnitPrice = 0.50},
-                        new Product { ID = 5, Name = "Bananas", UnitPrice = 0.10},
-                        new Product { ID = 6, Name = "Blueberries / Blackberries", UnitPrice = 1.50},
-                        new Product { ID = 7, Name = "Broccoli", UnitPrice = 2.00},
-                        new Product { ID = 8, Name = "Brussel Sprouts", UnitPrice = 1.00}
-                    };
-                    context.Products.AddRange(products);
-                    context.SaveChanges();
-                }
-                if (!context.ProductUnitPrices.Any())
-                {
-                    var unitPrice = new List<ProductUnitPrice>
-                    {
-                        new ProductUnitPrice { ProductPrice = 1.50, ProductID=context.Products.FirstOrDefault(d => d.Name == "Anise / Fennel").ID, },
-                        new ProductUnitPrice { ProductPrice = 0.10, ProductID=context.Products.FirstOrDefault(d => d.Name == "Apples").ID, },
-                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Avocado large").ID, },
-                        new ProductUnitPrice { ProductPrice = 0.50, ProductID=context.Products.FirstOrDefault(d => d.Name == "Avocado small").ID, },
-                        new ProductUnitPrice { ProductPrice = 0.10, ProductID=context.Products.FirstOrDefault(d => d.Name == "Bananas").ID, },
-                        new ProductUnitPrice { ProductPrice = 1.50, ProductID=context.Products.FirstOrDefault(d => d.Name == "Blueberries / Blackberries").ID, },
-                        new ProductUnitPrice { ProductPrice = 2.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Broccoli").ID, },
-                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Brussel Sprouts").ID, },
-                    };
-                    context.ProductUnitPrices.AddRange(unitPrice);
-                    context.SaveChanges();
-                }
-
-                if (!context.Dietaries.Any())
+				if (!context.Dietaries.Any())
 				{
 					var dietaries = new List<Dietary>
 					{
@@ -141,51 +108,6 @@ namespace PinewoodGrow.Data
                     context.Payments.AddRange(payments);
                     context.SaveChanges();
                 }
-
-                if (!context.ProductTypes.Any())
-                {
-                    var productTypes = new List<ProductType>
-                    {
-                        new ProductType { ID = 1, Type = "Produce"},
-                        new ProductType { ID = 2, Type = "Freezer"},
-                        new ProductType { ID = 3, Type = "Dairy/Eggs/Bread"},
-                        new ProductType { ID = 4, Type = "Pantry"},
-                        new ProductType { ID = 5, Type = "Specials"},
-                        new ProductType { ID = 6, Type = "Other"}
-                    };
-                    context.ProductTypes.AddRange(productTypes);
-                    context.SaveChanges();
-                }
-
-                if (!context.Products.Any())
-                {
-                    var products = new List<Product>
-                    {
-                        new Product { ID = 101, Name = "Apples", UnitPrice = 0.10, ProductTypeID = 1},
-                        new Product { ID = 104, Name = "Bananas ", UnitPrice = 0.10, ProductTypeID = 1},
-                        new Product { ID = 127, Name = "Cabbage", UnitPrice = 2.00, ProductTypeID = 1},
-                        new Product { ID = 112, Name = "Corn", UnitPrice = 0.25, ProductTypeID = 1},
-                        new Product { ID = 201, Name = "Chicken Legs (2)", UnitPrice = 1.00, ProductTypeID = 2},
-                        new Product { ID = 203, Name = "Chicken Thighs (4lbs)", UnitPrice = 3.00, ProductTypeID = 2},
-                        new Product { ID = 205, Name = "Ground Beef", UnitPrice = 2.75, ProductTypeID = 2},
-                        new Product { ID = 207, Name = "Fish (Haddock / Basa)", UnitPrice = 1.00, ProductTypeID = 2},
-                        new Product { ID = 302, Name = "Bread Costco", UnitPrice = 0.50, ProductTypeID = 3},
-                        new Product { ID = 303, Name = "Butter", UnitPrice = 1.00, ProductTypeID = 3},
-                        new Product { ID = 306, Name = "Eggs (12)", UnitPrice = 2.00, ProductTypeID = 3},
-                        new Product { ID = 311, Name = "Milk - 1L", UnitPrice = 1.00, ProductTypeID = 3},
-                        new Product { ID = 401, Name = "Apple Sauce", UnitPrice = 1.00, ProductTypeID = 4},
-                        new Product { ID = 445, Name = "Coffee", UnitPrice = 4.00, ProductTypeID = 4},
-                        new Product { ID = 425, Name = "Pasta", UnitPrice = 0.75, ProductTypeID = 4},
-                        new Product { ID = 417, Name = "Kraft Dinner", UnitPrice = 1.00, ProductTypeID = 4},
-                        new Product { ID = 501, Name = "Cat Food (Wet)", UnitPrice = 0.50, ProductTypeID = 5},
-                        new Product { ID = 502, Name = "GROW Soup", UnitPrice = 2.50, ProductTypeID = 5},
-                        new Product { ID = 503, Name = "Deoderant", UnitPrice = 1.00, ProductTypeID = 5},
-                        new Product { ID = 504, Name = "Ramen", UnitPrice = 0.25, ProductTypeID = 5},
-                    };
-                    context.Products.AddRange(products);
-                    context.SaveChanges();
-                }
-
 
                 if (!context.Addresses.Any())
 				{
@@ -500,7 +422,7 @@ namespace PinewoodGrow.Data
                         {
                             ID = "ChIJnW3xZDpD04kRPFDm3Gj7_FE",
                             FullAddress = "5124 Morrison St, Niagara Falls",
-                            Name = "Morrison Variety & Grocery",
+                            Name = "Morrison Variety &amp; Grocery",
                             Latitude = 43.104396,
                             Longitude = -79.079185
                         },

@@ -195,7 +195,7 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID,ODSPIncome,OWIncome,CPPIncome,EIIncome,GAINSIncome,PSIncome,OIncome,EIncome")] Member member,
+            ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID")] Member member,
             string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles
             )
             //string Lat, string Lng, string AddressName, string postal, string city
@@ -306,9 +306,9 @@ namespace PinewoodGrow.Controllers
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
             UpdateMemberIllnesses(selectedIllnessOptions, memberToUpdate);
 
-            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, 
-                m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, m => m.GenderID,
-                m => m.ODSPIncome, m => m.OWIncome, m => m.CPPIncome, m => m.EIIncome, m => m.GAINSIncome, m => m.PSIncome, m => m.OIncome, m => m.EIncome))
+            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, m => m.Email,
+                m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, 
+                m => m.GenderID))
             //m => m.FamilySize, m => m.AddressID, m => m.Address
             {
                 try
@@ -566,7 +566,7 @@ namespace PinewoodGrow.Controllers
             //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "Name", member?.VolunteerID);
-            ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary", member?.HouseholdID);
+            ViewData["HouseholdID"] = new SelectList(_context.Households, "ID", "ID", member?.HouseholdID);
         }
 
         public async Task<FileContentResult> Download(int id)

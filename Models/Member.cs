@@ -93,52 +93,14 @@ namespace PinewoodGrow.Models
 		[Required(ErrorMessage = "You cannot leave the Email blank.")]
 		[DataType(DataType.EmailAddress)]
 		public string Email { get; set; }
+
+		
+
 		
 		[Required(ErrorMessage = "You cannot leave the Income blank.")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 22186, ErrorMessage = "Income must be between $0 and $22,186.")]
 		public double Income { get; set; }
-
-		[Display(Name = "ODSP Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "ODSP Income must be between $0 and $22,186.")]
-		public double ODSPIncome { get; set; }
-
-		[Display(Name = "Ontario Works Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "Ontario Works Income must be between $0 and $22,186.")]
-		public double OWIncome { get; set; }
-
-		[Display(Name = "CPP-Disability Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "CPP-Disability Income must be between $0 and $22,186.")]
-		public double CPPIncome { get; set; }
-
-		[Display(Name = "EI Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "EI Income must be between $0 and $22,186.")]
-		public double EIIncome { get; set; }
-
-		[Display(Name = "GAINS (For Seniors) Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "GAINS (For Seniors) Income must be between $0 and $22,186.")]
-		public double GAINSIncome { get; set; }
-
-		[Display(Name = "Post-Sec. Student Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "Income must be between $0 and $22,186.")]
-		public double PSIncome { get; set; }
-
-		[Display(Name = "Other Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "Other Income must be between $0 and $22,186.")]
-		public double OIncome { get; set; }
-
-		[Display(Name = "Employed Income")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 22186, ErrorMessage = "Employed Income must be between $0 and $22,186.")]
-		public double EIncome { get; set; }
-
 
 		[StringLength(2000, ErrorMessage = "Member Notes cannot be more than 2000 characters long.")]
 		[DataType(DataType.MultilineText)]

@@ -1,229 +1,232 @@
-﻿@using PinewoodGrow.ViewModels
-
+﻿
 
 @{
     ViewData["Title"] = "Index";
 }
 @*Lowest
-    Low
-    Mid
-    High
-    Top*@
-
-<div class="test1">
-    <h1 id="test">Maps</h1>
-</div>
-<link rel="stylesheet" href="/css/MapStyle.css" />
-<style>
-</style>
+Low
+Mid
+High
+Top*@
+<h1 id="test">Maps</h1>
+@*<style>
+    
+    .custom-control-input:focus ~ 
+          .custom-control-label::before  {
+        /* when the button is toggled off 
+  it is still in focus and a violet border will appear */
+        border-color: violet !important;
+        /* box shadow is blue by default
+  but we do not want any shadow hence we have set 
+  all the values as 0 */
+        box-shadow:
+                  0 0 0 0rem rgba(0, 0, 0, 0) !important;
+    }
+  
+    /*sets the background color of
+          switch to violet when it is checked*/
+    .custom-control-input:checked ~
+    .custom-control-label::before  {
+        border-color: violet !important;
+        background-color: violet !important;
+    }
+  
+    /*sets the background color of
+          switch to violet when it is active*/
+    .custom-control-input:active ~
+    .custom-control-label::before  {
+        background-color: violet !important;
+        border-color: violet !important;
+    }
+  
+    /*sets the border color of switch
+          to violet when it is not checked*/
+    .custom-control-input:focus:
+    not(:checked) ~ .custom-control-label::before {
+                      border-color: violet !important;
+                  }
+    
+</style>*@
 
 <div style="margin: 22px">
     <div class="form-inline d-flex justify-content-center md-form form-sm mt-0">
         <i class="fas fa-search" aria-hidden="true"></i>
-        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+        <input  class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
                aria-label="Search" id="autocomplete">
-    </div>
 
+    </div>
     <div class="row">
         <div class="custom-control custom-switch m-3">
-            <input type="checkbox" checked="checked" class="custom-control-input green" id="TopSwitch" style="" onclick="filter()">
-            <label class="custom-control-label green" for="TopSwitch">20-25k</label>
+            <input type="checkbox" checked="checked" class="custom-control-input purple" id="TopSwitch" style="" onclick="filter()">
+            <label class="custom-control-label purple" for="TopSwitch">20-25k</label>
         </div>
         <div class="custom-control custom-switch m-3">
-            <input type="checkbox" checked="checked" class="custom-control-input yellow" id="HighSwitch" onclick="filter()">
-            <label class="custom-control-label yellow" for="HighSwitch">15-20k</label>
+            <input type="checkbox" checked="checked" class="custom-control-input" id="HighSwitch" onclick="filter()">
+            <label class="custom-control-label" for="HighSwitch">15-20k</label>
         </div>
         <div class="custom-control custom-switch m-3">
-            <input type="checkbox" checked="checked" class="custom-control-input purple" id="MidSwitch" onclick="filter()">
-            <label class="custom-control-label purple" for="MidSwitch">10-15k</label>
+            <input type="checkbox" checked="checked" class="custom-control-input" id="MidSwitch" onclick="filter()">
+            <label class="custom-control-label" for="MidSwitch">10-15k</label>
         </div>
         <div class="custom-control custom-switch m-3">
-            <input type="checkbox" checked="checked" class="custom-control-input red" id="LowSwitch" onclick="filter()">
-            <label class="custom-control-label red" for="LowSwitch">5-10k</label>
+            <input type="checkbox" checked="checked" class="custom-control-input" id="LowSwitch" onclick="filter()">
+            <label class="custom-control-label" for="LowSwitch">5-10k</label>
         </div>
         <div class="custom-control custom-switch m-3">
-            <input type="checkbox" checked="checked" class="custom-control-input blue" id="LowestSwitch" onclick="filter()">
-            <label class="custom-control-label blue" for="LowestSwitch">0-5k</label>
+            <input type="checkbox" checked="checked" class="custom-control-input" id="LowestSwitch" onclick="filter()">
+            <label class="custom-control-label" for="LowestSwitch">0-5k</label>
         </div>
         @*<textarea id="output" style="width: 70vw; height: 70vh; margin: 10vh 10vw"></textarea>*@
     </div>
 </div>
 <div id="map" style="height: 900px; width: 100%"></div>
 
-@{
-    TravelStats stats = ViewBag.TravelStats;
+<script>
+    const template = document.createElement('template');
+    template.innerHTML = `
+<style>
+.popup {
+    width: 400px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.pop-title{
+
+}
+.pop-title img{
+    position:relative;
+    top: -60px;
+}
+.pop-title h1 {
+    font-size: 24px;
+    margin-bottom: 0;
+
+}
+.popup h2{
+    font-size: 20px
+    margin-top: 0;
+}
+.popup h2, h3 {
+    font-weight: 300;
+}
+.popup h3 {
+   width: 60%;
 }
 
-<div class="travel-container">
-    <div class="travel-title">
-        <h1>Average Travel Times & Distance</h1>
-    </div>
-    <div class="travel-display colored">
-        <div class="distance bg-white">
-            <div class="distance-title-color">
-                <h2>Grow</h2>
-            </div>
-            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
-            <p>@stats.Grow.DistanceFormat</p>
-        </div>
-        <div class="travel-avg">
-            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
-            <p>@stats.Grow.DriveFormat</p>
-        </div>
-        <div class="travel-avg">
-            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
-            <p>@stats.Grow.BikeFormat</p>
-        </div>
-        <div class="travel-avg">
-            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
-            <p>@stats.Grow.WalkFormat</p>
-        </div>
-    </div>
-    <div class="travel-display colored">
-        <div class="distance bg-white">
-            <div class="distance-title-color">
-                <h2>Grocery</h2>
-            </div>
-            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
-            <p>@stats.Store.DistanceFormat</p>
-        </div>
-        <div class="travel-avg">
-            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
-            <p>@stats.Store.DriveFormat</p>
-        </div>
-        <div class="travel-avg">
-            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
-            <p>@stats.Store.BikeFormat</p>
-        </div>
-        <div class="travel-avg">
-            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
-            <p>@stats.Store.WalkFormat</p>
-        </div>
 
+.pop-content li {
+    display: flex;
+
+    width: 90px;
+}
+.list-time{
+    float:left;
+}
+
+.list-time > p{
+display: inline-block;
+margin: 0 10px;
+
+font-size: 17px;
+    font-weight: 300;
+}
+#groceryName{
+margin-top: 60px;
+}
+}
+
+
+</style>
+    <div class="popup">
+    <div class="pop-title">
+
+    <h1 id="FullAddress"></h1>
+    <h2>Household</h2>
+
+    </div>
+    <div class="pop-content">
+        <div class="row">
+            <dl>
+                <dt>Income:</dt>
+                <dd id="income"></dd>
+                <dt>Family Size:</dt>
+                <dd id="size"></dd>
+            </dl>
+    </div>
+
+        <div class="row">
+            <h2>Travel</h2>
+            <h3>Grow Community Center</h3>
+                <ul>
+                    <li class="list-time">
+                        <img src="svg/distance.svg" alt="Distance to Grow community Center, in meters"/>
+                        <p id="growDistance"></p>
+                    </li>
+                    <li class="list-time">
+                    <img src="svg/drive.svg" alt="Time to Drive to Grow Community Center, in seconds"/>
+                    <p id="growDrive"></p>
+                    </li>
+                    <li class="list-time" >
+                    <img src="svg/bike.svg" alt="Time to bike"/>
+                    <p id="growBike"></p>
+                    </li>
+                    <li class="list-time">
+                    <img src="svg/walk.svg" alt="time to walk"/>
+                    <p id="growWalk"></p>
+                    </li>
+                </ul>
+            <h3 name="groceryName" id="groceryName"></h3>
+            <ul>
+                <li class="list-time">
+                    <img src="svg/distance.svg" alt="Distance to nearest grocery store, in meters"/>
+                    <p id="groceryDistance"></p>
+                </li>
+                <li class="list-time">
+                <img src="svg/drive.svg" alt="Time to Drive to nearest grocery store, in seconds"/>
+                <p id="groceryDrive"></p>
+                </li>
+                <li class="list-time">
+                    <img src="svg/bike.svg" alt="time to bike"/>
+                    <p id="groceryBike"></p>
+                    </li>
+                <li class="list-time">
+                <img src="svg/walk.svg" alt="time to walk"/>
+                <p id="groceryWalk"></p>
+                </li>
+            </ul>
+        </div>
+    </div>
     </div>
 </div>
-<h2 style="color: #397a4c;">Graphs</h2>
-<div>
-    <canvas id="growChart"></canvas>
-</div>
-
-@*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" 
-        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" 
-        crossorigin="anonymous" 
-        referrerpolicy="no-referrer"></script>*@
-
-<script>
-
-
-   
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var GrowPoints = [];
-    var GroceryPoints = [];
-    @{
-        List<PinewoodGrow.ViewModels.TravelDataPoints> Points = ViewBag.TravelData;
-        foreach (var point in Points.OrderBy(a=> a.Income))
-        {
-                  <text>
-    var growPoint = { x: @point.Income, y: @point.GrowDistance}
-    var groceryPoint = { x: @point.Income, y: @point.GroceryDistance}
-                        GrowPoints.push(growPoint);
-                        GroceryPoints.push(groceryPoint);
-                  </text>
+`;
+    class pop extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({ mode: 'open' });
+            this.shadowRoot.appendChild(template.content.cloneNode(true));
+            this.shadowRoot.getElementById('FullAddress').innerText = this.getAttribute('name');
+            this.shadowRoot.getElementById('income').innerText = this.getAttribute('data-income');
+            this.shadowRoot.getElementById('size').innerText = this.getAttribute('data-size');
+            this.shadowRoot.getElementById('growDistance').innerText = this.getAttribute('data-growDistance');
+            this.shadowRoot.getElementById('growDrive').innerText = this.getAttribute('data-growDrive');
+            this.shadowRoot.getElementById('growBike').innerText = this.getAttribute('data-growBike');
+            this.shadowRoot.getElementById('growWalk').innerText = this.getAttribute('data-growWalk');
+            this.shadowRoot.getElementById('groceryName').innerText = this.getAttribute('data-groceryName');
+            this.shadowRoot.getElementById('groceryDistance').innerText =  this.getAttribute('data-groceryDistance');
+            this.shadowRoot.getElementById('groceryDrive').innerText = this.getAttribute('data-groceryDrive');
+            this.shadowRoot.getElementById('groceryBike').innerText = this.getAttribute('data-groceryBike');
+            this.shadowRoot.getElementById('groceryWalk').innerText = this.getAttribute('data-groceryWalk');
         }
-
     }
- 
-
-
-
-
-
-    const data = {
-        datasets: [{
-            label: 'Grow',
-            backgroundColor: 'rgb(57,122,76)',
-            borderColor: 'rgb(57,122,76)',
-            data: GrowPoints,
-            /*showLine: true,
-            tension: 0.4*/
-
-        }, {
-            label: 'Grocery Store',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                 data: GroceryPoints,
-                /*showLine: true,
-                tension: 0.4*/
-
-            }]
-    };
-
-    const config = {
-        type: 'scatter',
-        data: data,
-        options: {
-            /*title: {
-                display: true,
-                text: 'Household Distance to Grow Community Market And Grocery Store by Household Income'
-            },*/
-                    plugins: {
-            title: {
-                display: true,
-                            text: 'Household Distance to Grow Community Market / Grocery Store by Household Income',
-                font: {
-                    size: 20,
-                    lineHeight: 1.2
-                }
-            }
-        },
-                    scales: {
-            x: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Household Income',
-                    font: {
-                        size: 18,
-                        lineHeight: 1.2
-                    }
-                }
-            },
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Distance Meters',
-                    font: {
-                        size: 18,
-                        lineHeight: 1.2
-                    }
-                }
-            }
-            }
-                    }
-    };
-  
-</script>
-<script>
-    const myChart = new Chart(
-        document.getElementById('growChart'),
-        config
-    );
-</script>
-
-
-<script src="js/MapPopup.js"></script>
-<script src="js/StorePopup.js"></script>
-<script>
 
     window.customElements.define('marker-pop', pop);
-    window.customElements.define('store-pop', storePop);
+
+
     let autocomplete;
     var MarkersArr = [];
     var map;
+
+
     function initMap() {
         const infoWindow = new google.maps.InfoWindow();
         autocomplete = new google.maps.places.Autocomplete(
@@ -244,50 +247,21 @@
                 center: Grow,
                 mapId: 'db31debbd2731710'
             });
-        //Grow Maker
+
         const MainMarker = new google.maps.Marker({
             position: Grow,
             map: map,
             title: 'Grow',
-            icon: '/images/GrowMapIcon.png',
-
-        });
-        google.maps.event.addListenerOnce(map, 'idle', function(){
-            window.jQuery('gm-style-iw gm-style-iw-c').prev('div').remove();
+            icon: '/images/GrowMapIcon.png'
         });
 
 
-        //Creates markers for All Grocery Stores
+
 
         @{
-            List<PinewoodGrow.ViewModels.StoreMapMarker> Stores = ViewBag.Stores;
-            foreach (var store in Stores)
-            {
-                <text>
-
-                    var marker = new window.google.maps.Marker({
-                        map: map,
-                        category: 'store',
-                        position: { lat: @store.Lat, lng: @store.Lng },
-                        title: '@store.Name',
-                        icon: '/images/storeIcon.png',
-
-                    });
-                    google.maps.event.addListener(marker, 'click', function(){
-                        infoWindow.close(); // Close previously opened infowindow
-                        infoWindow.setContent(`<store-pop name="@store.Name" data-fullAddress="@store.FullAddress" data-households="@store.HouseholdCount" data-members="@store.MemberCount"></store-pop>`);
-                        infoWindow.open(map, this);
-                    });
-                </text>
-            }
-        }
-
-        //Creates markers for all households
-        @{
-                List<PinewoodGrow.ViewModels.MapMarker> mapMarkers = ViewBag.Markers;
+            List<PinewoodGrow.ViewModels.MapMarker> mapMarkers = ViewBag.Markers;
             foreach (var mapMarker in mapMarkers)
             {
-
 
                 <text>
 
@@ -296,47 +270,62 @@
                         category: '@mapMarker.Category',
                         position: { lat: @mapMarker.Lat, lng: @mapMarker.Lng },
                         title: '@mapMarker.Address',
-                        icon: '@mapMarker.Icon',
+                        icon: '@mapMarker.Color',
                         content: '<marker-pop name="@mapMarker.Address"></marker-pop>'
+                        /*icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png',
+                        icon_background_color: '#7B9EB0',
+                        icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet"*/
                     });
                     google.maps.event.addListener(marker, 'click', function(){
                         infoWindow.close(); // Close previously opened infowindow
                         infoWindow.setContent(`<marker-pop name="@mapMarker.Address" data-size="@mapMarker.FamilySize" data-income="@mapMarker.Income"
                                                 data-growDrive="@mapMarker.GrowDrive" data-growBike= "@mapMarker.GrowBike" data-growWalk="@mapMarker.GrowWalk"  data-growDistance="@mapMarker.GrowDistance"
                                                 data-groceryDrive = "@mapMarker.GroceryDrive" data-groceryBike = "@mapMarker.GroceryBike" data-groceryWalk = "@mapMarker.GroceryWalk" data-groceryDistance = "@mapMarker.GroceryDistance"
-                                                data-groceryName = "@mapMarker.GroceryName" data-background= "@mapMarker.Color" data-familyName="@mapMarker.FamilyName" data-id="@mapMarker.ID" ></marker-pop>`);
+                                                data-groceryName = "@mapMarker.GroceryName"></marker-pop>`);
                         infoWindow.open(map, this);
                     });
-                    //Adds markers to javascript marker array
-                    MarkersArr.push(marker);
                 </text>
 
             }
         }
+        MarkersArr.forEach(m => console.log(m.title));
 
-        //Closses Popup when clicking map
+
         google.maps.event.addListener(map, "click", function(event) {
             infoWindow.close();
         });
 
-        //When new place is entered move map to said locaiton
+
         function onPlaceChanged() {
             var place = autocomplete.getPlace();
             if (!place.geometry) {
                 document.getElementById('autocomplete').placeholder = 'Enter a place';
-                return;
-            }
-            map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
+            } else {
 
+                //Centers the map around searched locaiton
+                console.log(place);
+                map.setCenter({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
+                console.log(place.address_components);
+
+                //Gets Address Full Name
+                console.log(place.name);
+                //Gets Postal Code
+                console.log(place.address_components.find(a => a.types[0] === 'postal_code').long_name);
+                //Gets City
+                console.log(place.address_components.find(a => a.types[0] === 'locality').long_name);
+
+            }
         }
     }
-    //Filters markers
+
     function filter() {
         var Top = document.getElementById('TopSwitch').checked;
         var High = document.getElementById('HighSwitch').checked;
         var Mid = document.getElementById('MidSwitch').checked;
         var Low = document.getElementById('LowSwitch').checked;
         var Lowest = document.getElementById('LowestSwitch').checked;
+
+
 
         for (var i = 0; i < MarkersArr.length; i++) {
             if ((MarkersArr[i].category === "Top" && Top) ||
@@ -345,10 +334,13 @@
                 (MarkersArr[i].category === "Low" && Low) ||
                 (MarkersArr[i].category === "Lowest" && Lowest)) {
                 MarkersArr[i].setMap(map);
-                console.log(MarkersArr[i]);
+                console.log("Hidden");
             }
+
+
             else
                 MarkersArr[i].setMap(null);
+
         }
     }
 </script>
@@ -357,6 +349,8 @@
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 
+@*</body>
+    </html>*@
 
 
 

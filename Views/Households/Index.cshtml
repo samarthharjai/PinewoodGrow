@@ -5,104 +5,103 @@
 <h1 style="text-align: center">Household List</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-sm btn-info right float-right">Create Household</a>
+	<a asp-action="Create" class="btn btn-sm btn-info right float-right">Create New</a>
 </p>
 
 <style>
-    table {
-        margin: 0 auto;
-    }
+	table {
+		margin: 0 auto;
+	}
 </style>
 
 <br />
-<br />
 <form asp-action="Index" method="get">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ID)
-                </th>
-                <th>
-                    Family Name
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HouseIncome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LICO)
-                </th>
-                <th>
-                    Family Size
-                </th>
-                <th>
-                    Address
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FamilyName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HouseIncome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LICO)
-                    </td>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.ID)
+				</th>
+				<th>
+					Family Name
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.HouseIncome)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.LICO)
+				</th>
+				<th>
+					Family Size
+				</th>
+				<th>
+					Address
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.ID)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.FamilyName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.HouseIncome)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.LICO)
+				</td>
 
-                    @*<td>
-                            @{
-                                int memberCount = item.Members.Count;
-                                if (memberCount > 0)
-                                {
-                                    string firstMember = item.Members.FirstOrDefault().FullName;
-                                    if (memberCount > 1)
-                                    {
-                                        string memberList = "";
-                                        var c = item.Members.ToList();
-                                        for (int i = 1; i < memberCount; i++)
-                                        {
-                                            memberList += c[i].FullName + " <br />";
-                                        }
-                                        <a class="" role="button" data-toggle="collapse" href="#collapseAthlete@(item.ID)"
-                                           aria-expanded="false" aria-controls="collapseAthlete@(item.ID)">
-                                            @firstMember... <span class="badge badge-info">@memberCount</span>
-                                        </a>
-                                        <div class="collapse" id="collapseAthlete@(item.ID)">
-                                            @Html.Raw(memberList)
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        @firstMember
-                                    }
-                                }
-                            }
-                        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FamilySize)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address.FullAddress)
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Details</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <partial name="_PagingNavBar" />
+				@*<td>
+			@{
+				int memberCount = item.Members.Count;
+				if (memberCount > 0)
+				{
+					string firstMember = item.Members.FirstOrDefault().FullName;
+					if (memberCount > 1)
+					{
+						string memberList = "";
+						var c = item.Members.ToList();
+						for (int i = 1; i < memberCount; i++)
+						{
+							memberList += c[i].FullName + " <br />";
+						}
+						<a class="" role="button" data-toggle="collapse" href="#collapseAthlete@(item.ID)"
+						   aria-expanded="false" aria-controls="collapseAthlete@(item.ID)">
+							@firstMember... <span class="badge badge-info">@memberCount</span>
+						</a>
+						<div class="collapse" id="collapseAthlete@(item.ID)">
+							@Html.Raw(memberList)
+						</div>
+					}
+					else
+					{
+						@firstMember
+					}
+				}
+			}
+		</td>*@
+				<td>
+					@Html.DisplayFor(modelItem => item.FamilySize)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Address.FullAddress)
+				</td>
+				<td>
+					<div class="btn-group">
+						<a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
+						<a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Details</a>
+					</div>
+				</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+	<partial name="_PagingNavBar" />
 </form>
 
