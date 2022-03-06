@@ -14,12 +14,13 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	theme: "light2", // "light1", "light2", "dark1", "dark2"
 	title: {
-		text: "Member's report by Income",
+        text: "Member's report by Health / Dietary Concerns",
 		fontSize: 30,
 		padding: 30
 	},
 	axisY: {
         title: "No. of Member",
+        labelAutoFit: true,
         titleFontSize: 20
 	},
     dataPointWidth: 50,
@@ -42,7 +43,7 @@ chart.render();
         <thead>
             <tr>
                 <th>
-                    Range of Income
+                    Health / Dietary Concerns
                 </th>
                 <th>
                     No. of Member
