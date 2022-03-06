@@ -26,7 +26,37 @@ namespace PinewoodGrow.Controllers
 
         public async Task<IActionResult> Index()
         {
-       
+            //Testing Travel detail calculations
+            /*var add = new Address
+            {
+                PlaceID = "ChIJTxN00As404kRsWMFndgNP6I",
+                FullAddress = "658 Doan's Ridge Rd",
+                City = "Welland",
+                PostalCode = "L3B 5N7",
+                Latitude = 42.96808,
+                Longitude = -79.18249999999999,
+            };
+            if (_context.Addresses.All(a => a.PlaceID != add.PlaceID))
+            {
+                _context.Add(add);
+                await _context.SaveChangesAsync();
+            }
+
+
+            var (travel, store) = await TravelDataRepository.GetTravelTimes(_context.Addresses.FirstOrDefault(a=> a.PlaceID == add.PlaceID));
+
+            if (_context.TravelDetails.Include(a => a.Address).All(a => a.Address.PlaceID != add.PlaceID))
+            {
+               if (_context.GroceryStores.All(a=> a.ID != store.ID))
+               {
+                   _context.Add(store);
+                   await _context.SaveChangesAsync();
+               }
+
+               _context.Add(travel);
+               await _context.SaveChangesAsync();
+            }*/
+
             var Markers = new List<MapMarker>();
 
             //Converts List of Addresses to map markers exudes all entries that do not have enter lat/longs
