@@ -195,7 +195,7 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID")] Member member,
+            ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID,ODSPIncome,OWIncome,CPPIncome,EIIncome,GAINSIncome,PSIncome,OIncome,EIncome")] Member member,
             string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles
             )
             //string Lat, string Lng, string AddressName, string postal, string city
@@ -306,9 +306,9 @@ namespace PinewoodGrow.Controllers
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
             UpdateMemberIllnesses(selectedIllnessOptions, memberToUpdate);
 
-            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, m => m.Email,
-                m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, 
-                m => m.GenderID))
+            if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, 
+                m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, m => m.GenderID,
+                m => m.ODSPIncome, m => m.OWIncome, m => m.CPPIncome, m => m.EIIncome, m => m.GAINSIncome, m => m.PSIncome, m => m.OIncome, m => m.EIncome))
             //m => m.FamilySize, m => m.AddressID, m => m.Address
             {
                 try

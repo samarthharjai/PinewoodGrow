@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220306155110_Initial")]
+    [Migration("20220306162643_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,6 +183,9 @@ namespace PinewoodGrow.Data.GMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("CPPIncome")
+                        .HasColumnType("REAL");
+
                     b.Property<DateTime>("CompletedOn")
                         .HasColumnType("TEXT");
 
@@ -192,6 +195,12 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<DateTime?>("DOB")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("EIIncome")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("EIncome")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -200,6 +209,9 @@ namespace PinewoodGrow.Data.GMigrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
+
+                    b.Property<double>("GAINSIncome")
+                        .HasColumnType("REAL");
 
                     b.Property<int>("GenderID")
                         .HasColumnType("INTEGER");
@@ -218,6 +230,18 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT")
                         .HasMaxLength(2000);
+
+                    b.Property<double>("ODSPIncome")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("OIncome")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("OWIncome")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("PSIncome")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Telephone")
                         .IsRequired()
