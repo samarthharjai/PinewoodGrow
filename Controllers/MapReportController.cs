@@ -47,7 +47,14 @@ namespace PinewoodGrow.Controllers
                     .ToList())
                 ).ToList();
 
+
+
+
             ViewData["TravelStats"] = new TravelStats(_context.TravelDetails.Select(a => a).ToList());
+
+            ViewData["TravelData"] = _context.Households.Include(a=> a.Members).Include(a => a.Address).ThenInclude(a => a.TravelDetail)
+                .Select(a => new TravelDataPoints(a, a.Address.TravelDetail)).ToList();
+
 
             ViewData["Markers"] = Markers;
 

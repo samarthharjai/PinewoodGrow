@@ -7,6 +7,21 @@ using PinewoodGrow.Models;
 namespace PinewoodGrow.ViewModels
 {
 
+    public class TravelDataPoints
+    {
+        public double Income { get; set; }
+        public double GrowDistance { get; set; }
+        public double GroceryDistance { get; set; }
+        public TravelDataPoints( Household household, TravelDetail travel)
+        {
+            Income = household.HouseIncome;
+            GrowDistance = travel.GrowDistance;
+            GroceryDistance = travel.GroceryDistance;
+        }
+
+    }
+
+
 
 
     public class TravelStats

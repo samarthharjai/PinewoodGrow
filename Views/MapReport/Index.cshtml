@@ -9,12 +9,12 @@
     Mid
     High
     Top*@
+
 <div class="test1">
     <h1 id="test">Maps</h1>
 </div>
-<link rel="stylesheet" href="/css/MapStyle.css"/>
+<link rel="stylesheet" href="/css/MapStyle.css" />
 <style>
-
 </style>
 
 <div style="margin: 22px">
@@ -63,19 +63,19 @@
             <div class="distance-title-color">
                 <h2>Grow</h2>
             </div>
-            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow"/>
+            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
             <p>@stats.Grow.DistanceFormat</p>
-        </div> 
+        </div>
         <div class="travel-avg">
-            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow"/>
+            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
             <p>@stats.Grow.DriveFormat</p>
         </div>
         <div class="travel-avg">
-            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow"/>
+            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
             <p>@stats.Grow.BikeFormat</p>
         </div>
         <div class="travel-avg">
-            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow"/>
+            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
             <p>@stats.Grow.WalkFormat</p>
         </div>
     </div>
@@ -84,30 +84,140 @@
             <div class="distance-title-color">
                 <h2>Grocery</h2>
             </div>
-            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow"/>
+            <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
             <p>@stats.Store.DistanceFormat</p>
-        </div> 
+        </div>
         <div class="travel-avg">
-            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow"/>
+            <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
             <p>@stats.Store.DriveFormat</p>
         </div>
         <div class="travel-avg">
-            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow"/>
+            <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
             <p>@stats.Store.BikeFormat</p>
         </div>
         <div class="travel-avg">
-            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow"/>
+            <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
             <p>@stats.Store.WalkFormat</p>
         </div>
-  
+
     </div>
 </div>
+<h2 style="color: #397a4c;">Graphs</h2>
+<div>
+    <canvas id="growChart"></canvas>
+</div>
+
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" 
+        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"></script>*@
+
+<script>
+
+
+   
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var GrowPoints = [];
+    var GroceryPoints = [];
+    @{
+        List<PinewoodGrow.ViewModels.TravelDataPoints> Points = ViewBag.TravelData;
+        foreach (var point in Points.OrderBy(a=> a.Income))
+        {
+                  <text>
+    var growPoint = { x: @point.Income, y: @point.GrowDistance}
+    var groceryPoint = { x: @point.Income, y: @point.GroceryDistance}
+                        GrowPoints.push(growPoint);
+                        GroceryPoints.push(groceryPoint);
+                  </text>
+        }
+
+    }
+ 
 
 
 
-    <script src="js/MapPopup.js"></script>
-    <script src="js/StorePopup.js"></script>
-    <script>
+
+
+    const data = {
+        datasets: [{
+            label: 'Grow',
+            backgroundColor: 'rgb(57,122,76)',
+            borderColor: 'rgb(57,122,76)',
+            data: GrowPoints,
+            /*showLine: true,
+            tension: 0.4*/
+
+        }, {
+            label: 'Grocery Store',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                 data: GroceryPoints,
+                /*showLine: true,
+                tension: 0.4*/
+
+            }]
+    };
+
+    const config = {
+        type: 'scatter',
+        data: data,
+        options: {
+            /*title: {
+                display: true,
+                text: 'Household Distance to Grow Community Market And Grocery Store by Household Income'
+            },*/
+                    plugins: {
+            title: {
+                display: true,
+                            text: 'Household Distance to Grow Community Market / Grocery Store by Household Income',
+                font: {
+                    size: 20,
+                    lineHeight: 1.2
+                }
+            }
+        },
+                    scales: {
+            x: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Household Income',
+                    font: {
+                        size: 18,
+                        lineHeight: 1.2
+                    }
+                }
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Distance Meters',
+                    font: {
+                        size: 18,
+                        lineHeight: 1.2
+                    }
+                }
+            }
+            }
+                    }
+    };
+  
+</script>
+<script>
+    const myChart = new Chart(
+        document.getElementById('growChart'),
+        config
+    );
+</script>
+
+
+<script src="js/MapPopup.js"></script>
+<script src="js/StorePopup.js"></script>
+<script>
 
     window.customElements.define('marker-pop', pop);
     window.customElements.define('store-pop', storePop);
@@ -241,14 +351,12 @@
                 MarkersArr[i].setMap(null);
         }
     }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initMap" async defer>
-    </script>
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initMap" async defer>
+</script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 
-    @*</body>
-        </html>*@
 
 
 
