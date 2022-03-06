@@ -9,6 +9,9 @@
 <h4>Household</h4>
 <hr />
 <form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
+    </div>
     <input type="hidden" id="Lat" name="Lat" />
     <input type="hidden" id="Lng" name="Lng" />
     <input type="hidden" id="AddressName" name="AddressName" />
@@ -18,83 +21,83 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Household.Address.FullAddress" class="control-label"></label>
-                <input asp-for="Household.Address.FullAddress"  class="form-control" id="autocomplete" />
+                <input asp-for="Household.Address.FullAddress" class="form-control" id="autocomplete" />
                 <span asp-validation-for="Household.Address.FullAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Household.Address.PostalCode" class="control-label"></label>
-                <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" name="postal" />
+                <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
                 <span asp-validation-for="Household.Address.PostalCode" class="text-danger"></span>
             </div>
         </div>
-		<div class="col-md-6">
-			<div class="form-group">
-				<label asp-for="Household.Dependants" class="control-label"></label>
-				<input asp-for="Household.Dependants" name="Dependants" class="form-control" />
-				<span asp-validation-for="Household.Dependants" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Household.FamilyName" class="control-label"></label>
-				<input asp-for="Household.FamilyName" name="FamilyName" class="form-control" />
-				<span asp-validation-for="Household.FamilyName" class="text-danger"></span>
-			</div>
-		</div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Household.Dependants" class="control-label"></label>
+                <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" placeholder="e.g. 2" class="form-control" />
+                <span asp-validation-for="Household.Dependants" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Household.FamilyName" class="control-label"></label>
+                <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" placeholder="e.g. Doe" class="form-control" />
+                <span asp-validation-for="Household.FamilyName" class="text-danger"></span>
+            </div>
+        </div>
     </div>
     <h4>Member</h4>
     <hr />
     <div class="row">
-		<div class="col-md-6">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group">
-				<label asp-for="Member.FirstName" class="control-label"></label>
-				<input asp-for="Member.FirstName" name="FirstName" class="form-control" placeholder="Last Name Eg(John)" value="Jane" />
-				<span asp-validation-for="Member.FirstName" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.LastName" class="control-label"></label>
-				<input asp-for="Member.LastName" name="LastName" class="form-control" placeholder="First Name Eg(Doe)" value="Doe" />
-				<span asp-validation-for="Member.LastName" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.DOB" class="control-label"></label>
-				<input asp-for="Member.DOB" class="form-control" value="1997-02-23" />
-				<span asp-validation-for="Member.DOB" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.GenderID" class="control-label"></label>
-				<select asp-for="Member.GenderID" name="GenderID" class="form-control" asp-items="ViewBag.GenderID">
-					<option value="">Select a Gender</option>
-				</select>
-				<span asp-validation-for="Member.GenderID" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.Telephone" class="control-label"></label>
-				<input asp-for="Member.Telephone" name="Telephone" class="form-control" placeholder="2867727345" value="6478878456" />
-				<span asp-validation-for="Member.Telephone" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.Email" class="control-label"></label>
-				<input asp-for="Member.Email" name="Email" class="form-control" placeholder="janedoe@gmail.com" value="johndoe@gmail.com" />
-				<span asp-validation-for="Member.Email" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.Income" class="control-label"></label>
-				<input asp-for="Member.Income" name="Income" class="form-control" placeholder="1000.00" value="1114.54" />
-				<span asp-validation-for="Member.Income" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.VolunteerID" class="control-label"></label>
-				<select asp-for="Member.VolunteerID" class="form-control" asp-items="ViewBag.VolunteerID">
-					<option value="">Select a Volunteer</option>
-				</select>
-				<span asp-validation-for="Member.VolunteerID" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Member.CompletedOn" class="control-label"></label>
-				<input asp-for="Member.CompletedOn" name="CompletedOn" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-				<span asp-validation-for="Member.CompletedOn" class="text-danger"></span>
-			</div>
-		</div>
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Member.FirstName" class="control-label"></label>
+                <input asp-for="Member.FirstName" class="form-control" id="txtFirstName" placeholder="e.g. Jane" />
+                <span asp-validation-for="Member.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.LastName" class="control-label"></label>
+                <input asp-for="Member.LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe" />
+                <span asp-validation-for="Member.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.DOB" class="control-label"></label>
+                <input asp-for="Member.DOB" class="form-control" id="txtAge" />
+                <span asp-validation-for="Member.DOB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.GenderID" class="control-label"></label>
+                <select asp-for="Member.GenderID" class="form-control" id="ddlGender" asp-items="ViewBag.GenderID">
+                    <option value="">Select a Gender</option>
+                </select>
+                <span asp-validation-for="Member.GenderID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.Telephone" class="control-label"></label>
+                <input asp-for="Member.Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345" />
+                <span asp-validation-for="Member.Telephone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.Email" class="control-label"></label>
+                <input asp-for="Member.Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com" />
+                <span asp-validation-for="Member.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.Income" class="control-label"></label>
+                <input asp-for="Member.Income" class="form-control" id="txtIncome" placeholder="e.g. 1000.00" />
+                <span asp-validation-for="Member.Income" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.VolunteerID" class="control-label"></label>
+                <select asp-for="Member.VolunteerID" class="form-control" id="txtComplete" asp-items="ViewBag.VolunteerID">
+                    <option value="">Select a Volunteer</option>
+                </select>
+                <span asp-validation-for="Member.VolunteerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Member.CompletedOn" class="control-label"></label>
+                <input asp-for="Member.CompletedOn" class="form-control" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="Member.CompletedOn" class="text-danger"></span>
+            </div>
+        </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label class="control-label">@Html.DisplayNameFor(model => model.Member.MemberDietaries)</label>
@@ -111,10 +114,11 @@
                                     @:</tr><tr>
                                     }
                                     @:<td>
-                                        <input type="checkbox"
-                                                name="selectedDietaryOptions"
-                                                value="@checkbox.ID"
-                                                @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                        <input id="chkDietaries"
+                                               type="checkbox"
+                                               name="selectedDietaryOptions"
+                                               value="@checkbox.ID"
+                                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
                                         @checkbox.DisplayText
                                         @:&nbsp;&nbsp;
                                     @:</td>
@@ -124,91 +128,113 @@
                         </table>
                     </div>
                 </div>
-            <div class="form-group">
-                <label class="control-label">@Html.DisplayNameFor(model => model.Member.MemberSituations)</label>
-                <div class="col-md-offset-1">
-                <table>
-                    <tr>
-                        @{
-                            int cntS = 0;
-                            List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
-                            foreach (var checkbox in situationCheckboxes)
-                            {
-                                if (cntS++ % 3 == 0)
-                                {
-                                @:</tr><tr>
+                <div class="form-group">
+                    <label class="control-label">@Html.DisplayNameFor(model => model.Member.MemberSituations)</label>
+                    <div class="col-md-offset-1">
+                        <table>
+                            <tr>
+                                @{
+                                    int cntS = 0;
+                                    List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
+                                    foreach (var checkbox in situationCheckboxes)
+                                    {
+                                        if (cntS++ % 3 == 0)
+                                        {
+                                        @:</tr><tr>
+                                        }
+                                        @:<td>
+                                            <input id="chkSituations"
+                                                   type="checkbox"
+                                                   name="selectedSituationOptions"
+                                                   value="@checkbox.ID"
+                                                   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                            @checkbox.DisplayText
+                                            @:&nbsp;&nbsp;
+                                        @:</td>
+                                    }
+                                @:</tr>
                                 }
-                                @:<td>
-                                    <input type="checkbox"
-                                            name="selectedSituationOptions"
-                                            value="@checkbox.ID"
-                                            @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                    @checkbox.DisplayText
-                                    @:&nbsp;&nbsp;
-                                @:</td>
-                            }
-                        @:</tr>
-                        }
-                    </table>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">@Html.DisplayNameFor(model => model.Member.MemberIllnesses)</label>
+                        <div class="col-md-offset-1">
+                            <table>
+                                <tr>
+                                    @{
+                                        int cntI = 0;
+                                        List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
+                                        foreach (var checkbox in illnessCheckboxes)
+                                        {
+                                            if (cntI++ % 3 == 0)
+                                            {
+                                            @:</tr><tr>
+                                            }
+                                            @:<td>
+                                                <input id="chkIllnesses"
+                                                       type="checkbox"
+                                                       name="selectedIllnessOptions"
+                                                       value="@checkbox.ID"
+                                                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                                @checkbox.DisplayText
+                                                @:&nbsp;&nbsp;
+                                            @:</td>
+                                        }
+                                    @:</tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Member.Notes" class="control-label"></label>
+                            <textarea asp-for="Member.Notes" name="Notes" class="form-control" placeholder="Please Enter any Additional Information"></textarea>
+                            <span asp-validation-for="Member.Notes" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Upload Documents:</label>
+                            <input type="file" class="" name="theFiles" multiple="multiple" />
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Member.Consent" name="Consent" /> @Html.DisplayNameFor(model => model.Member.Consent)
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-			<div class="form-group">
-				<label class="control-label">@Html.DisplayNameFor(model => model.Member.MemberIllnesses)</label>
-				<div class="col-md-offset-1">
-					<table>
-						<tr>
-							@{
-								int cntI = 0;
-								List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-								foreach (var checkbox in illnessCheckboxes)
-								{
-									if (cntI++ % 3 == 0)
-									{
-									@:</tr><tr>
-									}
-									@:<td>
-										<input type="checkbox"
-											   name="selectedIllnessOptions"
-											   value="@checkbox.ID"
-											   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-										@checkbox.DisplayText
-										@:&nbsp;&nbsp;
-									@:</td>
-								}
-							@:</tr>
-							}
-						</table>
-					</div>
-			</div>
-            <div class="form-group">
-                <label asp-for="Member.Notes" class="control-label"></label>
-                <textarea asp-for="Member.Notes" name="Notes" class="form-control" placeholder="Please Enter any Additional Information"></textarea>
-                <span asp-validation-for="Member.Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Upload Documents:</label>
-                <input type="file" class="" name="theFiles" multiple="multiple" />
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Member.Consent" name="Consent" /> @Html.DisplayNameFor(model => model.Member.Consent)
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
-        <div class="form-group" style="padding-right: 20px">
-            <a asp-action="Index" class="btn btn-primary">Back</a>
-        </div>
-        <div class="form-group">
-            <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
-        </div>
-    </div>
-</form>
+                <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
+                    <div class="form-group" style="padding-right: 20px">
+                        <a asp-action="Index" class="btn btn-primary">Back</a>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
+                    </div>
+                </div>
+            </form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/multiselect.js"></script>
+    <script src="~/js/multiselect.js"></script> 
 }
+
+<script>
+    document.getElementById("btnSampleDataHouse").addEventListener("click", function () {
+        document.getElementById("autocomplete").value = "5951 Main St, Niagara Falls, ON , Canada";
+        document.getElementById("postal").value = "L2G 5Z7";
+        document.getElementById("txtDependants").value = "2";
+        document.getElementById("txtFamilyName").value = "Doe";
+        document.getElementById("txtFirstName").value = "Jane";
+        document.getElementById("txtLastName").value = "Doe";
+        document.getElementById("txtAge").value = "1984-02-04";
+        document.getElementById("ddlGender").value = "2";
+        document.getElementById("txtPhone").value = "6367727614";
+        document.getElementById("txtEmail").value = "sample@gmail.com";
+        document.getElementById("txtIncome").value = "1600";
+        document.getElementById("txtComplete").value = "2";
+        document.getElementById("chkIllnesses").value = "2";
+        document.getElementById("chkSituations").value = "7";
+    })
+</script>
+
 <script src="~/js/GeoLocateAutoComplete.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer></script>

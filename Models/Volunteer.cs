@@ -11,6 +11,7 @@ namespace PinewoodGrow.Models
         public Volunteer()
         {
             Members = new HashSet<Member>();
+            Invoices = new HashSet<Invoice>();
         }
         public int ID { get; set; }
 
@@ -20,5 +21,7 @@ namespace PinewoodGrow.Models
         public string Name { get; set; }
 
         public ICollection<Member> Members { get; set; }
+
+        public ICollection<Invoice> Invoices { get; set; }
     }
 }
