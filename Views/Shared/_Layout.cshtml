@@ -17,17 +17,20 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Households" asp-action="Index">Households</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Members" asp-action="Index">Members</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Reports<b class="caret"></b>
-							</a>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Households" asp-action="Index">Households</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Members" asp-action="Index">Members</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Reports<b class="caret"></b>
+                            </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-area="" asp-controller="IncomeChart" asp-action="Index">Income Report</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="IncomeSource" asp-action="Index">Income Source Report</a>
@@ -35,20 +38,20 @@
                                 <a class="dropdown-item" asp-area="" asp-controller="DietarySource" asp-action="Index">Health/Dietary Report</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="MapReport" asp-action="Index">Map Report</a>
                             </div>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Lookup Values<b class="caret"></b>
-							</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" asp-area="" asp-controller="Dietaries" asp-action="Index">Diertary Restrictions</a>
-								<a class="dropdown-item" asp-area="" asp-controller="Genders" asp-action="Index">Genders</a>
-								<a class="dropdown-item" asp-area="" asp-controller="Illnesses" asp-action="Index">Illnesses</a>
-								<a class="dropdown-item" asp-area="" asp-controller="Situations" asp-action="Index">Situations</a>
-								<a class="dropdown-item" asp-area="" asp-controller="Volunteers" asp-action="Index">Volunteers</a>
-							</div>
-						</li>
-					</ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Lookup Values<b class="caret"></b>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Dietaries" asp-action="Index">Diertary Restrictions</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Genders" asp-action="Index">Genders</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Illnesses" asp-action="Index">Illnesses</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Situations" asp-action="Index">Situations</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Volunteers" asp-action="Index">Volunteers</a>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
