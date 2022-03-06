@@ -566,7 +566,7 @@ namespace PinewoodGrow.Controllers
             //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "Name", member?.VolunteerID);
-            ViewData["HouseholdID"] = new SelectList(_context.Households, "ID", "ID", member?.HouseholdID);
+            ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary", member?.HouseholdID);
         }
 
         public async Task<FileContentResult> Download(int id)

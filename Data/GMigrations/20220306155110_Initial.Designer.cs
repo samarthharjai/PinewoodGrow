@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220306153139_Initial")]
+    [Migration("20220306155110_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,6 +144,9 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.Property<double>("HouseIncome")
                         .HasColumnType("REAL");
+
+                    b.Property<string>("HouseSummary")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("LICO")
                         .HasColumnType("INTEGER");

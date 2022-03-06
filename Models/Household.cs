@@ -41,6 +41,22 @@ namespace PinewoodGrow.Models
             }
         }
 
+		public string HouseSummary
+		{
+			get
+			{
+				{
+					string houseSummary = ID + " - " + FamilyName;
+
+					return houseSummary;
+				};
+			}
+			set
+			{
+
+			}
+		}
+
 		[Display(Name = "Family Size")]
 		[Required(ErrorMessage = "You cannot leave the Family Size blank.")]
 		[Range(1, 115, ErrorMessage = "Family Size must be greater than 0.")]
