@@ -65,7 +65,7 @@ namespace PinewoodGrow.Controllers
                 .ThenInclude(t => t.TravelDetail)
                 .ThenInclude(t => t.GroceryStore)
                 .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
-                .Select(a => new MapMarker(a, a.HouseIncome)).ToList();
+                .Select(a => new MapMarker(a, a.HouseIncome / a.Members.Count)).ToList();
 
   
             ViewData["Stores"] = _context.GroceryStores.Select(g => 

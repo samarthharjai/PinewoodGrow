@@ -1,0 +1,201 @@
+﻿@model PinewoodGrow.Models.Receipt
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@*<div>
+    <h4>Receipt</h4>
+    <hr />*@
+@*<dl class="row">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Product)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Product.Name)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Total)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Total)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.SubTotal)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.SubTotal)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductUnitPrice)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.ProductUnitPrice.ID)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.CompletedOn)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.CompletedOn)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Household)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Household.FamilyName)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Volunteer)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Volunteer.Name)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Payment)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Payment.Type)
+            </dd>
+        </dl>
+    </div>*@
+
+
+
+<form asp-action="Details">
+    <div class="container-fluid">
+        <div id="ui-view" data-select2-id="ui-view">
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        Invoice
+                        @Html.DisplayFor(model => model.CompletedOn)
+                        <a class="btn btn-sm btn-secondary float-right mr-1 d-print-none" href="#" onclick="javascript:window.print();" data-abc="true">
+                            <i class="fa fa-print"></i> Print
+                        </a>
+                        <a class="btn btn-sm btn-info float-right mr-1 d-print-none" href="#" data-abc="true">
+                            <i class="fa fa-save"></i> Save
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-sm-4">
+                                <h6 class="mb-3">From:</h6>
+                                <div>
+                                    <strong>GROW <small>Community Food Literacy Centre</small></strong>
+                                </div>
+                                <div>4377 Fourth Ave.</div>
+                                <div>Niagara Falls, Ontario, L2E 4N1</div>
+                                <div>info@growcflc.com</div>
+                                <div>Phone: 1-905-262-6812</div>
+                                <strong>@Html.DisplayNameFor(model => model.Volunteer) :</strong>
+                                @Html.DisplayFor(model => model.Volunteer.Name)
+                            </div>
+                            <div class="col-sm-4" style="margin-left: 300px;">
+                                <h6 class="mb-3">TO:</h6>
+                                <div style="margin-bottom: 10px;">
+                                    <strong>@Html.DisplayNameFor(model => model.CompletedOn) :</strong>
+                                    @Html.DisplayFor(model => model.CompletedOn)
+                                </div>
+                                <strong>@Html.DisplayNameFor(model => model.Household) :</strong>
+                                @Html.DisplayFor(model => model.Household.FamilyName)
+                                <div style="margin-top: 10px;">
+                                    <strong>@Html.DisplayNameFor(model => model.Payment) :</strong>
+                                    @Html.DisplayFor(model => model.Payment.Type)
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.Product)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                                        <th class="center">Unit Price</th>
+                                        <th class="right">@Html.DisplayNameFor(model => model.SubTotal)</th>
+                                        @*<th class="right">SubTotal</th>*@
+                                        @*<th>
+                                                <a asp-controller="Receipt" asp-action="Add">
+                                                    <span class="btn btn-success"><strong>&#x271A; Add</strong></span>
+                                                </a>
+                                            </th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="left">
+                                            @Html.DisplayFor(model => model.Product.Name)
+                                        </td>
+                                        <td class="left">
+                                            @Html.DisplayFor(model => model.Quantity)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => model.ProductUnitPrice.ProductPrice)
+                                        </td>
+                                        <td class="right">
+                                            @Html.DisplayFor(model => model.SubTotal)
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-5 ml-auto">
+                                <table class="table table-clear">
+                                    <tbody>
+                                        <tr>
+                                            <td class="left">
+                                                <strong>Subtotal</strong>
+                                            </td>
+                                            <td class="center">
+                                                @Html.DisplayFor(model => model.Total)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left">
+                                                <strong>HST (13%)</strong>
+                                            </td>
+                                            <td class="right">$679,76</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left">
+                                                <strong>Total</strong>
+                                            </td>
+                                            <td class="right">
+                                                <strong>$7.477,36</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @*<div class="form-group">
+                                        <input type="submit" value="Save" class="btn btn-primary d-print-none" style="float: right;" />
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@*<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="d-print-none">Edit</a>
+    <a asp-action="Index" class="d-print-none">Back to List</a>
+</div>*@
+
+<div class="row">
+    <div class="form-group" style="padding-right: 20px">
+        <a asp-action="Index" class="btn btn-primary">Back to Invoice</a>
+    </div>
+    <div class="form-group" style="padding-right: 20px">
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-info">Edit</a>
+    </div>
+</div>

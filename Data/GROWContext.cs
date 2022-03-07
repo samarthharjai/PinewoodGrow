@@ -29,6 +29,12 @@ namespace PinewoodGrow.Data
 		public DbSet<Illness> Illnesses { get; set; }
 		public DbSet<Volunteer> Volunteers { get; set; }
 		public DbSet<Sale> Sales { get; set; }
+
+        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+
+        public DbSet<ProductUnitPrice> ProductUnitPrices { get; set; }
+
 		public DbSet<Payment> Payments { get; set; }
 		public DbSet<SaleDetail> SaleDetails { get; set; }
 		public DbSet<Product> Products { get; set; }
@@ -41,6 +47,8 @@ namespace PinewoodGrow.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+
+
 
             //Store details
             modelBuilder.Entity<GroceryStore>()
@@ -83,6 +91,23 @@ namespace PinewoodGrow.Data
 							.WithOne(h => h.Household)
 							.HasForeignKey<Address>(a => a.ID);
 			*/
+
+            modelBuilder.Entity<Product>()
+                .HasMany<ProductUnitPrice>(d => d.ProductUnitPrices)
+                .WithOne(p => p.Product)
+                .HasForeignKey(p => p.ProductID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Product>().HasOne(p => p.ProductType)
+                .WithMany(p => p.Products)
+                .HasForeignKey(a => a.ProductTypeID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Invoice>().HasOne(a=> a.Product)
+                .WithMany(a=> a.Invoices)
+                .HasForeignKey(a=> a.ProductID)
+                .OnDelete(DeleteBehavior.Restrict);
+
 			//Many to Many Intersection
 			modelBuilder.Entity<MemberDietary>()
 			.HasKey(t => new { t.DietaryID, t.MemberID });

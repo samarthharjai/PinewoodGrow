@@ -31,5 +31,8 @@ namespace PinewoodGrow.Models
         public ProductType ProductType { get; set; }
 
         public ICollection<SaleDetail> SaleDetails { get; set; }
+        public ICollection<ProductUnitPrice> ProductUnitPrices { get; set; }
+
+        public ICollection<Invoice> Invoices { get; set; }
     }
 }

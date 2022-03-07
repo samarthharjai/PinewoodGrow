@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -152,7 +153,19 @@ namespace PinewoodGrow.Data
                     context.Products.AddRange(products);
                     context.SaveChanges();
                 }
+                if (!context.ProductUnitPrices.Any())
+                {
+                    var products = context.Products.Select(a => a).ToList();
 
+                    var unitPrices = products.Select(a => new ProductUnitPrice
+                    {
+                        ProductPrice = a.UnitPrice,
+                        ProductID = a.ID
+                    });
+
+                    context.ProductUnitPrices.AddRange(unitPrices);
+                    context.SaveChanges();
+                }
 
                 if (!context.Addresses.Any())
 				{

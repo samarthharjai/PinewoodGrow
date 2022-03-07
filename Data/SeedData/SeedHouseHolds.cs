@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,7 +48,7 @@ namespace PinewoodGrow.Data.SeedData
             { "@gmail.com", "@outlook.com", "@gmail.ca", "@outlook.ca", "@Hotmail.com", "@inbox.com" };
         #endregion
 
-        
+
         internal static Random rnd = new Random();
         internal static int[] GenderIDs;
         public static void Initialize(IServiceProvider serviceProvider)
@@ -62,7 +63,7 @@ namespace PinewoodGrow.Data.SeedData
             foreach (var address in AddressIDs)
             {
                 //Number of dependents
-                var DependantCount = rnd.Next(0, 5);
+                var DependantCount = rnd.Next(0, 2);
                 //Number of non Dependants
                 var FamilyCount = rnd.Next(1, 4);
                 var house = new Household()
@@ -78,7 +79,7 @@ namespace PinewoodGrow.Data.SeedData
                 context.SaveChanges();
 
                 //Add members to household
-                var Members = GetMembers(house.ID, FamilyCount);
+                var Members = GetMembers(house.ID, FamilyCount, GetHouseIncome(FamilyCount));
 
                 house.FamilyName = Members.FirstOrDefault().LastName;
 
@@ -88,13 +89,27 @@ namespace PinewoodGrow.Data.SeedData
             }
         }
 
-        private static List<Member> GetMembers(int houseID, int count)
+        internal static int GetHouseIncome(int size)
+        {
+            return size switch
+            {
+                int i when i == 1 => rnd.Next(15000, 22186),
+                int i when i == 2 => rnd.Next(20000, 27619),
+                int i when i == 3 => rnd.Next(25000, 33953),
+                int i when i == 4 => rnd.Next(30000, 41225),
+                int i when i == 5 => rnd.Next(35000, 46757),
+                int i when i == 6 => rnd.Next(40000, 52734),
+                _ => rnd.Next(40000, 58712)
+            };
+        }
+        private static List<Member> GetMembers(int houseID, int count, int HouseIncome)
         {
             var Members = new List<Member>();
             var FamilyName = GetRandomLastName();
-
+            var incomes = GetIncomes(count, HouseIncome);
             for (var i = 0; i < count; i++)
             {
+
                 var firstName = GetRandomFirstName();
                 var member = new Member()
                 {
@@ -103,7 +118,7 @@ namespace PinewoodGrow.Data.SeedData
                     LastName = FamilyName,
                     Telephone = GetRandomPhone(),
                     Email = GetRandomEmail(firstName, FamilyName),
-                    Income = getRandomIncome() / count,
+                    Income = incomes[i],
                     Notes = LoremIpsum(10, 50, 1, 4, 1),
                     Consent = true,
                     VolunteerID = getRandomVolunteer(),
@@ -111,14 +126,36 @@ namespace PinewoodGrow.Data.SeedData
                     GenderID = getRandomGender(),
                     DOB = RandomDay(),
                 };
-                
+
                 Members.Add(member);
             }
 
             return Members;
         }
 
-        
+
+        private static int[] GetIncomes(int count, int HouseIncome)
+        {
+            var incomes = new int[count];
+
+            var AvalIncome = HouseIncome - (3000 * count);
+
+            for (var i = 0; i < count; i++)
+            {
+                if (AvalIncome > 0)
+                    incomes[i] += rnd.Next(AvalIncome / 3, AvalIncome);
+
+                AvalIncome -= incomes[i];
+
+
+                incomes[i] += 3000;
+
+            }
+
+            return incomes;
+        }
+
+
 
         private static string GetRandomFirstName()
         {
@@ -154,9 +191,9 @@ namespace PinewoodGrow.Data.SeedData
         {
             return rnd.Next(0, 100) switch
             {
-                int i when i <= 30 => rnd.Next(18,24), //30% age range 18-24
+                int i when i <= 30 => rnd.Next(18, 24), //30% age range 18-24
                 int i when i <= 70 => rnd.Next(25, 40), // 40% age range 25 - 40
-                int i when i <= 90 => rnd.Next(41,65),  // 20% age range 41 - 65
+                int i when i <= 90 => rnd.Next(41, 65),  // 20% age range 41 - 65
                 int i when i <= 99 => rnd.Next(66, 85), // 9% age range 66- 85
                 _ => rnd.Next(86, 100) // 1% age range 86 - 100
             };
@@ -193,37 +230,25 @@ namespace PinewoodGrow.Data.SeedData
                 _ => 1 // Male 40%
             };
         }
-        private static int getRandomIncome()
-        {
-            return rnd.Next(0, 100) switch
-            {
-                int i when i <= 5 => 0, // 5% income of 0
-                int i when i <= 15 => rnd.Next(0,4999), // 10% income of 0 - 5k
-                int i when i <= 45 => rnd.Next(5000, 9999), // 30% 5-10k
-                int i when i <= 75 => rnd.Next(10000, 14999),  // 30% 10 - 15k
-                int i when i <= 95 => rnd.Next(15000, 19999), // 20% 15k - 20k
-                _ => rnd.Next(20000, 24999) // 5% 20k-25k
-            };
-        }
 
 
         private static string GetRandomEmail(string first, string last)
         {
-         
-            var Email  = rnd.Next(0,5) switch
+
+            var Email = rnd.Next(0, 5) switch
             {
-                0 => GetRandomNumberString(2) + last[..3] +"-",
-                1 => last +".",
+                0 => GetRandomNumberString(2) + last[..3] + "-",
+                1 => last + ".",
                 2 => last[0] + ".",
-                3 => last[..2] +".",
-                4 =>  last + GetRandomNumberString(2) + ".",
+                3 => last[..2] + ".",
+                4 => last + GetRandomNumberString(2) + ".",
 
                 _ => " "
             };
 
 
             //Email has full name + 3 random letters before ending with the addresses service provider
-            Email += first + rnd.Next(0,9) + rnd.Next(0, 9)+ rnd.Next(0,9) + EmailService[rnd.Next(0, EmailService.Length)];
+            Email += first + rnd.Next(0, 9) + rnd.Next(0, 9) + rnd.Next(0, 9) + EmailService[rnd.Next(0, EmailService.Length)];
 
             return Email;
         }
@@ -261,10 +286,6 @@ namespace PinewoodGrow.Data.SeedData
             return result.ToString();
         }
     }
-  
+
 }
-
-
-
-
 
