@@ -53,7 +53,64 @@ namespace PinewoodGrow.Data
 					context.SaveChanges();
 				}
 
-				if (!context.Dietaries.Any())
+                if (!context.Products.Any())
+                {
+                    var products = new List<Product>
+                    {
+                        new Product { ID = 1, Name = "Apples", UnitPrice = 0.10},
+                        new Product { ID = 2, Name = "Bananas", UnitPrice = 0.10},
+                        new Product { ID = 3, Name = "Cabbage", UnitPrice = 2.00},
+                        new Product { ID = 4, Name = "Corn", UnitPrice = 1.00},
+                        new Product { ID = 5, Name = "Chicken Legs (2)", UnitPrice = 3.00},
+                        new Product { ID = 6, Name = "Chicken Thighs (4lbs)", UnitPrice = 2.75},
+                        new Product { ID = 7, Name = "Ground Beef", UnitPrice = 1.00},
+                        new Product { ID = 8, Name = "Fish (Haddock / Basa)", UnitPrice = 0.50},
+                        new Product { ID = 10, Name = "Bread Costco", UnitPrice = 0.50},
+                        new Product { ID = 11, Name = "Butter", UnitPrice = 1.00},
+                        new Product { ID = 12, Name = "Eggs (12)", UnitPrice = 2.00},
+                        new Product { ID = 13, Name = "Milk - 1L", UnitPrice = 1.00},
+                        new Product { ID = 14, Name = "Apple Sauce", UnitPrice = 1.00},
+                        new Product { ID = 15, Name = "Coffee", UnitPrice = 4.00},
+                        new Product { ID = 16, Name = "Pasta", UnitPrice = 0.75},
+                        new Product { ID = 17, Name = "Kraft Dinner", UnitPrice = 1.00},
+                        new Product { ID = 18, Name = "Cat Food (Wet)", UnitPrice = 0.50},
+                        new Product { ID = 19, Name = "GROW Soup", UnitPrice = 2.50},
+                        new Product { ID = 20, Name = "Deoderant", UnitPrice = 1.00},
+                        new Product { ID = 21, Name = "Ramen", UnitPrice = 0.25},
+                    };
+                    context.Products.AddRange(products);
+                    context.SaveChanges();
+                }
+                if (!context.ProductUnitPrices.Any())
+                {
+                    var unitPrice = new List<ProductUnitPrice>
+                    {
+                        new ProductUnitPrice { ProductPrice = 0.10, ProductID=context.Products.FirstOrDefault(d => d.Name == "Apples").ID, },
+                        new ProductUnitPrice { ProductPrice = 0.10, ProductID=context.Products.FirstOrDefault(d => d.Name == "Bananas").ID, },
+                        new ProductUnitPrice { ProductPrice = 2.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Cabbage").ID, },
+                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Corn").ID, },
+                        new ProductUnitPrice { ProductPrice = 3.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Chicken Legs (2)").ID, },
+                        new ProductUnitPrice { ProductPrice = 2.75, ProductID=context.Products.FirstOrDefault(d => d.Name == "Chicken Thighs (4lbs)").ID, },
+                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Ground Beef").ID, },
+                        new ProductUnitPrice { ProductPrice = 0.50, ProductID=context.Products.FirstOrDefault(d => d.Name == "Fish (Haddock / Basa)").ID, },
+                        new ProductUnitPrice { ProductPrice = 0.50, ProductID=context.Products.FirstOrDefault(d => d.Name == "Bread Costco").ID, },
+                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Butter").ID, },
+                        new ProductUnitPrice { ProductPrice = 2.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Eggs (12)").ID, },
+                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Milk - 1L").ID, },
+                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Apple Sauce").ID, },
+                        new ProductUnitPrice { ProductPrice = 4.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Coffee").ID, },
+                        new ProductUnitPrice { ProductPrice = 0.75, ProductID=context.Products.FirstOrDefault(d => d.Name == "Pasta").ID, },
+                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Kraft Dinner").ID, },
+                        new ProductUnitPrice { ProductPrice = 0.50, ProductID=context.Products.FirstOrDefault(d => d.Name == "Cat Food (Wet)").ID, },
+                        new ProductUnitPrice { ProductPrice = 2.50, ProductID=context.Products.FirstOrDefault(d => d.Name == "GROW Soup").ID, },
+                        new ProductUnitPrice { ProductPrice = 1.00, ProductID=context.Products.FirstOrDefault(d => d.Name == "Deoderant").ID, },
+                        new ProductUnitPrice { ProductPrice = 0.25, ProductID=context.Products.FirstOrDefault(d => d.Name == "Ramen").ID, },
+                    };
+                    context.ProductUnitPrices.AddRange(unitPrice);
+                    context.SaveChanges();
+                }
+                
+                if (!context.Dietaries.Any())
 				{
 					var dietaries = new List<Dietary>
 					{
@@ -66,7 +123,6 @@ namespace PinewoodGrow.Data
 					context.Dietaries.AddRange(dietaries);
 					context.SaveChanges();
 				}
-
                 if (!context.Illnesses.Any())
                 {
                     var illnesses = new List<Illness>
@@ -108,7 +164,6 @@ namespace PinewoodGrow.Data
                     context.Payments.AddRange(payments);
                     context.SaveChanges();
                 }
-
                 if (!context.Addresses.Any())
 				{
                     var addresses = new List<Address>
@@ -898,8 +953,39 @@ namespace PinewoodGrow.Data
                     SeedHouseHolds.Initialize(serviceProvider);
                 }
 
+                if (!context.Reciepts.Any())
+                {
+                    var reciepts = new List<Reciept>
+                    {
+                        new Reciept {
+                            ID = 1,
+                            CompletedOn = DateTime.Today,
+                            HouseholdID = 1,
+                            VolunteerID = 1,
+                            PaymentID = 1,
+                        },
+                    };
+                    context.Reciepts.AddRange(reciepts);
+                    context.SaveChanges();
+                }
 
-				if (!context.MemberSituations.Any())
+                if (!context.Invoice.Any())
+                {
+                    var invoices = new List<Invoice>
+                    {
+                        new Invoice {
+                            ID = 1,
+                            ProductID = 1,
+                            Quantity = 2,
+                            ProductUnitPriceID = 1, 
+                            SubTotal = 30.00
+                        },
+                    };
+                    context.Invoice.AddRange(invoices);
+                    context.SaveChanges();
+                }
+
+                if (!context.MemberSituations.Any())
 				{
 
 

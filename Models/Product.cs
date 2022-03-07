@@ -11,6 +11,9 @@ namespace PinewoodGrow.Models
         public Product()
         {
             SaleDetails = new HashSet<SaleDetail>();
+            productUnitPrices = new HashSet<ProductUnitPrice>();
+            Invoices = new HashSet<Invoice>();
+
         }
         public int ID { get; set; }
 
@@ -26,5 +29,8 @@ namespace PinewoodGrow.Models
         public double UnitPrice { get; set; }
 
         public ICollection<SaleDetail> SaleDetails { get; set; }
+        public ICollection<ProductUnitPrice> productUnitPrices { get; set; }
+
+        public ICollection<Invoice> Invoices { get; set; }
     }
 }

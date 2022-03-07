@@ -12,6 +12,7 @@ namespace PinewoodGrow.Models
 		{
 			Members = new HashSet<Member>();
 			MemberHouseholds = new HashSet<MemberHousehold>();
+			Invoices = new HashSet<Invoice>();
 		}
 
 		[Display(Name = "Member #")]
@@ -91,5 +92,7 @@ namespace PinewoodGrow.Models
 
 		[Display(Name = "Member Households")]
 		public ICollection<MemberHousehold> MemberHouseholds { get; set; }
+
+		public ICollection<Invoice> Invoices { get; set; }
 	}
 }
