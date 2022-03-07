@@ -65,7 +65,7 @@ namespace PinewoodGrow.Controllers
                 .ThenInclude(t => t.TravelDetail)
                 .ThenInclude(t => t.GroceryStore)
                 .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
-                .Select(a => new MapMarker(a, a.HouseIncome / a.Members.Count)).ToList();
+                .Select(a => new MapMarker(a, a.HouseIncome, a.Members.Count)).ToList();
 
   
             ViewData["Stores"] = _context.GroceryStores.Select(g => 
@@ -94,6 +94,8 @@ namespace PinewoodGrow.Controllers
         }
 
     }
+
+
 
 }//http://maps.google.com/mapfiles/ms/icons/purple-dot.png
 

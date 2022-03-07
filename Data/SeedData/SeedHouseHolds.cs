@@ -65,7 +65,7 @@ namespace PinewoodGrow.Data.SeedData
                 //Number of dependents
                 var DependantCount = rnd.Next(0, 2);
                 //Number of non Dependants
-                var FamilyCount = rnd.Next(1, 4);
+                var FamilyCount = rnd.Next(1, 5);
                 var house = new Household()
                 {
                     HouseIncome = 10000,
@@ -138,18 +138,18 @@ namespace PinewoodGrow.Data.SeedData
         {
             var incomes = new int[count];
 
-            var AvalIncome = HouseIncome - (3000 * count);
+            var AvalIncome = HouseIncome / count;
 
             for (var i = 0; i < count; i++)
             {
-                if (AvalIncome > 0)
-                    incomes[i] += rnd.Next(AvalIncome / 3, AvalIncome);
-
-                AvalIncome -= incomes[i];
+                incomes[i] += rnd.Next(1000, AvalIncome);
 
 
-                incomes[i] += 3000;
+            }
 
+            if (incomes.Sum() * 1.5 < HouseIncome)
+            {
+                incomes[^1] += (int)(incomes.Sum() * .6);
             }
 
             return incomes;
