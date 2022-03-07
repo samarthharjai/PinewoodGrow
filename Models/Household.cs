@@ -12,6 +12,7 @@ namespace PinewoodGrow.Models
 		{
 			Members = new HashSet<Member>();
 			MemberHouseholds = new HashSet<MemberHousehold>();
+			Invoices = new HashSet<Invoice>();
 		}
 
 		[Display(Name = "Member #")]
@@ -40,6 +41,22 @@ namespace PinewoodGrow.Models
 
             }
         }
+
+		public string HouseSummary
+		{
+			get
+			{
+				{
+					string houseSummary = ID + " - " + FamilyName;
+
+					return houseSummary;
+				};
+			}
+			set
+			{
+
+			}
+		}
 
 		[Display(Name = "Family Size")]
 		[Required(ErrorMessage = "You cannot leave the Family Size blank.")]
@@ -91,5 +108,7 @@ namespace PinewoodGrow.Models
 
 		[Display(Name = "Member Households")]
 		public ICollection<MemberHousehold> MemberHouseholds { get; set; }
+
+		public ICollection<Invoice> Invoices { get; set; }
 	}
 }
