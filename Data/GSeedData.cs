@@ -58,10 +58,8 @@ namespace PinewoodGrow.Data
 				{
 					var dietaries = new List<Dietary>
 					{
-						new Dietary { ID = 2, Name = "Obesity"},
 						new Dietary { ID = 3, Name = "Lactose Intolerance"},
 						new Dietary { ID = 4, Name = "Gluten Intolerance/Sensitivity"},
-						new Dietary { ID = 8, Name = "Digestive Disorders"},
 						new Dietary { ID = 9, Name = "Food Allergies"}
 					};
 					context.Dietaries.AddRange(dietaries);
@@ -73,6 +71,8 @@ namespace PinewoodGrow.Data
                     var illnesses = new List<Illness>
                     {
                         new Illness { ID = 1, Name = "Diabetes"},
+                        new Illness { ID = 2, Name = "Obesity"},
+                        new Illness { ID = 8, Name = "Digestive Disorders"},
                         new Illness { ID = 5, Name = "Cancer"},
                         new Illness { ID = 6, Name = "Heart Disease"},
                         new Illness { ID = 7, Name = "Osteoperosis"}
