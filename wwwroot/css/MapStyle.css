@@ -74,7 +74,11 @@
     font-size: 34px;
     font-weight: normal;
 }
-
+.title {
+    color: #397a4c;
+    font-size: 34px;
+    font-weight: normal;
+}
 
 
 /*Radio Buttons*/
