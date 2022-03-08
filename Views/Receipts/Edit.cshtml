@@ -225,8 +225,9 @@
             var UnitPrice = $("#ProductUnitPriceID").val();
             var Quantity = $("#Quantity").val();
 
-            var Total = (Quantity * UnitPrice);
+            var Total = parseFloat(UnitPrice) * parseFloat(Quantity);
             $("#SubTotal").val(parseFloat(Total).toFixed(2));
+
         }
         function CalculateGrandTotal() {
             var SubTotal = $("#SubTotal").val() * 1;

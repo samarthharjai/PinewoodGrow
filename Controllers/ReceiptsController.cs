@@ -255,8 +255,7 @@ namespace PinewoodGrow.Controllers
             {
                 query = query.Where(p => p.ProductID == ProductID);
             }
-            var x = new SelectList(query.OrderBy(p => p.ProductPrice), "ID", "ProductPrice", selectedId);
-            return new SelectList(query.OrderBy(p => p.ProductPrice), "ID", "ProductPrice", selectedId);
+            return new SelectList(query.OrderBy(p => p.ProductPrice), "ProductPrice", "ProductPrice", selectedId);
         }
 
         private double GetUnitPrice(int id)
@@ -270,7 +269,7 @@ namespace PinewoodGrow.Controllers
         private void PopulateDropDownLists(Receipt Receipt = null)
         {
             var productSelect = ProductsSelectList(null);
-
+            var unit = UnitPriceSelectList(null, null);
             ViewData["ProductID"] = productSelect;
             ViewData["ProductUnitPriceID"] = UnitPriceSelectList(null, null);
             /*ViewData["UnitPrice"] = GetUnitPrice((int)productSelect.SelectedValue);*/
