@@ -101,8 +101,8 @@
                                 <div style="margin-bottom: 10px;">
                                     <input asp-for="CompletedOn" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                                 </div>
-                                <select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseholdID">
-                                    <option>Select Family Name</option>
+                                <select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseSummary">
+                                    <option>Select Household</option>
                                 </select>
                                 <div style="margin-top: 10px;">
                                     <select asp-for="PaymentID" class="form-control" asp-items="ViewBag.PaymentID">

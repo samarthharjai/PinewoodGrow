@@ -274,7 +274,7 @@ namespace PinewoodGrow.Controllers
             ViewData["ProductID"] = productSelect;
             ViewData["ProductUnitPriceID"] = UnitPriceSelectList(null, null);
             /*ViewData["UnitPrice"] = GetUnitPrice((int)productSelect.SelectedValue);*/
-            ViewData["HouseholdID"] = new SelectList(_context.Households, "ID", "FamilyName");
+            ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary");
             ViewData["PaymentID"] = new SelectList(_context.Payments, "ID", "Type");
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", Receipt.ProductID);
             //ViewData["ProductUnitPriceID"] = new SelectList(_context.ProductUnitPrices, "ID", "ProductPrice", Receipt.ProductUnitPriceID);
