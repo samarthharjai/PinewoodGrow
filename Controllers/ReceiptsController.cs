@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
+using PinewoodGrow.Utilities;
 
 namespace PinewoodGrow.Controllers
 {
@@ -20,17 +21,88 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Receipts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString, int? VolunteerID, int? page, int? pageSizeID, string actionButton,
+            string sortDirection = "asc", string sortField = "Name")
         {
+            string[] sortOptions = new[] { "Family Name", "VolunteerID" };
 
-           
+            ViewData["VolunteerID"] = new SelectList(_context
+                .Volunteers
+                .OrderBy(p => p.Name), "ID", "Name");
 
+            var receipts = from p in _context.Receipts
+                           .Include(r => r.Household)
+                           .Include(r => r.Payment)
+                           .Include(r => r.Product)
+                           .Include(r => r.ProductUnitPrice)
+                           .Include(r => r.Volunteer)
+                           select p;
 
+            if (VolunteerID.HasValue)
+            {
+                receipts = receipts.Where(p => p.VolunteerID == VolunteerID);
+                ViewData["Filtering"] = " show";
+            }
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                receipts = receipts.Where(p => p.Household.FamilyName.ToUpper().Contains(SearchString.ToUpper()));
+                ViewData["Filtering"] = " show";
+            }
 
-            var gROWContext = _context.Receipts.Include(r => r.Household).Include(r => r.Payment).Include(r => r.Product).Include(r => r.ProductUnitPrice).Include(r => r.Volunteer);
-            return View(await gROWContext.ToListAsync());
+            if (!String.IsNullOrEmpty(actionButton))
+            {
+                page = 1;
+                if (sortOptions.Contains(actionButton))
+                {
+                    if (actionButton == sortField)
+                    {
+                        sortDirection = sortDirection == "asc" ? "desc" : "asc";
+                    }
+                    sortField = actionButton;
+                }
+            }
 
-            
+            if (sortField == "Family Name")
+            {
+                if (sortDirection == "asc")
+                {
+                    receipts = receipts
+                        .OrderByDescending(p => p.Household.FamilyName);
+                }
+                else
+                {
+                    receipts = receipts
+                        .OrderBy(p => p.Household.FamilyName);
+                }
+            }
+            else
+            {
+                if (sortDirection == "asc")
+                {
+                    receipts = receipts
+                        .OrderByDescending(p => p.Volunteer)
+                        .ThenByDescending(p => p.Volunteer.Name);
+                }
+                else
+                {
+                    receipts = receipts
+                        .OrderBy(p => p.Volunteer)
+                        .ThenBy(p => p.Volunteer.Name);
+                }
+            }
+
+            ViewData["sortField"] = sortField;
+            ViewData["sortDirection"] = sortDirection;
+
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Receipt>.CreateAsync(receipts.AsNoTracking(), page ?? 1, pageSize);
+
+            //return View(await members.ToListAsync());
+            return View(pagedData);
+
+            /*var gROWContext = _context.Receipts.Include(r => r.Household).Include(r => r.Payment).Include(r => r.Product).Include(r => r.ProductUnitPrice).Include(r => r.Volunteer);
+            return View(await gROWContext.ToListAsync());*/
         }
 
         // GET: Receipts/Details/5

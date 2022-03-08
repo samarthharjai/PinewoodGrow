@@ -67,6 +67,8 @@
 
 
 
+
+
 <form asp-action="Details">
     <div class="container-fluid">
         <div id="ui-view" data-select2-id="ui-view">
@@ -122,13 +124,14 @@
                                         <th class="right">@Html.DisplayNameFor(model => model.SubTotal)</th>
                                         @*<th class="right">SubTotal</th>*@
                                         @*<th>
-                                                <a asp-controller="Receipt" asp-action="Add">
+                                                <a asp-controller="Reciept" asp-action="Add">
                                                     <span class="btn btn-success"><strong>&#x271A; Add</strong></span>
                                                 </a>
                                             </th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     <tr>
                                         <td class="left">
                                             @Html.DisplayFor(model => model.Product.Name)
@@ -159,20 +162,20 @@
                                                 @Html.DisplayFor(model => model.Total)
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="left">
-                                                <strong>HST (13%)</strong>
-                                            </td>
-                                            <td class="right">$679,76</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="left">
-                                                <strong>Total</strong>
-                                            </td>
-                                            <td class="right">
-                                                <strong>$7.477,36</strong>
-                                            </td>
-                                        </tr>
+                                        @*<tr>
+                                                <td class="left">
+                                                    <strong>HST (13%)</strong>
+                                                </td>
+                                                <td class="right">$679,76</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left">
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="right">
+                                                    <strong>$7.477,36</strong>
+                                                </td>
+                                            </tr>*@
                                     </tbody>
                                 </table>
                                 @*<div class="form-group">
@@ -186,16 +189,12 @@
         </div>
     </div>
 </form>
-@*<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID" class="d-print-none">Edit</a>
-    <a asp-action="Index" class="d-print-none">Back to List</a>
-</div>*@
 
 <div class="row">
     <div class="form-group" style="padding-right: 20px">
-        <a asp-action="Index" class="btn btn-primary">Back to Invoice</a>
+        <a asp-action="Index" class="btn btn-primary d-print-none">Back to Invoice</a>
     </div>
     <div class="form-group" style="padding-right: 20px">
-        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-info">Edit</a>
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-info d-print-none">Edit</a>
     </div>
 </div>

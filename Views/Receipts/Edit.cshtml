@@ -4,9 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Receipt</h4>
+<h1>Edit Receipt</h1>
 <hr />
 @*<div class="row">
         <div class="col-md-4">
@@ -66,6 +64,8 @@
     </div>*@
 
 
+
+
 <form asp-action="Edit">
     <div class="container-fluid">
         <div id="ui-view" data-select2-id="ui-view">
@@ -74,12 +74,12 @@
                     <div class="card-header">
                         Invoice
                         <input asp-for="CompletedOn" style="border: none;" value="@DateTime.Today.ToString("yyyy-MM-dd")" readonly />
-                        <a class="btn btn-sm btn-secondary float-right mr-1 d-print-none" href="#" onclick="javascript:window.print();" data-abc="true">
-                            <i class="fa fa-print"></i> Print
-                        </a>
-                        <a class="btn btn-sm btn-info float-right mr-1 d-print-none" href="#" data-abc="true">
-                            <i class="fa fa-save"></i> Save
-                        </a>
+                        @*<a class="btn btn-sm btn-secondary float-right mr-1 d-print-none" href="#" onclick="javascript:window.print();" data-abc="true">
+                                <i class="fa fa-print"></i> Print
+                            </a>
+                            <a class="btn btn-sm btn-info float-right mr-1 d-print-none" href="#" data-abc="true">
+                                <i class="fa fa-save"></i> Save
+                            </a>*@
                     </div>
                     <div class="card-body">
                         <div class="row mb-4">
@@ -121,15 +121,10 @@
                                         <th>Quantity</th>
                                         <th class="center">Unit Cost</th>
                                         <th class="right">Total</th>
-                                        @*<th class="right">SubTotal</th>*@
-                                        @*<th>
-                                                <a asp-controller="Receipt" asp-action="Add">
-                                                    <span class="btn btn-success"><strong>&#x271A; Add</strong></span>
-                                                </a>
-                                            </th>*@
+                                        <th></th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="tableNewRow">
                                     <tr>
                                         <td class="left">
                                             <select asp-for="ProductID" id="ProductID" class="form-control" asp-items="ViewBag.ProductID"></select>
@@ -138,11 +133,14 @@
                                             <input asp-for="Quantity" type="text" id="Quantity" class="form-control" />
                                         </td>
                                         <td>
-                                            <select asp-for="ProductUnitPriceID" id="ProductUnitPriceID" class="form-control" asp-items="ViewBag.ProductUnitPriceID"></select>
+                                            <select asp-for="ProductUnitPriceID" style="-webkit-appearance: none;" id="ProductUnitPriceID" class="form-control" asp-items="ViewBag.ProductUnitPriceID"></select>
                                         </td>
                                         <td class="right">
                                             <input asp-for="SubTotal" type="text" id="SubTotal" class="form-control" />
                                         </td>
+
+                                        <td><span class="btn btn-sm btn-success" id="btnAdd">Add New</span></td>
+                                        <td><span class="btn btn-sm btn-danger" id="btnDelete">Delete</span></td>
 
                                     </tr>
                                 </tbody>
@@ -154,26 +152,26 @@
                                     <tbody>
                                         <tr>
                                             <td class="left">
-                                                <strong>Subtotal</strong>
+                                                <strong>Subtotal (13%)</strong>
                                             </td>
                                             <td class="center">
                                                 <input asp-for="Total" type="text" id="Total" class="form-control" />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="left">
-                                                <strong>HST (13%)</strong>
-                                            </td>
-                                            <td class="right">$679,76</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="left">
-                                                <strong>Total</strong>
-                                            </td>
-                                            <td class="right">
-                                                <strong>$7.477,36</strong>
-                                            </td>
-                                        </tr>
+                                        @*<tr>
+                                                <td class="left">
+                                                    <strong>HST (13%)</strong>
+                                                </td>
+                                                <td class="right">$679,76</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left">
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="right">
+                                                    <strong>$7.477,36</strong>
+                                                </td>
+                                            </tr>*@
                                     </tbody>
                                 </table>
                                 <div class="form-group">
@@ -187,7 +185,6 @@
         </div>
     </div>
 </form>
-
 
 <div>
     <a asp-action="Index">Back to List</a>
@@ -238,4 +235,77 @@
             $("#Total").val(parseFloat(Total).toFixed(2));
         }
     </script>
+
+    <script>
+        $(document).ready(function ($) {
+            //--->add row at the end > start
+            //--->add row at the end > end
+
+
+            //--->current row > new > start
+            $(document).on('click', "#btnAdd", function (e) {
+                var r = $(this).closest('tr').clone();
+
+                $.each(r.find('td'), function (i1, v1) {
+                    //clear all data/value in td/cell
+                    $(this).html('');
+                });
+
+                $(this).closest('tr').after(r);
+            });
+            //--->current row > new > end
+
+
+            //--->current row > clone > start
+            $(document).on('click', "#btnAdd", function (e) {
+                var r = $(this).closest('tr').clone();
+                $(this).closest('tr').after(r);
+            });
+            //--->current row > clone > end
+
+            //--->current row > delete > start
+            $(document).on('click', "#btnDelete", function (e) {
+                var r = $(this).closest('tr').remove();
+            });
+            //--->current row > delete > end
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function ($) {
+            //--->add row at the end > start
+            //--->add row at the end > end
+
+
+            //--->current row > new > start
+            $(document).on('click', "#btnAdd", function (e) {
+                var r = $(this).closest('tr').clone();
+
+                $.each(r.find('td'), function (i1, v1) {
+                    //clear all data/value in td/cell
+                    $(this).html('');
+                });
+
+                $(this).closest('tr').after(r);
+            });
+            //--->current row > new > end
+
+
+            //--->current row > clone > start
+            $(document).on('click', "#btnAdd", function (e) {
+                var r = $(this).closest('tr').clone();
+                $(this).closest('tr').after(r);
+            });
+            //--->current row > clone > end
+
+            //--->current row > delete > start
+            $(document).on('click', "#btnDelete", function (e) {
+                var r = $(this).closest('tr').remove();
+            });
+            //--->current row > delete > end
+
+        });
+    </script>
+
 }
