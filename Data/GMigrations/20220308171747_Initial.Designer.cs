@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220307205011_Initial")]
+    [Migration("20220308171747_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
