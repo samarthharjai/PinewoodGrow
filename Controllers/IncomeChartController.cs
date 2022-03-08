@@ -33,7 +33,8 @@ namespace PinewoodGrow.Controllers
 			double mInc4 = member.ToList().Count(m => (m.Income <= 19999) && (m.Income >= 15000));
 			double mInc5 = member.ToList().Count(m => (m.Income <= 24999) && (m.Income >= 20000));
 			double mInc6 = member.ToList().Count(m => m.Income >= 25000);
-			
+			double mInc9 = member.ToList().Count();
+
 
 
 			List<DataPoint> dataPoints = new List<DataPoint>();
@@ -45,9 +46,17 @@ namespace PinewoodGrow.Controllers
 			dataPoints.Add(new DataPoint("$20000 to $24999", mInc5));
 			dataPoints.Add(new DataPoint("$25000 or more", mInc6));
 
+			List<DataPoint> tabledataPoints = new List<DataPoint>();
+			tabledataPoints.Add(new DataPoint("Under $5000", mInc1));
+			tabledataPoints.Add(new DataPoint("$5000 to $9999", mInc2));
+			tabledataPoints.Add(new DataPoint("$10000 to $14999", mInc3));
+			tabledataPoints.Add(new DataPoint("$15000 to $19999", mInc4));
+			tabledataPoints.Add(new DataPoint("$20000 to $24999", mInc5));
+			tabledataPoints.Add(new DataPoint("$25000 or more", mInc6));
+			tabledataPoints.Add(new DataPoint("Total", mInc9));
 
-            ViewData["graphData"] = JsonConvert.SerializeObject(dataPoints);
-            ViewData["tableData"] = dataPoints;
+			ViewData["graphData"] = JsonConvert.SerializeObject(dataPoints);
+            ViewData["tableData"] = tabledataPoints;
 
 			return View();
 		}

@@ -63,7 +63,7 @@ namespace PinewoodGrow.Controllers
 			tabledataPoints.Add(new DataPoint("Post-Sec. Student", mInc6));
 			tabledataPoints.Add(new DataPoint("Other", mInc7));
 			tabledataPoints.Add(new DataPoint("Employed", mInc8));
-			tabledataPoints.Add(new DataPoint("Total", mInc9));
+
 
 
 			ViewData["graphData"] = JsonConvert.SerializeObject(dataPoints);
