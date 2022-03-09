@@ -254,7 +254,8 @@
                                             <input asp-for="Quantity" type="text" id="Quantity" class="form-control" />
                                         </td>
                                         <td>
-                                            <select asp-for="ProductUnitPriceID" style="-webkit-appearance: none;" id="ProductUnitPriceID" class="form-control" asp-items="ViewBag.ProductUnitPriceID"></select>
+                                            <input id="txtUnitPrice" name="unitPrice" class="form-control"  type="text" value="@ViewBag.UnitPrice"/>
+                                            @*<select asp-for="ProductUnitPriceID" style="-webkit-appearance: none;" id="ProductUnitPriceID" class="form-control" asp-items="ViewBag.ProductUnitPriceID"></select>*@
                                         </td>
                                         <td class="right">
                                             <input asp-for="SubTotal" type="text" id="SubTotal" class="form-control" />
@@ -309,7 +310,7 @@
                                     <button type="submit" value="Create" class="btn btn-sm btn-info float-right mr-1 d-print-none" data-abc="true">
                                         <i class="fa fa-save"></i> Save
                                     </button>
-                                    @*<input type="text" value="@ViewBag.UnitPrice"/>*@
+                              
                                 </div>
                             </div>
                         </div>
@@ -330,14 +331,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script src="~/js/refreshDDL.js"></script>
+    <script src="~/js/GetUnitPrice.js"></script>
     <script type="text/javascript">
         $('#ProductID').change(function () {
-            var selectedProvince = $("#ProductID").val();
-            var URL = "/Reciepts/GetUnitPrice/" + selectedProvince;
-            refreshDDL('ProductUnitPriceID', URL, true);
-
-
+            var selectedProduct = $("#ProductID").val();
+            var URL = "/Receipts/GetUnitPrice/" + selectedProduct;
+            refreshDDL('txtUnitPrice', URL, true);
+          
         });
 
         $(document).ready(function () {
@@ -348,12 +348,14 @@
             $("input[type=text]").change(function () {
                 CalculateGrandTotal();
             });
-
+          
         });
 
         function CalculateSubTotal() {
-            var UnitPrice = $("#ProductUnitPriceID").val();
+            var UnitPrice = $("#txtUnitPrice").val();
             var Quantity = $("#Quantity").val();
+
+
 
             var Total = parseFloat(UnitPrice) * parseFloat(Quantity);
             $("#SubTotal").val(parseFloat(Total).toFixed(2));

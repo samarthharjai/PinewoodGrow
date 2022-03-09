@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
@@ -113,6 +114,8 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
+
+
             var Receipt = await _context.Receipts
                 .Include(r => r.Household)
                 .Include(r => r.Payment)
@@ -140,8 +143,31 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProductID,Quantity,Total,SubTotal,ProductUnitPriceID,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt)
+        public async Task<IActionResult> Create([Bind("ID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
         {
+
+            var Price = UnitPrice(Receipt.ProductID);
+            if (Math.Abs(Price.ProductPrice - unitPrice) > 0.001)
+            {
+                var productUnitPriceToAdd = new ProductUnitPrice
+                {
+                    ProductID = Receipt.ProductID,
+                    ProductPrice = unitPrice,
+                    Date = DateTime.UtcNow
+                };
+                _context.ProductUnitPrices.Add(productUnitPriceToAdd);
+                await _context.SaveChangesAsync();
+                Receipt.ProductUnitPriceID = productUnitPriceToAdd.ID;
+            }
+            else
+            {
+                Receipt.ProductUnitPriceID = Price.ID;
+            }
+            
+
+      
+            
+
             if (ModelState.IsValid)
             {
                 _context.Add(Receipt);
@@ -174,11 +200,29 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,ProductID,Quantity,Total,SubTotal,ProductUnitPriceID,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
         {
             if (id != Receipt.ID)
             {
                 return NotFound();
+            }
+
+            var Price = UnitPrice(Receipt.ProductID);
+            if (Math.Abs(Price.ProductPrice - unitPrice) > 0.001)
+            {
+                var productUnitPriceToAdd = new ProductUnitPrice
+                {
+                    ProductID = Receipt.ProductID,
+                    ProductPrice = unitPrice,
+                    Date = DateTime.UtcNow
+                };
+                _context.ProductUnitPrices.Add(productUnitPriceToAdd);
+                await _context.SaveChangesAsync();
+                Receipt.ProductUnitPriceID = productUnitPriceToAdd.ID;
+            }
+            else
+            {
+                Receipt.ProductUnitPriceID = Price.ID;
             }
 
             if (ModelState.IsValid)
@@ -246,7 +290,7 @@ namespace PinewoodGrow.Controllers
         }
 
 
-        private SelectList UnitPriceSelectList(int? ProductID, int? selectedId)
+        private SelectList UnitPriceSelectList(int? ProductID, int? selectedId = 0)
         {
             //The ProvinceID has been added so we can filter by it.
             var query = from c in _context.ProductUnitPrices.Include(c => c.Product)
@@ -258,12 +302,13 @@ namespace PinewoodGrow.Controllers
             return new SelectList(query.OrderBy(p => p.ProductPrice), "ProductPrice", "ProductPrice", selectedId);
         }
 
-        private double GetUnitPrice(int id)
+        private ProductUnitPrice UnitPrice(int id)
         {
-
+            if (id == 0) return null;
             var prices = _context.ProductUnitPrices.Where(a => a.ProductID == id).ToList();
-            var price = prices.First(a => a.Date == prices.Max(p => p.Date)).ProductPrice;
-            return price;
+            if (prices.Count == 0) return null;
+            var product = prices.First(a => a.Date == prices.Max(p => p.Date));
+            return product;
         }
 
         private void PopulateDropDownLists(Receipt Receipt = null)
@@ -272,7 +317,7 @@ namespace PinewoodGrow.Controllers
             var unit = UnitPriceSelectList(null, null);
             ViewData["ProductID"] = productSelect;
             ViewData["ProductUnitPriceID"] = UnitPriceSelectList(null, null);
-            /*ViewData["UnitPrice"] = GetUnitPrice((int)productSelect.SelectedValue);*/
+            ViewData["UnitPrice"] = UnitPrice(Convert.ToInt32(productSelect.First().Value)).ProductPrice;
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary");
             ViewData["PaymentID"] = new SelectList(_context.Payments, "ID", "Type");
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", Receipt.ProductID);
@@ -283,10 +328,11 @@ namespace PinewoodGrow.Controllers
         [HttpGet]
         public JsonResult GetUnitPrice(int? ID)
         {
-            return Json(UnitPriceSelectList(ID, null));
+            var price = UnitPrice(ID ?? 0);
+            return Json((price?.ProductPrice ?? 0));
         }
 
-
+     
         private bool ReceiptExists(int id)
         {
             return _context.Receipts.Any(e => e.ID == id);
