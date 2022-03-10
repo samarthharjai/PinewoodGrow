@@ -21,41 +21,11 @@ namespace PinewoodGrow.Models
 		//[Required(ErrorMessage = "You cannot leave the House Income blank.")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
-		public double HouseIncome {
-			get 
-			{
-				{
-					double income = 0;
+		public double HouseIncome => Members.Select(a=> a.Income).ToList().Sum(); 
+	
 
-					foreach (Member m in Members)
-					{
-						income += m.Income;
-					}
+		public string HouseSummary =>  ID + " - " + FamilyName;
 
-					return income;
-				};
-			}
-            set
-            {
-
-            }
-        }
-
-		public string HouseSummary
-		{
-			get
-			{
-				{
-					string houseSummary = ID + " - " + FamilyName;
-
-					return houseSummary;
-				};
-			}
-			set
-			{
-
-			}
-		}
 
 		[Display(Name = "Family Size")]
 		[Required(ErrorMessage = "You cannot leave the Family Size blank.")]
@@ -76,29 +46,23 @@ namespace PinewoodGrow.Models
 				{
 					bool calcLICO = false;
 
-					if (FamilySize == 1 && HouseIncome <= 22186)
-						calcLICO = true;
-					else if (FamilySize == 2 && HouseIncome <= 27619)
-						calcLICO = true;
-					else if (FamilySize == 3 && HouseIncome <= 33953)
-						calcLICO = true;
-					else if (FamilySize == 4 && HouseIncome <= 41225)
-						calcLICO = true;
-					else if (FamilySize == 5 && HouseIncome <= 46757)
-						calcLICO = true;
-					else if (FamilySize == 6 && HouseIncome <= 52734)
-						calcLICO = true;
-					else if (FamilySize == 7 && HouseIncome <= 58712)
-						calcLICO = true;
+					switch (FamilySize)
+                    {
+                        case 1 when HouseIncome <= 22186:
+                        case 2 when HouseIncome <= 27619:
+                        case 3 when HouseIncome <= 33953:
+                        case 4 when HouseIncome <= 41225:
+                        case 5 when HouseIncome <= 46757:
+                        case 6 when HouseIncome <= 52734:
+                        case 7 when HouseIncome <= 58712:
+                            calcLICO = true;
+                            break;
+                    }
 
 					return calcLICO;
 				};
 			}
-			set
-			{
-
-			}
-		}
+        }
 
 		public int AddressID { get; set; }
 		public Address Address { get; set; }

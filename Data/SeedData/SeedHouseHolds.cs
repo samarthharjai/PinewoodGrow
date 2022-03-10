@@ -68,12 +68,10 @@ namespace PinewoodGrow.Data.SeedData
                 var FamilyCount = rnd.Next(1, 5);
                 var house = new Household()
                 {
-                    HouseIncome = 10000,
                     AddressID = address,
                     FamilySize = FamilyCount + DependantCount, // Total Family Size
                     FamilyName = "",
                     Dependants = DependantCount,
-                    LICO = true,
                 };
                 context.Add(house);
                 context.SaveChanges();

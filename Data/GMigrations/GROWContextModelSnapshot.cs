@@ -140,15 +140,6 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("FamilySize")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("HouseIncome")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("HouseSummary")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("LICO")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("ID");
 
                     b.HasIndex("AddressID");

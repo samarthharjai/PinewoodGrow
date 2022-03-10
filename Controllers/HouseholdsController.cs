@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AnaanAndrews_Canada_Games.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -52,12 +53,15 @@ namespace PinewoodGrow.Controllers
             var household = await _context.Households
                 .Include(h => h.Members)
                 .Include(h => h.Address)
+                .ThenInclude(a=> a.TravelDetail)
                 .Include(h => h.MemberHouseholds)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (household == null)
             {
                 return NotFound();
             }
+
+            ViewData["TravelStats"] = new TravelStats(household.Address.TravelDetail);
 
             return View(household);
         }
@@ -88,7 +92,6 @@ namespace PinewoodGrow.Controllers
             var household = new Household
             {
                 AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city),
-                LICO = true,
                 FamilySize = 1,
                 Dependants = Dependants
             };
@@ -172,6 +175,17 @@ namespace PinewoodGrow.Controllers
             return View(new MemberHouseHoldModel() { Household = household, Member = member });
         }
 
+
+        /*public async Task<IActionResult> AddMember(int HouseHoldID)
+        {
+            return RedirectToAction("AddMember", "Households");
+        }*/
+        /*[HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMember()
+        {
+            return RedirectToAction("AddMember", "Households", new { HouseholdID = HouseHoldID });
+        }*/
         // GET: Households/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -286,6 +300,9 @@ namespace PinewoodGrow.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+
 
         
         private void PopulateAssignedMemberData(Household household)
@@ -575,6 +592,98 @@ namespace PinewoodGrow.Controllers
         private bool MemberExists(int id)
         {
             return _context.Households.Any(e => e.ID == id);
+        }
+
+        public IActionResult AddMember(int? HouseholdID)
+        {
+     
+            ViewDataReturnURL();
+            if (!HouseholdID.HasValue)
+            {
+                return Redirect(ViewData["returnURL"].ToString());
+            }
+            var member = new Member
+            {
+                HouseholdID = HouseholdID.GetValueOrDefault()
+            };
+
+            PopulateAssignedDietaryData(member);
+            PopulateAssignedSituationData(member);
+            PopulateAssignedIllnessData(member);
+            PopulateDropDownLists();
+            return View(member);
+        }
+
+        // POST: Members/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMember([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
+                                                         ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID,ODSPIncome,OWIncome,CPPIncome,EIIncome,GAINSIncome,PSIncome,OIncome,EIncome")] Member member,
+            string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles
+            )
+        //string Lat, string Lng, string AddressName, string postal, string city
+        {
+            try
+            {
+                //member.AddressID =  await GetAddressID(Lat, Lng, AddressName, postal, city);
+
+                if (selectedDietaryOptions != null)
+                {
+                    foreach (var dietary in selectedDietaryOptions)
+                    {
+                        var dietaryToAdd = new MemberDietary { MemberID = member.ID, DietaryID = int.Parse(dietary) };
+                        member.MemberDietaries.Add(dietaryToAdd);
+                    }
+                }
+                if (selectedSituationOptions != null)
+                {
+                    foreach (var situation in selectedSituationOptions)
+                    {
+                        var situationToAdd = new MemberSituation { MemberID = member.ID, SituationID = int.Parse(situation) };
+                        member.MemberSituations.Add(situationToAdd);
+                    }
+                }
+                if (selectedIllnessOptions != null)
+                {
+                    foreach (var illness in selectedIllnessOptions)
+                    {
+                        var illnessToAdd = new MemberIllness { MemberID = member.ID, IllnessID = int.Parse(illness) };
+                        member.MemberIllnesses.Add(illnessToAdd);
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    await AddDocumentsAsync(member, theFiles);
+                    _context.Add(member);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", "Households", new { @id = member.HouseholdID });
+                }
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+            }
+            catch (DbUpdateException)
+            {
+
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+
+            }
+            PopulateAssignedSituationData(member);
+            PopulateAssignedDietaryData(member);
+            PopulateAssignedIllnessData(member);
+            PopulateDropDownLists(member);
+            return View(member);
+        }
+        private string ControllerName()
+        {
+            return this.ControllerContext.RouteData.Values["controller"].ToString();
+        }
+        private void ViewDataReturnURL()
+        {
+            ViewData["returnURL"] = MaintainURL.ReturnURL(HttpContext, ControllerName());
         }
     }
 }

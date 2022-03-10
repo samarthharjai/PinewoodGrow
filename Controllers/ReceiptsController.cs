@@ -337,5 +337,8 @@ namespace PinewoodGrow.Controllers
         {
             return _context.Receipts.Any(e => e.ID == id);
         }
+
+
+   
     }
 }

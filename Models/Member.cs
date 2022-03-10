@@ -18,23 +18,16 @@ namespace PinewoodGrow.Models
 		}
 
 		[Display(Name = "Member")]
-		public string FullName
-		{
-			get
-			{
-				return FirstName + " " + LastName;
-			}
-		}
+		public string FullName => FirstName + " " + LastName;
 
-		[Display(Name = "Phone")]
+        [Display(Name = "Phone")]
 		public string TelephoneFormatted
 		{
 			get
 			{
 				if (Telephone.Length == 10)
 					return "(" + Telephone.Substring(0, 3) + ") " + Telephone.Substring(3, 3) + "-" + Telephone[6..];
-				else
-					return Telephone.Substring(0, 1) + "(" + Telephone.Substring(1, 3) + ") " + Telephone.Substring(4, 3) + "-" + Telephone[7..];
+                return Telephone.Substring(0, 1) + "(" + Telephone.Substring(1, 3) + ") " + Telephone.Substring(4, 3) + "-" + Telephone[7..];
 			}
 		}
 

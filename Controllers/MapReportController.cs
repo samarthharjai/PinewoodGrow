@@ -64,6 +64,8 @@ namespace PinewoodGrow.Controllers
             Markers = _context.Households.Include(a => a.Address)
                 .ThenInclude(t => t.TravelDetail)
                 .ThenInclude(t => t.GroceryStore)
+                .Include(a=> a.Members)
+                .ThenInclude(a=> a.Household)
                 .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
                 .Select(a => new MapMarker(a, a.HouseIncome, a.Members.Count)).ToList();
 
@@ -76,7 +78,6 @@ namespace PinewoodGrow.Controllers
                     .Where(a => a.Address.TravelDetail.GroceryStore.ID == g.ID)
                     .ToList())
                 ).ToList();
-
 
 
 

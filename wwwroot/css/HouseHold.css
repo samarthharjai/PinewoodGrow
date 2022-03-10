@@ -1,0 +1,197 @@
+﻿/*Households Map Report for Map Report*/
+.title {
+    height: 200px;
+    width: 70vw;
+}
+.title h1 {
+    padding-top: 100px;
+    font-size: 34px;
+
+}
+ h2 {
+    color: #397a4c;
+    font-size: 24px;
+    font-weight: normal;
+}
+hr {
+        color: #397a4c;
+}
+.colored {
+    background-color: #397A4C;
+}
+
+dl {
+    margin-bottom: 100px;
+}
+
+.actionsContainer {
+    width: 30vw;
+    display: flex;
+    float: right;
+    justify-content: right;
+    position: relative;
+    gap: 20px;
+    top: -50px;
+    left: -50px;
+}
+
+
+.btn-back a {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #397a4c;
+    border: #397a4c 1px solid;
+}
+
+.btn-back a > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    transition: all 0.4s ease-in;
+}
+
+.btn-back a:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+}
+
+    .btn-back a:hover {
+        box-shadow: 9px 9px 33px #d7e5db, -9px -9px 33px #d7e5db;
+        transform: translateY(-2px);
+    }
+
+
+    .btn-add a {
+        display: flex;
+        height: 2.2em;
+        width: 90px;
+        align-items: center;
+        justify-content: center;
+        background-color: #397a4c;
+        border-radius: 3px;
+        letter-spacing: 1px;
+        transition: all 0.2s linear;
+        cursor: pointer;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #ffffff;
+        border: #397a4c 1px solid;
+
+    }
+
+.btn-add a > svg {
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        transition: all 0.4s ease-in;
+    }
+
+.btn-add a:hover > svg {
+        font-size: 1.2em;
+        transform: translateX(-5px);
+    }
+
+        .btn-add a:hover {
+            box-shadow: 9px 9px 33px #d7e5db, -9px -9px 33px #d7e5db;
+            background-color: #3A7D4E;
+            transform: translateY(-2px);
+        }
+
+
+
+.btn-view a {
+    color: #090909;
+    padding: 0.7em 1.7em;
+    font-size: 18px;
+    border-radius: 0.5em;
+    background: #e8e8e8;
+    border: 1px solid #e8e8e8;
+    transition: all .3s;
+    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+.btn-view a:hover {
+    border: 1px solid white;
+}
+
+.btn-view a:active {
+    box-shadow: 4px 4px 12px #c5c5c5, -4px -4px 12px #ffffff;
+}
+.travel-container {
+    height: 800px;
+    border-radius: 12px;
+}
+
+.colored {
+    background-color: #397A4C;
+}
+
+.travel-display {
+    display: flex;
+    margin-top: 10px;
+    border-radius: 12px;
+}
+
+.travel-avg {
+    text-align: center;
+    float: left;
+    width: 33%;
+}
+
+.travel-avg img {
+    position: relative;
+    top: 55px;
+    width: 130px;
+    z-index: 1;
+}
+
+.travel-avg p {
+    color: #ffffff;
+    z-index: 999;
+    font-weight: bold;
+    font-size: 20px;
+    position: relative;
+}
+
+.distance {
+    height: 240px;
+    border-radius: 12px;
+    width: 30%;
+    text-align: center;
+}
+
+.distance img {
+    position: relative;
+    top: 10px;
+    width: 130px;
+    z-index: 1;
+}
+
+.distance-title h2 {
+    color: #ffffff
+}
+
+.distance-title-color h2 {
+    color: #397A4C
+}
+
+.distance p {
+    font-weight: bold;
+    font-size: 20px;
+    color: #397A4C;
+    text-align: center;
+    position: relative;
+    top: -45px;
+}
+
