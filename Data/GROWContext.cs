@@ -61,9 +61,13 @@ namespace PinewoodGrow.Data
             modelBuilder.Entity<Address>()
                 .HasOne(c => c.TravelDetail)
                 .WithOne(c => c.Address)
-                .HasForeignKey<TravelDetail>(c=> c.AddressID);    
+                .HasForeignKey<TravelDetail>(c=> c.AddressID);
 
-			//Prevent Cascade Delete from Household to Member
+            modelBuilder.Entity<Address>()
+                .HasIndex(a => a.PlaceID)
+                .IsUnique();
+
+            //Prevent Cascade Delete from Household to Member
 			modelBuilder.Entity<Household>()
 				.HasMany<Member>(m => m.Members)
 				.WithOne(h => h.Household)

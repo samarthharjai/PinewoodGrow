@@ -69,19 +69,23 @@ namespace PinewoodGrow.Controllers
                 .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
                 .Select(a => new MapMarker(a, a.HouseIncome, a.Members.Count)).ToList();
 
-  
-            ViewData["Stores"] = _context.GroceryStores.Select(g => 
-                new StoreMapMarker(g, _context.Households
-                    .Include(a => a.Address)
-                    .ThenInclude(a => a.TravelDetail)
-                    .ThenInclude(a => a.GroceryStore)
-                    .Where(a => a.Address.TravelDetail.GroceryStore.ID == g.ID)
-                    .ToList())
+            
+
+
+            ViewData["Stores"] = _context.Households.Include(a => a.Address)
+                .ThenInclude(a => a.TravelDetail)
+                .ThenInclude(a => a.GroceryStore)
+                .Select(g =>
+                    new StoreMapMarker(g.Address.TravelDetail.GroceryStore, _context.Households
+                        .Include(a => a.Address)
+                        .ThenInclude(a => a.TravelDetail)
+                        .ThenInclude(a => a.GroceryStore)
+                        .Where(a => a.Address.TravelDetail.GroceryStore.ID == g.Address.TravelDetail.GroceryStore.ID)
+                        .ToList())
                 ).ToList();
 
 
-
-            ViewData["TravelStats"] = new TravelStats(_context.TravelDetails.Select(a => a).ToList());
+            ViewData["TravelStats"] = new TravelStats(_context.Households.Include(a=> a.Address).ThenInclude(a=> a.TravelDetail).Select(a => a.Address.TravelDetail).ToList());
 
             ViewData["TravelData"] = _context.Households.Include(a=> a.Members).Include(a => a.Address).ThenInclude(a => a.TravelDetail)
                 .Select(a => new TravelDataPoints(a, a.Address.TravelDetail)).ToList();

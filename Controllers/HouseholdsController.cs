@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
+using PinewoodGrow.Data.Repositorys;
 using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
 using PinewoodGrow.ViewModels;
@@ -19,6 +20,7 @@ namespace PinewoodGrow.Controllers
     public class HouseholdsController : Controller
     {
         private readonly GROWContext _context;
+        private readonly TravelDataRepository travelDataRepository = new TravelDataRepository();
 
         public HouseholdsController(GROWContext context)
         {
@@ -87,11 +89,11 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult>
             Create(int Dependants, bool LICO, string FirstName, string LastName, DateTime DOB, string Telephone, string Email, double Income, string Notes, bool consent, int VolunteerID, DateTime CompletedOn, int GenderID,
                 string[] selectedOptions, string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions,List<IFormFile> theFiles,
-        string Lat, string Lng, string AddressName, string postal, string city)
+        string Lat, string Lng, string AddressName, string postal, string city, string placeID)
         {
             var household = new Household
             {
-                AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city),
+                AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city, placeID),
                 FamilySize = 1,
                 Dependants = Dependants
             };
@@ -214,25 +216,30 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,HouseIncome,LICO")] Household household, string[] selectedOptions)
+        public async Task<IActionResult> Edit(int id, string[] selectedOptions,string Lat, string Lng, string AddressName, string postal, string city, string placeID)
         {
             var householdToupdate = await _context.Households
                 .Include(d => d.Address)
+                .Include(d=> d.Members)
                 .Include(d => d.MemberHouseholds)
                 .ThenInclude(d => d.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
-            //Check that you got it or exit with a not found error
             if (householdToupdate == null)
             {
                 return NotFound();
             }
 
-            UpdateHouseholdMembers(selectedOptions, householdToupdate);
+            /*household.FamilySize = householdToupdate.Members.Count + household.Dependants;*/
+            householdToupdate.AddressID = await GetAddressID(Lat, Lng, AddressName, placeID, postal, city);
+
+
+            if(await TryUpdateModelAsync(householdToupdate, ""))
+
 
             //Try updating it with the values posted
             if (await TryUpdateModelAsync<Household>(householdToupdate, "",
-                d => d.ID))
+                d => d.ID, d=> d.AddressID, d=> d.Dependants, d=> d.FamilyName, d=> d.FamilySize))
             {
                 try
                 {
@@ -267,7 +274,6 @@ namespace PinewoodGrow.Controllers
                 }
             }
 
-            PopulateAssignedMemberData(householdToupdate);
             return View(householdToupdate);
         }
 
@@ -568,8 +574,26 @@ namespace PinewoodGrow.Controllers
             return _context.Households.Any(e => e.ID == id);
         }
 
+        private async Task<int> CreateAddress(Address address)
+        {
+            _context.Add(address);
+            await _context.SaveChangesAsync();
 
-        private async Task<int> GetAddressID(string Lat, string Lng, string AddressName, string postal, string city)
+            var (travel, store) = await TravelDataRepository.GetTravelTimes(address);
+
+            if (_context.GroceryStores.All(a => a.ID != store.ID))
+            {
+                _context.Add(store);
+                await _context.SaveChangesAsync();
+            }
+            _context.Add(travel);
+            await _context.SaveChangesAsync();
+            return address.ID;
+        }
+
+        
+
+        private async Task<int> GetAddressID(string Lat, string Lng, string AddressName, string placeID, string postal, string city)
         {
 
             var tempAddress = new Address()
@@ -577,16 +601,13 @@ namespace PinewoodGrow.Controllers
                 FullAddress = AddressName,
                 PostalCode = postal,
                 City = city,
+                PlaceID = placeID,
                 Latitude = string.IsNullOrEmpty(Lat) ? (double?)null : Convert.ToDouble(Lat),
                 Longitude = string.IsNullOrEmpty(Lng) ? (double?)null : Convert.ToDouble(Lng),
             };
-
-            if (!_context.Addresses.Any(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode))
-            {
-                _context.Addresses.Add(tempAddress);
-                await _context.SaveChangesAsync();
-            }
-            return (await _context.Addresses.FirstOrDefaultAsync(a => a.FullAddress == tempAddress.FullAddress && a.PostalCode == tempAddress.PostalCode)).ID;
+            tempAddress = _context.Addresses.FirstOrDefault(a => a.PlaceID == tempAddress.PlaceID) ?? tempAddress;
+            tempAddress.ID = tempAddress.ID == 0 ? await CreateAddress(tempAddress) : tempAddress.ID;
+            return tempAddress.ID;
 
         }
         private bool MemberExists(int id)

@@ -61,7 +61,7 @@ namespace PinewoodGrow.Data.Repositorys
         /// <param name="addresses"> List of addresses you wish to get the travel details off</param>
         /// <param name="stores">Optional Inital list of stores, </param>
         /// <returns></returns>
-        public static async Task<Tuple<List<TravelDetail>, List<GroceryStore>>> GetAllTravelDetails(List<Address> addresses, List<GroceryStore> stores = null)
+        public  static async Task<Tuple<List<TravelDetail>, List<GroceryStore>>> GetAllTravelDetails(List<Address> addresses, List<GroceryStore> stores = null)
         {
             var details = new List<TravelDetail>();
             stores ??= new List<GroceryStore>();
@@ -81,7 +81,7 @@ namespace PinewoodGrow.Data.Repositorys
         /// </summary>
         /// <param name="address">Specific address used to get travel details</param>
         /// <returns></returns>
-        public static async Task<Tuple<TravelDetail, GroceryStore>> GetTravelTimes(Address address)
+        public  static async Task<Tuple<TravelDetail, GroceryStore>> GetTravelTimes(Address address)
         {
             //Gets rough estimate of closest grocery stores based on distance of a direct line from address to selected location
             var request = $"/maps/api/place/nearbysearch/json?location={address.Latitude},%20{address.Longitude}&rankby=distance&keyword=supermarket%20store&key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&";
@@ -184,6 +184,10 @@ namespace PinewoodGrow.Data.Repositorys
         }
 
 
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 //	PlaceID ChIJbf6m4jFD04kR1yYC_1dzufs
