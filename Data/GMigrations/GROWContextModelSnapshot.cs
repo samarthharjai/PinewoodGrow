@@ -47,6 +47,9 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("PlaceID")
+                        .IsUnique();
+
                     b.ToTable("Addresses");
                 });
 
@@ -127,7 +130,7 @@ namespace PinewoodGrow.Data.GMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AddressID")
+                    b.Property<int?>("AddressID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Dependants")
@@ -138,6 +141,12 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("FamilySize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsFixedAddress")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
@@ -652,9 +661,7 @@ namespace PinewoodGrow.Data.GMigrations
                 {
                     b.HasOne("PinewoodGrow.Models.Address", "Address")
                         .WithMany("Households")
-                        .HasForeignKey("AddressID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressID");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Invoice", b =>

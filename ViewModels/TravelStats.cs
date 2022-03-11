@@ -83,6 +83,26 @@ namespace PinewoodGrow.ViewModels
                 Distance = detail.GroceryDistance,
             };
         }
+        public TravelStats()
+        {
+
+
+            Grow = new Avg()
+            {
+                Walk = 0,
+                Bike = 0,
+                Drive = 0,
+                Distance = 0,
+            };
+
+            Store = new Avg()
+            {
+                Walk = 0,
+                Bike = 0,
+                Drive = 0,
+                Distance = 0,
+            };
+        }
     }
  
     public class Avg

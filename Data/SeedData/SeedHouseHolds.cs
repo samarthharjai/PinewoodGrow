@@ -72,6 +72,7 @@ namespace PinewoodGrow.Data.SeedData
                     FamilySize = FamilyCount + DependantCount, // Total Family Size
                     FamilyName = "",
                     Dependants = DependantCount,
+                    IsFixedAddress = true,
                 };
                 context.Add(house);
                 context.SaveChanges();

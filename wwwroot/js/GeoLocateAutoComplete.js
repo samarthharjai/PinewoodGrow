@@ -32,7 +32,7 @@ function onPlaceChanged() {
         document.getElementById('autocomplete').placeholder = 'Enter a place';
     } else {
 
-     
+        console.log(place.name);
         //Gets Address Full Name
         document.getElementById('AddressName').value = place.name;
         //Gets Postal Code      let placeID = place.place_id;

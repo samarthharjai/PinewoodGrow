@@ -22,15 +22,15 @@ namespace PinewoodGrow.Models
 		[DataType(DataType.Currency)]
 		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
 		public double HouseIncome => Members.Select(a=> a.Income).ToList().Sum(); 
-	
+        
 
 		public string HouseSummary =>  ID + " - " + FamilyName;
 
 
 		[Display(Name = "Family Size")]
-		[Required(ErrorMessage = "You cannot leave the Family Size blank.")]
-		[Range(1, 115, ErrorMessage = "Family Size must be greater than 0.")]
-		public int FamilySize { get; set; }
+        public int FamilySize {
+            get => Members.Count  + Dependants;
+            set{} }
 
 		[Display(Name = "Family Name")]
 		[Required(ErrorMessage = "You cannot leave the Family Name blank.")]
@@ -64,7 +64,12 @@ namespace PinewoodGrow.Models
 			}
         }
 
-		public int AddressID { get; set; }
+        public bool IsFixedAddress { get; set; }
+
+		public bool IsActive { get; set; }
+
+
+		public int? AddressID { get; set; }
 		public Address Address { get; set; }
 
 		public ICollection<Member> Members { get; set; }

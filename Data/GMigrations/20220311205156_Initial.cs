@@ -140,7 +140,9 @@ namespace PinewoodGrow.Data.GMigrations
                     FamilySize = table.Column<int>(nullable: false),
                     FamilyName = table.Column<string>(nullable: false),
                     Dependants = table.Column<int>(nullable: false),
-                    AddressID = table.Column<int>(nullable: false)
+                    IsFixedAddress = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddressID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -150,7 +152,7 @@ namespace PinewoodGrow.Data.GMigrations
                         column: x => x.AddressID,
                         principalTable: "Addresses",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -562,6 +564,12 @@ namespace PinewoodGrow.Data.GMigrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_PlaceID",
+                table: "Addresses",
+                column: "PlaceID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Households_AddressID",

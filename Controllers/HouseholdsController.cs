@@ -40,6 +40,7 @@ namespace PinewoodGrow.Controllers
             ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
             var pagedData = await PaginatedList<Household>.CreateAsync(households.AsNoTracking(), page ?? 1, pageSize);
 
+
             //return View(await households.ToListAsync());
             return View(pagedData);
         }
@@ -63,7 +64,7 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
-            ViewData["TravelStats"] = new TravelStats(household.Address.TravelDetail);
+            ViewData["TravelStats"] = household.IsFixedAddress? new TravelStats(household.Address.TravelDetail): new TravelStats();
 
             return View(household);
         }
@@ -87,72 +88,22 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult>
-            Create(int Dependants, bool LICO, string FirstName, string LastName, DateTime DOB, string Telephone, string Email, double Income, string Notes, bool consent, int VolunteerID, DateTime CompletedOn, int GenderID,
-                string[] selectedOptions, string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions,List<IFormFile> theFiles,
-        string Lat, string Lng, string AddressName, string postal, string city, string placeID)
+            Create([Bind("FamilyName,Dependants")] Household household, string isFixedAddress, string Lat, string Lng, string AddressName, string postal, string city, string placeID)
         {
-            var household = new Household
-            {
-                AddressID = await GetAddressID(Lat, Lng, AddressName, postal, city, placeID),
-                FamilySize = 1,
-                Dependants = Dependants
-            };
+            household.IsFixedAddress = isFixedAddress == "true";
+            household.AddressID = household.IsFixedAddress? await GetAddressID(Lat, Lng, AddressName, placeID, postal, city): (int?)null; 
 
-            var member = new Member
-            {
-                FirstName = FirstName,
-                LastName = LastName,
-                DOB = DOB,
-                Telephone = Telephone,
-                Email = Email,
-                Income = Income,
-                Notes = Notes,
-                Consent = true,
-                VolunteerID = VolunteerID,
-                CompletedOn = CompletedOn,
-                GenderID = GenderID,
-            };
 
             try
             {
-
-
                 await _context.AddAsync(household);
                 await _context.SaveChangesAsync();
 
-                if (selectedDietaryOptions != null)
-                {
-                    foreach (var dietary in selectedDietaryOptions)
-                    {
-                        var dietaryToAdd = new MemberDietary { MemberID = member.ID, DietaryID = int.Parse(dietary) };
-                        member.MemberDietaries.Add(dietaryToAdd);
-                    }
-                }
-                if (selectedSituationOptions != null)
-                {
-                    foreach (var situation in selectedSituationOptions)
-                    {
-                        var situationToAdd = new MemberSituation { MemberID = member.ID, SituationID = int.Parse(situation) };
-                        member.MemberSituations.Add(situationToAdd);
-                    }
-                }
-                if (selectedIllnessOptions != null)
-                {
-                    foreach (var illness in selectedIllnessOptions)
-                    {
-                        var illnessToAdd = new MemberIllness { MemberID = member.ID, IllnessID = int.Parse(illness) };
-                        member.MemberIllnesses.Add(illnessToAdd);
-                    }
-                }
-
-                member.HouseholdID = household.ID;
                 if (ModelState.IsValid)
                 {
-                    await AddDocumentsAsync(member, theFiles);
-                    await _context.AddAsync(member);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = household.ID });
+                   return RedirectToAction("AddMember", "Households", new { HouseholdID = household.ID });
                 }
+
             }
             catch (RetryLimitExceededException /* dex */)
             {
@@ -160,21 +111,16 @@ namespace PinewoodGrow.Controllers
             }
             catch (DbUpdateException dex)
             {
-                if (dex.GetBaseException().Message.Contains("UNIQUE"))
-                {
-                    ModelState.AddModelError("", "Unable to save: Duplicate Household Number." );
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Unable to save changes to the database. Try again, and if the problem persists see your system administrator." );
-                }
+                ModelState.AddModelError("",
+                    dex.GetBaseException().Message.Contains("UNIQUE")
+                        ? "Unable to save: Duplicate Household Number."
+                        : "Unable to save changes to the database. Try again, and if the problem persists see your system administrator.");
             }
-            PopulateAssignedSituationData(member);
-            PopulateAssignedDietaryData(member);
-            PopulateAssignedIllnessData(member);
-            PopulateDropDownLists(member);
+
+        
+
             PopulateAssignedMemberData(household);
-            return View(new MemberHouseHoldModel() { Household = household, Member = member });
+            return View(new MemberHouseHoldModel() { Household = household, Member = null });
         }
 
 

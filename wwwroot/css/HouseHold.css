@@ -195,3 +195,21 @@ dl {
     top: -45px;
 }
 
+.green:focus ~ .green::before {
+    border-color: #397A4C !important;
+    box-shadow: 0 0 0 0rem rgba(0, 0, 0, 0) !important;
+}
+
+.green:checked ~ .green::before {
+    border-color: #397A4C !important;
+    background-color: #397A4C !important;
+}
+
+.green:active ~ .green::before {
+    background-color: #397A4C !important;
+    border-color: #397A4C !important;
+}
+
+.green:focus:not(:checked) ~ .green::before {
+    border-color: #397A4C !important;
+}

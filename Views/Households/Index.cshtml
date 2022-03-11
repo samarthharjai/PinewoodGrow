@@ -91,7 +91,18 @@
                         @Html.DisplayFor(modelItem => item.FamilySize)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Address.FullAddress)
+                        @{
+                            var display = "";
+                            if (item.IsFixedAddress)
+                            {
+                                display = item.Address.FullAddress + ", " + item.Address.City;
+                            }
+                            else
+                            {
+                                display = "No Fixed Address";
+                            }
+
+                        }   @display
                     </td>
                     <td>
                         <div class="btn-group">

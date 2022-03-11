@@ -89,6 +89,15 @@ namespace PinewoodGrow.Data
 			modelBuilder.Entity<Household>()
 				.HasIndex(h => h.ID)
 				.IsUnique();
+
+			//Adds One? to many Household to address
+            modelBuilder.Entity<Household>()
+                .HasOne(h => h.Address)
+                .WithMany(a => a.Households)
+                .HasForeignKey(h => h.AddressID)
+                .IsRequired(false);
+
+
 			/*
 						modelBuilder.Entity<Household>()
 							.HasOne(a => a.Address)

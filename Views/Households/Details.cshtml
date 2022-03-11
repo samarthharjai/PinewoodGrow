@@ -8,7 +8,20 @@
 
 <div class="title">
     <h1>@Html.DisplayFor(model => model.FamilyName) Household  </h1>
-    <h2>@Html.DisplayFor(model => model.Address.FullAddress), @Html.DisplayFor(model => model.Address.City)</h2>
+    <h2>
+        @{
+            var display = "";
+            if (Model.IsFixedAddress)
+            {
+                display = Model.Address.FullAddress + ", " + Model.Address.City;
+            }
+            else
+            {
+                display = "No Fixed Address";
+            }
+
+        }   @display
+    </h2>
 
 </div>
 <div class="actionsContainer">
@@ -36,40 +49,44 @@
     <div>
   
         <dl class="row" style="width: 100%">
-            <dt class="col-sm-2">
+            <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.ID)
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.ID)
             </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.HouseIncome)
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.HouseIncome)
             </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.LICO)
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.LICO)
             </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-4">
                 Family Size
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.FamilySize)
             </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Address.FormalAddress)
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Address.FormalAddress)
+            <dd class="col-sm-8">
+                @{
+                    var addr = "";
+                    addr = Model.IsFixedAddress ? Model.Address.FormalAddress : "No Fixed Address";
+
+                }   @addr
             </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Dependants)
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.Dependants)
             </dd>
         </dl>
