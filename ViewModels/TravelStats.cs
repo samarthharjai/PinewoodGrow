@@ -126,4 +126,10 @@ namespace PinewoodGrow.ViewModels
    
     }
 
+    public class IncomeStats
+    {
+        public string Name { get; set; }
+        public double Income { get; set; }
+    }
+
 }

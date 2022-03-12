@@ -65,7 +65,7 @@ namespace PinewoodGrow.Controllers
             }
 
             ViewData["TravelStats"] = household.IsFixedAddress? new TravelStats(household.Address.TravelDetail): new TravelStats();
-
+            ViewData["IncomeStats"] = household.Members.OrderByDescending(a => a.Income).Select(a=> new IncomeStats{Name = a.FullName, Income = a.Income}).ToList();
             return View(household);
         }
 

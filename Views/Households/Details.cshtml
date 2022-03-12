@@ -28,7 +28,7 @@
     <div class="btn-back">
         <a asp-action="Index">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
             </svg>
             <span>Back</span>
         </a>
@@ -36,163 +36,273 @@
     <div class="btn-back">
         <a asp-action="Edit" asp-route-id="@Model.ID">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
             </svg>
             <span>Edit</span>
         </a>
     </div>
     @*<div class="btn-view">
-        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
-    </div>*@
+            <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
+        </div>*@
 </div>
 <hr />
-    <div>
-  
-        <dl class="row" style="width: 100%">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ID)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ID)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.HouseIncome)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.HouseIncome)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.LICO)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.LICO)
-            </dd>
-            <dt class="col-sm-4">
-                Family Size
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.FamilySize)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Address.FormalAddress)
-            </dt>
-            <dd class="col-sm-8">
-                @{
-                    var addr = "";
-                    addr = Model.IsFixedAddress ? Model.Address.FormalAddress : "No Fixed Address";
+<div>
 
-                }   @addr
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Dependants)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Dependants)
-            </dd>
-        </dl>
-        <h2 style="width: 50%">@Html.DisplayNameFor(model => model.Members)</h2>
+    <dl class="row" style="width: 100%">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ID)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.ID)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.HouseIncome)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.HouseIncome)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.LICO)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.LICO)
+        </dd>
+        <dt class="col-sm-4">
+            Family Size
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.FamilySize)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Address.FormalAddress)
+        </dt>
+        <dd class="col-sm-8">
+            @{
+                var addr = "";
+                addr = Model.IsFixedAddress ? Model.Address.FormalAddress : "No Fixed Address";
 
-        <div class="actionsContainer" style="top: -10px;">
-            <div class="btn-add">
-                <a asp-controller="Households" asp-action="AddMember" asp-route-HouseholdID="@Model.ID">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                    </svg>
-                    <span>Add</span>
-                </a>
-            </div>
-        </div>
-          
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(modelItem => Model.Members.FirstOrDefault().FullName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(modelItem => Model.Members.FirstOrDefault().Age)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(modelItem => Model.Members.FirstOrDefault().Income)
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in Model.Members)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Members" asp-action="Details" asp-route-ID="@item.ID">
-                                @Html.DisplayFor(modelItem => item.FullName)
-                            </a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Age)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Income)
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        @{
-            TravelStats stats = ViewBag.TravelStats;
-        }
-        <div class="travel-container">
-            <div class="travel-title">
-                <h2 style="height: 150px; padding-top: 100px;">Travel Times & Distance</h2>
-            </div>
-            <div class="travel-display colored">
-                <div class="distance bg-white">
-                    <div class="distance-title-color">
-                        <h2>Grow</h2>
-                    </div>
-                    <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
-                    <p>@stats.Grow.DistanceFormat</p>
-                </div>
-                <div class="travel-avg">
-                    <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
-                    <p>@stats.Grow.DriveFormat</p>
-                </div>
-                <div class="travel-avg">
-                    <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
-                    <p>@stats.Grow.BikeFormat</p>
-                </div>
-                <div class="travel-avg">
-                    <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
-                    <p>@stats.Grow.WalkFormat</p>
-                </div>
-            </div>
-            <div class="travel-display colored">
-                <div class="distance bg-white">
-                    <div class="distance-title-color">
-                        <h2>Grocery</h2>
-                    </div>
-                    <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
-                    <p>@stats.Store.DistanceFormat</p>
-                </div>
-                <div class="travel-avg">
-                    <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
-                    <p>@stats.Store.DriveFormat</p>
-                </div>
-                <div class="travel-avg">
-                    <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
-                    <p>@stats.Store.BikeFormat</p>
-                </div>
-                <div class="travel-avg">
-                    <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
-                    <p>@stats.Store.WalkFormat</p>
-                </div>
+            }   @addr
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Dependants)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Dependants)
+        </dd>
+    </dl>
+    <h2 style="width: 50%">@Html.DisplayNameFor(model => model.Members)</h2>
 
-            </div>
+    <div class="actionsContainer" style="top: -10px;">
+        <div class="btn-add">
+            <a asp-controller="Households" asp-action="AddMember" asp-route-HouseholdID="@Model.ID">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+                </svg>
+                <span>Add</span>
+            </a>
         </div>
     </div>
-    @*<div class="row" style="margin: 0 auto; padding: 10px; justify-content:center;">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(modelItem => Model.Members.FirstOrDefault().FullName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => Model.Members.FirstOrDefault().Age)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => Model.Members.FirstOrDefault().Income)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Members)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Members" asp-action="Details" asp-route-ID="@item.ID">
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Income)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h2 class="title" style="margin-top: 50px; height: 50px;">Income Graphs</h2>
+    <div class="row" style="width: 100%">
+        <div style="width: 50%">
+            <canvas id="IncomeByMember" style="width: 50%"></canvas>
+        </div>
+        <div style="width: 50%">
+            <canvas id="IncomeByType" style="width: 50%"></canvas>
+        </div>
+    </div>
+
+
+
+    @{
+        TravelStats stats = ViewBag.TravelStats;
+    }
+    <div class="travel-container">
+        <div class="travel-title">
+            <h2 style="height: 150px; padding-top: 100px;">Travel Times & Distance</h2>
+        </div>
+        <div class="travel-display colored">
+            <div class="distance bg-white">
+                <div class="distance-title-color">
+                    <h2>Grow</h2>
+                </div>
+                <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
+                <p>@stats.Grow.DistanceFormat</p>
+            </div>
+            <div class="travel-avg">
+                <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
+                <p>@stats.Grow.DriveFormat</p>
+            </div>
+            <div class="travel-avg">
+                <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
+                <p>@stats.Grow.BikeFormat</p>
+            </div>
+            <div class="travel-avg">
+                <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
+                <p>@stats.Grow.WalkFormat</p>
+            </div>
+        </div>
+        <div class="travel-display colored">
+            <div class="distance bg-white">
+                <div class="distance-title-color">
+                    <h2>Grocery</h2>
+                </div>
+                <img src="/svg/GrowDistanceAverage.svg" alt="Average Distance in meters to Grow" />
+                <p>@stats.Store.DistanceFormat</p>
+            </div>
+            <div class="travel-avg">
+                <img src="/svg/GrowDriveAverage.svg" alt="Average Travel time via driving to grow" />
+                <p>@stats.Store.DriveFormat</p>
+            </div>
+            <div class="travel-avg">
+                <img src="/svg/GrowBikeAverage.svg" alt="Average Travel time via biking to grow" />
+                <p>@stats.Store.BikeFormat</p>
+            </div>
+            <div class="travel-avg">
+                <img src="/svg/GrowWalkAverage.svg" alt="Average Travel time via Waling to grow" />
+                <p>@stats.Store.WalkFormat</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+@*<div class="row" style="margin: 0 auto; padding: 10px; justify-content:center;">
         <div class="form-group" style="padding-right: 20px">
             <a asp-action="Index" class="btn btn-primary">Back</a>
         </div>
         <div class="form-group">
             <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-info">Edit</a>
-        </div>
+        </div> ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048']
     </div>*@
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var Names = [];
+    var IncomeData = [];
+
+    @{
+        List<PinewoodGrow.ViewModels.IncomeStats> Points = ViewBag.IncomeStats;
+        foreach (var point in Points)
+        {
+            <text>
+                Names.push('@point.Name');
+                IncomeData.push(@point.Income);
+            </text>
+        }
+
+    }
+
+
+
+    const data = {
+        labels: Names,
+        datasets: [{
+            label: 'My First Dataset',
+            data: IncomeData,
+            backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
+            hoverOffset: 4
+        }]
+    };
+
+    const config = {
+        type: 'pie',
+        data: data,
+        options: {
+            /*title: {
+                display: true,
+                text: 'Household Distance to Grow Community Market And Grocery Store by Household Income'
+            },*/
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Household Income By Type',
+                    font: {
+                        size: 20,
+                        lineHeight: 1.2
+                    }
+                }
+            },
+        }
+    };
+</script>
+<script>
+    const IncomeMemberChart = new Chart(
+        document.getElementById('IncomeByMember'),
+        config
+    );
+</script>
+
+
+<script>
+
+    const Typedata = {
+        labels: ['ODSP', 'Ontario Works', 'EI','Other'],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [5000, 500, 2420, 1058],
+            backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
+            hoverOffset: 4
+        }]
+    };
+
+    const TypeConfig = {
+        type: 'pie',
+        data: Typedata,
+        options: {
+            /*title: {
+                display: true,
+                text: 'Household Distance to Grow Community Market And Grocery Store by Household Income'
+            },*/
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Household Income By Type',
+                    font: {
+                        size: 20,
+                        lineHeight: 1.2
+                    }
+                }
+            },
+            }
+    };
+</script>
+<script>
+    const IncomeType = new Chart(
+        document.getElementById('IncomeByType'),
+        TypeConfig
+    );
+</script>

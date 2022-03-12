@@ -59,35 +59,27 @@ namespace PinewoodGrow.Controllers
 
             var Markers = new List<MapMarker>();
 
-            //Converts List of Addresses to map markers exudes all entries that do not have enter lat/longs
-
-            Markers = _context.Households.Include(a => a.Address)
+            var households = _context.Households.Include(a => a.Address)
                 .ThenInclude(t => t.TravelDetail)
                 .ThenInclude(t => t.GroceryStore)
-                .Include(a=> a.Members)
-                .ThenInclude(a=> a.Household)
-                .Where(a => a.Address.Latitude != 0 && a.Address.Longitude != 0)
-                .Select(a => new MapMarker(a, a.HouseIncome, a.Members.Count)).ToList();
+                .Include(a => a.Members)
+                .ThenInclude(a => a.Household)
+                .Where(a => a.AddressID != null && a.Address.Latitude != 0 && a.Address.Longitude != 0);
+           
+
+            //Converts List of Addresses to map markers exudes all entries that do not have enter lat/longs
+
+            Markers = households.Select(a => new MapMarker(a, a.HouseIncome, a.Members.Count)).ToList();
 
             
-
-
-            ViewData["Stores"] = _context.Households.Include(a => a.Address)
-                .ThenInclude(a => a.TravelDetail)
-                .ThenInclude(a => a.GroceryStore)
-                .Select(g =>
-                    new StoreMapMarker(g.Address.TravelDetail.GroceryStore, _context.Households
-                        .Include(a => a.Address)
-                        .ThenInclude(a => a.TravelDetail)
-                        .ThenInclude(a => a.GroceryStore)
-                        .Where(a => a.Address.TravelDetail.GroceryStore.ID == g.Address.TravelDetail.GroceryStore.ID)
-                        .ToList())
+            ViewData["Stores"] = households.Select(g =>
+                    new StoreMapMarker(g.Address.TravelDetail.GroceryStore, households.Where(a => a.Address.TravelDetail.GroceryStore.ID == g.Address.TravelDetail.GroceryStore.ID).ToList())
                 ).ToList();
 
 
-            ViewData["TravelStats"] = new TravelStats(_context.Households.Include(a=> a.Address).ThenInclude(a=> a.TravelDetail).Select(a => a.Address.TravelDetail).ToList());
+            ViewData["TravelStats"] = new TravelStats(households.Select(a => a.Address.TravelDetail).ToList());
 
-            ViewData["TravelData"] = _context.Households.Include(a=> a.Members).Include(a => a.Address).ThenInclude(a => a.TravelDetail)
+            ViewData["TravelData"] = households
                 .Select(a => new TravelDataPoints(a, a.Address.TravelDetail)).ToList();
 
 
