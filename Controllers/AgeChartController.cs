@@ -40,7 +40,7 @@ namespace PinewoodGrow.Controllers
 			dataPoints.Add(new DataPoint("0-12", mInc1));
 			dataPoints.Add(new DataPoint("13-18", mInc2));
 			dataPoints.Add(new DataPoint("19-64", mInc3));
-			dataPoints.Add(new DataPoint("65+", mInc4));
+			dataPoints.Add(new DataPoint("over 65", mInc4));
 
 
 
@@ -53,7 +53,7 @@ namespace PinewoodGrow.Controllers
 			tabledataPoints.Add(new DataPoint("Total", mInc6));
 
 
-			ViewData["graphData"] = JsonConvert.SerializeObject(dataPoints);
+			ViewData["graphData"] = dataPoints.ToList();
             ViewData["tableData"] = tabledataPoints;
 
 			return View();

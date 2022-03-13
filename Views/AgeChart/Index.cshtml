@@ -7,34 +7,91 @@
 
 
 
+@*<script>
+    window.onload = function () {
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        title: {
+            text: "Member's report by Age",
+            fontSize: 30,
+            padding: 30
+        },
+        axisY: {
+            title: "No. of Member",
+            titleFontSize: 20
+        },
+        dataPointWidth: 50,
+        data: [{
+            type: "column",
+            indexLabelFontSize: 10,
+            fontSize: 20,
+            dataPoints: @Html.Raw(ViewData["graphData"])
+        }]
+    });
+    chart.render();
+
+    }
+    </script>
+    <div id="chartContainer" style="height: 500px; width:90%; margin:auto;"></div>*@
+
+<link rel="stylesheet" href="/css/MapStyle.css" />
+
+<h1 class="title" style="margin-top: 100px;">Member's report by Age</h1>
+<br />
+<div>
+    <canvas id="growChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-window.onload = function () {
+    var Label = [];
+    var Y = [];
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	theme: "light2", // "light1", "light2", "dark1", "dark2"
-	title: {
-		text: "Member's report by Age",
-		fontSize: 30,
-		padding: 30
-	},
-	axisY: {
-        title: "No. of Member",
-        titleFontSize: 20
-	},
-    dataPointWidth: 50,
-	data: [{
-        type: "column",
-        indexLabelFontSize: 10,
-        fontSize: 20,
-		dataPoints: @Html.Raw(ViewData["graphData"])
-	}]
-});
-chart.render();
+    @{
+        List<PinewoodGrow.Models.DataPoint> Points = ViewBag.graphData;
+        foreach (var point in Points)
+        {
+                  <text>
+                        Label.push("@point.Label");
+                        Y.push(@point.Y);
+                  </text>
+        }
+    }
 
-}
+
+    const labels = Label;
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: "Range of Age",
+            data: Y,
+            backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
+            barThickness: 50
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
 </script>
-<div id="chartContainer" style="height: 500px; width:90%; margin:auto;"></div>
+<script>
+    const myChart = new Chart(
+        document.getElementById('growChart'),
+        config
+    );
+</script>
+
 
 <br />
 <div style="padding:70px;">

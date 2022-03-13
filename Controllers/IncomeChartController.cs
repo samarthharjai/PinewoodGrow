@@ -55,7 +55,7 @@ namespace PinewoodGrow.Controllers
 			tabledataPoints.Add(new DataPoint("$25000 or more", mInc6));
 			tabledataPoints.Add(new DataPoint("Total", mInc9));
 
-			ViewData["graphData"] = JsonConvert.SerializeObject(dataPoints);
+			ViewData["graphData"] = dataPoints.ToList();
             ViewData["tableData"] = tabledataPoints;
 
 			return View();

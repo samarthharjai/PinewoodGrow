@@ -7,35 +7,151 @@
 
 
 
+@*<script>
+    window.onload = function () {
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2", // "light1", "light2", "dark1", "dark2"
+        title: {
+            text: "Member's report by Income Source",
+            fontSize: 30,
+            padding: 30
+        },
+        axisY: {
+            title: "No. of Member",
+            labelAutoFit: true,
+            titleFontSize: 20
+        },
+        dataPointWidth: 50,
+        data: [{
+            type: "column",
+            indexLabelFontSize: 10,
+            fontSize: 20,
+            dataPoints: @Html.Raw(ViewData["graphData"])
+        }]
+    });
+    chart.render();
+
+    }
+    </script>
+    <div id="chartContainer" style="height: 500px; width:90%; margin:auto;"></div>*@
+
+<link rel="stylesheet" href="/css/MapStyle.css" />
+
+<h1 class="title" style="margin-top: 100px;">Member's report by Income Source</h1>
+<br />
+<div>
+    <canvas id="growChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-window.onload = function () {
+    var Label = [];
+    var Y = [];
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	theme: "light2", // "light1", "light2", "dark1", "dark2"
-	title: {
-		text: "Member's report by Income Source",
-		fontSize: 30,
-		padding: 30
-	},
-	axisY: {
-        title: "No. of Member",
-        labelAutoFit: true,
-        titleFontSize: 20
-	},
-    dataPointWidth: 50,
-	data: [{
-        type: "column",
-        indexLabelFontSize: 10,
-        fontSize: 20,
-		dataPoints: @Html.Raw(ViewData["graphData"])
-	}]
-});
-chart.render();
+    @{
+        List<PinewoodGrow.Models.DataPoint> Points = ViewBag.graphData;
+        foreach (var point in Points)
+        {
+                  <text>
+                        Label.push("@point.Label");
+                        Y.push(@point.Y);
+                  </text>
+        }
+    }
 
-}
+
+    const labels = Label;
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: "Income Source",
+            data: Y,
+            backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
+            barThickness: 50
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
 </script>
-<div id="chartContainer" style="height: 500px; width:90%; margin:auto;"></div>
+<script>
+    const myChart = new Chart(
+        document.getElementById('growChart'),
+        config
+    );
+</script>
+<br />
+
+
+<h1 class="title" style="margin-top: 50px;">Total Member Income By Source</h1>
+<br />
+<div>
+    <canvas id="IncomeBySource"></canvas>
+</div>
+<script>
+    var Names = [];
+    var IncomeData = [];
+
+    @{
+        List<PinewoodGrow.Models.DataPoint> P = ViewBag.IncomeStats;
+        foreach (var point in P)
+        {
+            <text>
+                Names.push('@point.Label');
+                IncomeData.push(@point.Y);
+            </text>
+        }
+
+    }
+
+
+
+    const data = {
+        labels: Names,
+        datasets: [{
+            label: 'My First Dataset',
+            data: IncomeData,
+            backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
+            hoverOffset: 4
+        }]
+    };
+
+    const config = {
+        type: 'pie',
+        data: data,
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Income Source",
+                    font: {
+                        size: 20,
+                        lineHeight: 1.2
+                    }
+                }
+            },
+        }
+    };
+</script>
+<script>
+    const IncomeMemberChart = new Chart(
+        document.getElementById('IncomeBySource'),
+        config
+    );
+</script>
+
 
 <br />
 <div style="padding:70px;">
@@ -43,23 +159,28 @@ chart.render();
         <thead>
             <tr>
                 <th>
-                    Range of Income Source
+                    Income Source
                 </th>
                 <th>
                     No. of Member
                 </th>
+                <th>
+                    Total Income
+                </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in ViewData["tableData"] as List<DataPoint>)
+            @foreach (var item in ViewData["tableData"] as List<DataPointIncome>)
             {
-                <tr>
-                    <td>
-                        @item.Label
-                    <td>
-                        @item.Y
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @item.Label
+                <td>
+                    @item.Y
+                <td>
+                    @item.Income
+                </td>
+            </tr>
             }
         </tbody>
     </table>

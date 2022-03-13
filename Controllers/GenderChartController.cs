@@ -55,7 +55,7 @@ namespace PinewoodGrow.Controllers
 			tabledataPoints.Add(new DataPoint("Total", mInc6));
 
 
-			ViewData["graphData"] = JsonConvert.SerializeObject(dataPoints);
+			ViewData["graphData"] = dataPoints.ToList();
             ViewData["tableData"] = tabledataPoints;
 
 			return View();

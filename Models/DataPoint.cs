@@ -24,4 +24,28 @@ namespace PinewoodGrow.Models
 		[DataMember(Name = "y")]
 		public Nullable<double> Y = null;
 	}
+
+	[DataContract]
+	public class DataPointIncome
+	{
+		public DataPointIncome(string label, double y, double income)
+		{
+			this.Label = label;
+			this.Y = y;
+			this.Income = income;
+		}
+
+		//Explicitly setting the name to be used while serializing to JSON.
+		[DataMember(Name = "label")]
+		public string Label = "";
+
+		//Explicitly setting the name to be used while serializing to JSON.
+		[DataMember(Name = "y")]
+		public Nullable<double> Y = null;
+
+		//Explicitly setting the name to be used while serializing to JSON.
+		[DataMember(Name = "income")]
+		public Nullable<double> Income = null;
+	}
+
 }
