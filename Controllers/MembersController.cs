@@ -116,12 +116,12 @@ namespace PinewoodGrow.Controllers
                 if (sortDirection == "asc")
                 {
                     members = members
-                        .OrderBy(m => m.Income);
+                        .OrderBy(m => m.IncomeTotal);
                 }
                 else
                 {
                     members = members
-                        .OrderByDescending(m => m.Income);
+                        .OrderByDescending(m => m.IncomeTotal);
                 }
             }
             else 
@@ -182,6 +182,12 @@ namespace PinewoodGrow.Controllers
         public IActionResult Create()
         {            
             var member = new Member();
+            member.MemberSituations.Add(new MemberSituation
+            {
+                MemberID = member.ID,
+                SituationID = 1,
+                SituationIncome = 0
+            });
             PopulateAssignedDietaryData(member);
             PopulateAssignedSituationData(member);
             PopulateAssignedIllnessData(member);
@@ -195,7 +201,7 @@ namespace PinewoodGrow.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
-            ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID,ODSPIncome,OWIncome,CPPIncome,EIIncome,GAINSIncome,PSIncome,OIncome,EIncome")] Member member,
+            ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID")] Member member,
             string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles
             )
             //string Lat, string Lng, string AddressName, string postal, string city
@@ -307,8 +313,7 @@ namespace PinewoodGrow.Controllers
             UpdateMemberIllnesses(selectedIllnessOptions, memberToUpdate);
 
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, 
-                m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, m => m.GenderID,
-                m => m.ODSPIncome, m => m.OWIncome, m => m.CPPIncome, m => m.EIIncome, m => m.GAINSIncome, m => m.PSIncome, m => m.OIncome, m => m.EIncome))
+                m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, m => m.GenderID))
             //m => m.FamilySize, m => m.AddressID, m => m.Address
             {
                 try
@@ -567,6 +572,17 @@ namespace PinewoodGrow.Controllers
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "Name", member?.VolunteerID);
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary", member?.HouseholdID);
+            ViewData["MemberSituationID"] = new SelectList(_context.MemberSituations, "ID", "Summary", member?.MemberSituations);
+        }
+
+        public PartialViewResult MemberSituationList(int id)
+        {
+            ViewBag.MemberSituations = _context.MemberSituations
+                .Include(s => s.Situation)
+                .Where(s => s.MemberID == id)
+                .OrderBy(s => s.Situation.Name)
+                .ToList();
+            return PartialView("_MemberSituationList");
         }
 
         public async Task<FileContentResult> Download(int id)

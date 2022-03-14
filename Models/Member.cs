@@ -56,6 +56,17 @@ namespace PinewoodGrow.Models
 			}
 		}
 
+		[DataType(DataType.Currency)]
+		public double IncomeTotal
+		{
+			get
+			{
+				double incomeTotal = Income + MemberSituations.Select(a => a.SituationIncome).ToList().Sum();
+
+				return incomeTotal;
+			}
+		}
+
 		public int ID { get; set; }
 
 		[Display(Name = "First Name")]
@@ -92,7 +103,7 @@ namespace PinewoodGrow.Models
 		[Range(0.0, 22186, ErrorMessage = "Income must be between $0 and $22,186.")]
 		public double Income { get; set; }
 
-		[Display(Name = "ODSP Income")]
+		/*[Display(Name = "ODSP Income")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 22186, ErrorMessage = "ODSP Income must be between $0 and $22,186.")]
 		public double ODSPIncome { get; set; }
@@ -131,7 +142,7 @@ namespace PinewoodGrow.Models
 		[DataType(DataType.Currency)]
 		[Range(0.0, 22186, ErrorMessage = "Employed Income must be between $0 and $22,186.")]
 		public double EIncome { get; set; }
-
+*/
 
 		[StringLength(2000, ErrorMessage = "Member Notes cannot be more than 2000 characters long.")]
 		[DataType(DataType.MultilineText)]

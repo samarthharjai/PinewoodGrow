@@ -8,6 +8,7 @@
 
 <h4>Edit</h4>
 <hr />
+<partial name="_MemberSituationModal" />
 <form asp-action="Edit" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<div class="row">
@@ -112,122 +113,108 @@
 							}
 						</table>
 					</div>
-				</div>
+			</div>
 
-				<div class="form-group">
-					<label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
-					<div class="col-md-offset-1">
-						<table>
-							<tr>
-								@{
-									int cntI = 0;
-									List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-									foreach (var checkbox in illnessCheckboxes)
+			<div class="form-group">
+				<label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
+				<div class="col-md-offset-1">
+					<table>
+						<tr>
+							@{
+								int cntI = 0;
+								List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
+								foreach (var checkbox in illnessCheckboxes)
+								{
+									if (cntI++ % 3 == 0)
 									{
-										if (cntI++ % 3 == 0)
-										{
-										@:</tr><tr>
-										}
-										@:<td>
-											<input type="checkbox"
-												   name="selectedIllnessOptions"
-												   value="@checkbox.ID"
-												   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-											@checkbox.DisplayText
-											@:&nbsp;&nbsp;
-										@:</td>
+									@:</tr><tr>
 									}
-								@:</tr>
+									@:<td>
+										<input type="checkbox"
+												name="selectedIllnessOptions"
+												value="@checkbox.ID"
+												@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+										@checkbox.DisplayText
+										@:&nbsp;&nbsp;
+									@:</td>
 								}
-							</table>
-						</div>
+							@:</tr>
+							}
+						</table>
 					</div>
-					<div class="form-group">
-						<label class="control-label">@Html.DisplayNameFor(model => model.MemberSituations)</label>
-						<div class="col-md-offset-1">
-							<table>
-								<tr>
-									@{
-										int cntS = 0;
-										List<PinewoodGrow.ViewModels.CheckOptionVM> situationCheckboxes = ViewBag.SituationOptions;
-										foreach (var checkbox in situationCheckboxes)
-										{
-											if (cntS++ % 3 == 0)
-											{
-											@:</tr><tr>
-											}
-											@:<td>
-												<input type="checkbox"
-													   name="selectedSituationOptions"
-													   value="@checkbox.ID"
-													   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-												@checkbox.DisplayText
-												@:&nbsp;&nbsp;
-											@:</td>
-										}
-									@:</tr>
+			</div>
+				<div class="form-group" id="ListMemberSituations">
+					<label class="control-label"><strong>Situations</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
+					<div class="col-md-offset-1" id="MemberSituationList">
+						<table>
+							@{
+								foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
+								{
+									@:<tr><td>
+											@item.Summary
+									@:</td><td>
+										@:&nbsp; &nbsp;
+										<button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
+										<button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
+									@:</td></tr>
 									}
-								</table>
-							</div>
-						</div>
-						<div class="form-group">
-							<label asp-for="ODSPIncome" class="control-label"></label>
-							<input asp-for="ODSPIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="ODSPIncome" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="OWIncome" class="control-label"></label>
-							<input asp-for="OWIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="OWIncome" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="CPPIncome" class="control-label"></label>
-							<input asp-for="CPPIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="CPPIncome" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="EIIncome" class="control-label"></label>
-							<input asp-for="EIIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="EIIncome" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="GAINSIncome" class="control-label"></label>
-							<input asp-for="GAINSIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="GAINSIncome" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="PSIncome" class="control-label"></label>
-							<input asp-for="PSIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="PSIncome" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="OIncome" class="control-label"></label>
-							<input asp-for="OIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="OIncome" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="EIncome" class="control-label"></label>
-							<input asp-for="EIncome" class="form-control" placeholder="1000.00"/>
-							<span asp-validation-for="EIncome" class="text-danger"></span>
-						</div>
-						
+							}
+						</table>
 					</div>
-
 				</div>
-            <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
-                <div class="form-group" style="padding-right: 20px">
-                    <a asp-action="Index" class="btn btn-primary">Back</a>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-info" />
-                </div>
-            </div>
-        </form>
-@*
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
+			</div>
+		</div>
+    <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
+        <div class="form-group" style="padding-right: 20px">
+            <a asp-action="Index" class="btn btn-primary">Back</a>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-info" />
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script type="text/javascript">
+		//New for modal
+            function refreshModal(actionForm, memberSituationID) {
+              switch (actionForm) {
+                case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/' + @Model.ID);
+                    break;
+                  case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditMemberSituation/' + memberSituationID);
+                    break;
+                  case 'DeleteForm': $('#formMemberSituationBody').load('/MemberSituations/DeleteMemberSituation/' + memberSituationID)
+                    break;
+                default: break;
+              };
+            return;
+            };
+            $(document).on("click", ".modal-link", function () {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshModal(actionForm, memberSituationID);
+            });
+            $(document).on("click", "#submitMemberSituationForm", function (event) {
+                event.preventDefault();
+                var form = $('#theMemberSituationForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function () {
+                            $('#theMemberSituationModal').modal('hide');
+                        },
+                        error: function () {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+                }
+                return false;
+            });
+            $('#theMemberSituationModal').on('hide.bs.modal', function () {
+                $('#MemberSituationList').load('/Members/MemberSituationList/@Model.ID');
+            });
+	</script>
 }

@@ -222,14 +222,6 @@ namespace PinewoodGrow.Data.GMigrations
                     Telephone = table.Column<string>(maxLength: 11, nullable: false),
                     Email = table.Column<string>(nullable: false),
                     Income = table.Column<double>(nullable: false),
-                    ODSPIncome = table.Column<double>(nullable: false),
-                    OWIncome = table.Column<double>(nullable: false),
-                    CPPIncome = table.Column<double>(nullable: false),
-                    EIIncome = table.Column<double>(nullable: false),
-                    GAINSIncome = table.Column<double>(nullable: false),
-                    PSIncome = table.Column<double>(nullable: false),
-                    OIncome = table.Column<double>(nullable: false),
-                    EIncome = table.Column<double>(nullable: false),
                     Notes = table.Column<string>(maxLength: 2000, nullable: true),
                     Consent = table.Column<bool>(nullable: false),
                     VolunteerID = table.Column<int>(nullable: false),
@@ -357,12 +349,15 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "MemberSituations",
                 columns: table => new
                 {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     SituationID = table.Column<int>(nullable: false),
-                    MemberID = table.Column<int>(nullable: false)
+                    MemberID = table.Column<int>(nullable: false),
+                    SituationIncome = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MemberSituations", x => new { x.SituationID, x.MemberID });
+                    table.PrimaryKey("PK_MemberSituations", x => x.ID);
                     table.ForeignKey(
                         name: "FK_MemberSituations_Members_MemberID",
                         column: x => x.MemberID,
@@ -631,6 +626,12 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "IX_MemberSituations_MemberID",
                 table: "MemberSituations",
                 column: "MemberID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemberSituations_SituationID_MemberID",
+                table: "MemberSituations",
+                columns: new[] { "SituationID", "MemberID" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ID",

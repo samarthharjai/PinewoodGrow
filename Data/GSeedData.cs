@@ -170,288 +170,288 @@ namespace PinewoodGrow.Data
                 if (!context.Addresses.Any())
 				{
                     var addresses = new List<Address>
-            {
-                new Address
                 {
-                    PlaceID = "ChIJ4b6H3DND04kR7As4iJJThxM",
-                    FullAddress = "4352 5th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4R2",
-                    Latitude = 43.1105654,
-                    Longitude = -79.0797108
-                },
-                new Address
-                {
-                    PlaceID = "ChIJdcUvjjFD04kRq6g4mn5ujvU",
-                    FullAddress = "4447 3rd Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4L1",
-                    Latitude = 43.1110133,
-                    Longitude = -79.0807247
-                },
-                new Address
-                {
-                    PlaceID = "ChIJS3EXEzFD04kRxOg93TUaJBI",
-                    FullAddress = "5125 Bridge St",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 2S9",
-                    Latitude = 43.1087576,
-                    Longitude = -79.0795157
-                },
-                new Address
-                {
-                    PlaceID = "ChIJvQAkPjJD04kRpODLlfkuIrI",
-                    FullAddress = "4342 3rd Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4K6",
-                    Latitude = 43.1108061,
-                    Longitude = -79.0772197
-                },
-                new Address
-                {
-                    PlaceID = "ChIJe1UrPjFD04kRfz0MV6qhdk8",
-                    FullAddress = "5155 Bridge St",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 2T2",
-                    Latitude = 43.108767,
-                    Longitude = -79.080085
-                },
-                new Address
-                {
-                    PlaceID = "ChIJqYKnAzJD04kRzzs4Ss0_67k",
-                    FullAddress = "4407 2nd Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4H1",
-                    Latitude = 43.1099135,
-                    Longitude = -79.0763052
-                },
-                new Address
-                {
-                    PlaceID = "ChIJ8Vm6jyxD04kRpZbmBkvyUMc",
-                    FullAddress = "4677 Buttrey St",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 2X5",
-                    Latitude = 43.112119,
-                    Longitude = -79.070966
-                },
-                new Address
-                {
-                    PlaceID = "ChIJbf6m4jFD04kR1yYC_1dzufs",
-                    FullAddress = "4472 2nd Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4H2",
-                    Latitude = 43.1090012,
-                    Longitude = -79.0757509
-                },
-                new Address
-                {
-                    PlaceID = "ChIJP3dg_TFD04kRlhRE-JE3XpY",
-                    FullAddress = "4462 2nd Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4H2",
-                    Latitude = 43.1091381,
-                    Longitude = -79.0757251
-                },
-                new Address
-                {
-                    PlaceID = "ChIJfZXbPzJD04kRRwFND7QtRAQ",
-                    FullAddress = "4340 3rd Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4K6",
-                    Latitude = 43.1109053,
-                    Longitude = -79.0771677
-                },
-                new Address
-                {
-                    PlaceID = "ChIJSeedOzJD04kRQBac6j88i9Q",
-                    FullAddress = "4351 3rd Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4K6",
-                    Latitude = 43.1105922,
-                    Longitude = -79.077649
-                },
-                new Address
-                {
-                    PlaceID = "ChIJ8UCNVDFD04kRexzQ9HivYME",
-                    FullAddress = "4399 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S7",
-                    Latitude = 43.1099483,
-                    Longitude = -79.0812512
-                },
-                new Address
-                {
-                    PlaceID = "ChIJjTa59zND04kRAv56_dztOgU",
-                    FullAddress = "4329 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S7",
-                    Latitude = 43.1109074,
-                    Longitude = -79.0812878
-                },
-                new Address
-                {
-                    PlaceID = "ChIJT7f68TND04kRkOGkTXFWG3w",
-                    FullAddress = "4322 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S8",
-                    Latitude = 43.1110133,
-                    Longitude = -79.0807247
-                },
-                new Address
-                {
-                    PlaceID = "ChIJPSjN8TND04kRRtHafO7rbSo",
-                    FullAddress = "4330 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S8",
-                    Latitude = 43.1109018,
-                    Longitude = -79.0807447
-                },
-                new Address
-                {
-                    PlaceID = "ChIJxfEQ8DND04kRdaR3sb_yy9c",
-                    FullAddress = "4338 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S8",
-                    Latitude = 43.1108024,
-                    Longitude = -79.0807499
-                },
-                new Address
-                {
-                    PlaceID = "ChIJrQaWjTND04kRQ8NQEE1vQtI",
-                    FullAddress = "4282 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S8",
-                    Latitude = 43.11156,
-                    Longitude = -79.0807837
-                },
-                new Address
-                {
-                    PlaceID = "ChIJo0whijND04kRwor60Ap3QK0",
-                    FullAddress = "4271 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S7",
-                    Latitude = 43.1116959,
-                    Longitude = -79.0812982
-                },
-                new Address
-                {
-                    PlaceID = "ChIJbeVfijND04kRQJ70swlj-2k",
-                    FullAddress = "4281 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S7",
-                    Latitude = 43.1115584,
-                    Longitude = -79.0813122
-                },
-                new Address
-                {
-                    PlaceID = "ChIJkTTEijND04kRe7GMBI9kOy4",
-                    FullAddress = "4289 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S7",
-                    Latitude = 43.1144691,
-                    Longitude = -79.081271
-                },
-                new Address
-                {
-                    PlaceID = "ChIJTejKxjND04kR97mx7WIDcqo",
-                    FullAddress = "4322 5th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4R2",
-                    Latitude = 43.1110134,
-                    Longitude = -79.0796185
-                },
-                new Address
-                {
-                    PlaceID = "ChIJM0YVtjND04kRB4zuE76r0RQ",
-                    FullAddress = "4307 Fourth Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4N1",
-                    Latitude = 43.1112813,
-                    Longitude = -79.0791171
-                },
-                new Address
-                {
-                    PlaceID = "ChIJTQTztjND04kR4K3AtlQpJkk",
-                    FullAddress = "4295 Fourth Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4N1",
-                    Latitude = 43.1113849,
-                    Longitude = -79.0910137
-                },
+                    new Address
+                    {
+                        PlaceID = "ChIJ4b6H3DND04kR7As4iJJThxM",
+                        FullAddress = "4352 5th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4R2",
+                        Latitude = 43.1105654,
+                        Longitude = -79.0797108
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJdcUvjjFD04kRq6g4mn5ujvU",
+                        FullAddress = "4447 3rd Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4L1",
+                        Latitude = 43.1110133,
+                        Longitude = -79.0807247
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJS3EXEzFD04kRxOg93TUaJBI",
+                        FullAddress = "5125 Bridge St",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 2S9",
+                        Latitude = 43.1087576,
+                        Longitude = -79.0795157
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJvQAkPjJD04kRpODLlfkuIrI",
+                        FullAddress = "4342 3rd Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4K6",
+                        Latitude = 43.1108061,
+                        Longitude = -79.0772197
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJe1UrPjFD04kRfz0MV6qhdk8",
+                        FullAddress = "5155 Bridge St",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 2T2",
+                        Latitude = 43.108767,
+                        Longitude = -79.080085
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJqYKnAzJD04kRzzs4Ss0_67k",
+                        FullAddress = "4407 2nd Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4H1",
+                        Latitude = 43.1099135,
+                        Longitude = -79.0763052
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJ8Vm6jyxD04kRpZbmBkvyUMc",
+                        FullAddress = "4677 Buttrey St",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 2X5",
+                        Latitude = 43.112119,
+                        Longitude = -79.070966
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJbf6m4jFD04kR1yYC_1dzufs",
+                        FullAddress = "4472 2nd Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4H2",
+                        Latitude = 43.1090012,
+                        Longitude = -79.0757509
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJP3dg_TFD04kRlhRE-JE3XpY",
+                        FullAddress = "4462 2nd Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4H2",
+                        Latitude = 43.1091381,
+                        Longitude = -79.0757251
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJfZXbPzJD04kRRwFND7QtRAQ",
+                        FullAddress = "4340 3rd Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4K6",
+                        Latitude = 43.1109053,
+                        Longitude = -79.0771677
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJSeedOzJD04kRQBac6j88i9Q",
+                        FullAddress = "4351 3rd Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4K6",
+                        Latitude = 43.1105922,
+                        Longitude = -79.077649
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJ8UCNVDFD04kRexzQ9HivYME",
+                        FullAddress = "4399 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S7",
+                        Latitude = 43.1099483,
+                        Longitude = -79.0812512
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJjTa59zND04kRAv56_dztOgU",
+                        FullAddress = "4329 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S7",
+                        Latitude = 43.1109074,
+                        Longitude = -79.0812878
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJT7f68TND04kRkOGkTXFWG3w",
+                        FullAddress = "4322 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S8",
+                        Latitude = 43.1110133,
+                        Longitude = -79.0807247
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJPSjN8TND04kRRtHafO7rbSo",
+                        FullAddress = "4330 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S8",
+                        Latitude = 43.1109018,
+                        Longitude = -79.0807447
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJxfEQ8DND04kRdaR3sb_yy9c",
+                        FullAddress = "4338 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S8",
+                        Latitude = 43.1108024,
+                        Longitude = -79.0807499
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJrQaWjTND04kRQ8NQEE1vQtI",
+                        FullAddress = "4282 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S8",
+                        Latitude = 43.11156,
+                        Longitude = -79.0807837
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJo0whijND04kRwor60Ap3QK0",
+                        FullAddress = "4271 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S7",
+                        Latitude = 43.1116959,
+                        Longitude = -79.0812982
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJbeVfijND04kRQJ70swlj-2k",
+                        FullAddress = "4281 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S7",
+                        Latitude = 43.1115584,
+                        Longitude = -79.0813122
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJkTTEijND04kRe7GMBI9kOy4",
+                        FullAddress = "4289 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S7",
+                        Latitude = 43.1144691,
+                        Longitude = -79.081271
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJTejKxjND04kR97mx7WIDcqo",
+                        FullAddress = "4322 5th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4R2",
+                        Latitude = 43.1110134,
+                        Longitude = -79.0796185
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJM0YVtjND04kRB4zuE76r0RQ",
+                        FullAddress = "4307 Fourth Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4N1",
+                        Latitude = 43.1112813,
+                        Longitude = -79.0791171
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJTQTztjND04kR4K3AtlQpJkk",
+                        FullAddress = "4295 Fourth Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4N1",
+                        Latitude = 43.1113849,
+                        Longitude = -79.0910137
+                    },
 
-                new Address
-                {
-                    PlaceID = "ChIJV_mg3DND04kRUrLrvQfuSWA",
-                    FullAddress = "4354 5th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4R2",
-                    Latitude = 43.1105826,
-                    Longitude = -79.079664
-                },
-                new Address
-                {
-                    PlaceID = "ChIJL8342zND04kRwzR2Zmpz1dg",
-                    FullAddress = "4370 5th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4R2",
-                    Latitude = 43.1103517,
-                    Longitude = -79.0796343
-                },
-                new Address
-                {
-                    PlaceID = "ChIJKeCiKjJD04kRQAAnOzznevw",
-                    FullAddress = "4398 Fourth Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4N3",
-                    Latitude = 43.1099746,
-                    Longitude = -79.0784874
-                },
-                new Address
-                {
-                    PlaceID = "ChIJ53qpLDJD04kR7KjCIsq7cTc",
-                    FullAddress = "4380 Fourth Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4N2",
-                    Latitude = 43.1102633,
-                    Longitude = -79.0785068
-                },
-                new Address
-                {
-                    PlaceID = "ChIJwzJSKzJD04kRyawYBD_3a-k",
-                    FullAddress = "4386 Fourth Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4N2",
-                    Latitude = 43.110365,
-                    Longitude = -79.0785821
-                },
-                new Address
-                {
-                    PlaceID = "ChIJE76jUDFD04kRm27wYE9T6tQ",
-                    FullAddress = "4416 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4T1",
-                    Latitude = 43.1097783,
-                    Longitude = -79.0807468
-                },
-                new Address
-                {
-                    PlaceID = "ChIJ_a2UUDFD04kRHZXigCRWCJw",
-                    FullAddress = "4412 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4T1",
-                    Latitude = 43.1097642,
-                    Longitude = -79.080814
-                },
-                new Address
-                {
-                    PlaceID = "ChIJn2d9UjFD04kRTT9FztB_U3o",
-                    FullAddress = "4425 6th Ave",
-                    City = "Niagara Falls",
-                    PostalCode = "L2E 4S9",
-                    Latitude = 43.1096581,
-                    Longitude = -79.0812546
-                }
-            };
+                    new Address
+                    {
+                        PlaceID = "ChIJV_mg3DND04kRUrLrvQfuSWA",
+                        FullAddress = "4354 5th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4R2",
+                        Latitude = 43.1105826,
+                        Longitude = -79.079664
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJL8342zND04kRwzR2Zmpz1dg",
+                        FullAddress = "4370 5th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4R2",
+                        Latitude = 43.1103517,
+                        Longitude = -79.0796343
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJKeCiKjJD04kRQAAnOzznevw",
+                        FullAddress = "4398 Fourth Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4N3",
+                        Latitude = 43.1099746,
+                        Longitude = -79.0784874
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJ53qpLDJD04kR7KjCIsq7cTc",
+                        FullAddress = "4380 Fourth Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4N2",
+                        Latitude = 43.1102633,
+                        Longitude = -79.0785068
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJwzJSKzJD04kRyawYBD_3a-k",
+                        FullAddress = "4386 Fourth Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4N2",
+                        Latitude = 43.110365,
+                        Longitude = -79.0785821
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJE76jUDFD04kRm27wYE9T6tQ",
+                        FullAddress = "4416 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4T1",
+                        Latitude = 43.1097783,
+                        Longitude = -79.0807468
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJ_a2UUDFD04kRHZXigCRWCJw",
+                        FullAddress = "4412 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4T1",
+                        Latitude = 43.1097642,
+                        Longitude = -79.080814
+                    },
+                    new Address
+                    {
+                        PlaceID = "ChIJn2d9UjFD04kRTT9FztB_U3o",
+                        FullAddress = "4425 6th Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4S9",
+                        Latitude = 43.1096581,
+                        Longitude = -79.0812546
+                    }
+                };
                     context.Addresses.AddRange(addresses);
                     context.SaveChanges();
                 }
@@ -508,17 +508,17 @@ namespace PinewoodGrow.Data
                     var travels = new List<TravelDetail>
                     {
                         new TravelDetail
-                {
-                    GroceryID = "ChIJm9VTOy1D04kRklz9MMK3bek",
-                    GroceryDistance = 949,
-                    GroceryDrive = 128,
-                    GroceryBike = 263,
-                    GroceryWalk = 684,
-                    GrowDistance = 225,
-                    GrowDrive = 51,
-                    GrowBike = 39,
-                    GrowWalk = 166,
-                    AddressID = addressDictionary["ChIJdcUvjjFD04kRq6g4mn5ujvU"]
+                    {
+                        GroceryID = "ChIJm9VTOy1D04kRklz9MMK3bek",
+                        GroceryDistance = 949,
+                        GroceryDrive = 128,
+                        GroceryBike = 263,
+                        GroceryWalk = 684,
+                        GrowDistance = 225,
+                        GrowDrive = 51,
+                        GrowBike = 39,
+                        GrowWalk = 166,
+                        AddressID = addressDictionary["ChIJdcUvjjFD04kRq6g4mn5ujvU"]
             
                     },
                     new TravelDetail
@@ -941,10 +941,6 @@ namespace PinewoodGrow.Data
                     }
                 };
 
-
-
-             
-           
                     context.TravelDetails.AddRange(travels);
                 context.SaveChanges();
 
@@ -959,8 +955,6 @@ namespace PinewoodGrow.Data
 
 				if (!context.MemberSituations.Any())
 				{
-
-
                     var Members = context.Members.Select(a=> a).ToList();
                     var Situations = context.Situations.Select(a => a).ToList();
                     var SituationIDs = Situations.Where(a => a.Name != "Volunteer" && a.Name != "Other" && a.Name != "GAINS (For Seniors)").Select(a=> a.ID).ToArray();
@@ -975,7 +969,8 @@ namespace PinewoodGrow.Data
 							ToAdd.Add(new MemberSituation
                             {
                                 MemberID = member.ID, 
-                                SituationID = Gains.ID
+                                SituationID = Gains.ID,
+                                SituationIncome = rnd.Next(100, 2500)
                             });
                         }
 
@@ -984,7 +979,8 @@ namespace PinewoodGrow.Data
                             ToAdd.Add(new MemberSituation
                             {
                                 MemberID = member.ID,
-                                SituationID = SituationIDs[(rnd.Next(0, SituationIDs.Length))]
+                                SituationID = SituationIDs[(rnd.Next(0, SituationIDs.Length))],
+                                SituationIncome = rnd.Next(100, 2500)
                             });
                         }
                     }
@@ -995,8 +991,6 @@ namespace PinewoodGrow.Data
 
 				if (!context.MemberDietaries.Any())
 				{
-
-
                     var Members = context.Members.Select(a => a).ToList();
                     var Dietaries = context.Dietaries.Select(a => a.ID).ToArray();
                     var ToAdd = new List<MemberDietary>();
@@ -1022,8 +1016,6 @@ namespace PinewoodGrow.Data
 
                 if (!context.MemberIllnesses.Any())
                 {
-
-
                     var Members = context.Members.Select(a => a).ToList();
                     var Illnesses = context.Illnesses.Select(a => a.ID).ToArray();
                     var ToAdd = new List<MemberIllness>();
@@ -1046,6 +1038,5 @@ namespace PinewoodGrow.Data
                 }
             }
 		}
-	
 	}
 }

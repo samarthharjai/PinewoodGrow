@@ -127,7 +127,8 @@ namespace PinewoodGrow.Data
 
 			//Many to Many Intersection
 			modelBuilder.Entity<MemberSituation>()
-			.HasKey(t => new { t.SituationID, t.MemberID });
+			.HasIndex(t => new { t.SituationID, t.MemberID })
+			.IsUnique();
 
 			//Many to Many Intersection
 			modelBuilder.Entity<MemberIllness>()
