@@ -34,27 +34,33 @@ namespace PinewoodGrow.Controllers
 
 			//sort gender by datapoint
 			double mInc6 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 1));
-			double mInc7 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 5));
+            double mInc1 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 2));
+            double mInc7 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 5));
 			double mInc8 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 6));
 			double mInc9 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 7));
-			double mInc10 = member.ToList().Count();
+            double mInc4 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 8));
+            double mInc10 = member.ToList().Count();
 
 
 			List<DataPoint> dataPoints = new List<DataPoint>();
 
 			dataPoints.Add(new DataPoint("Diabetes", mInc6));
-			dataPoints.Add(new DataPoint("Cancer", mInc7));
+            dataPoints.Add(new DataPoint("Obesity", mInc1));
+            dataPoints.Add(new DataPoint("Cancer", mInc7));
 			dataPoints.Add(new DataPoint("Heart Disease", mInc8));
-			dataPoints.Add(new DataPoint("Osteoperosis", mInc9));
+            dataPoints.Add(new DataPoint("Digestive Disorders", mInc4));
+            dataPoints.Add(new DataPoint("Osteoperosis", mInc9));
 
 
 
 			List<DataPoint> tabledataPoints = new List<DataPoint>();
 
 			tabledataPoints.Add(new DataPoint("Diabetes", mInc6));
-			tabledataPoints.Add(new DataPoint("Cancer", mInc7));
+            tabledataPoints.Add(new DataPoint("Obesity", mInc1));
+            tabledataPoints.Add(new DataPoint("Cancer", mInc7));
 			tabledataPoints.Add(new DataPoint("Heart Disease", mInc8));
-			tabledataPoints.Add(new DataPoint("Osteoperosis", mInc9));
+            tabledataPoints.Add(new DataPoint("Digestive Disorders", mInc4));
+            tabledataPoints.Add(new DataPoint("Osteoperosis", mInc9));
 
 
 			ViewData["graphData"] = dataPoints.ToList();
@@ -71,14 +77,17 @@ namespace PinewoodGrow.Controllers
                          select m;
 
             //sort gender by datapoint
+           
             double mInc6 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 1));
+            double mInc1 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 2));
             double mInc7 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 5));
             double mInc8 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 6));
             double mInc9 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 7));
+            double mInc4 = member.ToList().Count(m => m.MemberIllnesses.Any(s => s.IllnessID == 8));
 
 
             //How many rows?
-            int numRows = 4;
+            int numRows = 6;
 
             if (numRows > 0) //We have data
             {
@@ -109,14 +118,20 @@ namespace PinewoodGrow.Controllers
                     workSheet.Cells[4, 1].Value = "Diabetes";
                     workSheet.Cells[4, 2].Value = mInc6;
 
-                    workSheet.Cells[5, 1].Value = "Cancer";
-                    workSheet.Cells[5, 2].Value = mInc7;
+                    workSheet.Cells[5, 1].Value = "Obesity";
+                    workSheet.Cells[5, 2].Value = mInc1;
 
-                    workSheet.Cells[6, 1].Value = "Heart Disease";
-                    workSheet.Cells[6, 2].Value = mInc8;
+                    workSheet.Cells[6, 1].Value = "Cancer";
+                    workSheet.Cells[6, 2].Value = mInc7;
 
-                    workSheet.Cells[7, 1].Value = "Osteoperosis";
-                    workSheet.Cells[7, 2].Value = mInc9;
+                    workSheet.Cells[7, 1].Value = "Heart Disease";
+                    workSheet.Cells[7, 2].Value = mInc8;
+
+                    workSheet.Cells[8, 1].Value = "Osteoperosis";
+                    workSheet.Cells[8, 2].Value = mInc9;
+
+                    workSheet.Cells[9, 1].Value = "Digestive Disorders";
+                    workSheet.Cells[9, 2].Value = mInc4;
 
 
                     //Note: Cells[row, column]

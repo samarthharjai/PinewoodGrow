@@ -33,20 +33,18 @@ namespace PinewoodGrow.Controllers
 						 select m;
 
 			//sort gender by datapoint
-			double mInc1 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 2));
 			double mInc2 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 3));
 			double mInc3 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 4));
-			double mInc4 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 8));
 			double mInc5 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 9));
 			double mInc10 = member.ToList().Count();
 
 
 			List<DataPoint> dataPoints = new List<DataPoint>();
 
-			dataPoints.Add(new DataPoint("Obesity", mInc1));
+			//dataPoints.Add(new DataPoint("Obesity", mInc1));
 			dataPoints.Add(new DataPoint("Lactose Intolerance", mInc2));
 			dataPoints.Add(new DataPoint("Gluten Intolerance/Sensitivity", mInc3));
-			dataPoints.Add(new DataPoint("Digestive Disorders", mInc4)); 
+			//dataPoints.Add(new DataPoint("Digestive Disorders", mInc4)); 
 			dataPoints.Add(new DataPoint("Food Allergies", mInc5));
 
 
@@ -54,10 +52,10 @@ namespace PinewoodGrow.Controllers
 
 			List<DataPoint> tabledataPoints = new List<DataPoint>();
 
-			tabledataPoints.Add(new DataPoint("Obesity", mInc1));
+			//tabledataPoints.Add(new DataPoint("Obesity", mInc1));
 			tabledataPoints.Add(new DataPoint("Lactose Intolerance", mInc2));
 			tabledataPoints.Add(new DataPoint("Gluten Intolerance/Sensitivity", mInc3));
-			tabledataPoints.Add(new DataPoint("Digestive Disorders", mInc4));
+			//tabledataPoints.Add(new DataPoint("Digestive Disorders", mInc4));
 			tabledataPoints.Add(new DataPoint("Food Allergies", mInc5));
 
 
@@ -75,15 +73,14 @@ namespace PinewoodGrow.Controllers
                          select m;
 
             //sort gender by datapoint
-            double mInc1 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 2));
+            
             double mInc2 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 3));
             double mInc3 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 4));
-            double mInc4 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 8));
             double mInc5 = member.ToList().Count(m => m.MemberDietaries.Any(s => s.DietaryID == 9));
 
 
             //How many rows?
-            int numRows = 5;
+            int numRows = 3;
 
             if (numRows > 0) //We have data
             {
@@ -111,20 +108,18 @@ namespace PinewoodGrow.Controllers
                     workSheet.Cells[3, 1].Value = "Dietary Concerns";
                     workSheet.Cells[3, 2].Value = "No. of Member";
 
-                    workSheet.Cells[4, 1].Value = "Obesity";
-                    workSheet.Cells[4, 2].Value = mInc1;
+                    
 
-                    workSheet.Cells[5, 1].Value = "Lactose Intolerance";
-                    workSheet.Cells[5, 2].Value = mInc2;
+                    workSheet.Cells[4, 1].Value = "Lactose Intolerance";
+                    workSheet.Cells[4, 2].Value = mInc2;
 
-                    workSheet.Cells[6, 1].Value = "Gluten Intolerance/Sensitivity";
-                    workSheet.Cells[6, 2].Value = mInc3;
+                    workSheet.Cells[5, 1].Value = "Gluten Intolerance/Sensitivity";
+                    workSheet.Cells[5, 2].Value = mInc3;
 
-                    workSheet.Cells[7, 1].Value = "Digestive Disorders";
-                    workSheet.Cells[7, 2].Value = mInc4;
+                    
 
-                    workSheet.Cells[8, 1].Value = "Food Allergies";
-                    workSheet.Cells[8, 2].Value = mInc5;
+                    workSheet.Cells[6, 1].Value = "Food Allergies";
+                    workSheet.Cells[6, 2].Value = mInc5;
 
                     //Note: Cells[row, column]
                     //workSheet.Cells[3, 2].LoadFromCollection(mem, true);
