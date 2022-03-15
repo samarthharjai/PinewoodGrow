@@ -16,214 +16,259 @@
 	<input type="hidden" id="Lng" name="Lng" />
 	<input type="hidden" id="AddressName" name="AddressName" />
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-	<div class="row">
-		<div class="col-md-6">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-group">
-				<label asp-for="FirstName" class="control-label"></label>
-				<input asp-for="FirstName" class="form-control" id="txtFirstName" placeholder="e.g. John" />
-				<span asp-validation-for="FirstName" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="LastName" class="control-label"></label>
-				<input asp-for="LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe" />
-				<span asp-validation-for="LastName" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="DOB" class="control-label"></label>
-				<input asp-for="DOB" class="form-control" id="txtAge" />
-				<span asp-validation-for="DOB" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="GenderID" class="control-label"></label>
-				<select asp-for="GenderID" class="form-control" id="ddlGender" asp-items="ViewBag.GenderID">
-					<option value="">Select a Gender</option>
-				</select>
-				<span asp-validation-for="GenderID" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Telephone" class="control-label"></label>
-				<input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345" />
-				<span asp-validation-for="Telephone" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Email" class="control-label"></label>
-				<input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com" />
-				<span asp-validation-for="Email" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Income" class="control-label"></label>
-				<input asp-for="Income" class="form-control" id="txtIncome" placeholder="e.g. 1000.00" />
-				<span asp-validation-for="Income" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="HouseholdID" class="control-label"></label>
-				<select asp-for="HouseholdID" class="form-control" id="ddlHousehold" asp-items="ViewBag.HouseSummary">
-					<option value="">Select a Household</option>
-				</select>
-				<span asp-validation-for="HouseholdID" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="VolunteerID" class="control-label"></label>
-				<select asp-for="VolunteerID" class="form-control" id="txtComplete" asp-items="ViewBag.VolunteerID">
-					<option value="">Select a Volunteer</option>
-				</select>
-				<span asp-validation-for="VolunteerID" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="CompletedOn" class="control-label"></label>
-				<input asp-for="CompletedOn" class="form-control" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-				<span asp-validation-for="CompletedOn" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Notes" class="control-label"></label>
-				<textarea asp-for="Notes" class="form-control" placeholder="Please Enter any Additional Information"></textarea>
-				<span asp-validation-for="Notes" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Upload Documents:</label>
-				<input type="file" class="" name="theFiles" multiple="multiple" />
-			</div>
-			<div class="form-group form-check">
-				<label class="form-check-label">
-					<input class="form-check-input" asp-for="Consent" /> To continue, you must agree to the Privacy Policy and Terms of Use.
-				</label>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="form-group">
-				<label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
-				<div class="col-md-offset-1">
-					<table>
-						<tr>
-							@{
-								int cntD = 0;
-								List<PinewoodGrow.ViewModels.CheckOptionVM> dietaryCheckboxes = ViewBag.DietaryOptions;
-								foreach (var checkbox in dietaryCheckboxes)
-								{
-									if (cntD++ % 3 == 0)
-									{
-									@:</tr><tr>
-									}
-									@:<td>
-										<input id="chkDietaries"
-											   type="checkbox"
-											   name="selectedDietaryOptions"
-											   value="@checkbox.ID"
-											   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-										@checkbox.DisplayText
-										@:&nbsp;&nbsp;
-									@:</td>
-								}
-							@:</tr>
-							}
-						</table>
-					</div>
-				</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" id="txtFirstName" placeholder="e.g. John" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DOB" class="control-label"></label>
+                <input asp-for="DOB" class="form-control" id="txtAge" />
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenderID" class="control-label"></label>
+                <select asp-for="GenderID" class="form-control" id="ddlGender" asp-items="ViewBag.GenderID">
+                    <option value="">Select a Gender</option>
+                </select>
+                <span asp-validation-for="GenderID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telephone" class="control-label"></label>
+                <input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345" />
+                <span asp-validation-for="Telephone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Income" class="control-label"></label>
+                <input asp-for="Income" class="form-control" id="txtIncome" placeholder="e.g. 1000.00" />
+                <span asp-validation-for="Income" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HouseholdID" class="control-label"></label>
+                <select asp-for="HouseholdID" class="form-control" id="ddlHousehold" asp-items="ViewBag.HouseSummary">
+                    <option value="">Select a Household</option>
+                </select>
+                <span asp-validation-for="HouseholdID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VolunteerID" class="control-label"></label>
+                <select asp-for="VolunteerID" class="form-control" id="txtComplete" asp-items="ViewBag.VolunteerID">
+                    <option value="">Select a Volunteer</option>
+                </select>
+                <span asp-validation-for="VolunteerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompletedOn" class="control-label"></label>
+                <input asp-for="CompletedOn" class="form-control" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="CompletedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <textarea asp-for="Notes" class="form-control" placeholder="Please Enter any Additional Information"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Upload Documents:</label>
+                <input type="file" class="" name="theFiles" multiple="multiple" />
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Consent" /> To continue, you must agree to the Privacy Policy and Terms of Use.
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
+                <div class="col-md-offset-1">
+                    <table>
+                        <tr>
+                        @{
+                            int cntD = 0;
+                            List<PinewoodGrow.ViewModels.CheckOptionVM> dietaryCheckboxes = ViewBag.DietaryOptions;
+                            foreach (var checkbox in dietaryCheckboxes)
+                            {
+                                if (cntD++ % 3 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+                                @:<td>
+                                <input id="chkDietaries"
+                                       type="checkbox"
+                                       name="selectedDietaryOptions"
+                                       value="@checkbox.ID"
+                                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                @checkbox.DisplayText
+                                @:&nbsp;&nbsp;
+                                @:</td>
+                            }
+                            @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
-			<div class="col-md-offset-1">
-				<table>
-					<tr>
-						@{
-							int cntI = 0;
-							List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-							foreach (var checkbox in illnessCheckboxes)
-							{
-								if (cntI++ % 3 == 0)
-								{
-								@:</tr><tr>
-								}
-								@:<td>
-									<input id="chkIllnesses"
-											type="checkbox"
-											name="selectedIllnessOptions"
-											value="@checkbox.ID"
-											@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-									@checkbox.DisplayText
-									@:&nbsp;&nbsp;
-								@:</td>
-							}
-						@:</tr>
-						}
-					</table>
-				</div>
-		</div>
-		<div class="form-group" id="ListMemberSituations">
-				<label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Income Source" type="button">&#x271A;</button>
-				<div class="col-md-offset-1" id="MemberSituationList">
-					<table>
-						@*@{
+            <div class="form-group">
+                <label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
+                <div class="col-md-offset-1">
+                    <table>
+                        <tr>
+                        @{
+                            int cntI = 0;
+                            List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
+                            foreach (var checkbox in illnessCheckboxes)
+                            {
+                                if (cntI++ % 3 == 0)
+                                {
+                                    @:</tr><tr>
+                                }
+                                @:<td>
+                                <input id="chkIllnesses"
+                                       type="checkbox"
+                                       name="selectedIllnessOptions"
+                                       value="@checkbox.ID"
+                                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                @checkbox.DisplayText
+                                @:&nbsp;&nbsp;
+                                @:</td>
+                            }
+                            @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group" id="ListMemberSituations">
+                <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Income Source" type="button">&#x271A;</button>
+                <div class="col-md-offset-1" id="MemberSituationList">
+                    <table>
+                        @{
+                            List<PinewoodGrow.ViewModels.IncomeOption> situatons = ViewBag.SituationOptions;
+						    
+                            foreach (var item in situatons.OrderBy(s => s.Name))
+                            {
+                                @:<tr><td>
+                                @item.Summary
+                                @:</td><td>
+                                @:&nbsp; &nbsp;
+                                <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
+                                <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
+                                @:</td></tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+<a href="C:\Users\Owner\Desktop\PinewoodGrow\Views\Members\Edit.cshtml">C:\Users\Owner\Desktop\PinewoodGrow\Views\Members\Edit.cshtml</a>
+        </div>
+        <div class="row" style="margin: 0 auto; padding: 10px;">
+            <div class="form-group" style="padding-right: 20px">
+                <a asp-action="Index" class="btn btn-primary">Back</a>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
 
-							foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
-							{
-								@:<tr><td>
-										@item.Summary
-								@:</td><td>
-									@:&nbsp; &nbsp;
-									<button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
-									<button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
-								@:</td></tr>
-							}
-						}*@
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="row" style="margin: 0 auto; padding: 10px;">
-			<div class="form-group" style="padding-right: 20px">
-				<a asp-action="Index" class="btn btn-primary">Back</a>
-			</div>
-			<div class="form-group">
-				<input type="submit" value="Create" class="btn btn-info" />
-			</div>
-		</div>
-	</div>
 </form>
 @section Scripts {
 	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-	@*<script type="text/javascript">
+	<script type="text/javascript">
 	//New for modal
-	function refreshModal(actionForm, memberSituationID) {
-		switch (actionForm) {
-		case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/' + @Model.ID);
-			break;
-			case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditMemberSituation/' + memberSituationID);
-			break;
-			case 'DeleteForm': $('#formMemberSituationBody').load('/MemberSituations/DeleteMemberSituation/' + memberSituationID)
-			break;
-		default: break;
-		};
-	return;
-	};
-	$(document).on("click", ".modal-link", function () {
-		var actionForm = $(this).attr("name");
-		var memberSituationID = $(this).attr("tag");
-		refreshModal(actionForm, memberSituationID);
-	});
-	$(document).on("click", "#submitMemberSituationForm", function (event) {
-		event.preventDefault();
-		var form = $('#theMemberSituationForm');
-		if (form.valid()) {
-			$.ajax({
-				type: "POST",
-				url: form.attr('action'),
-				data: form.serialize(),
-				success: function () {
-					$('#theMemberSituationModal').modal('hide');
-				},
-				error: function () {
-					alert("Operation Failed.  There was a problem maintaing the data.");
-				}
-			});
-		}
-		return false;
-	});
-	$('#theMemberSituationModal').on('hide.bs.modal', function () {
-		$('#MemberSituationList').load('/Members/MemberSituationList/@Model.ID');
-	});
-</script>*@
+
+    function refreshModal(actionForm, memberSituationID) {
+        switch (actionForm) {
+        case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/' + @Model.ID);
+            break;
+        case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditMemberSituation/' + memberSituationID);
+            break;
+        case 'DeleteForm': $('#formMemberSituationBody').load('/MemberSituations/DeleteMemberSituation/' + memberSituationID)
+            break;
+        default: break;
+        };
+        return;
+    };
+    $(document).on("click", ".modal-link", function () {
+        var actionForm = $(this).attr("name");
+        var memberSituationID = $(this).attr("tag");
+        refreshModal(actionForm, memberSituationID);
+    });
+    $(document).on("click", "#submitMemberSituationForm", function (event) {
+        event.preventDefault();
+        var form = $('#theMemberSituationForm');
+        if (form.valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function () {
+                    $('#theMemberSituationModal').modal('hide');
+                },
+                error: function () {
+                    alert("Operation Failed.  There was a problem maintaing the data.");
+                }
+            });
+        }
+        return false;
+    });
+    $('#theMemberSituationModal').on('hide.bs.modal', function () {
+        $('#MemberSituationList').load('/Members/MemberSituationList/@Model.ID');
+    });
+
+    /*function refreshModal(actionForm, memberSituationID) {
+        switch (actionForm) {
+        case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/');
+            break;
+            case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditTempMemberSituation/' + memberSituationID + '&Income=' + 1000);
+            break;
+        case 'DeleteForm':
+            $('#formMemberSituationBody').load('/MemberSituations/DeleteMemberSituation/' + memberSituationID + '&Income=' + 1000);
+            break;
+        default: break;
+        };
+        return;
+    };
+    $(document).on("click", ".modal-link", function () {
+        var actionForm = $(this).attr("name");
+        var memberSituationID = $(this).attr("tag");
+        refreshModal(actionForm, memberSituationID);
+    });
+    $(document).on("click", "#submitMemberSituationForm", function (event) {
+        event.preventDefault();
+        var form = $('#theMemberSituationForm');
+        if (form.valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function () {
+                    $('#theMemberSituationModal').modal('hide');
+                },
+                error: function () {
+                    alert("Operation Failed.  There was a problem maintaing the data.");
+                }
+            });
+        }
+        return false;
+    });
+    $('#theMemberSituationModal').on('hide.bs.modal', function () {
+     
+    });*/
+
+</script>
 }
 
 <script>

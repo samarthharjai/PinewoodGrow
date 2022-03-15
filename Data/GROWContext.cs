@@ -150,6 +150,7 @@ namespace PinewoodGrow.Data
 				.HasOne(ms => ms.Situation)
 				.WithMany(s => s.MemberSituations)
 				.HasForeignKey(ms => ms.SituationID)
+                .IsRequired(false)
 				.OnDelete(DeleteBehavior.Restrict);
 
 			//Prevent Cascade Delete

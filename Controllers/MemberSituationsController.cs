@@ -41,7 +41,17 @@ namespace PinewoodGrow.Controllers
 
             return PartialView("_CreateMemberSituation");
         }
+        public PartialViewResult CreateTempMemberSituation()
+        {
+        
 
+            ViewData["SituationID"] = new
+                SelectList(_context.Situations.OrderBy(a => a.Name), "ID", "Name");
+
+        
+
+            return PartialView("_CreateTempMemberSituation");
+        }
         public PartialViewResult EditMemberSituation(int ID)
         {
             //Get the MemberSituation to edit
@@ -60,6 +70,28 @@ namespace PinewoodGrow.Controllers
 
             return PartialView("_EditMemberSituation", memberSituation);
         }
+
+        public PartialViewResult EditTempMemberSituation(int ID, int Income)
+        {
+            //Get the MemberSituation to edit
+            var memberSituation = _context.MemberSituations.Find(ID);
+
+            var unusedSituations = from si in _context.Situations
+                where !(from p in _context.MemberSituations
+                          where p.MemberID == memberSituation.MemberID
+                          select p.SituationID).Contains(si.ID)
+                      || si.ID == memberSituation.SituationID
+                select si;
+
+            ViewData["SituationID"] = new
+                SelectList(unusedSituations
+                    .OrderBy(a => a.Name), "ID", "Name", memberSituation.SituationID);
+
+            return PartialView("_EditMemberSituation", memberSituation);
+        }
+
+
+
 
         public PartialViewResult DeleteMemberSituation(int Id)
         {
@@ -80,6 +112,9 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MemberID,SituationID,SituationIncome")] MemberSituation memberSituation)
         {
+      
+
+
             try
             {
                 if (ModelState.IsValid)
@@ -89,7 +124,7 @@ namespace PinewoodGrow.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }

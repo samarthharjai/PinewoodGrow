@@ -9,11 +9,17 @@
 <h4>Household</h4>
 <hr />
 <form asp-action="Edit" enctype="multipart/form-data">
-    <input type="hidden" id="Lat" name="Lat" value="@Model.Address.Latitude" />
-    <input type="hidden" id="Lng" name="Lng"  value="@Model.Address.Longitude"/>
-    <input type="hidden" id="AddressName" name="AddressName"  value="@Model.Address.FullAddress"/>
-    <input type="hidden" id="PlaceID" name="placeID" value="@Model.Address.PlaceID" />
-    <input type="hidden" id="city" name="city" value="@Model.Address.City"/>
+
+
+    @{
+        Address addressInfo = ViewBag.AddressInfo;
+    }
+    <input type="hidden" id="Lat" name="Lat" value="@addressInfo.Latitude" />
+    <input type="hidden" id="Lng" name="Lng" value="@addressInfo.Longitude" />
+    <input type="hidden" id="AddressName" name="AddressName" value="@addressInfo.FullAddress" />
+    <input type="hidden" id="PlaceID" name="placeID" value="@addressInfo.PlaceID" />
+    <input type="hidden" id="city" name="city" value="@addressInfo.City" />
+    <input type="hidden" id="IsFixedAddress" name="IsFixedAddress" value="true" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
@@ -33,14 +39,18 @@
                 <input asp-for="Dependants" class="form-control" />
                 <span asp-validation-for="Dependants" class="text-danger"></span>
             </div>
+            <div class="custom-control custom-switch m-3">
+                <input type="checkbox" checked="checked" class="custom-control-input green" id="chkFixed" style="">
+                <label class="custom-control-label green" for="chkFixed">Fixed Address</label>
+            </div>
             <div class="form-group">
                 <label class="control-label">Address</label>
-                <input value="@Model.Address.FullAddress" class="form-control" id="autocomplete" />
+                <input value="@addressInfo.FullAddress" class="form-control" id="autocomplete" />
 
             </div>
             <div class="form-group">
-                <label  class="control-label">Postal Code</label>
-                <input  class="form-control" id="postal" name="postal" value="@Model.Address.PostalCode" />
+                <label class="control-label">Postal Code</label>
+                <input class="form-control" id="postal" name="postal" value="@addressInfo.PostalCode" />
             </div>
         </div>
     </div>
@@ -53,7 +63,42 @@
         </div>
     </div>
 </form>
+<script>
+    document.getElementById("chkFixed").addEventListener("click",
+        function() {
+            if (this.checked) {
+                document.getElementById("autocomplete").disabled = false;
+                document.getElementById("postal").disabled = false;
+                document.getElementById("IsFixedAddress").value = true;
 
+            } else {
+                document.getElementById("autocomplete").disabled = true;
+                document.getElementById("postal").disabled = true;
+                document.getElementById("IsFixedAddress").value = false;
+            }
+
+
+        });
+    window.addEventListener("load", function () {
+        @{
+            
+        Address address = ViewBag.AddressInfo;
+            var chk = address.FullAddress != "No Fixed Address";
+
+            <text>
+      if ("@address.FullAddress" === "No Fixed Address") {
+          document.getElementById("chkFixed").checked = false;
+          document.getElementById("autocomplete").disabled = true;
+          document.getElementById("postal").disabled = true;
+          document.getElementById("IsFixedAddress").value = false;
+      }
+
+            </text>
+
+        }
+       
+    });
+</script>
 
 
 

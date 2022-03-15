@@ -180,19 +180,28 @@ namespace PinewoodGrow.Controllers
 
         // GET: Members/Create
         public IActionResult Create()
-        {            
-            var member = new Member();
-            member.MemberSituations.Add(new MemberSituation
+        {
+
+            var now = DateTime.Now;
+            var zeroDate = DateTime.MinValue.AddHours(now.Hour).AddMinutes(now.Minute).AddSeconds(now.Second).AddMilliseconds(now.Millisecond);
+
+            var member = new Member()
             {
-                MemberID = member.ID,
-                SituationID = 1,
-                SituationIncome = 0
-            });
+           
+            };
+
+     
+            
+  
+
             PopulateAssignedDietaryData(member);
             PopulateAssignedSituationData(member);
             PopulateAssignedIllnessData(member);
             PopulateDropDownLists();
-            return View();
+
+            ViewData["MemberIncomeTypes"] = _context.Situations.Select(a => a);
+
+            return View(member);
         }
 
         // POST: Members/Create
@@ -210,35 +219,36 @@ namespace PinewoodGrow.Controllers
             {
                 //member.AddressID =  await GetAddressID(Lat, Lng, AddressName, postal, city);
                
-                if (selectedDietaryOptions != null)
-                {
-                    foreach (var dietary in selectedDietaryOptions)
-                    {
-                        var dietaryToAdd = new MemberDietary { MemberID = member.ID, DietaryID = int.Parse(dietary) };
-                        member.MemberDietaries.Add(dietaryToAdd);
-                    }
-                }
-                if (selectedSituationOptions != null)
-                {
-                    foreach (var situation in selectedSituationOptions)
-                    {
-                        var situationToAdd = new MemberSituation { MemberID = member.ID, SituationID = int.Parse(situation) };
-                        member.MemberSituations.Add(situationToAdd);
-                    }
-                }
-                if (selectedIllnessOptions != null)
-                {
-                    foreach (var illness in selectedIllnessOptions)
-                    {
-                        var illnessToAdd = new MemberIllness { MemberID = member.ID, IllnessID = int.Parse(illness) };
-                        member.MemberIllnesses.Add(illnessToAdd);
-                    }
-                }
+            
                 if (ModelState.IsValid)
                 {
                     await AddDocumentsAsync(member, theFiles);
                     _context.Add(member);
                     await _context.SaveChangesAsync();
+                    if (selectedDietaryOptions != null)
+                    {
+                        foreach (var dietary in selectedDietaryOptions)
+                        {
+                            var dietaryToAdd = new MemberDietary { MemberID = member.ID, DietaryID = int.Parse(dietary) };
+                            member.MemberDietaries.Add(dietaryToAdd);
+                        }
+                    }
+                    if (selectedSituationOptions != null)
+                    {
+                        foreach (var situation in selectedSituationOptions)
+                        {
+                            var situationToAdd = new MemberSituation { MemberID = member.ID, SituationID = int.Parse(situation) };
+                            member.MemberSituations.Add(situationToAdd);
+                        }
+                    }
+                    if (selectedIllnessOptions != null)
+                    {
+                        foreach (var illness in selectedIllnessOptions)
+                        {
+                            var illnessToAdd = new MemberIllness { MemberID = member.ID, IllnessID = int.Parse(illness) };
+                            member.MemberIllnesses.Add(illnessToAdd);
+                        }
+                    }
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -451,13 +461,14 @@ namespace PinewoodGrow.Controllers
             //in the Patient
             var allOptions = _context.Situations;
             var currentOptionIDs = new HashSet<int>(member.MemberSituations.Select(b => b.SituationID));
-            var checkBoxes = new List<CheckOptionVM>();
+            var checkBoxes = new List<IncomeOption>();
             foreach (var option in allOptions)
             {
-                checkBoxes.Add(new CheckOptionVM
+                checkBoxes.Add(new IncomeOption
                 {
                     ID = option.ID,
-                    DisplayText = option.Name,
+                    Name = option.Name,
+                    Summary = option.Name,
                     Assigned = currentOptionIDs.Contains(option.ID)
                 });
             }

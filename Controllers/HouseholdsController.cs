@@ -148,6 +148,18 @@ namespace PinewoodGrow.Controllers
                 .ThenInclude(d => d.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
+
+            ViewData["AddressInfo"] = household.IsFixedAddress
+                ? household.Address
+                : new Address
+                {
+                    Latitude = 0,
+                    Longitude = 0,
+                    FullAddress = "No Fixed Address",
+                    PostalCode = "No Fixed Address",
+                    PlaceID = "",
+                };
+
             if (household == null)
             {
                 return NotFound();
@@ -162,7 +174,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string[] selectedOptions,string Lat, string Lng, string AddressName, string postal, string city, string placeID)
+        public async Task<IActionResult> Edit(int id, string[] selectedOptions,string Lat, string Lng, string AddressName, string postal, string city, string placeID, string isFixedAddress)
         {
             var householdToupdate = await _context.Households
                 .Include(d => d.Address)
@@ -176,11 +188,14 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
+            householdToupdate.IsFixedAddress = isFixedAddress == "true";
+
             /*household.FamilySize = householdToupdate.Members.Count + household.Dependants;*/
-            householdToupdate.AddressID = await GetAddressID(Lat, Lng, AddressName, placeID, postal, city);
+
+            householdToupdate.AddressID = householdToupdate.IsFixedAddress ? await GetAddressID(Lat, Lng, AddressName, placeID, postal, city) : (int?)null;
 
 
-            if(await TryUpdateModelAsync(householdToupdate, ""))
+            if (await TryUpdateModelAsync(householdToupdate, ""))
 
 
             //Try updating it with the values posted
