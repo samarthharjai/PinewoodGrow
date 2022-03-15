@@ -68,21 +68,21 @@ namespace PinewoodGrow.Controllers
 
         public IActionResult DownloadReport()
         {
+            var member = from m in _context.Members
+                         select m;
 
-            var mem = from a in _context.Members
-                        .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
-                        .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
-                      select new
-                      {
-                          Age = a.Age,
-                          Dietary = a.MemberDietaries,
-                          Health = a.MemberIllnesses,
-                          Situation = a.MemberSituations,
-                          Gender = a.Gender,
-                          Income = a.Income
-                        };
+            //sort income by datapoint
+            double mInc1 = member.ToList().Count(m => m.Income < 5000);
+            double mInc2 = member.ToList().Count(m => (m.Income <= 9999) && (m.Income >= 5000));
+            double mInc3 = member.ToList().Count(m => (m.Income <= 14999) && (m.Income >= 10000));
+            double mInc4 = member.ToList().Count(m => (m.Income <= 19999) && (m.Income >= 15000));
+            double mInc5 = member.ToList().Count(m => (m.Income <= 24999) && (m.Income >= 20000));
+            double mInc6 = member.ToList().Count(m => m.Income >= 25000);
+            double mInc9 = member.ToList().Count();
+
+
             //How many rows?
-            int numRows = mem.Count();
+            int numRows = 7;
 
             if (numRows > 0) //We have data
             {
@@ -105,32 +105,60 @@ namespace PinewoodGrow.Controllers
                     //     ExcelPackage package = new ExcelPackage(memStream);
                     // }
 
-                    var workSheet = excel.Workbook.Worksheets.Add("Members");
+                    var workSheet = excel.Workbook.Worksheets.Add("Income Report");
+
+                    workSheet.Cells[3, 1].Value = "Range of Income";
+                    workSheet.Cells[3, 2].Value = "No. of Member";
+
+                    workSheet.Cells[4, 1].Value = "Under $5000";
+                    workSheet.Cells[4, 2].Value = mInc1;
+
+                    workSheet.Cells[5, 1].Value = "$5000 to $9999";
+                    workSheet.Cells[5, 2].Value = mInc2;
+
+                    workSheet.Cells[6, 1].Value = "$10000 to $14999";
+                    workSheet.Cells[6, 2].Value = mInc3;
+
+                    workSheet.Cells[7, 1].Value = "$15000 to $19999";
+                    workSheet.Cells[7, 2].Value = mInc4;
+
+                    workSheet.Cells[8, 1].Value = "$20000 to $24999";
+                    workSheet.Cells[8, 2].Value = mInc5;
+
+                    workSheet.Cells[9, 1].Value = "$25000 or more";
+                    workSheet.Cells[9, 2].Value = mInc6;
+
+                    workSheet.Cells[10, 1].Value = "Total";
+                    workSheet.Cells[10, 2].Value = mInc9;
+
 
                     //Note: Cells[row, column]
-                    workSheet.Cells[3, 1].LoadFromCollection(mem, true);
+                    //workSheet.Cells[3, 2].LoadFromCollection(mem, true);
 
                     //Style first column for dates
-                    workSheet.Column(1).Style.Numberformat.Format = "yyyy-mm-dd";
+                    //workSheet.Column(1).Style.Numberformat.Format = "yyyy-mm-dd";
 
                     //Style fee column for currency
-                    workSheet.Column(4).Style.Numberformat.Format = "###,##0.00";
+                    //workSheet.Column(2).Style.Numberformat.Format = "###,###.##";
 
                     //Note: You can define a BLOCK of cells: Cells[startRow, startColumn, endRow, endColumn]
                     //Make Date and Patient Bold
-                    workSheet.Cells[4, 1, numRows + 3, 2].Style.Font.Bold = true;
+                    workSheet.Cells[4, 1, numRows + 3, 1].Style.Font.Bold = true;
+                    workSheet.Cells[10, 2].Style.Font.Bold = true;
+
 
                     //Note: these are fine if you are only 'doing' one thing to the range of cells.
                     //Otherwise you should USE a range object for efficiency
-                    using (ExcelRange totalfees = workSheet.Cells[numRows + 4, 4])//
-                    {
-                        totalfees.Formula = "Sum(" + workSheet.Cells[4, 4].Address + ":" + workSheet.Cells[numRows + 3, 4].Address + ")";
-                        totalfees.Style.Font.Bold = true;
-                        totalfees.Style.Numberformat.Format = "$###,##0.00";
-                    }
+
+                    //using (ExcelRange totalfees = workSheet.Cells[numRows + 4, 4])//
+                    //{
+                    //    totalfees.Formula = "Sum(" + workSheet.Cells[4, 4].Address + ":" + workSheet.Cells[numRows + 3, 4].Address + ")";
+                    //    totalfees.Style.Font.Bold = true;
+                    //    totalfees.Style.Numberformat.Format = "$###,##0.00";
+                    //}
 
                     //Set Style and backgound colour of headings
-                    using (ExcelRange headings = workSheet.Cells[3, 1, 3, 7])
+                    using (ExcelRange headings = workSheet.Cells[3, 1, 3, 6])
                     {
                         headings.Style.Font.Bold = true;
                         var fill = headings.Style.Fill;
@@ -162,7 +190,7 @@ namespace PinewoodGrow.Controllers
                     //workSheet.Column(7).Width = 10;
 
                     //Add a title and timestamp at the top of the report
-                    workSheet.Cells[1, 1].Value = "Member's Report";
+                    workSheet.Cells[1, 1].Value = "Member's report by Income";
                     using (ExcelRange Rng = workSheet.Cells[1, 1, 1, 6])
                     {
                         Rng.Merge = true; //Merge columns start and end range
@@ -198,7 +226,7 @@ namespace PinewoodGrow.Controllers
                         using (var memoryStream = new MemoryStream())
                         {
                             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                            Response.Headers["content-disposition"] = "attachment;  filename=Member Report.xlsx";
+                            Response.Headers["content-disposition"] = "attachment;  filename=Member Income Report.xlsx";
                             excel.SaveAs(memoryStream);
                             memoryStream.WriteTo(Response.Body);
                         }
@@ -208,7 +236,7 @@ namespace PinewoodGrow.Controllers
                         try
                         {
                             Byte[] theData = excel.GetAsByteArray();
-                            string filename = "Member Report.xlsx";
+                            string filename = "Member Income Report.xlsx";
                             string mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
                             return File(theData, mimeType, filename);
                         }
