@@ -133,13 +133,13 @@
     //    labels: ["ODSP", "Ontario Works", "EI", "GAINS (For Seniors)", "CPP-Disability", "Post-Sec. Student", "Other", "Employed"],
     //    datasets: [{
     //        label: 'My First Dataset',
-    //        data: [500, 1456, 15687, 9845, 84890, 8498, 0, 4894],
+    //        data: [5227, 6235, 9262, 9150, 17304, 8421, 0, 12355],
     //        backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
     //        hoverOffset: 4
     //    }]
     //};
 
-    const config = {
+    const pieConfig = {
         type: 'pie',
         data: data,
         options: {
@@ -158,7 +158,7 @@
 
     const IncomeMemberChart = new Chart(
         document.getElementById('IncomeBySource'),
-        config
+        pieConfig
     );
 </script>
 
