@@ -32,8 +32,7 @@ namespace PinewoodGrow.Data
 
         public DbSet<Receipt> Receipts { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
-
-        public DbSet<ProductUnitPrice> ProductUnitPrices { get; set; }
+		public DbSet<ProductUnitPrice> ProductUnitPrices { get; set; }
 
 		public DbSet<Payment> Payments { get; set; }
 		public DbSet<SaleDetail> SaleDetails { get; set; }

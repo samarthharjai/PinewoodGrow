@@ -15,6 +15,10 @@ namespace PinewoodGrow.Models
 
         public int ID { get; set; }
 
+        [Display(Name = "Product Type")]
+        [Required(ErrorMessage = "You cannot leave Product Type blank")]
+        public int ProductTypeID { get; set; }
+        public ProductType ProductType { get; set; }
 
         [Display(Name = "Products")]
         [Required(ErrorMessage = "You cannot leave Products blank")]

@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220314181510_Initial")]
+    [Migration("20220324074256_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -343,6 +343,59 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("MemberSituations");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.POS", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CompletedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("HouseholdID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PaymentID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductTypeID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductUnitPriceID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("SubTotal")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("VolunteerID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("HouseholdID");
+
+                    b.HasIndex("PaymentID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("ProductTypeID");
+
+                    b.HasIndex("ProductUnitPriceID");
+
+                    b.HasIndex("VolunteerID");
+
+                    b.ToTable("POS");
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.Payment", b =>
                 {
                     b.Property<int>("ID")
@@ -442,6 +495,9 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("ProductID")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ProductTypeID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("ProductUnitPriceID")
                         .HasColumnType("INTEGER");
 
@@ -464,6 +520,8 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasIndex("PaymentID");
 
                     b.HasIndex("ProductID");
+
+                    b.HasIndex("ProductTypeID");
 
                     b.HasIndex("ProductUnitPriceID");
 
@@ -750,7 +808,45 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Situation", "Situation")
                         .WithMany("MemberSituations")
                         .HasForeignKey("SituationID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.POS", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Household", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.ProductType", "ProductType")
+                        .WithMany()
+                        .HasForeignKey("ProductTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.ProductUnitPrice", "ProductUnitPrice")
+                        .WithMany()
+                        .HasForeignKey("ProductUnitPriceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
+                        .WithMany()
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -789,6 +885,12 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.ProductType", "ProductType")
+                        .WithMany()
+                        .HasForeignKey("ProductTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

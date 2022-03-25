@@ -36,6 +36,7 @@ namespace PinewoodGrow.Controllers
                            .Include(r => r.Payment)
                            .Include(r => r.Product)
                            .Include(r => r.ProductUnitPrice)
+                           .Include(r => r.ProductType)
                            .Include(r => r.Volunteer)
                            select p;
 
@@ -121,6 +122,7 @@ namespace PinewoodGrow.Controllers
                 .Include(r => r.Payment)
                 .Include(r => r.Product)
                 .Include(r => r.ProductUnitPrice)
+                .Include(r => r.ProductType)
                 .Include(r => r.Volunteer)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (Receipt == null)
@@ -143,7 +145,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
+        public async Task<IActionResult> Create([Bind("ID,ProductTypeID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
         {
 
             var Price = UnitPrice(Receipt.ProductID);
@@ -200,7 +202,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,ProductTypeID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
         {
             if (id != Receipt.ID)
             {
@@ -263,6 +265,7 @@ namespace PinewoodGrow.Controllers
                 .Include(r => r.Product)
                 .Include(r => r.ProductUnitPrice)
                 .Include(r => r.Volunteer)
+                .Include(r => r.ProductType)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (Receipt == null)
             {
@@ -289,18 +292,38 @@ namespace PinewoodGrow.Controllers
                 .OrderBy(d => d.Name), "ID", "Name", selectedId);
         }
 
+        private SelectList ProductTypeSelectList(int? selectedId)
+        {
+            return new SelectList(_context.ProductTypes
+                .OrderBy(d => d.Type), "ID", "Type", selectedId);
+        }
 
-        private SelectList UnitPriceSelectList(int? ProductID, int? selectedId = 0)
+
+        /* private SelectList UnitPriceSelectList(int? ProductID, int? selectedId = 0)
+         {
+             //The ProvinceID has been added so we can filter by it.
+             var query = from c in _context.ProductUnitPrices.Include(c => c.Product)
+                         select c;
+             if (ProductID.HasValue)
+             {
+                 query = query.Where(p => p.ProductID == ProductID);
+             }
+             return new SelectList(query.OrderBy(p => p.ProductPrice), "ProductPrice", "ProductPrice", selectedId);
+         }
+ */
+
+        private SelectList ProductCatSelectList(int? ProductTypeID, int? selectedId)
         {
             //The ProvinceID has been added so we can filter by it.
-            var query = from c in _context.ProductUnitPrices.Include(c => c.Product)
+            var query = from c in _context.ProductTypes.Include(c => c.Products)
                         select c;
-            if (ProductID.HasValue)
+            if (ProductTypeID.HasValue)
             {
-                query = query.Where(p => p.ProductID == ProductID);
+                query = query.Where(p => p.ID == ProductTypeID);
             }
-            return new SelectList(query.OrderBy(p => p.ProductPrice), "ProductPrice", "ProductPrice", selectedId);
+            return new SelectList(query.OrderBy(p => p.Type), "Type", "Type", selectedId);
         }
+
 
         private ProductUnitPrice UnitPrice(int id)
         {
@@ -314,15 +337,16 @@ namespace PinewoodGrow.Controllers
         private void PopulateDropDownLists(Receipt Receipt = null)
         {
             var productSelect = ProductsSelectList(null);
-            var unit = UnitPriceSelectList(null, null);
+            //var unit = UnitPriceSelectList(null, null);
             ViewData["ProductID"] = productSelect;
-            ViewData["ProductUnitPriceID"] = UnitPriceSelectList(null, null);
+            //ViewData["ProductUnitPriceID"] = UnitPriceSelectList(null, null);
             ViewData["UnitPrice"] = UnitPrice(Convert.ToInt32(productSelect.First().Value)).ProductPrice;
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary");
             ViewData["PaymentID"] = new SelectList(_context.Payments, "ID", "Type");
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", Receipt.ProductID);
             //ViewData["ProductUnitPriceID"] = new SelectList(_context.ProductUnitPrices, "ID", "ProductPrice", Receipt.ProductUnitPriceID);
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "Name");
+            ViewData["ProductTypeID"] = ProductTypeSelectList(null);
         }
 
         [HttpGet]
@@ -332,7 +356,12 @@ namespace PinewoodGrow.Controllers
             return Json((price?.ProductPrice ?? 0));
         }
 
-     
+        [HttpGet]
+        public JsonResult GetProductType(int? ID)
+        {
+            return Json(ProductCatSelectList(ID, null));
+        }
+
         private bool ReceiptExists(int id)
         {
             return _context.Receipts.Any(e => e.ID == id);
