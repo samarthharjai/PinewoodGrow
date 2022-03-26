@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
+using PinewoodGrow.Models.Temp;
 using PinewoodGrow.ViewModels;
 using PinewoodGrow.Utilities;
 
@@ -182,17 +183,23 @@ namespace PinewoodGrow.Controllers
         public IActionResult Create()
         {
 
-            var now = DateTime.Now;
-            var zeroDate = DateTime.MinValue.AddHours(now.Hour).AddMinutes(now.Minute).AddSeconds(now.Second).AddMilliseconds(now.Millisecond);
+            /*var now = DateTime.Now;
+            var zeroDate = DateTime.MinValue.AddHours(now.Hour).AddMinutes(now.Minute).AddSeconds(now.Second).AddMilliseconds(now.Millisecond);*/
 
-            var member = new Member()
+            var Tempmember = new TempMember()
             {
            
             };
+            _context.TempMembers.Add(Tempmember);
+            _context.SaveChanges();
 
-     
-            
-  
+
+            var member = new Member();
+
+            /*PopulateAssignedTempDietaryData(Tempmember);
+            PopulateAssignedTempSituationData(Tempmember);
+            PopulateAssignedTempIllnessData(Tempmember);*/
+
 
             PopulateAssignedDietaryData(member);
             PopulateAssignedSituationData(member);
@@ -200,7 +207,7 @@ namespace PinewoodGrow.Controllers
             PopulateDropDownLists();
 
             ViewData["MemberIncomeTypes"] = _context.Situations.Select(a => a);
-
+            ViewData["TempMemberID"] = Tempmember.ID;
             return View(member);
         }
 
@@ -211,7 +218,7 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
             ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID")] Member member,
-            string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles
+            string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles, int TempID
             )
             //string Lat, string Lng, string AddressName, string postal, string city
         {
@@ -225,6 +232,13 @@ namespace PinewoodGrow.Controllers
                     await AddDocumentsAsync(member, theFiles);
                     _context.Add(member);
                     await _context.SaveChangesAsync();
+
+                  var Situations =  _context.TempMemberSituations.Where(a => a.MemberID == TempID).Select(a => new MemberSituation
+                        { MemberID = member.ID, SituationID = a.SituationID, SituationIncome = a.SituationIncome}).ToList();
+
+                    await _context.AddRangeAsync(Situations);
+                    await _context.SaveChangesAsync();
+
                     if (selectedDietaryOptions != null)
                     {
                         foreach (var dietary in selectedDietaryOptions)
@@ -249,6 +263,8 @@ namespace PinewoodGrow.Controllers
                             member.MemberIllnesses.Add(illnessToAdd);
                         }
                     }
+
+
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -626,6 +642,69 @@ namespace PinewoodGrow.Controllers
 
         }*/
 
+
+        #region MyRegion
+
+        private void PopulateAssignedTempDietaryData(TempMember member)
+        {
+            //For this to work, you must have Included the PatientConditions 
+            //in the Patient
+            var allOptions = _context.Dietaries;
+            var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
+            var checkBoxes = new List<CheckOptionVM>();
+            foreach (var option in allOptions)
+            {
+                checkBoxes.Add(new CheckOptionVM
+                {
+                    ID = option.ID,
+                    DisplayText = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
+            }
+
+            ViewData["DietaryOptions"] = checkBoxes;
+        }
+
+        private void PopulateAssignedTempSituationData(TempMember member)
+        {
+            //For this to work, you must have Included the PatientConditions 
+            //in the Patient
+            var allOptions = _context.Situations;
+            var currentOptionIDs = new HashSet<int>(member.MemberSituations.Select(b => b.SituationID));
+            var checkBoxes = new List<IncomeOption>();
+            foreach (var option in allOptions)
+            {
+                checkBoxes.Add(new IncomeOption
+                {
+                    ID = option.ID,
+                    Name = option.Name,
+                    Summary = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
+            }
+            ViewData["SituationOptions"] = checkBoxes;
+        }
+
+
+        private void PopulateAssignedTempIllnessData(TempMember member)
+        {
+            var allOptions = _context.Illnesses;
+            var currentOptionIDs = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
+            var checkBoxes = new List<CheckOptionVM>();
+            foreach (var option in allOptions)
+            {
+                checkBoxes.Add(new CheckOptionVM
+                {
+                    ID = option.ID,
+                    DisplayText = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
+            }
+            ViewData["IllnessOptions"] = checkBoxes;
+        }
+
+
+        #endregion
 
         private bool MemberExists(int id)
         {

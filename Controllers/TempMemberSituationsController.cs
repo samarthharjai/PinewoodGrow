@@ -1,124 +1,105 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using PinewoodGrow.Data;
-using PinewoodGrow.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using PinewoodGrow.Data;
+using PinewoodGrow.Models.Temp;
 
 namespace PinewoodGrow.Controllers
 {
-	public class MemberSituationsController : Controller
-	{
+    public class TempMemberSituationsController : Controller
+    {
         private readonly GROWContext _context;
 
-        public MemberSituationsController(GROWContext context)
+        public TempMemberSituationsController(GROWContext context)
         {
             _context = context;
         }
 
-        // GET: Situations
+        // GET: TempMemberSituations
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Members");
         }
-
         public PartialViewResult CreateMemberSituation(int? ID)
         {
             var unusedSituations = from si in _context.Situations
-                                 where !(from p in _context.MemberSituations
-                                         where p.MemberID == ID
-                                         select p.SituationID).Contains(si.ID)
-                                 select si;
+                where !(from p in _context.TempMemberSituations
+                    where p.MemberID == ID
+                    select p.SituationID).Contains(si.ID)
+                select si;
 
             ViewData["SituationID"] = new
                 SelectList(unusedSituations
-                .OrderBy(a => a.Name), "ID", "Name");
+                    .OrderBy(a => a.Name), "ID", "Name");
 
             ViewData["MemberID"] = ID.GetValueOrDefault();
 
             return PartialView("_CreateMemberSituation");
         }
-        public PartialViewResult CreateTempMemberSituation()
-        {
-        
 
-            ViewData["SituationID"] = new
-                SelectList(_context.Situations.OrderBy(a => a.Name), "ID", "Name");
-
-        
-
-            return PartialView("_CreateTempMemberSituation");
-        }
         public PartialViewResult EditMemberSituation(int ID)
         {
-            //Get the MemberSituation to edit
-            var memberSituation = _context.MemberSituations.Find(ID);
+            //Get the TempMemberSituation to edit
+            var TempMemberSituation = _context.MemberSituations.Find(ID);
 
             var unusedSituations = from si in _context.Situations
-                                 where !(from p in _context.MemberSituations
-                                         where p.MemberID == memberSituation.MemberID
-                                         select p.SituationID).Contains(si.ID)
-                                    || si.ID == memberSituation.SituationID
-                                 select si;
-
-            ViewData["SituationID"] = new
-                SelectList(unusedSituations
-                .OrderBy(a => a.Name), "ID", "Name", memberSituation.SituationID);
-
-            return PartialView("_EditMemberSituation", memberSituation);
-        }
-
-        public PartialViewResult EditTempMemberSituation(int ID, int Income)
-        {
-            //Get the MemberSituation to edit
-            var memberSituation = _context.MemberSituations.Find(ID);
-
-            var unusedSituations = from si in _context.Situations
-                where !(from p in _context.MemberSituations
-                          where p.MemberID == memberSituation.MemberID
+                where !(from p in _context.TempMemberSituations
+                        where p.MemberID == TempMemberSituation.MemberID
                           select p.SituationID).Contains(si.ID)
-                      || si.ID == memberSituation.SituationID
+                      || si.ID == TempMemberSituation.SituationID
                 select si;
 
             ViewData["SituationID"] = new
                 SelectList(unusedSituations
-                    .OrderBy(a => a.Name), "ID", "Name", memberSituation.SituationID);
+                    .OrderBy(a => a.Name), "ID", "Name", TempMemberSituation.SituationID);
 
-            return PartialView("_EditMemberSituation", memberSituation);
+            return PartialView("_EditMemberSituation", TempMemberSituation);
         }
 
+        public PartialViewResult EditTempMemberSituation(int ID, int Income)
+        {
+            //Get the TempMemberSituation to edit
+            var TempMemberSituation = _context.MemberSituations.Find(ID);
 
+            var unusedSituations = from si in _context.Situations
+                where !(from p in _context.TempMemberSituations
+                        where p.MemberID == TempMemberSituation.MemberID
+                          select p.SituationID).Contains(si.ID)
+                      || si.ID == TempMemberSituation.SituationID
+                select si;
 
+            ViewData["SituationID"] = new
+                SelectList(unusedSituations
+                    .OrderBy(a => a.Name), "ID", "Name", TempMemberSituation.SituationID);
+
+            return PartialView("_EditMemberSituation", TempMemberSituation);
+        }
 
         public PartialViewResult DeleteMemberSituation(int Id)
         {
             //Get the one to delete
-            var memberSituation = _context.MemberSituations
+            var TempMemberSituation = _context.TempMemberSituations
                 .Include(p => p.Situation)
-                .FirstOrDefault(p => p.ID == Id);
+                .FirstOrDefault(p => p.SituationID == Id);
 
-            return PartialView("_DeleteMemberSituation", memberSituation);
+            return PartialView("_DeleteMemberSituation", TempMemberSituation);
         }
-
-
-        // POST: MemberSituations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MemberID,SituationID,SituationIncome")] MemberSituation memberSituation)
+        public async Task<IActionResult> Create([Bind("MemberID,SituationID,SituationIncome")] TempMemberSituation TempMemberSituation)
         {
-      
+
 
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(memberSituation);
+                    _context.Add(TempMemberSituation);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -128,7 +109,7 @@ namespace PinewoodGrow.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
 
-            return View(memberSituation);
+            return View(TempMemberSituation);
         }
 
         // POST: MemberSituations/Edit/5
@@ -138,8 +119,8 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int ID)
         {
-            MemberSituation memberSituationToUpdate = await _context.MemberSituations.FindAsync(ID);
-            if (await TryUpdateModelAsync<MemberSituation>(memberSituationToUpdate, "",
+            var memberSituationToUpdate = await _context.TempMemberSituations.FindAsync(ID);
+            if (await TryUpdateModelAsync<TempMemberSituation>(memberSituationToUpdate, "",
                 p => p.SituationID, p => p.SituationIncome))
             {
                 try
@@ -149,7 +130,7 @@ namespace PinewoodGrow.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberSituationExists(memberSituationToUpdate.ID))
+                    if (!TempMemberSituationExists(memberSituationToUpdate.ID))
                     {
                         return NotFound();
                     }
@@ -171,10 +152,10 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int ID)
         {
-            var memberSituation = await _context.MemberSituations.FindAsync(ID);
+            var TempMemberSituation = await _context.MemberSituations.FindAsync(ID);
             try
             {
-                _context.MemberSituations.Remove(memberSituation);
+                _context.MemberSituations.Remove(TempMemberSituation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -182,14 +163,12 @@ namespace PinewoodGrow.Controllers
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
-            return View(memberSituation);
+            return View(TempMemberSituation);
         }
 
-        private bool MemberSituationExists(int id)
+        private bool TempMemberSituationExists(int id)
         {
-            return _context.MemberSituations.Any(e => e.ID == id);
+            return _context.TempMemberSituations.Any(e => e.SituationID == id);
         }
-
     }
 }
-

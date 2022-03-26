@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PinewoodGrow.Models.Temp;
 
 namespace PinewoodGrow.Data
 {
@@ -43,6 +44,29 @@ namespace PinewoodGrow.Data
 		public DbSet<MemberHousehold> MemberHouseholds { get; set; }
         public DbSet<GroceryStore> GroceryStores { get; set; }
 		public DbSet<TravelDetail> TravelDetails { get; set; }
+
+
+
+
+        #region Temp Tables
+
+        public DbSet<TempHousehold> TempHouseholds { get; set; }
+        public DbSet<TempMember> TempMembers { get; set; }
+        public DbSet<TempMemberDietary> TempMemberDietaries { get; set; }
+        public DbSet<TempMemberDocument> TempMemberDocuments { get; set; }
+        public DbSet<TempMemberHousehold> TempMemberHouseholds { get; set; }
+        public DbSet<TempMemberIllness> TempMemberIllnesses { get; set; }
+        public DbSet<TempMemberSituation> TempMemberSituations { get; set; }
+		public DbSet<TempAddress> TempAddresses { get; set; }
+
+
+		#endregion
+
+
+
+
+
+
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -191,6 +215,67 @@ namespace PinewoodGrow.Data
 			modelBuilder.Entity<Product>()
 				.HasIndex(p => p.ID)
 				.IsUnique();
+
+
+			#region Temp Data
+
+	
+
+            modelBuilder.Entity<TempAddress>()
+                .HasIndex(a => a.PlaceID)
+                .IsUnique();
+
+            //Prevent Cascade Delete from Household to Member
+            modelBuilder.Entity<TempHousehold>()
+                .HasMany(m => m.Members)
+                .WithOne(h => h.TempHousehold)
+                .HasForeignKey(h => h.TempHouseholdID)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false); 
+
+            modelBuilder.Entity<Household>()
+                .HasMany(m => m.Members)
+                .WithOne(h => h.Household)
+                .HasForeignKey(h => h.HouseholdID)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
+
+
+
+            //Adds One? to many Household to address
+            modelBuilder.Entity<TempHousehold>()
+                .HasOne(h => h.Address)
+                .WithOne(a => a.Household)
+                .HasForeignKey<TempHousehold>(h=> h.AddressID)
+                .IsRequired(false);
+
+            //Many to Many Intersection
+            modelBuilder.Entity<TempMemberDietary>()
+                .HasKey(t => new { t.DietaryID, t.MemberID });
+
+            //Many to Many Intersection
+            modelBuilder.Entity<TempMemberSituation>()
+                .HasIndex(t => new { t.SituationID, t.MemberID })
+                .IsUnique();
+           
+            //Many to Many Intersection
+            modelBuilder.Entity<TempMemberIllness>()
+                .HasKey(t => new { t.IllnessID, t.MemberID });
+
+ 
+
+
+			#endregion
+
+
 		}
+
+
+
+
+
+
+
+
 	}
 }

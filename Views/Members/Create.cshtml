@@ -14,8 +14,11 @@
 	</div>
 	<input type="hidden" id="Lat" name="Lat" />
 	<input type="hidden" id="Lng" name="Lng" />
-	<input type="hidden" id="AddressName" name="AddressName" />
-	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" id="AddressName" name="AddressName" />
+    
+    <input type="hidden" id="TempID" name="TempID" value="@ViewData["TempMemberID"]"/>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -151,13 +154,11 @@
                 </div>
             </div>
             <div class="form-group" id="ListMemberSituations">
-                <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Income Source" type="button">&#x271A;</button>
+                <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
                 <div class="col-md-offset-1" id="MemberSituationList">
                     <table>
                         @{
-                            List<PinewoodGrow.ViewModels.IncomeOption> situatons = ViewBag.SituationOptions;
-						    
-                            foreach (var item in situatons.OrderBy(s => s.Name))
+                            foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
                             {
                                 @:<tr><td>
                                 @item.Summary
@@ -171,7 +172,6 @@
                     </table>
                 </div>
             </div>
-<a href="C:\Users\Owner\Desktop\PinewoodGrow\Views\Members\Edit.cshtml">C:\Users\Owner\Desktop\PinewoodGrow\Views\Members\Edit.cshtml</a>
         </div>
         <div class="row" style="margin: 0 auto; padding: 10px;">
             <div class="form-group" style="padding-right: 20px">
@@ -184,58 +184,22 @@
     </div>
 
 </form>
-@section Scripts {
-	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-	<script type="text/javascript">
+@*@section Scripts {
+    @{
+        var tempID = ViewData["TempMemberID"];
+    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
 	//New for modal
 
     function refreshModal(actionForm, memberSituationID) {
         switch (actionForm) {
-        case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/' + @Model.ID);
+            case 'CreateForm': $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation' + @tempID);
             break;
-        case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditMemberSituation/' + memberSituationID);
+            case 'EditForm': $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
             break;
-        case 'DeleteForm': $('#formMemberSituationBody').load('/MemberSituations/DeleteMemberSituation/' + memberSituationID)
-            break;
-        default: break;
-        };
-        return;
-    };
-    $(document).on("click", ".modal-link", function () {
-        var actionForm = $(this).attr("name");
-        var memberSituationID = $(this).attr("tag");
-        refreshModal(actionForm, memberSituationID);
-    });
-    $(document).on("click", "#submitMemberSituationForm", function (event) {
-        event.preventDefault();
-        var form = $('#theMemberSituationForm');
-        if (form.valid()) {
-            $.ajax({
-                type: "POST",
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function () {
-                    $('#theMemberSituationModal').modal('hide');
-                },
-                error: function () {
-                    alert("Operation Failed.  There was a problem maintaing the data.");
-                }
-            });
-        }
-        return false;
-    });
-    $('#theMemberSituationModal').on('hide.bs.modal', function () {
-        $('#MemberSituationList').load('/Members/MemberSituationList/@Model.ID');
-    });
-
-    /*function refreshModal(actionForm, memberSituationID) {
-        switch (actionForm) {
-        case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/');
-            break;
-            case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditTempMemberSituation/' + memberSituationID + '&Income=' + 1000);
-            break;
-        case 'DeleteForm':
-            $('#formMemberSituationBody').load('/MemberSituations/DeleteMemberSituation/' + memberSituationID + '&Income=' + 1000);
+            case 'DeleteForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation' + memberSituationID);
             break;
         default: break;
         };
@@ -265,26 +229,70 @@
         return false;
     });
     $('#theMemberSituationModal').on('hide.bs.modal', function () {
-     
-    });*/
+        $('#MemberSituationList').load('/Members/MemberSituationList/@tempID');
+    });*@
 
-</script>
+@section Scripts {
+    @{
+        var tempID = ViewData["TempMemberID"];
+    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        //New for modal
+        function refreshModal(actionForm, memberSituationID) {
+            switch (actionForm) {
+            case 'CreateForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + @tempID);
+                break;
+            case 'EditForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation/' + memberSituationID);
+                break;
+            default:
+                break;
+            };
+            return;
+        };
+
+        $(document).on("click",
+            ".modal-link",
+            function() {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshModal(actionForm, memberSituationID);
+            });
+        $(document).on("click",
+            "#submitMemberSituationForm",
+            function(event) {
+                event.preventDefault();
+                var form = $('#theMemberSituationForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function() {
+                            $('#theMemberSituationModal').modal('hide');
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+                }
+                return false;
+            });
+        $('#theMemberSituationModal').on('hide.bs.modal',
+            function() {
+                $('#MemberSituationList').load('/TempMembers/MemberSituationList/@tempID');
+            });
+    </script>
+
+
 }
 
-<script>
-	document.getElementById("btnSampleData").addEventListener("click", function () {
-		document.getElementById("txtFirstName").value = "Jone";
-		document.getElementById("txtLastName").value = "Doe";
-		document.getElementById("txtAge").value = "2001-02-08";
-		document.getElementById("ddlGender").value = "1";
-		document.getElementById("txtPhone").value = "6367727345";
-		document.getElementById("txtEmail").value = "sample@gmail.com";
-		document.getElementById("txtIncome").value = "500";
-		document.getElementById("txtComplete").value = "2";
-		document.getElementById("ddlHousehold").value = "1";
-		document.getElementById("chkIllnesses").value = "1";
-		document.getElementById("chkSituations").value = "1";
-	})
-</script>
-<script src="~/js/GeoLocateAutoComplete.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer></script>
+
+
+
+

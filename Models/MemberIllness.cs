@@ -7,6 +7,7 @@ namespace PinewoodGrow.Models
 {
 	public class MemberIllness
 	{
+  
 		public int IllnessID { get; set; }
 		public Illness Illness { get; set; }
 

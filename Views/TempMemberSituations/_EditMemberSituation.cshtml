@@ -1,0 +1,27 @@
+﻿@model PinewoodGrow.Models.Temp.TempMemberSituation
+<h5>Edit Income Source</h5>
+<form asp-action="Edit" asp-controller="TempMemberSituations" id="theMemberSituationForm">
+    <div class="row">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="MemberID" value='@Model.MemberID' />
+            <div class="form-group">
+                <label asp-for="SituationID" class="control-label"></label>
+                <select asp-for="SituationID" class="form-control" asp-items="ViewBag.SituationID">
+                </select>
+                <span asp-validation-for="SituationID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SituationIncome" class="control-label"></label>
+                <input asp-for="SituationIncome" class="form-control" />
+                <span asp-validation-for="SituationIncome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" id="submitMemberSituationForm" class="btn btn-outline-secondary" />
+            </div>
+        </div>
+    </div>
+</form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
