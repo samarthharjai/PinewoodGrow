@@ -1,7 +1,7 @@
 ﻿@model PinewoodGrow.Models.Member
 
 @{
-    ViewData["Title"] = "Edit";
+	ViewData["Title"] = "Edit";
 }
 
 <h1 style="text-align: center;">@Html.DisplayFor(model => model.FullName)</h1>
@@ -9,24 +9,25 @@
 <h4>Edit</h4>
 <hr />
 <partial name="_MemberSituationModal" />
+<partial name="_addDietaryModal" />
 <form asp-action="Edit" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<div class="row">
 		<div class="col-md-6">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-group">
 				<label asp-for="FirstName" class="control-label"></label>
-				<input asp-for="FirstName" class="form-control" placeholder="Last Name Eg(John)"/>
+				<input asp-for="FirstName" class="form-control" placeholder="Last Name Eg(John)" />
 				<span asp-validation-for="FirstName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="LastName" class="control-label"></label>
-				<input asp-for="LastName" class="form-control" placeholder="First Name Eg(Doe)"/>
+				<input asp-for="LastName" class="form-control" placeholder="First Name Eg(Doe)" />
 				<span asp-validation-for="LastName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="DOB" class="control-label"></label>
-				<input asp-for="DOB" class="form-control"/>
+				<input asp-for="DOB" class="form-control" />
 				<span asp-validation-for="DOB" class="text-danger"></span>
 			</div>
 			<div class="form-group">
@@ -38,17 +39,17 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="Telephone" class="control-label"></label>
-				<input asp-for="Telephone" class="form-control" placeholder="6367727345"/>
+				<input asp-for="Telephone" class="form-control" placeholder="6367727345" />
 				<span asp-validation-for="Telephone" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="Email" class="control-label"></label>
-				<input asp-for="Email" class="form-control" placeholder="johndoe@gmail.com"/>
+				<input asp-for="Email" class="form-control" placeholder="johndoe@gmail.com" />
 				<span asp-validation-for="Email" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="Income" class="control-label"></label>
-				<input asp-for="Income" class="form-control" placeholder="1000.00"/>
+				<input asp-for="Income" class="form-control" placeholder="1000.00" />
 				<span asp-validation-for="Income" class="text-danger"></span>
 			</div>
 			<div class="form-group">
@@ -67,7 +68,7 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="CompletedOn" class="control-label"></label>
-				<input asp-for="CompletedOn" class="form-control"/>
+				<input asp-for="CompletedOn" class="form-control" />
 				<span asp-validation-for="CompletedOn" class="text-danger"></span>
 			</div>
 			<div class="form-group">
@@ -86,35 +87,28 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<div class="form-group">
-				<label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
-				<div class="col-md-offset-1">
-					<table>
-						<tr>
-							@{
-								int cntD = 0;
-								List<PinewoodGrow.ViewModels.CheckOptionVM> dietaryCheckboxes = ViewBag.DietaryOptions;
-								foreach (var checkbox in dietaryCheckboxes)
-								{
-									if (cntD++ % 3 == 0)
-									{
-									@:</tr><tr>
-									}
-									@:<td>
-										<input type="checkbox"
-											   name="selectedDietaryOptions"
-											   value="@checkbox.ID"
-											   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-										@checkbox.DisplayText
-										@:&nbsp;&nbsp;
-									@:</td>
-								}
-							@:</tr>
-							}
-						</table>
-					</div>
-			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label class="control-label"> Dietary Restrictions Accredited</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+						<strong>-</strong>
+					</button>
+					@Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 3, @class = "form-control" })
+				</div>
 
+				<div class="form-group col-md-6">
+					<label class="control-label"> Choose Dietary Restrictions</label>
+					<button type="button" id="btnLeft" class="btn btn-success btn-sm">
+						<strong>+</strong>
+					</button>&nbsp;&nbsp;
+					<button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+								data-toggle="modal" data-target="#addDietaryModal"
+								type="button">
+							<strong>Add Dietary Restriction</strong>
+						</button>
+					@Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 3, @class = "form-control" })
+				</div>
+
+			</div>
 			<div class="form-group">
 				<label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
 				<div class="col-md-offset-1">
@@ -131,9 +125,9 @@
 									}
 									@:<td>
 										<input type="checkbox"
-												name="selectedIllnessOptions"
-												value="@checkbox.ID"
-												@(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+											   name="selectedIllnessOptions"
+											   value="@checkbox.ID"
+											   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
 										@checkbox.DisplayText
 										@:&nbsp;&nbsp;
 									@:</td>
@@ -142,7 +136,7 @@
 							}
 						</table>
 					</div>
-			</div>
+				</div>
 				<div class="form-group" id="ListMemberSituations">
 					<label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
 					<div class="col-md-offset-1" id="MemberSituationList">
@@ -151,11 +145,11 @@
 								foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
 								{
 									@:<tr><td>
-											@item.Summary
+									@item.Summary
 									@:</td><td>
-										@:&nbsp; &nbsp;
-										<button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
-										<button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
+									@:&nbsp; &nbsp;
+									<button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
+									<button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
 									@:</td></tr>
 									}
 							}
@@ -164,19 +158,20 @@
 				</div>
 			</div>
 		</div>
-    <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
-        <div class="form-group" style="padding-right: 20px">
-            <a asp-action="Index" class="btn btn-primary">Back</a>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-info" />
-        </div>
-    </div>
-</form>
+		<div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
+			<div class="form-group" style="padding-right: 20px">
+				<a asp-action="Index" class="btn btn-primary">Back</a>
+			</div>
+			<div class="form-group">
+				<input type="submit" id="btnSubmit" value="Save" class="btn btn-info" />
+			</div>
+		</div>
+	</form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-	<script type="text/javascript">
+	@section Scripts {
+		@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+		<script src="~/js/multiselect.js"></script>
+		<script type="text/javascript">
 		//New for modal
             function refreshModal(actionForm, memberSituationID) {
               switch (actionForm) {
@@ -215,6 +210,40 @@
             });
             $('#theMemberSituationModal').on('hide.bs.modal', function () {
                 $('#MemberSituationList').load('/Members/MemberSituationList/@Model.ID');
-            });
-	</script>
-}
+			});
+		//Add Dietary modal
+			$('#submitDietaryCreate').click(function (event) {
+            event.preventDefault();
+            var form = $('#createDietaryForm');
+            if (form.valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function () {
+                        $('#addDietaryModal').modal('hide');
+                    },
+                    error: function () {
+                        alert("Create Failed.  There was a problem adding the record.");
+                    }
+                });
+            }
+            return false;
+        });
+			$('#addDietaryModal').on('hide.bs.modal', function () {
+				$('#createDietaryForm').find("input[type=text], textarea, select").val("");//to clear the data in the popup
+				//This will be a comma separated list of the keys of the selected options and
+				//we will pass it as a QueryString parameter when we get the new data
+				var qstring = "";
+				//Get the collection of currently selected options
+				var skipData = $("#selectedOptions option");
+				$.each(skipData, function () {
+					qstring += $(this).val() + ",";
+				});
+				var URI = "/Members/GetDietaries?skip=" + qstring.substring(0, qstring.length - 1);
+				refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);
+
+			});
+        });
+		</script>
+	}

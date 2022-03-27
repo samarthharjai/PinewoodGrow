@@ -214,20 +214,20 @@ namespace PinewoodGrow.Controllers
         }
 
         // POST: Members/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the dietific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
             ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID")] Member member,
-            string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles, int TempID
+            string[] selectedOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles, int TempID
             )
             //string Lat, string Lng, string AddressName, string postal, string city
         {
             try
             {
                 //member.AddressID =  await GetAddressID(Lat, Lng, AddressName, postal, city);
-               
+                UpdateMemberDietaries(selectedOptions, member);
             
                 if (ModelState.IsValid)
                 {
@@ -241,14 +241,14 @@ namespace PinewoodGrow.Controllers
                     await _context.AddRangeAsync(Situations);
                     await _context.SaveChangesAsync();
 
-                    if (selectedDietaryOptions != null)
+                    /*if (selectedDietaryOptions != null)
                     {
                         foreach (var dietary in selectedDietaryOptions)
                         {
                             var dietaryToAdd = new MemberDietary { MemberID = member.ID, DietaryID = int.Parse(dietary) };
                             member.MemberDietaries.Add(dietaryToAdd);
                         }
-                    }
+                    }*/
                     if (selectedSituationOptions != null)
                     {
                         foreach (var situation in selectedSituationOptions)
@@ -321,11 +321,11 @@ namespace PinewoodGrow.Controllers
         }
 
         // POST: Members/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the dietific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string[] selectedDietaryOptions, string[] selectedSituationOptions
+        public async Task<IActionResult> Edit(int id, string[] selectedOptions, string[] selectedSituationOptions
             , string[] selectedIllnessOptions, List<IFormFile> theFiles)
         {
             var memberToUpdate = await _context.Members
@@ -341,7 +341,7 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
-            UpdateMemberDietaries(selectedDietaryOptions, memberToUpdate);
+            UpdateMemberDietaries(selectedOptions, memberToUpdate);
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
             UpdateMemberIllnesses(selectedIllnessOptions, memberToUpdate);
 
@@ -437,48 +437,64 @@ namespace PinewoodGrow.Controllers
 
         private void PopulateAssignedDietaryData(Member member)
         {
-            //For this to work, you must have Included the PatientConditions 
-            //in the Patient
+            //For this to work, you must have Included the child collection in the parent object
             var allOptions = _context.Dietaries;
-            var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
-            var checkBoxes = new List<CheckOptionVM>();
-            foreach (var option in allOptions)
+            var currentOptionsHS = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var d in allOptions)
             {
-                checkBoxes.Add(new CheckOptionVM
+                if (currentOptionsHS.Contains(d.ID))
                 {
-                    ID = option.ID,
-                    DisplayText = option.Name,
-                    Assigned = currentOptionIDs.Contains(option.ID)
-                });
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
             }
-            ViewData["DietaryOptions"] = checkBoxes;
+
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
-        private void UpdateMemberDietaries(string[] selectedDietaryOptions, Member memberToUpdate)
+        private void UpdateMemberDietaries(string[] selectedOptions, Member memberToUpdate)
         {
-            if (selectedDietaryOptions == null)
+            if (selectedOptions == null)
             {
                 memberToUpdate.MemberDietaries = new List<MemberDietary>();
                 return;
             }
 
-            var selectedOptionsHS = new HashSet<string>(selectedDietaryOptions);
-            var memberOptionsHS = new HashSet<int>
-                (memberToUpdate.MemberDietaries.Select(d => d.DietaryID));
-            foreach (var option in _context.Dietaries)
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(memberToUpdate.MemberDietaries.Select(b => b.DietaryID));
+            foreach (var d in _context.Dietaries)
             {
-                if (selectedOptionsHS.Contains(option.ID.ToString()))
+                if (selectedOptionsHS.Contains(d.ID.ToString()))//it is selected
                 {
-                    if (!memberOptionsHS.Contains(option.ID))
+                    if (!currentOptionsHS.Contains(d.ID))//but not currently in the Member's collection - Add it!
                     {
-                        memberToUpdate.MemberDietaries.Add(new MemberDietary { MemberID = memberToUpdate.ID, DietaryID = option.ID });
+                        memberToUpdate.MemberDietaries.Add(new MemberDietary
+                        {
+                            DietaryID = d.ID,
+                            MemberID = memberToUpdate.ID
+                        });
                     }
                 }
-                else
+                else //not selected
                 {
-                    if (memberOptionsHS.Contains(option.ID))
+                    if (currentOptionsHS.Contains(d.ID))//but is currently in the Member's collection - Remove it!
                     {
-                        MemberDietary dietaryToRemove = memberToUpdate.MemberDietaries.SingleOrDefault(d => d.DietaryID == option.ID);
-                        _context.Remove(dietaryToRemove);
+                        MemberDietary dietToRemove = memberToUpdate.MemberDietaries.FirstOrDefault(m => m.DietaryID == d.ID);
+                        _context.Remove(dietToRemove);
                     }
                 }
             }
@@ -606,11 +622,35 @@ namespace PinewoodGrow.Controllers
             }
         }
 
+        //For Adding Dietary
+        private SelectList DietarySelectList(string skip)
+        {
+            //default query if no values to avoid
+            var DietaryQuery = _context.Dietaries
+                .OrderBy(d => d.Name);
+            if (!String.IsNullOrEmpty(skip))
+            {
+                //Conver the string to an array of integers
+                //so we can make sure we leave them out of the data we download
+                string[] avoidStrings = skip.Split(',');
+                int[] skipKeys = Array.ConvertAll(avoidStrings, s => int.Parse(s));
+                DietaryQuery = _context.Dietaries
+                    .Where(s => !skipKeys.Contains(s.ID))
+                .OrderBy(d => d.Name);
+            }
+            return new SelectList(DietaryQuery, "ID", "Name");
+        }
+        [HttpGet]
+        public JsonResult GetDietaries(string skip)
+        {
+            return Json(DietarySelectList(skip));
+        }
+
         private void PopulateDropDownLists(Member member = null)
         {
             //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
-            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "Name", member?.VolunteerID);
+            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName", member?.VolunteerID);
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary", member?.HouseholdID);
             ViewData["MemberSituationID"] = new SelectList(_context.MemberSituations, "ID", "Summary", member?.MemberSituations);
         }
@@ -660,22 +700,34 @@ namespace PinewoodGrow.Controllers
 
         private void PopulateAssignedTempDietaryData(TempMember member)
         {
-            //For this to work, you must have Included the PatientConditions 
-            //in the Patient
+            //For this to work, you must have Included the child collection in the parent object
             var allOptions = _context.Dietaries;
-            var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
-            var checkBoxes = new List<CheckOptionVM>();
-            foreach (var option in allOptions)
+            var currentOptionsHS = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var d in allOptions)
             {
-                checkBoxes.Add(new CheckOptionVM
+                if (currentOptionsHS.Contains(d.ID))
                 {
-                    ID = option.ID,
-                    DisplayText = option.Name,
-                    Assigned = currentOptionIDs.Contains(option.ID)
-                });
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
             }
 
-            ViewData["DietaryOptions"] = checkBoxes;
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
 
         private void PopulateAssignedTempSituationData(TempMember member)
