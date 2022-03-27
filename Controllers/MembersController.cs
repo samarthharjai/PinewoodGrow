@@ -13,9 +13,11 @@ using PinewoodGrow.Models;
 using PinewoodGrow.Models.Temp;
 using PinewoodGrow.ViewModels;
 using PinewoodGrow.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize]
     public class MembersController : Controller
     {
         private readonly GROWContext _context;

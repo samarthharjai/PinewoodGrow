@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models.Temp;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize]
     public class TempMemberSituationsController : Controller
     {
         private readonly GROWContext _context;

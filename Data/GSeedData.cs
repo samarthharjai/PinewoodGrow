@@ -89,7 +89,7 @@ namespace PinewoodGrow.Data
                          {
                              FirstName = "Gregory",
                              LastName = "March",
-                             Email = "admin1@outlook.com"
+                             Email = "gMarch@outlook.com"
                          },
                          new Volunteer
                          {

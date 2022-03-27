@@ -9,9 +9,11 @@ using PinewoodGrow.Data;
 using PinewoodGrow.Data.Repositorys;
 using PinewoodGrow.Models;
 using PinewoodGrow.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize(Roles = "Admin, Supervisor")]
     public class MapReportController : Controller
     {
         private readonly GROWContext _context;

@@ -12,9 +12,11 @@ using OfficeOpenXml.Style;
 using System.Drawing;
 using Microsoft.AspNetCore.Http.Features;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize(Roles = "Admin, Supervisor")]
     public class IncomeChartController : Controller
     {
 		private readonly GROWContext _context;

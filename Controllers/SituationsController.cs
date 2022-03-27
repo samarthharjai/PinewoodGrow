@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SituationsController : Controller
     {
         private readonly GROWContext _context;

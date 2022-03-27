@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore.Internal;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize]
     public class ReceiptsController : Controller
     {
         private readonly GROWContext _context;

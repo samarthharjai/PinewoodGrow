@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class VolunteersController : Controller
     {
         private readonly GROWContext _context;

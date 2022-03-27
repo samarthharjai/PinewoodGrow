@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Http.Features;
 using OfficeOpenXml.Style;
 using OfficeOpenXml;
 using System.Drawing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize(Roles = "Admin, Supervisor")]
     public class IllnessSourceController : Controller
     {
 		private readonly GROWContext _context;

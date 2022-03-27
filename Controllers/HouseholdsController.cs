@@ -14,9 +14,11 @@ using PinewoodGrow.Data.Repositorys;
 using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
 using PinewoodGrow.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize]
     public class HouseholdsController : Controller
     {
         private readonly GROWContext _context;

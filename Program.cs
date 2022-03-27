@@ -24,6 +24,9 @@ namespace PinewoodGrow
 
                 try
                 {
+                    var identityContext = services.GetRequiredService<ApplicationDbContext>();
+                    identityContext.Database.Migrate();
+                    ApplicationSeedData.SeedAsync(identityContext, services).Wait();
                     var context = services.GetRequiredService<GROWContext>();
                     context.Database.Migrate();
                      GSeedData.Initialize(services);

@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly GROWContext _context;
