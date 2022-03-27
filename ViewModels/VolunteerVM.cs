@@ -1,14 +1,15 @@
-﻿using System;
+﻿using PinewoodGrow.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PinewoodGrow.Models
+namespace PinewoodGrow.ViewModels
 {
-    public class Volunteer
-    {
-        public Volunteer()
+	public class VolunteerVM
+	{
+        public VolunteerVM()
         {
             Members = new HashSet<Member>();
             Active = true;

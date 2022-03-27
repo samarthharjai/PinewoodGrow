@@ -89,31 +89,36 @@ namespace PinewoodGrow.Data
                          {
                              FirstName = "Gregory",
                              LastName = "March",
-                             Email = "gMarch@outlook.com"
+                             Email = "admin1@outlook.com",
+                             Phone = "2897438725"
                          },
                          new Volunteer
                          {
                              FirstName = "Abigale",
                              LastName = "Summer",
-                             Email = "aSummer@outlook.com"
+                             Email = "super1@outlook.com",
+                             Phone = "2897431525"
                          },
                          new Volunteer
                          {
                              FirstName = "Trevor",
                              LastName = "Smith",
-                             Email = "tSmith@outlook.com"
+                             Email = "volunteer1@outlook.com",
+                             Phone = "2897405348"
                          },
                          new Volunteer
                          {
                              FirstName = "Johnny",
                              LastName = "Barns",
-                             Email = "jBarns@outlook.com"
+                             Email = "jBarns@outlook.com",
+                             Phone = "2891964825"
                          },
                          new Volunteer
                          {
                              FirstName = "Annie",
                              LastName = "Westford",
-                             Email = "aWestford@outlook.com"
+                             Email = "aWestford@outlook.com",
+                             Phone = "2897492725"
                          }
                     };
                     context.Volunteers.AddRange(volunteers);

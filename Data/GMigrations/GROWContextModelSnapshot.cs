@@ -819,6 +819,9 @@ namespace PinewoodGrow.Data.GMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -832,6 +835,10 @@ namespace PinewoodGrow.Data.GMigrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
 
                     b.HasKey("ID");
 

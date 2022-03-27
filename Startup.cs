@@ -1,13 +1,16 @@
+using PinewoodGrow.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PinewoodGrow.Data;
+using PinewoodGrow.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +41,16 @@ namespace PinewoodGrow
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //For email service
+            services.AddSingleton<IEmailConfiguration>(Configuration
+                .GetSection("EmailConfiguration").Get<EmailConfiguration>());
+
+            //With added methods for production use.
+            services.AddTransient<IMyEmailSender, MyEmailSender>();
+
+            //For the Identity System
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.Configure<IdentityOptions>(options =>
             {

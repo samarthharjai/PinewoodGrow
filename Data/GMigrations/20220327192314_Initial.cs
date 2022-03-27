@@ -144,7 +144,9 @@ namespace PinewoodGrow.Data.GMigrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
-                    Email = table.Column<string>(nullable: false)
+                    Email = table.Column<string>(nullable: false),
+                    Phone = table.Column<string>(maxLength: 10, nullable: true),
+                    Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

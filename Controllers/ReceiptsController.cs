@@ -31,7 +31,7 @@ namespace PinewoodGrow.Controllers
 
             ViewData["VolunteerID"] = new SelectList(_context
                 .Volunteers
-                .OrderBy(p => p.Name), "ID", "Name");
+                .OrderBy(p => p.FullName), "ID", "FullName");
 
             var receipts = from p in _context.Receipts
                            .Include(r => r.Household)
@@ -85,13 +85,13 @@ namespace PinewoodGrow.Controllers
                 {
                     receipts = receipts
                         .OrderByDescending(p => p.Volunteer)
-                        .ThenByDescending(p => p.Volunteer.Name);
+                        .ThenByDescending(p => p.Volunteer.FullName);
                 }
                 else
                 {
                     receipts = receipts
                         .OrderBy(p => p.Volunteer)
-                        .ThenBy(p => p.Volunteer.Name);
+                        .ThenBy(p => p.Volunteer.FullName);
                 }
             }
 
