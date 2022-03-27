@@ -164,7 +164,7 @@ namespace PinewoodGrow.Controllers
                 //.Include(m => m.Address)
                 .Include(m => m.Gender)
                 .Include(m => m.Volunteer)
-                .Include(m => m.Household)
+                .Include(m => m.Household).ThenInclude(h=> h.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)

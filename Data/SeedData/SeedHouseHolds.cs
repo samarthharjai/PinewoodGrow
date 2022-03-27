@@ -85,8 +85,53 @@ namespace PinewoodGrow.Data.SeedData
                 context.AddRange(Members);
                 context.SaveChanges();
 
+                var MemberSituations = new List<MemberSituation>();
+
+                foreach (var m in Members) MemberSituations.AddRange(GetMemberSituations(MemberSituations, m.Income, m));
+                    
+                context.AddRange(MemberSituations);
+                context.SaveChanges();
             }
         }
+
+        internal static List<MemberSituation> GetMemberSituations(List<MemberSituation> list,double income, Member member)
+        {
+       var situationIDs = getSituationIDs(rnd.Next(1,3));
+
+
+            foreach (var t in situationIDs)
+            {
+                double div = rnd.Next(20, 70);
+                div /= 100;
+                var temp = income * div;
+                income -= temp;
+                list.Add(new MemberSituation
+                {
+                    MemberID = member.ID,
+                    SituationID = t,
+                    SituationIncome = temp,
+                });
+            }
+
+            return list;
+
+        }
+
+        internal static List<int> getSituationIDs(int count)
+        {
+            var situations = new List<int>();
+            var avalableSituations = new List<int>() { 1, 2, 3, 4, 5, 6,7,8};
+            for (int i = 0; i < count; i++)
+            {
+                var sel = rnd.Next(1, avalableSituations.Count);
+                situations.Add(avalableSituations[sel]);
+                avalableSituations.RemoveAt(sel);
+
+            }
+
+            return situations;
+        }
+
 
         internal static int GetHouseIncome(int size)
         {
@@ -125,7 +170,6 @@ namespace PinewoodGrow.Data.SeedData
                     GenderID = getRandomGender(),
                     DOB = RandomDay(),
                 };
-
                 Members.Add(member);
             }
 
