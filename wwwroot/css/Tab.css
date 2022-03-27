@@ -3,11 +3,14 @@
 /* tab setting */
 /* breakpoints */
 /* selectors relative to radio inputs */
+.IncomeChart {
+   width: 70%;
+    transform: translateX(25%);
+}
 h3 {
     color: #444444;
     text-align: center;
     margin-top: 40px;
-
 }
 p {
     text-align: center;
@@ -59,7 +62,7 @@ dl {
     padding: 50px;
     padding-bottom: 80px;
     width: 100%;
-    height: 1000px;
+    height: 1200px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     border-radius: 5px;
     min-width: 240px;

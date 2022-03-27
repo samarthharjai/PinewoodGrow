@@ -10,405 +10,612 @@
     <h1>@Html.DisplayFor(model => model.FullName)</h1>
     <h2>Member ID: #@Model.HouseholdID</h2>
 </div>
-    <div class="actionsContainer">
-        <div class="btn-back">
-            <a asp-action="Index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-                </svg>
-                <span>Back</span>
-            </a>
-        </div>
-        <div class="btn-back">
-            <a asp-action="Edit" asp-route-id="@Model.ID">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                </svg>
-                <span>Edit</span>
-            </a>
-        </div>
-        @*<div class="btn-view">
-                    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
-                </div>*@
+<div class="actionsContainer">
+    <div class="btn-back">
+        <a asp-action="Index">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+            <span>Back</span>
+        </a>
     </div>
-    <hr />
+    <div class="btn-back">
+        <a asp-action="Edit" asp-route-id="@Model.ID">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+            </svg>
+            <span>Edit</span>
+        </a>
+    </div>
+    @*<div class="btn-view">
+            <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
+        </div>*@
+</div>
+<hr />
 
 
-    <div class="container">
-        <div class="tabs">
+<div class="container">
+    <div class="tabs">
 
-            <input type="radio" id="tab1" name="tab-control" checked>
-            <input type="radio" id="tab2" name="tab-control">
-            <input type="radio" id="tab3" name="tab-control">
-            <input type="radio" id="tab4" name="tab-control">
-            <ul>
-                <li title="Member Overview">
-                    <label for="tab1" role="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                        </svg><br><span>Member Overview</span>
-                    </label>
-                </li>
-                <li title="Income Summary">
-                    <label for="tab2" role="button">
-                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"/>
-                            <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z"/>
-                            <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z"/>
-                            <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"/>
-                        </svg><br><span>Income Summary</span>
-                    </label>
-                </li>
-                <li title="Purchase History">
-                    <label for="tab3" role="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
-                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-                        </svg><br><span>Purchase History</span>
-                    </label>
-                </li>
-                <li title="Member History">
-                    <label for="tab4" role="button">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
-                        </svg><br><span>Member History</span>
-                    </label>
-                </li>
-            </ul>
+        <input type="radio" id="tab1" name="tab-control" checked>
+        <input type="radio" id="tab2" name="tab-control">
+        <input type="radio" id="tab3" name="tab-control">
+        <input type="radio" id="tab4" name="tab-control">
+        <ul>
+            <li title="Member Overview">
+                <label for="tab1" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg><br><span>Member Overview</span>
+                </label>
+            </li>
+            <li title="Income Summary">
+                <label for="tab2" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
+                        <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z" />
+                        <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z" />
+                        <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
+                    </svg><br><span>Income Summary</span>
+                </label>
+            </li>
+            <li title="Purchase History">
+                <label for="tab3" role="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                    </svg><br><span>Purchase History</span>
+                </label>
+            </li>
+            <li title="Member History">
+                <label for="tab4" role="button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                    </svg><br><span>Member History</span>
+                </label>
+            </li>
+        </ul>
 
-            <div class="slider"><div class="indicator"></div></div>
-            <div class="content">
-                <section>
-                    <div class="content-display-container">
-                        <div class="content-display left">
-                            <h2>Personal Information</h2>
-                            <dl class="row dlist" style="width: 100%">
-                                <dt class="col-sm-3">
-                                    @Html.DisplayNameFor(model => model.FirstName)
-                                </dt>
-                                <dd class="col-sm-9">
-                                    @Html.DisplayFor(model => model.FirstName)
-                                </dd>
-                                <dt class="col-sm-3">
-                                    @Html.DisplayNameFor(model => model.LastName)
-                                </dt>
-                                <dd class="col-sm-9">
-                                    @Html.DisplayFor(model => model.LastName)
-                                </dd>
-                                <dt class="col-sm-3">
-                                    Gender
-                                </dt>
-                                <dd class="col-sm-9">
-                                    @Html.DisplayFor(model => model.Gender.Name)
-                                </dd>
-                                <dt class="col-sm-3">
-                                    Age
-                                </dt>
-                                <dd class="col-sm-9">
-                                    @Html.DisplayFor(model => model.AgeSummary)
-                                </dd>
-                                <dt class="col-sm-3">
-                                    Address
-                                </dt>
-                                <dd class="col-sm-9">
-                                    @Html.DisplayFor(model => model.Household.Address.FormalAddress)
-                                </dd>
-                                <dt class="col-sm-3">
-                                    Total Income
-                                </dt>
-                                <dd class="col-sm-9">
-                                    @Html.DisplayFor(model => model.IncomeTotal)
-                                </dd>
-                            </dl>
-                            <h2>Documents</h2>
+        <div class="slider"><div class="indicator"></div></div>
+        <div class="content">
+            <section>
+                <div class="content-display-container">
+                    <div class="content-display left">
+                        <h2>Personal Information</h2>
+                        <dl class="row dlist" style="width: 100%">
+                            <dt class="col-sm-4">
+                                @Html.DisplayNameFor(model => model.FirstName)
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.FirstName)
+                            </dd>
+                            <dt class="col-sm-4">
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.LastName)
+                            </dd>
+                            <dt class="col-sm-4">
+                                Gender
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.Gender.Name)
+                            </dd>
+                            <dt class="col-sm-4">
+                                Age
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.AgeSummary)
+                            </dd>
+                            <dt class="col-sm-4">
+                                Address
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.Household.Address.FormalAddress)
+                            </dd>
+                            <dt class="col-sm-4">
+                                Total Income
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.IncomeTotal)
+                            </dd>
+                        </dl>
+                        <h2>Member Info</h2>
+                        <dl class="row dlist" style="width: 100%">
+                            <dt class="col-sm-4">
+                                Member Number
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.HouseholdID)
+                            </dd>
+                            <dt class="col-sm-4">
+                                Household Income
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.Household.HouseIncome)
+                            </dd>
+                            <dt class="col-sm-4">
+                                # of Members
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.Household.FamilySize)
+                            </dd>
+                            <div class="btn-back" style="margin-top: 20px; padding-left: 50px;">
+                                <a style="width: 200px;" asp-action="Details" asp-controller="Households" asp-route-id="@Model.HouseholdID">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                                        <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+                                    </svg>
+                                    <span>Household</span>
+                                </a>
+                            </div>
+                        </dl>
+                        @*<h2>Documents</h2>
                             @{
                                 var documents = @Model.MemberDocuments;
 
                                 if (documents.Count > 0)
                                 {
-                                    <p>Meth</p>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Document Name</th>
+                                            <th>Document Type</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @{
+                                            foreach (var document in documents)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <a href="#">@document.FileName</a>
+                                                    </td>
+                                                    <td>
+                                                        NAN
+                                                    </td>
+                                                    <td>
+                                                        <a href="#">Download</a> | <a href="#">Remove</a> | <a href="#">Edit</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        </tbody>
+                                    </table>
                                 }
                                 else
                                 {
-                                    <p>No Meth</p>
+                                    <p style="height: 100px">No Documents</p>
+                                }
+                            }*@
+
+                    </div>
+                    <div class="content-display right">
+                        <h3>Contact Info</h3>
+                        <dl style="text-align: center">
+                            <dt>Phone</dt>
+                            <dd>@Model.TelephoneFormatted</dd>
+                            <dt>Email</dt>
+                            <dd>@Model.Email</dd>
+                        </dl>
+                        <h3 style="margin-top: 10px; margin-bottom: 20px;">Dietary Restrictions</h3>
+                        @{
+                            var restrictions = Model.MemberDietaries;
+                            if (restrictions.Count > 0)
+                            {
+                                foreach (var r in restrictions)
+                                {
+                                    <p>@r.Dietary.Name</p>
                                 }
                             }
+                            else
+                            {
+                                <p>None</p>
+                            }
+                        }
+                        <h3 style="margin-top: 40px;">Medical Illnesses</h3>
+                        @{
+                            var Illnesses = Model.MemberIllnesses;
+                            if (Illnesses.Count > 0)
+                            {
+                                foreach (var i in Illnesses)
+                                {
+                                    <p>@i.Illness.Name</p>
+                                }
+                            }
+                            else
+                            {
+                                <p>None</p>
+                            }
 
+                        }
+                    </div>
+
+                </div>
+                <div style="width: 100%; margin-top: 20px; padding-left: 40px;">
+                    <h2>Additional Notes</h2>
+                    <p style="text-align: left; margin-top: 20px; padding-left: 20px; width: 90%; ">@Model.Notes</p>
+                </div>
+            </section>
+            <section>
+                <div class="content-display-container">
+                    <div class="content-display left" style="width: 50%">
+                        <h2>Income Breakdown</h2>
+                        @{
+                            var Incomes = Model.MemberSituations;
+
+                            if (Incomes.Count > 0)
+                            {
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Income Type</th>
+                                        <th>Amount</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @{
+                                        foreach (var income in Incomes)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @income.Situation.Name
+                                                </td>
+                                                <td>
+                                                    @income.SituationIncome
+                                                </td>
+                                                <td style="text-align: right">
+                                                    <a href="#">Remove</a> | <a href="#">Edit</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p style="height: 100px">No Documents</p>
+                            }
+                        }
+
+
+                    </div>
+                    <div class="content-display right" style="width: 50%">
+                        <h3>Income Chart</h3>
+                        <div class="IncomeChart">
+                            <canvas id="IncomeByMember" style="width: 100%"></canvas>
                         </div>
-                        <div class="content-display right">
-                        <h3>Contact Info</h3>
-                            <dl style="text-align: center">
-                                <dt>Phone</dt>
-                                <dd>@Model.TelephoneFormatted</dd>
-                                <dt>Email</dt>
-                                <dd>@Model.Email</dd>
-                            </dl>
-                            <h3 style="margin-top: 10px; margin-bottom: 20px;">Dietary Restrictions</h3>
-                                @{
-                                    var restrictions = Model.MemberDietaries;
-                                    if (restrictions.Count > 0)
-                                    {
-                                        foreach (var r in restrictions)
-                                        {
-                                            <p>@r.Dietary.Name</p>
-                                        }
-                                    }
-                                    else
-                                        {
-                                        <p>None</p>
-                                        }
-                                }
-                                <h3 style="margin-top: 40px;">Medical Illnesses</h3>
-                                @{
-                                    var Illnesses = Model.MemberIllnesses;
-                                    if (Illnesses.Count > 0)
-                                    {
-                                        foreach (var i in Illnesses)
-                                        {
-                                            <p>@i.Illness.Name</p>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <p>None</p>
-                                    }
+                    </div>
+       
+                </div>
+                <h2>Documents</h2>
+                @{
+                    var documents = @Model.MemberDocuments;
 
+                    if (documents.Count > 0)
+                    {
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Document Name</th>
+                                <th>Document Type</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{
+                                foreach (var document in documents)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="#">@document.FileName</a>
+                                        </td>
+                                        <td>
+                                            NAN
+                                        </td>
+                                        <td>
+                                            <a href="#">Download</a> | <a href="#">Remove</a> | <a href="#">Edit</a>
+                                        </td>
+                                    </tr>
                                 }
-                    </div>
-                    </div>
-                </section>
-                <section>
-                    <h2>Income Summary</h2>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quas adipisci a accusantium eius ut voluptatibus ad impedit nulla, ipsa qui. Quasi temporibus eos commodi aliquid impedit amet, similique nulla.
-                </section>
-                <section>
-                    <h2>Purchase History</h2>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.
-                </section>
-                <section>
-                    <h2>Member History</h2>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa dicta vero rerum? Eaque repudiandae architecto libero reprehenderit aliquam magnam ratione quidem? Nobis doloribus molestiae enim deserunt necessitatibus eaque quidem incidunt.
-                </section>
-            </div>
+                            }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p style="height: 100px">No Documents</p>
+                    }
+                }
+            </section>
+            <section>
+                <h2>Purchase History</h2>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.
+            </section>
+            <section>
+                <h2>Member History</h2>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa dicta vero rerum? Eaque repudiandae architecto libero reprehenderit aliquam magnam ratione quidem? Nobis doloribus molestiae enim deserunt necessitatibus eaque quidem incidunt.
+            </section>
+        </div>
+    </div>
+</div>
+
+@*
+    <div>
+        <br />
+        <div class="table-responsive-lg">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">@Html.DisplayNameFor(model => model.FirstName)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.LastName)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Age)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Gender)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Telephone)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.FirstName)</td>
+                        <td>@Html.DisplayFor(model => model.LastName)</td>
+                        <td>@Html.DisplayFor(model => model.Age)</td>
+                        <td>@Html.DisplayFor(model => model.Gender.Name)</td>
+                        <td>@Html.DisplayFor(model => model.Email)</td>
+                        <td>@Html.DisplayFor(model => model.Telephone)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br />
+        <div class="table-responsive-lg">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>Family Situation</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Income Source(s)</th>
+                        <td>
+                            @{
+                                int sitCount = Model.MemberSituations.Count;
+                                if (sitCount > 0)
+                                {
+                                    string firstSit = Model.MemberSituations.FirstOrDefault().Situation.Name;
+                                    if (sitCount > 1)
+                                    {
+                                        string sitList = firstSit;
+                                        var s = Model.MemberSituations.ToList();
+                                        for (int i = 1; i < sitCount; i++)
+                                        {
+                                            sitList += ", " + s[i].Situation.Name;
+                                        }
+                                        <a tabindex="0" class="" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="Situations" data-placement="bottom"
+                                           data-content="@sitList">
+                                            @firstSit... <span class="badge badge-info">@sitCount</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        @firstSit
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.IncomeTotal)</th>
+                        <td>@Html.DisplayFor(model => model.IncomeTotal)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Household)</th>
+                        <td>@Html.DisplayFor(model => model.Household.ID)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.VolunteerID)</th>
+                        <td>@Html.DisplayFor(model => model.Volunteer.Name)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.CompletedOn)</th>
+                        <td>@Html.DisplayFor(model => model.CompletedOn)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <div class="table-responsive-lg">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-responsive-lg">Additaional Information</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Notes)</th>
+                        <td>@Html.DisplayFor(model => model.Notes)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.MemberDietaries)</th>
+                        <td>
+                            @{
+                                int condCount = Model.MemberDietaries.Count;
+                                if (condCount > 0)
+                                {
+                                    string firstCond = Model.MemberDietaries.FirstOrDefault().Dietary.Name;
+                                    if (condCount > 1)
+                                    {
+                                        string condList = firstCond;
+                                        var c = Model.MemberDietaries.ToList();
+                                        for (int i = 1; i < condCount; i++)
+                                        {
+                                            condList += ", " + c[i].Dietary.Name;
+                                        }
+                                        <a tabindex="0" class="" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="Dietary Conditions" data-placement="bottom"
+                                           data-content="@condList">
+                                            @firstCond... <span class="badge badge-info">@condCount</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        @firstCond
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.MemberIllnesses)</th>
+                        <td>
+                            @{
+                                int illCount = Model.MemberIllnesses.Count;
+                                if (illCount > 0)
+                                {
+                                    string firstIll = Model.MemberIllnesses.FirstOrDefault().Illness.Name;
+                                    if (illCount > 1)
+                                    {
+                                        string illList = firstIll;
+                                        var c = Model.MemberIllnesses.ToList();
+                                        for (int i = 1; i < condCount; i++)
+                                        {
+                                            illList += ", " + c[i].Illness.Name;
+                                        }
+                                        <a tabindex="0" class="" role="button" data-toggle="popover"
+                                           data-trigger="focus" title="Illnesses" data-placement="bottom"
+                                           data-content="@illList">
+                                            @firstIll... <span class="badge badge-info">@condCount</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        @firstIll
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.MemberDocuments)</th>
+                        <td>
+                            @{
+                                int fileCount = Model.MemberDocuments.Count;
+                                if (fileCount > 0)
+                                {
+                                    var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
+                                    if (fileCount > 1)
+                                    {
+                                        <a class="" role="button" data-toggle="collapse" href="#collapseDocs@(Model.ID)" aria-expanded="false" aria-controls="collapseDocs@(Model.ID)">
+                                            <span class="badge badge-info">@fileCount</span> Documents...
+                                        </a>
+                                        <div class="collapse" id="collapseDocs@(Model.ID)">
+                                            @{
+                                                foreach (var d in Model.MemberDocuments)
+                                                {
+                                                    <a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Consent)</th>
+                        <td>@Html.DisplayFor(model => model.Consent)</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    @*
-        <div>
-            <br />
-            <div class="table-responsive-lg">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">@Html.DisplayNameFor(model => model.FirstName)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.LastName)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.Age)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.Gender)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.Telephone)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Html.DisplayFor(model => model.FirstName)</td>
-                            <td>@Html.DisplayFor(model => model.LastName)</td>
-                            <td>@Html.DisplayFor(model => model.Age)</td>
-                            <td>@Html.DisplayFor(model => model.Gender.Name)</td>
-                            <td>@Html.DisplayFor(model => model.Email)</td>
-                            <td>@Html.DisplayFor(model => model.Telephone)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <br />
-            <div class="table-responsive-lg">
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th>Family Situation</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Income Source(s)</th>
-                            <td>
-                                @{
-                                    int sitCount = Model.MemberSituations.Count;
-                                    if (sitCount > 0)
-                                    {
-                                        string firstSit = Model.MemberSituations.FirstOrDefault().Situation.Name;
-                                        if (sitCount > 1)
-                                        {
-                                            string sitList = firstSit;
-                                            var s = Model.MemberSituations.ToList();
-                                            for (int i = 1; i < sitCount; i++)
-                                            {
-                                                sitList += ", " + s[i].Situation.Name;
-                                            }
-                                            <a tabindex="0" class="" role="button" data-toggle="popover"
-                                               data-trigger="focus" title="Situations" data-placement="bottom"
-                                               data-content="@sitList">
-                                                @firstSit... <span class="badge badge-info">@sitCount</span>
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            @firstSit
-                                        }
-                                    }
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.IncomeTotal)</th>
-                            <td>@Html.DisplayFor(model => model.IncomeTotal)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.Household)</th>
-                            <td>@Html.DisplayFor(model => model.Household.ID)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.VolunteerID)</th>
-                            <td>@Html.DisplayFor(model => model.Volunteer.Name)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.CompletedOn)</th>
-                            <td>@Html.DisplayFor(model => model.CompletedOn)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <br />
-            <div class="table-responsive-lg">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="table-responsive-lg">Additaional Information</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.Notes)</th>
-                            <td>@Html.DisplayFor(model => model.Notes)</td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.MemberDietaries)</th>
-                            <td>
-                                @{
-                                    int condCount = Model.MemberDietaries.Count;
-                                    if (condCount > 0)
-                                    {
-                                        string firstCond = Model.MemberDietaries.FirstOrDefault().Dietary.Name;
-                                        if (condCount > 1)
-                                        {
-                                            string condList = firstCond;
-                                            var c = Model.MemberDietaries.ToList();
-                                            for (int i = 1; i < condCount; i++)
-                                            {
-                                                condList += ", " + c[i].Dietary.Name;
-                                            }
-                                            <a tabindex="0" class="" role="button" data-toggle="popover"
-                                               data-trigger="focus" title="Dietary Conditions" data-placement="bottom"
-                                               data-content="@condList">
-                                                @firstCond... <span class="badge badge-info">@condCount</span>
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            @firstCond
-                                        }
-                                    }
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.MemberIllnesses)</th>
-                            <td>
-                                @{
-                                    int illCount = Model.MemberIllnesses.Count;
-                                    if (illCount > 0)
-                                    {
-                                        string firstIll = Model.MemberIllnesses.FirstOrDefault().Illness.Name;
-                                        if (illCount > 1)
-                                        {
-                                            string illList = firstIll;
-                                            var c = Model.MemberIllnesses.ToList();
-                                            for (int i = 1; i < condCount; i++)
-                                            {
-                                                illList += ", " + c[i].Illness.Name;
-                                            }
-                                            <a tabindex="0" class="" role="button" data-toggle="popover"
-                                               data-trigger="focus" title="Illnesses" data-placement="bottom"
-                                               data-content="@illList">
-                                                @firstIll... <span class="badge badge-info">@condCount</span>
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            @firstIll
-                                        }
-                                    }
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.MemberDocuments)</th>
-                            <td>
-                                @{
-                                    int fileCount = Model.MemberDocuments.Count;
-                                    if (fileCount > 0)
-                                    {
-                                        var firstFile = Model.MemberDocuments.FirstOrDefault(); ;
-                                        if (fileCount > 1)
-                                        {
-                                            <a class="" role="button" data-toggle="collapse" href="#collapseDocs@(Model.ID)" aria-expanded="false" aria-controls="collapseDocs@(Model.ID)">
-                                                <span class="badge badge-info">@fileCount</span> Documents...
-                                            </a>
-                                            <div class="collapse" id="collapseDocs@(Model.ID)">
-                                                @{
-                                                    foreach (var d in Model.MemberDocuments)
-                                                    {
-                                                        <a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
-                                                    }
-                                                }
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <a asp-action="Download" asp-route-id="@firstFile.ID">@firstFile.FileName</a>
-                                        }
-                                    }
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.Consent)</th>
-                            <td>@Html.DisplayFor(model => model.Consent)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="row" style="margin: 0 auto; padding: 10px; justify-content:center;">
+        <div class="form-group" style="padding-right: 20px">
+            <a asp-action="Index" class="btn btn-primary">Go to Member list</a>
         </div>
+        <div class="form-group" style="padding-right: 20px">
+            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-info">Edit</a>
+        </div>
+        <div class="form-group" style="padding-right: 20px">
+            <a asp-controller="Households" asp-action="Details" asp-route-id="@Model.HouseholdID" class="btn btn-primary">Go to Household</a>
+        </div>
+        </div>
+    @section Scripts {
+        <script type="text/javascript">
+            $(function () {
+                $('[data-toggle="popover"]').popover();
+            });
+        </script>
+    }
+*@
 
-        <div class="row" style="margin: 0 auto; padding: 10px; justify-content:center;">
-            <div class="form-group" style="padding-right: 20px">
-                <a asp-action="Index" class="btn btn-primary">Go to Member list</a>
-            </div>
-            <div class="form-group" style="padding-right: 20px">
-                <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-info">Edit</a>
-            </div>
-            <div class="form-group" style="padding-right: 20px">
-                <a asp-controller="Households" asp-action="Details" asp-route-id="@Model.HouseholdID" class="btn btn-primary">Go to Household</a>
-            </div>
-            </div>
-        @section Scripts {
-            <script type="text/javascript">
-                $(function () {
-                    $('[data-toggle="popover"]').popover();
-                });
-            </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var Names = [];
+    var IncomeData = [];
+
+    @{
+              var Points = @Model.MemberSituations;
+        foreach (var point in Points)
+        {
+            <text>
+                Names.push('@point.Situation.Name');
+                IncomeData.push(@point.SituationIncome);
+            </text>
         }
-    *@
+
+    }
+
+
+
+    const data = {
+        labels: Names,
+        datasets: [{
+            label: 'My First Dataset',
+            data: IncomeData,
+            backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
+            hoverOffset: 4
+        }]
+    };
+
+    const config = {
+        type: 'pie',
+        data: data,
+        options: {
+            /*title: {
+                display: true,
+                text: 'Household Distance to Grow Community Market And Grocery Store by Household Income'
+            },*/
+            plugins: {
+                title: {
+                    display: false,
+                    text: 'Household Income By Type',
+                    font: {
+                        size: 20,
+                        lineHeight: 1.2
+                    }
+                }
+            },
+        }
+    };
+</script>
+<script>
+    const IncomeMemberChart = new Chart(
+        document.getElementById('IncomeByMember'),
+        config
+    );
+</script>
