@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 
@@ -54,13 +55,31 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name")] Volunteer volunteer)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email")] Volunteer volunteer)
         {
-            if (ModelState.IsValid)
+            try
+			{
+                if (ModelState.IsValid)
+                {
+                    _context.Add(volunteer);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (RetryLimitExceededException /* dex */)
             {
-                _context.Add(volunteer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+            }
+            catch (DbUpdateException dex)
+            {
+                if (dex.GetBaseException().Message.Contains("UNIQUE"))
+                {
+                    ModelState.AddModelError("", "Unable to save: Duplicate Email Addresses.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes to the database. Try again, and if the problem persists see your system administrator.");
+                }
             }
             return View(volunteer);
         }
@@ -86,23 +105,30 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Volunteer volunteer)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != volunteer.ID)
+            var volunteerToUpdate = await _context.Volunteers
+                .FirstOrDefaultAsync(p => p.ID == id);
+
+            if (volunteerToUpdate == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (await TryUpdateModelAsync<Volunteer>(volunteerToUpdate, "", v => v.FirstName, v => v.LastName, v => v.Email))
             {
                 try
                 {
-                    _context.Update(volunteer);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", new { volunteerToUpdate.ID });
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VolunteerExists(volunteer.ID))
+                    if (!VolunteerExists(volunteerToUpdate.ID))
                     {
                         return NotFound();
                     }
@@ -111,9 +137,19 @@ namespace PinewoodGrow.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException dex)
+                {
+                    if (dex.GetBaseException().Message.Contains("UNIQUE"))
+                    {
+                        ModelState.AddModelError("", "Unable to save: Duplicate Email Addresses.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes to the database. Try again, and if the problem persists see your system administrator.");
+                    }
+                }
             }
-            return View(volunteer);
+            return View(volunteerToUpdate);
         }
 
         // GET: Volunteers/Delete/5

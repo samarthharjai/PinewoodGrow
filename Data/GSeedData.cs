@@ -85,11 +85,36 @@ namespace PinewoodGrow.Data
                 {
                     var volunteers = new List<Volunteer>
                     {
-                        new Volunteer { ID = 1, Name = "Gregory March"},
-                        new Volunteer { ID = 2, Name = "Abigale Summer"},
-                        new Volunteer { ID = 3, Name = "Trevor Smith"},
-                        new Volunteer { ID = 4, Name = "Johnny Barns"},
-                        new Volunteer { ID = 5, Name = "Annie Westford"}
+                        new Volunteer
+                         {
+                             FirstName = "Gregory",
+                             LastName = "March",
+                             Email = "admin1@outlook.com"
+                         },
+                         new Volunteer
+                         {
+                             FirstName = "Abigale",
+                             LastName = "Summer",
+                             Email = "aSummer@outlook.com"
+                         },
+                         new Volunteer
+                         {
+                             FirstName = "Trevor",
+                             LastName = "Smith",
+                             Email = "tSmith@outlook.com"
+                         },
+                         new Volunteer
+                         {
+                             FirstName = "Johnny",
+                             LastName = "Barns",
+                             Email = "jBarns@outlook.com"
+                         },
+                         new Volunteer
+                         {
+                             FirstName = "Annie",
+                             LastName = "Westford",
+                             Email = "aWestford@outlook.com"
+                         }
                     };
                     context.Volunteers.AddRange(volunteers);
                     context.SaveChanges();

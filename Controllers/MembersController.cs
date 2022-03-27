@@ -272,11 +272,16 @@ namespace PinewoodGrow.Controllers
             {
                 ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
             }
-            catch (DbUpdateException )
+            catch (DbUpdateException dex)
             {
-                
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-                
+                if (dex.GetBaseException().Message.Contains("UNIQUE"))
+                {
+                    ModelState.AddModelError("", "Unable to save: Duplicate Email Addresses.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes to the database. Try again, and if the problem persists see your system administrator.");
+                }
             }
             PopulateAssignedSituationData(member);
             PopulateAssignedDietaryData(member);
@@ -363,11 +368,17 @@ namespace PinewoodGrow.Controllers
                         throw;
                     }
                 }
-                catch (DbUpdateException)
+                catch (DbUpdateException dex)
                 {
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                    if (dex.GetBaseException().Message.Contains("UNIQUE"))
+                    {
+                        ModelState.AddModelError("", "Unable to save: Duplicate Email Addresses.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes to the database. Try again, and if the problem persists see your system administrator.");
+                    }
                 }
-
             }
             PopulateAssignedSituationData(memberToUpdate);
             PopulateAssignedDietaryData(memberToUpdate);

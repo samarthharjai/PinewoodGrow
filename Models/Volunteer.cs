@@ -14,10 +14,21 @@ namespace PinewoodGrow.Models
         }
         public int ID { get; set; }
 
-        [Display(Name = "Completed By")]
-        [Required(ErrorMessage = "You cannot leave the name blank.")]
-        [StringLength(50, ErrorMessage = "Name cannot be more than 50 characters long.")]
-        public string Name { get; set; }
+        public string Name => FirstName + " " + LastName;
+
+        [Display(Name = "First Name")]
+        [Required(ErrorMessage = "You cannot leave the First Name blank.")]
+        [StringLength(50, ErrorMessage = "First Name cannot be more than 50 characters long.")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        [Required(ErrorMessage = "You cannot leave the Last Name blank.")]
+        [StringLength(50, ErrorMessage = "Last Name cannot be more than 50 characters long.")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "You cannot leave the Email blank.")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
 
         public ICollection<Member> Members { get; set; }
     }

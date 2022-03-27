@@ -90,7 +90,15 @@ namespace PinewoodGrow.Data
                 .HasIndex(a => a.PlaceID)
                 .IsUnique();
 
-            //Prevent Cascade Delete from Household to Member
+			modelBuilder.Entity<Member>()
+				.HasIndex(a => a.Email)
+				.IsUnique();
+
+			modelBuilder.Entity<Volunteer>()
+				.HasIndex(a => a.Email)
+				.IsUnique();
+
+			//Prevent Cascade Delete from Household to Member
 			modelBuilder.Entity<Household>()
 				.HasMany<Member>(m => m.Members)
 				.WithOne(h => h.Household)

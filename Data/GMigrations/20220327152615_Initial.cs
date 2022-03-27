@@ -142,7 +142,9 @@ namespace PinewoodGrow.Data.GMigrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    Email = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -814,6 +816,12 @@ namespace PinewoodGrow.Data.GMigrations
                 column: "MemberID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Members_Email",
+                table: "Members",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Members_GenderID",
                 table: "Members",
                 column: "GenderID");
@@ -988,6 +996,12 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "IX_UploadedFiles_TempMemberDocument_MemberID",
                 table: "UploadedFiles",
                 column: "TempMemberDocument_MemberID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Volunteers_Email",
+                table: "Volunteers",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
