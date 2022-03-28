@@ -7,7 +7,7 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using PinewoodGrow.ViewModels;
+
 
 namespace PinewoodGrow.Utilities
 {
