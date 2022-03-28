@@ -22,23 +22,24 @@
     <input type="hidden" id="IsFixedAddress" name="IsFixedAddress" value="true" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div>
+        <p>Note to profs - Currently can not add Household, will be patched soon</p>
         <h2>Address</h2>
         <div class="custom-control custom-switch m-3">
             <input type="checkbox" checked="checked" class="custom-control-input green" id="chkFixed">
             <label class="custom-control-label green" for="chkFixed" style="font-size: 18px;">Fixed Address</label>
         </div>
-        <div class="row" style="padding-left: 50px; ">
+        <div class="row" style="padding-left: 50px;">
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label">Address</label>
-                    <input class="form-control" id="autocomplete" />
+                    <input class="form-control" id="autocomplete"/>
 
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label">Postal Code</label>
-                    <input class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
+                    <input class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal"/>
 
                 </div>
             </div>
