@@ -111,10 +111,13 @@
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-                    <figure class="text-center">
-                        <input type="button" onclick="addSale(console.log(addSale))" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" id="btnAdd" value="Add" />
-                        <input type="reset" class="btn btn-outline-danger btn-lg btn-block" style="width: 30%;" id="btnClear" />
-                    </figure>
+                    <div class="form-group">
+                        <figure class="text-center">
+                            <input type="button" onclick="addSale()" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" id="btnAdd" value="Add" />
+                            <input type="reset" class="btn btn-outline-danger btn-lg btn-block" style="width: 30%; margin-bottom: 9px" id="btnClear" />
+                        </figure>
+                    </div>
+                    
 
                 </div>
 
@@ -149,7 +152,7 @@
                 </table>
                 <div class="row">
                     <div class="d-grid gap-2 col-6 mx-auto">
-                        <input type="submit" value="Save Order" class="btn btn-outline-success btn-lg" />
+                        <input type="submit" id="Save" value="Save Order" class="btn Save btn-outline-success btn-lg" />
                     </div>
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <select asp-for="PaymentID" id="PaymentID" style="-webkit-appearance: none;" class="btn btn-outline-success btn-lg" asp-items="ViewBag.PaymentID">
@@ -167,7 +170,7 @@
 </form>
 
 <div class="form-group" style="padding-right: 20px; margin-bottom: 60px">
-    <a asp-action="Index" class="btn btn-primary">Back to Orders</a>
+    <a asp-action="Index" class="btn btn-primary">Back to Orders List</a>
 </div>
 
 @section Scripts {
@@ -318,6 +321,10 @@
                 document.getElementById("Quantity").value = 0
             else document.getElementById("Quantity").value = qan - 1;
         });
+
+
+        
+
     </script>
 
 }

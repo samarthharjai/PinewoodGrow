@@ -10,17 +10,21 @@ using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using PinewoodGrow.ViewModels;
 
 namespace PinewoodGrow.Controllers
 {
     [Authorize]
     public class ProductsController : Controller
     {
+        //for sending email
+        private readonly IMyEmailSender _emailSender;
         private readonly GROWContext _context;
 
-        public ProductsController(GROWContext context)
+        public ProductsController(GROWContext context, IMyEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
         // GET: Products
@@ -35,7 +39,7 @@ namespace PinewoodGrow.Controllers
 
             var products = from p in _context.Products
                 .Include(p => p.ProductType)
-            select p;
+                           select p;
 
             if (ProductTypeID.HasValue)
             {
@@ -151,8 +155,8 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,UnitPrice,ProductTypeID")] Product product)
         {
-			try
-			{
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     _context.Add(product);
@@ -211,7 +215,7 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
-            if (await TryUpdateModelAsync<Product>(productToUpdate, "", p => p.Name, p => p.UnitPrice, p => p.ProductTypeID ))
+            if (await TryUpdateModelAsync<Product>(productToUpdate, "", p => p.Name, p => p.UnitPrice, p => p.ProductTypeID))
             {
                 try
                 {
@@ -241,7 +245,7 @@ namespace PinewoodGrow.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Unable to save changes to the database. Try again, and if the problem persists see your system administrator." );
+                        ModelState.AddModelError("", "Unable to save changes to the database. Try again, and if the problem persists see your system administrator.");
                     }
                 }
             }
@@ -282,7 +286,63 @@ namespace PinewoodGrow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // try
+        // GET/POST: Products/Notification/5
+        public async Task<IActionResult> Notification(int? id, string Subject, string emailContent)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Product t = await _context.Products.FindAsync(id);
+
+            ViewData["id"] = id;
+            ViewData["ProductName"] = t.Name;
+
+            if (string.IsNullOrEmpty(Subject) || string.IsNullOrEmpty(emailContent))
+            {
+                ViewData["Message"] = "You must enter both a Subject and some message Content before sending the message.";
+            }
+            else
+            {
+                int folksCount = 0;
+                try
+                {
+                    //Send a Notice.
+                    List<EmailAddress> folks = (from p in _context.Members
+                                                select new EmailAddress
+                                                {
+                                                    Name = p.FullName,
+                                                    Address = p.Email
+                                                }).ToList();
+                    folksCount = folks.Count();
+                    if (folksCount > 0)
+                    {
+                        var msg = new EmailMessage()
+                        {
+                            ToAddresses = folks,
+                            Subject = Subject,
+                            Content = "<p>" + emailContent + "</p><p>Please access the <strong>Niagara College</strong> web site to review.</p>"
+
+                        };
+                        await _emailSender.SendToManyAsync(msg);
+                        ViewData["Message"] = "Message sent to " + folksCount + " Member"
+                            + ((folksCount == 1) ? "." : "s.");
+                    }
+                    else
+                    {
+                        ViewData["Message"] = "Message NOT sent!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errMsg = ex.GetBaseException().Message;
+                    ViewData["Message"] = "Error: Could not send email message to the " + folksCount + " Member"
+                        + ((folksCount == 1) ? "" : "s");
+                }
+            }
+            return View();
+        }
+
         private void PopulateDropDownLists(Product product = null)
         {
             ViewData["ProductTypeID"] = new SelectList(_context.ProductTypes, "ID", "Type", product?.ProductTypeID);
