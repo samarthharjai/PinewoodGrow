@@ -47,7 +47,7 @@
     <hr />
     <h2 style="margin-top: 40px">Members</h2>
     <div class="form-group" id="ListMemberSituations">
-        <label class="control-label"><strong>Add Member</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">&#x271A;</button>
+        <label class="control-label"><strong>Add Member</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success temp-modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">&#x271A;</button>
         <div class="col-md-offset-1" id="TempMemberList">
             <table>
                 @{
@@ -57,8 +57,8 @@
                         @item.FirstName
                         @:</td><td>
                         @:&nbsp; &nbsp;
-                        <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
-                        <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
+                        <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#tempMemberModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
+                        <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
                         @:</td></tr>
                     }
                 }
@@ -136,7 +136,7 @@
         };
 
         $(document).on("click",
-            ".modal-link",
+            ".temp-modal-link",
             function() {
                 var actionForm = $(this).attr("name");
                 var memberSituationID = $(this).attr("tag");
@@ -163,8 +163,10 @@
                 return false;
             });
         $('#tempMemberModal').on('hide.bs.modal',
-            function() {
+            function () {
+                const memID = $('#TempID').val();
                 $('#TempMemberList').load('/Household/TempMemberList/@tempID');
+                $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
             });
     </script>
     <script type="text/javascript">
@@ -215,8 +217,9 @@
                 return false;
             });
         $('#theMemberSituationModal').on('hide.bs.modal',
-            function() {
-                $('#MemberSituationList').load('/TempMembers/MemberSituationList/@tempID');
+            function () {
+                const memID = $('#TempID').val();
+                $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
             });
     </script>
 

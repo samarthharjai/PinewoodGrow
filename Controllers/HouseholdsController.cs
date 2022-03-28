@@ -267,10 +267,15 @@ namespace PinewoodGrow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public PartialViewResult TempMemberList(int id)
+        {
+            ViewBag.TempMembers = _context.TempMembers
+         ;
+            return PartialView("_TempMemberList");
+        }
 
 
 
-        
         private void PopulateAssignedMemberData(Household household)
         {
             //For this to work, you must have Included the child collection in the parent object
@@ -594,7 +599,15 @@ namespace PinewoodGrow.Controllers
             PopulateDropDownLists();
             return View(member);
         }
-
+        public PartialViewResult MemberSituationList(int id)
+        {
+            ViewBag.TempMemberSituations = _context.TempMemberSituations
+                .Include(s => s.Situation)
+                .Where(s => s.MemberID == id)
+                .OrderBy(s => s.Situation.Name)
+                .ToList();
+            return PartialView("_MemberSituationList");
+        }
         // POST: Members/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -604,6 +617,9 @@ namespace PinewoodGrow.Controllers
                                                          ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID,ODSPIncome,OWIncome,CPPIncome,EIIncome,GAINSIncome,PSIncome,OIncome,EIncome")] Member member,
             string[] selectedDietaryOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles
             )
+
+
+
         //string Lat, string Lng, string AddressName, string postal, string city
         {
             try

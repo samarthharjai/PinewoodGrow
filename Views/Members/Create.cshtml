@@ -273,7 +273,8 @@
                 return false;
             });
         $('#theMemberSituationModal').on('hide.bs.modal',
-            function() {
+            function () {
+               
                 $('#MemberSituationList').load('/TempMembers/MemberSituationList/@tempID');
             });
     </script>
