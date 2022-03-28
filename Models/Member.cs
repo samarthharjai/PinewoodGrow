@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PinewoodGrow.Models
 {
-	public class Member
+	public class Member : IValidatableObject
 	{
 		public Member()
 		{
@@ -187,5 +187,13 @@ namespace PinewoodGrow.Models
 
 		[Display(Name = "Member Households")]
 		public ICollection<MemberHousehold> MemberHouseholds { get; set; }
+
+		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+		{
+			if (DOB.GetValueOrDefault() > DateTime.Today)
+			{
+				yield return new ValidationResult("Date of Birth cannot be in the future.", new[] { "DOB" });
+			}
+		}
 	}
 }
