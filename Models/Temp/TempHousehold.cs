@@ -17,28 +17,23 @@ namespace PinewoodGrow.Models.Temp
 	
 		public int ID { get; set; }
 
-		[Display(Name = "Household Income")]
-		//[Required(ErrorMessage = "You cannot leave the House Income blank.")]
-		[DataType(DataType.Currency)]
-		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
 		public double HouseIncome => Members.Select(a => a.Income).ToList().Sum();
 
 
 		public string HouseSummary => ID + " - " + FamilyName;
 
 
-		[Display(Name = "Family Size")]
+
 		public int FamilySize
 		{
 			get => Members.Count + Dependants;
 			set { }
 		}
 
-		[Display(Name = "Family Name")]
-		[Required(ErrorMessage = "You cannot leave the Family Name blank.")]
+
 		public string FamilyName { get; set; }
 
-		[Range(-1, 115, ErrorMessage = "Dependants cannot be less than 0.")]
+
 		public int Dependants { get; set; }
 
 		//[Required(ErrorMessage = "You cannot leave the LICO unselected.")]
@@ -77,7 +72,6 @@ namespace PinewoodGrow.Models.Temp
 
 		public ICollection<TempMember> Members { get; set; }
 
-		[Display(Name = "Member Households")]
 		public ICollection<TempMemberHousehold> MemberHouseholds { get; set; }
 	}
 }

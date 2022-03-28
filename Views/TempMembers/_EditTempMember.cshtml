@@ -1,74 +1,81 @@
 ﻿@model PinewoodGrow.Models.Temp.TempMember
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1 style="text-align: center;">@Html.DisplayFor(model => model.FullName)</h1>
-
-<h4>Edit</h4>
+<h1 style="text-align:center">Create a New Member</h1>
 <hr />
+
 <partial name="_MemberSituationModal" />
-<partial name="_addDietaryModal" />
-<form asp-action="Edit" enctype="multipart/form-data">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
+    </div>
+    <input type="hidden" id="Lat" name="Lat" />
+    <input type="hidden" id="Lng" name="Lng" />
+    <input type="hidden" id="AddressName" name="AddressName" />
+
+    <input type="hidden" id="TempID" name="TempID" value="@ViewData["TempMemberID"]" />
+
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" placeholder="Last Name Eg(John)" />
+                <input asp-for="FirstName" class="form-control" id="txtFirstName" placeholder="e.g. John" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" placeholder="First Name Eg(Doe)" />
+                <input asp-for="LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DOB" class="control-label"></label>
-                <input asp-for="DOB" class="form-control" />
+                <input asp-for="DOB" class="form-control" id="txtAge" />
                 <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GenderID" class="control-label"></label>
-                <select asp-for="GenderID" class="form-control" asp-items="ViewBag.GenderID">
+                <select asp-for="GenderID" class="form-control" id="ddlGender" asp-items="ViewBag.GenderID">
                     <option value="">Select a Gender</option>
                 </select>
                 <span asp-validation-for="GenderID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control" placeholder="6367727345" />
+                <input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345" />
                 <span asp-validation-for="Telephone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" placeholder="johndoe@gmail.com" />
+                <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Income" class="control-label"></label>
-                <input asp-for="Income" class="form-control" placeholder="1000.00" />
+                <input asp-for="Income" class="form-control" id="txtIncome" placeholder="e.g. 1000.00" />
                 <span asp-validation-for="Income" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HouseholdID" class="control-label"></label>
-                <select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseSummary">
+                <select asp-for="HouseholdID" class="form-control" id="ddlHousehold" asp-items="ViewBag.HouseSummary">
                     <option value="">Select a Household</option>
                 </select>
                 <span asp-validation-for="HouseholdID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VolunteerID" class="control-label"></label>
-                <select asp-for="VolunteerID" class="form-control" asp-items="ViewBag.VolunteerID">
+                <select asp-for="VolunteerID" class="form-control" id="txtComplete" asp-items="ViewBag.VolunteerID">
                     <option value="">Select a Volunteer</option>
                 </select>
                 <span asp-validation-for="VolunteerID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CompletedOn" class="control-label"></label>
-                <input asp-for="CompletedOn" class="form-control" />
+                <input asp-for="CompletedOn" class="form-control" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="CompletedOn" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -82,33 +89,29 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Consent" /> @Html.DisplayNameFor(model => model.Consent)
+                    <input class="form-check-input" asp-for="Consent" /> To continue, you must agree to the Privacy Policy and Terms of Use.
                 </label>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label class="control-label"> Dietary Restrictions Accredited</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
-                        <strong>-</strong>
-                    </button>
-                    @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 3, @class = "form-control" })
-                </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="control-label"> Diertary Restrictions Accredited</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+                            <strong>-</strong>
+                        </button>
+                        @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                    </div>
 
-                <div class="form-group col-md-6">
-                    <label class="control-label"> Choose Dietary Restrictions</label>
-                    <button type="button" id="btnLeft" class="btn btn-success btn-sm">
-                        <strong>+</strong>
-                    </button>&nbsp;&nbsp;
-                    <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
-                            data-toggle="modal" data-target="#addDietaryModal"
-                            type="button">
-                        <strong>Add Dietary Restriction</strong>
-                    </button>
-                    @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 3, @class = "form-control" })
+                    <div class="form-group col-md-6">
+                        <label class="control-label"> Choose Diertary Restrictions</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
+                            <strong>+</strong>
+                        </button>
+                        @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                    </div>
                 </div>
-
             </div>
+
             <div class="form-group">
                 <label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
                 <div class="col-md-offset-1">
@@ -124,7 +127,8 @@
                                     @:</tr><tr>
                                     }
                                     @:<td>
-                                        <input type="checkbox"
+                                        <input id="chkIllnesses"
+                                               type="checkbox"
                                                name="selectedIllnessOptions"
                                                value="@checkbox.ID"
                                                @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
@@ -157,37 +161,37 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
-            <div class="form-group" style="padding-right: 20px">
-                <a asp-action="Index" class="btn btn-primary">Back</a>
+            <div class="row" style="margin: 0 auto; padding: 10px;">
+                <div class="form-group" style="padding-right: 20px">
+                    <a asp-action="Index" class="btn btn-primary">Back</a>
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" id="btnSubmit" value="Save" class="btn btn-info" />
-            </div>
         </div>
+
     </form>
-
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-        }
-    }
-        <script src="~/js/multiselect.js"></script>
+    @*@section Scripts {
+            @{
+                var tempID = ViewData["TempMemberID"];
+            }
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         <script type="text/javascript">
-		//New for modal
+            //New for modal
+
             function refreshModal(actionForm, memberSituationID) {
-              switch (actionForm) {
-                case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/' + @Model.ID);
+                switch (actionForm) {
+                    case 'CreateForm': $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation' + @tempID);
                     break;
-                  case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditMemberSituation/' + memberSituationID);
+                    case 'EditForm': $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
                     break;
-                  case 'DeleteForm': $('#formMemberSituationBody').load('/MemberSituations/DeleteMemberSituation/' + memberSituationID)
+                    case 'DeleteForm':
+                        $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation' + memberSituationID);
                     break;
                 default: break;
-              };
-            return;
+                };
+                return;
             };
             $(document).on("click", ".modal-link", function () {
                 var actionForm = $(this).attr("name");
@@ -213,42 +217,74 @@
                 return false;
             });
             $('#theMemberSituationModal').on('hide.bs.modal', function () {
-                $('#MemberSituationList').load('/Members/MemberSituationList/@Model.ID');
-			});
-		//Add Dietary modal
-			$('#submitDietaryCreate').click(function (event) {
-            event.preventDefault();
-            var form = $('#createDietaryForm');
-            if (form.valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    success: function () {
-                        $('#addDietaryModal').modal('hide');
-                    },
-                    error: function () {
-                        alert("Create Failed.  There was a problem adding the record.");
-                    }
-                });
-            }
-            return false;
-        });
-			$('#addDietaryModal').on('hide.bs.modal', function () {
-				$('#createDietaryForm').find("input[type=text], textarea, select").val("");//to clear the data in the popup
-				//This will be a comma separated list of the keys of the selected options and
-				//we will pass it as a QueryString parameter when we get the new data
-				var qstring = "";
-				//Get the collection of currently selected options
-				var skipData = $("#selectedOptions option");
-				$.each(skipData, function () {
-					qstring += $(this).val() + ",";
-				});
-				var URI = "/Members/GetDietaries?skip=" + qstring.substring(0, qstring.length - 1);
-				refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);
+                $('#MemberSituationList').load('/Members/MemberSituationList/@tempID');
+            });*@
 
-			});
-        });
+    @section Scripts {
+        @{
+            var tempID = ViewData["TempMemberID"];
+        }
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="~/js/multiselect.js"></script>
+        <script type="text/javascript">
+        //New for modal
+        function refreshModal(actionForm, memberSituationID) {
+            switch (actionForm) {
+            case 'CreateForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + @tempID);
+                break;
+            case 'EditForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation/' + memberSituationID);
+                break;
+            default:
+                break;
+            };
+            return;
+        };
+
+        $(document).on("click",
+            ".modal-link",
+            function() {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshModal(actionForm, memberSituationID);
+            });
+        $(document).on("click",
+            "#submitMemberSituationForm",
+            function(event) {
+                event.preventDefault();
+                var form = $('#theMemberSituationForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function() {
+                            $('#theMemberSituationModal').modal('hide');
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+                }
+                return false;
+            });
+        $('#theMemberSituationModal').on('hide.bs.modal',
+            function() {
+                $('#MemberSituationList').load('/TempMembers/MemberSituationList/@tempID');
+            });
         </script>
+
+
     }
-       
+
+
+
+
+
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

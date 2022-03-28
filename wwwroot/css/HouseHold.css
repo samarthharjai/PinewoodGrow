@@ -34,7 +34,9 @@ dl {
     top: -50px;
     left: -50px;
 }
-
+modal-lg {
+    width: 1200px;
+}
 
 .btn-back a {
     display: flex;
@@ -212,4 +214,10 @@ dl {
 
 .green:focus:not(:checked) ~ .green::before {
     border-color: #397A4C !important;
+}
+
+.custom-form {
+    width: 50%;
+    float: right;
+    justify-content: center
 }

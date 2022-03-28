@@ -15,6 +15,7 @@ using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
 using PinewoodGrow.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using PinewoodGrow.Models.Temp;
 
 namespace PinewoodGrow.Controllers
 {
@@ -74,14 +75,10 @@ namespace PinewoodGrow.Controllers
         // GET: Households/Create
         public IActionResult Create()
         {
-            var member = new Member();
-            PopulateAssignedDietaryData(member);
-            PopulateAssignedSituationData(member);
-            PopulateAssignedIllnessData(member);
-            PopulateDropDownLists();
-            Household household = new Household();
-            PopulateAssignedMemberData(household);
-            return View();
+            var tempHousehold = new TempHousehold();
+            _context.Add(tempHousehold);
+            _context.SaveChanges();
+            return View(tempHousehold);
         }
 
         // POST: Households/Create

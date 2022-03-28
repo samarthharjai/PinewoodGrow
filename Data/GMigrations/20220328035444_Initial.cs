@@ -239,7 +239,7 @@ namespace PinewoodGrow.Data.GMigrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     FamilySize = table.Column<int>(nullable: false),
-                    FamilyName = table.Column<string>(nullable: false),
+                    FamilyName = table.Column<string>(nullable: true),
                     Dependants = table.Column<int>(nullable: false),
                     IsFixedAddress = table.Column<bool>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),

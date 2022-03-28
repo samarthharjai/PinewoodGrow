@@ -1,71 +1,75 @@
-﻿@model PinewoodGrow.ViewModels.MemberHouseHoldModel
+﻿@model PinewoodGrow.Models.Temp.TempHousehold
 
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>Household</h4>
-<hr />
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
-    </div>
-<input type="hidden" id="Lat" name="Lat" />
-<input type="hidden" id="Lng" name="Lng" />
-<input type="hidden" id="AddressName" name="AddressName"/>
-<input type="hidden" id="PlaceID" name="placeID" />
-<input type="hidden" id="city" name="city"/>
-<input type="hidden" id="IsFixedAddress" name="IsFixedAddress" value="true"/>
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<div class="custom-control custom-switch m-3">
-    <input type="checkbox" checked="checked" class="custom-control-input green" id="chkFixed" style="">
-    <label class="custom-control-label green" for="chkFixed">Fixed Address</label>
+<link rel="stylesheet" href="/css/HouseHold.css" />
+<div class="title">
+    <h1>Create</h1>
+    <h2>New Household</h2>
 </div>
-    <div class="row">
-        <div class="col-md-6">
-         
+<hr />
+<partial name="_TempMemberModal" />
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    @*<div class="form-group">
+        <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
+    </div>*@
+    <input type="hidden" id="Lat" name="Lat" />
+    <input type="hidden" id="Lng" name="Lng" />
+    <input type="hidden" id="AddressName" name="AddressName" />
+    <input type="hidden" id="PlaceID" name="placeID" />
+    <input type="hidden" id="city" name="city" />
+    <input type="hidden" id="IsFixedAddress" name="IsFixedAddress" value="true" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div>
+        <h2>Address</h2>
+        <div class="custom-control custom-switch m-3">
+            <input type="checkbox" checked="checked" class="custom-control-input green" id="chkFixed">
+            <label class="custom-control-label green" for="chkFixed" style="font-size: 18px;">Fixed Address</label>
+        </div>
+        <div class="row" style="padding-left: 50px; ">
+        <div class="col-md-4">
             <div class="form-group">
-                <label  class="control-label"></label>
-                <input class="form-control" id="autocomplete"/>
-                <span asp-validation-for="Household.Address.FullAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Household.Address.PostalCode" class="control-label"></label>
-                <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal"/>
-                <span asp-validation-for="Household.Address.PostalCode" class="text-danger"></span>
+                <label class="control-label">Address</label>
+                <input class="form-control" id="autocomplete" />
+               
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="Household.Dependants" class="control-label"></label>
-                <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" placeholder="e.g. 2" class="form-control" />
-                <span asp-validation-for="Household.Dependants" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Household.FamilyName" class="control-label"></label>
-                <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" placeholder="e.g. Doe" class="form-control" />
-                <span asp-validation-for="Household.FamilyName" class="text-danger"></span>
-            </div>
+    <div class= "col-md-4">
+        <div class="form-group">
+            <label class="control-label">Postal Code</label>
+            <input  class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
+          
         </div>
     </div>
-<div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
-                    <div class="form-group" style="padding-right: 20px">
-                        <a asp-action="Index" class="btn btn-primary">Back</a>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
-                    </div>
-                </div>
-            </form>
+        </div>
+    </div>
+    <hr/>
+    <h2 style="margin-top: 40px">Members</h2>
+    <div class="form-group" id="ListMemberSituations">
+        <label class="control-label"><strong>Add Member</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">&#x271A;</button>
+        <div class="col-md-offset-1" id="TempMemberList">
+            <table>
+                @{
+                    foreach (var item in Model.Members)
+                    {
+                        @:<tr><td>
+                        @item.FirstName;
+                        @:</td><td>
+                        @:&nbsp; &nbsp;
+                        <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#tempMemberModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
+                        <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
+                        @:</td></tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-}
 
-<script>
+@*<script>
     document.getElementById("btnSampleDataHouse").addEventListener("click", function () {
         document.getElementById("autocomplete").value = "5951 Main St, Niagara Falls, ON , Canada";
         document.getElementById("postal").value = "L2G 5Z7";
@@ -82,7 +86,7 @@
         document.getElementById("chkIllnesses").value = "2";
         document.getElementById("chkSituations").value = "7";
     })
-</script>
+</script>*@
 <script>
     document.getElementById("chkFixed").addEventListener("click",
         function () {
@@ -90,7 +94,7 @@
                 document.getElementById("autocomplete").disabled = false;
                 document.getElementById("postal").disabled = false;
                 document.getElementById("IsFixedAddress").value = true;
-                
+
             } else {
                 document.getElementById("autocomplete").disabled = true;
                 document.getElementById("postal").disabled = true;
@@ -103,4 +107,99 @@
 </script>
 <script src="~/js/GeoLocateAutoComplete.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer></script>
-<script src="~/js/multiselect.js"></script> 
+@*<script src="~/js/multiselect.js"></script>*@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        var tempID = ViewData["TempMemberID"];
+    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @*<script src="~/js/multiselect.js"></script>*@
+    <script type="text/javascript">
+        //New for modal
+        function refreshModal(actionForm, memberSituationID) {
+            switch (actionForm) {
+            case 'CreateForm':
+                    $('#formTempMemberBody').load('/TempMembers/CreateTempMember/1');
+                break;
+            case 'EditForm':
+                    $('#formTempMemberBody').load('/TempMembers/EditTempMember/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                    $('#formTempMemberBody').load('/TempMembers/DeleteTempMember/' + memberSituationID);
+                break;
+            default:
+                break;
+            };
+            return;
+        };
+
+        $(document).on("click",
+            ".modal-link",
+            function() {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshModal(actionForm, memberSituationID);
+            });
+        $(document).on("click",
+            "#submitMemberSituationForm",
+            function(event) {
+                event.preventDefault();
+                var form = $('#TempMemberForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function() {
+                            $('#tempMemberModal').modal('hide');
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+                }
+                return false;
+            });
+        $('#tempMemberModal').on('hide.bs.modal',
+            function() {
+                $('#TempMemberList').load('/Household/TempMemberList/@tempID');
+            });
+    </script>
+}
+@*<div class="row">
+    <div class="col-md-6">
+
+        <div class="form-group">
+            <label class="control-label"></label>
+            <input class="form-control" id="autocomplete" />
+            <span asp-validation-for="Household.Address.FullAddress" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Household.Address.PostalCode" class="control-label"></label>
+            <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
+            <span asp-validation-for="Household.Address.PostalCode" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Household.Dependants" class="control-label"></label>
+            <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" placeholder="e.g. 2" class="form-control" />
+            <span asp-validation-for="Household.Dependants" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Household.FamilyName" class="control-label"></label>
+            <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" placeholder="e.g. Doe" class="form-control" />
+            <span asp-validation-for="Household.FamilyName" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
+    <div class="form-group" style="padding-right: 20px">
+        <a asp-action="Index" class="btn btn-primary">Back</a>
+    </div>
+    <div class="form-group">
+        <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
+    </div>
+</div>*@
