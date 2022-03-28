@@ -231,7 +231,7 @@
         function refreshModal(actionForm, memberSituationID) {
             switch (actionForm) {
             case 'CreateForm':
-                $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + @tempID);
+                    $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/@tempID');
                 break;
             case 'EditForm':
                 $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);

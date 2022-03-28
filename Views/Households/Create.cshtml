@@ -12,8 +12,8 @@
 <partial name="_TempMemberModal" />
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     @*<div class="form-group">
-        <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
-    </div>*@
+            <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
+        </div>*@
     <input type="hidden" id="Lat" name="Lat" />
     <input type="hidden" id="Lng" name="Lng" />
     <input type="hidden" id="AddressName" name="AddressName" />
@@ -28,23 +28,23 @@
             <label class="custom-control-label green" for="chkFixed" style="font-size: 18px;">Fixed Address</label>
         </div>
         <div class="row" style="padding-left: 50px; ">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Address</label>
-                <input class="form-control" id="autocomplete" />
-               
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Address</label>
+                    <input class="form-control" id="autocomplete" />
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Postal Code</label>
+                    <input class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
+
+                </div>
             </div>
         </div>
-    <div class= "col-md-4">
-        <div class="form-group">
-            <label class="control-label">Postal Code</label>
-            <input  class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
-          
-        </div>
     </div>
-        </div>
-    </div>
-    <hr/>
+    <hr />
     <h2 style="margin-top: 40px">Members</h2>
     <div class="form-group" id="ListMemberSituations">
         <label class="control-label"><strong>Add Member</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">&#x271A;</button>
@@ -54,11 +54,11 @@
                     foreach (var item in Model.Members)
                     {
                         @:<tr><td>
-                        @item.FirstName;
+                        @item.FirstName
                         @:</td><td>
                         @:&nbsp; &nbsp;
-                        <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#tempMemberModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
-                        <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
+                        <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
+                        <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
                         @:</td></tr>
                     }
                 }
@@ -70,23 +70,23 @@
 
 
 @*<script>
-    document.getElementById("btnSampleDataHouse").addEventListener("click", function () {
-        document.getElementById("autocomplete").value = "5951 Main St, Niagara Falls, ON , Canada";
-        document.getElementById("postal").value = "L2G 5Z7";
-        document.getElementById("txtDependants").value = "2";
-        document.getElementById("txtFamilyName").value = "Doe";
-        document.getElementById("txtFirstName").value = "Jane";
-        document.getElementById("txtLastName").value = "Doe";
-        document.getElementById("txtAge").value = "1984-02-04";
-        document.getElementById("ddlGender").value = "2";
-        document.getElementById("txtPhone").value = "6367727614";
-        document.getElementById("txtEmail").value = "sample@gmail.com";
-        document.getElementById("txtIncome").value = "1600";
-        document.getElementById("txtComplete").value = "2";
-        document.getElementById("chkIllnesses").value = "2";
-        document.getElementById("chkSituations").value = "7";
-    })
-</script>*@
+        document.getElementById("btnSampleDataHouse").addEventListener("click", function () {
+            document.getElementById("autocomplete").value = "5951 Main St, Niagara Falls, ON , Canada";
+            document.getElementById("postal").value = "L2G 5Z7";
+            document.getElementById("txtDependants").value = "2";
+            document.getElementById("txtFamilyName").value = "Doe";
+            document.getElementById("txtFirstName").value = "Jane";
+            document.getElementById("txtLastName").value = "Doe";
+            document.getElementById("txtAge").value = "1984-02-04";
+            document.getElementById("ddlGender").value = "2";
+            document.getElementById("txtPhone").value = "6367727614";
+            document.getElementById("txtEmail").value = "sample@gmail.com";
+            document.getElementById("txtIncome").value = "1600";
+            document.getElementById("txtComplete").value = "2";
+            document.getElementById("chkIllnesses").value = "2";
+            document.getElementById("chkSituations").value = "7";
+        })
+    </script>*@
 <script>
     document.getElementById("chkFixed").addEventListener("click",
         function () {
@@ -121,13 +121,13 @@
         function refreshModal(actionForm, memberSituationID) {
             switch (actionForm) {
             case 'CreateForm':
-                    $('#formTempMemberBody').load('/TempMembers/CreateTempMember/1');
+                $('#formTempMemberBody').load('/TempMembers/CreateTempMember/@tempID');
                 break;
             case 'EditForm':
-                    $('#formTempMemberBody').load('/TempMembers/EditTempMember/' + memberSituationID);
+                $('#formTempMemberBody').load('/TempMembers/EditTempMember/' + memberSituationID);
                 break;
             case 'DeleteForm':
-                    $('#formTempMemberBody').load('/TempMembers/DeleteTempMember/' + memberSituationID);
+                $('#formTempMemberBody').load('/TempMembers/DeleteTempMember/' + memberSituationID);
                 break;
             default:
                 break;
@@ -143,7 +143,7 @@
                 refreshModal(actionForm, memberSituationID);
             });
         $(document).on("click",
-            "#submitMemberSituationForm",
+            "#submitTempMemberForm",
             function(event) {
                 event.preventDefault();
                 var form = $('#TempMemberForm');
@@ -167,39 +167,94 @@
                 $('#TempMemberList').load('/Household/TempMemberList/@tempID');
             });
     </script>
-}
-@*<div class="row">
-    <div class="col-md-6">
+    <script type="text/javascript">
+        //New for modal
+        function refreshSituationModal(actionForm, memberSituationID) {
+            const memberID = $('#TempID').val();
+            switch (actionForm) {
+            case 'CreateForm':
+                    $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + memberID) ;
+                break;
+            case 'EditForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation/' + memberSituationID);
+                break;
+            default:
+                break;
+            };
+            return;
+        };
 
-        <div class="form-group">
-            <label class="control-label"></label>
-            <input class="form-control" id="autocomplete" />
-            <span asp-validation-for="Household.Address.FullAddress" class="text-danger"></span>
+        $(document).on("click",
+            ".modal-link",
+            function() {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshSituationModal(actionForm, memberSituationID);
+            });
+        $(document).on("click",
+            "#submitMemberSituationForm",
+            function(event) {
+                event.preventDefault();
+                var form = $('#theMemberSituationForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function() {
+                            $('#theMemberSituationModal').modal('hide');
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+                }
+                return false;
+            });
+        $('#theMemberSituationModal').on('hide.bs.modal',
+            function() {
+                $('#MemberSituationList').load('/TempMembers/MemberSituationList/@tempID');
+            });
+    </script>
+
+}
+
+
+@*<div class="row">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input class="form-control" id="autocomplete" />
+                <span asp-validation-for="Household.Address.FullAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Household.Address.PostalCode" class="control-label"></label>
+                <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
+                <span asp-validation-for="Household.Address.PostalCode" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Household.Address.PostalCode" class="control-label"></label>
-            <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
-            <span asp-validation-for="Household.Address.PostalCode" class="text-danger"></span>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Household.Dependants" class="control-label"></label>
+                <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" placeholder="e.g. 2" class="form-control" />
+                <span asp-validation-for="Household.Dependants" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Household.FamilyName" class="control-label"></label>
+                <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" placeholder="e.g. Doe" class="form-control" />
+                <span asp-validation-for="Household.FamilyName" class="text-danger"></span>
+            </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label asp-for="Household.Dependants" class="control-label"></label>
-            <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" placeholder="e.g. 2" class="form-control" />
-            <span asp-validation-for="Household.Dependants" class="text-danger"></span>
+    <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
+        <div class="form-group" style="padding-right: 20px">
+            <a asp-action="Index" class="btn btn-primary">Back</a>
         </div>
         <div class="form-group">
-            <label asp-for="Household.FamilyName" class="control-label"></label>
-            <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" placeholder="e.g. Doe" class="form-control" />
-            <span asp-validation-for="Household.FamilyName" class="text-danger"></span>
+            <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
         </div>
-    </div>
-</div>
-<div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
-    <div class="form-group" style="padding-right: 20px">
-        <a asp-action="Index" class="btn btn-primary">Back</a>
-    </div>
-    <div class="form-group">
-        <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
-    </div>
-</div>*@
+    </div>*@

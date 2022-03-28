@@ -171,11 +171,11 @@
 	@section Scripts {
 		@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 		<script src="~/js/multiselect.js"></script>
-		<script type="text/javascript">
+        <script type="text/javascript">
 		//New for modal
             function refreshModal(actionForm, memberSituationID) {
               switch (actionForm) {
-                case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/' + @Model.ID);
+                case 'CreateForm': $('#formMemberSituationBody').load('/MemberSituations/CreateMemberSituation/@Model.ID');
                     break;
                   case 'EditForm': $('#formMemberSituationBody').load('/MemberSituations/EditMemberSituation/' + memberSituationID);
                     break;
@@ -210,9 +210,9 @@
             });
             $('#theMemberSituationModal').on('hide.bs.modal', function () {
                 $('#MemberSituationList').load('/Members/MemberSituationList/@Model.ID');
-			});
-		//Add Dietary modal
-			$('#submitDietaryCreate').click(function (event) {
+        });
+        //Add Dietary modal
+        $('#submitDietaryCreate').click(function (event) {
             event.preventDefault();
             var form = $('#createDietaryForm');
             if (form.valid()) {
@@ -230,20 +230,20 @@
             }
             return false;
         });
-			$('#addDietaryModal').on('hide.bs.modal', function () {
-				$('#createDietaryForm').find("input[type=text], textarea, select").val("");//to clear the data in the popup
-				//This will be a comma separated list of the keys of the selected options and
-				//we will pass it as a QueryString parameter when we get the new data
-				var qstring = "";
-				//Get the collection of currently selected options
-				var skipData = $("#selectedOptions option");
-				$.each(skipData, function () {
-					qstring += $(this).val() + ",";
-				});
-				var URI = "/Members/GetDietaries?skip=" + qstring.substring(0, qstring.length - 1);
-				refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);
+        $('#addDietaryModal').on('hide.bs.modal', function () {
+            $('#createDietaryForm').find("input[type=text], textarea, select").val("");//to clear the data in the popup
+            //This will be a comma separated list of the keys of the selected options and
+            //we will pass it as a QueryString parameter when we get the new data
+            var qstring = "";
+            //Get the collection of currently selected options
+            var skipData = $("#selectedOptions option");
+            $.each(skipData, function () {
+                qstring += $(this).val() + ",";
+            });
+            var URI = "/Members/GetDietaries?skip=" + qstring.substring(0, qstring.length - 1);
+            refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);
 
-			});
         });
-		</script>
+
+        </script>
 	}
