@@ -282,6 +282,7 @@ namespace PinewoodGrow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // try
         private void PopulateDropDownLists(Product product = null)
         {
             ViewData["ProductTypeID"] = new SelectList(_context.ProductTypes, "ID", "Type", product?.ProductTypeID);
