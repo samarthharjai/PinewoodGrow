@@ -167,9 +167,6 @@ namespace PinewoodGrow.Controllers
             }
             
 
-      
-            
-
             if (ModelState.IsValid)
             {
                 _context.Add(Receipt);
