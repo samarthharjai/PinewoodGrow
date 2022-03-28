@@ -298,20 +298,6 @@ namespace PinewoodGrow.Controllers
                 .OrderBy(d => d.Type), "ID", "Type", selectedId);
         }
 
-
-        /* private SelectList UnitPriceSelectList(int? ProductID, int? selectedId = 0)
-         {
-             //The ProvinceID has been added so we can filter by it.
-             var query = from c in _context.ProductUnitPrices.Include(c => c.Product)
-                         select c;
-             if (ProductID.HasValue)
-             {
-                 query = query.Where(p => p.ProductID == ProductID);
-             }
-             return new SelectList(query.OrderBy(p => p.ProductPrice), "ProductPrice", "ProductPrice", selectedId);
-         }
- */
-
         private SelectList ProductCatSelectList(int? ProductTypeID, int? selectedId)
         {
             //The ProvinceID has been added so we can filter by it.
@@ -337,16 +323,11 @@ namespace PinewoodGrow.Controllers
         private void PopulateDropDownLists(Receipt Receipt = null)
         {
             var productSelect = ProductsSelectList(null);
-            //var unit = UnitPriceSelectList(null, null);
             ViewData["ProductID"] = productSelect;
-            //ViewData["ProductUnitPriceID"] = UnitPriceSelectList(null, null);
             ViewData["UnitPrice"] = UnitPrice(Convert.ToInt32(productSelect.First().Value)).ProductPrice;
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName");
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary");
             ViewData["PaymentID"] = new SelectList(_context.Payments, "ID", "Type");
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", Receipt.ProductID);
-            //ViewData["ProductUnitPriceID"] = new SelectList(_context.ProductUnitPrices, "ID", "ProductPrice", Receipt.ProductUnitPriceID);
-            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "Name");
             ViewData["ProductTypeID"] = ProductTypeSelectList(null);
         }
 
