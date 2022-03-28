@@ -29,9 +29,7 @@ namespace PinewoodGrow.Controllers
         {
             string[] sortOptions = new[] { "Family Name", "VolunteerID" };
 
-            ViewData["VolunteerID"] = new SelectList(_context
-                .Volunteers
-                .OrderBy(p => p.FullName), "ID", "FullName");
+            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName");
 
             var receipts = from p in _context.Receipts
                            .Include(r => r.Household)
@@ -84,14 +82,14 @@ namespace PinewoodGrow.Controllers
                 if (sortDirection == "asc")
                 {
                     receipts = receipts
-                        .OrderByDescending(p => p.Volunteer)
-                        .ThenByDescending(p => p.Volunteer.FullName);
+                        .OrderByDescending(p => p.Volunteer.LastName)
+                        .ThenByDescending(p => p.Volunteer.FirstName);
                 }
                 else
                 {
                     receipts = receipts
-                        .OrderBy(p => p.Volunteer)
-                        .ThenBy(p => p.Volunteer.FullName);
+                        .OrderBy(p => p.Volunteer.LastName)
+                        .ThenByDescending(p => p.Volunteer.FirstName);
                 }
             }
 
@@ -343,6 +341,7 @@ namespace PinewoodGrow.Controllers
             ViewData["ProductID"] = productSelect;
             //ViewData["ProductUnitPriceID"] = UnitPriceSelectList(null, null);
             ViewData["UnitPrice"] = UnitPrice(Convert.ToInt32(productSelect.First().Value)).ProductPrice;
+            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName");
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary");
             ViewData["PaymentID"] = new SelectList(_context.Payments, "ID", "Type");
             //ViewData["ProductID"] = new SelectList(_context.Products, "ID", "Name", Receipt.ProductID);
