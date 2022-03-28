@@ -286,7 +286,7 @@ namespace PinewoodGrow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET/POST: MedicalTrials/Notification/5
+        // GET/POST: Products/Notification/5
         public async Task<IActionResult> Notification(int? id, string Subject, string emailContent)
         {
             if (id == null)
