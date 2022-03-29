@@ -4,7 +4,7 @@
 
 <h1>Notification Email</h1>
 
-<h2>Message to Members About @ViewData["ProductName"]</h2>
+<h2>Message to Patients in @ViewData["ProductName"]</h2>
 
 <hr />
 <form asp-action="Notification">
@@ -22,13 +22,14 @@
                 <label for="emailContent" class="control-label">Message Content</label>
                 <textarea id="emailContent" name="emailContent" rows="5" cols="40" class="form-control"></textarea>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Send" class="btn btn-primary" />
-            </div>
+            <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
+                <div class="form-group" style="padding-right: 20px">
+                    <a asp-action="Index" class="btn btn-primary">Back</a>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Send" class="btn btn-primary" />
+                </div>
 
+            </div>
         </div>
-    </div>
 </form>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>

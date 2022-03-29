@@ -11,6 +11,8 @@ using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using PinewoodGrow.ViewModels;
+using System.Net.Mail;
+using System.Net;
 
 namespace PinewoodGrow.Controllers
 {
@@ -286,7 +288,7 @@ namespace PinewoodGrow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET/POST: Products/Notification/5
+        // GET/POST: MedicalTrials/Notification/5
         public async Task<IActionResult> Notification(int? id, string Subject, string emailContent)
         {
             if (id == null)
@@ -317,16 +319,35 @@ namespace PinewoodGrow.Controllers
                     folksCount = folks.Count();
                     if (folksCount > 0)
                     {
-                        var msg = new EmailMessage()
+                        MailMessage message = new MailMessage();
+                        SmtpClient smtp = new SmtpClient();
+                        message.From = new MailAddress("PinewoodSolutions1@gmail.com");
+                        //message.To.Add(new MailAddress("taewoo0109@gmail.com"));
+                        //message.To.Add(new MailAddress("tryoo1@ncstudents.niagaracollege.ca"));
+                        foreach (EmailAddress v in folks)
                         {
-                            ToAddresses = folks,
-                            Subject = Subject,
-                            Content = "<p>" + emailContent + "</p><p>Please access the <strong>Niagara College</strong> web site to review.</p>"
+                            message.To.Add(new MailAddress(v.Address, v.Name));
+                        }
+                        message.Subject = Subject;
+                        message.IsBodyHtml = true; //to make message body as html  
+                        message.Body = "<p>" + emailContent + "</p><p>Please access the <strong>Niagara College</strong> web site to review.</p>";
+                        smtp.Port = 587;
+                        smtp.Host = "smtp.gmail.com"; //for gmail host  
+                        smtp.EnableSsl = true;
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = new NetworkCredential("PinewoodSolutions1@gmail.com", "Pinewood11");
+                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        smtp.Send(message);
+                        //var msg = new EmailMessage()
+                        //{
+                        //    ToAddresses = folks,
+                        //    Subject = Subject,
+                        //    Content = "<p>" + emailContent + "</p><p>Please access the <strong>Niagara College</strong> web site to review.</p>"
 
-                        };
-                        await _emailSender.SendToManyAsync(msg);
-                        ViewData["Message"] = "Message sent to " + folksCount + " Member"
-                            + ((folksCount == 1) ? "." : "s.");
+                        //};
+                        //await _emailSender.SendToManyAsync(msg);
+                        //ViewData["Message"] = "Message sent to " + folksCount + " Member"
+                        //    + ((folksCount == 1) ? "." : "s.");
                     }
                     else
                     {
