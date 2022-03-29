@@ -269,8 +269,9 @@ namespace PinewoodGrow.Controllers
 
         public PartialViewResult TempMemberList(int id)
         {
-            ViewBag.TempMembers = _context.TempMembers
-         ;
+            ViewBag.TempMembers = _context.TempMembers.Where(a => a.TempHouseholdID == id)
+                .ToList();
+            var x = _context.TempMembers.Where(a => a.TempHouseholdID == id).ToList();
             return PartialView("_TempMemberList");
         }
 
@@ -608,6 +609,8 @@ namespace PinewoodGrow.Controllers
                 .ToList();
             return PartialView("_MemberSituationList");
         }
+
+
         // POST: Members/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

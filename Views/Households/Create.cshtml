@@ -48,7 +48,6 @@
     <hr />
     <h2 style="margin-top: 40px">Members</h2>
     <div class="form-group" id="ListMemberSituations">
-        <label class="control-label"><strong>Add Member</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success temp-modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">&#x271A;</button>
         <div class="col-md-offset-1" id="TempMemberList">
             <table>
                 @{
@@ -62,10 +61,22 @@
                         <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
                         @:</td></tr>
                     }
+                    
                 }
             </table>
+            <div class="actionsContainer-center" style="top: -10px;">
+                <div class="btn-add-member">
+                    <a  style="color: " class="temp-modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"  fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+                        <span>Add</span>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+        </div>
 </form>
 
 
@@ -117,12 +128,12 @@
     }
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @*<script src="~/js/multiselect.js"></script>*@
-    <script type="text/javascript">
+<script type="text/javascript">
         //New for modal
         function refreshModal(actionForm, memberSituationID) {
             switch (actionForm) {
             case 'CreateForm':
-                $('#formTempMemberBody').load('/TempMembers/CreateTempMember/@tempID');
+                $('#formTempMemberBody').load(('/TempMembers/CreateTempMember/@Model.ID'));
                 break;
             case 'EditForm':
                 $('#formTempMemberBody').load('/TempMembers/EditTempMember/' + memberSituationID);
@@ -145,7 +156,8 @@
             });
         $(document).on("click",
             "#submitTempMemberForm",
-            function(event) {
+            function (event) {
+                console.log('In /here');
                 event.preventDefault();
                 var form = $('#TempMemberForm');
                 if (form.valid()) {
@@ -155,21 +167,22 @@
                         data: form.serialize(),
                         success: function() {
                             $('#tempMemberModal').modal('hide');
+                            $('#TempMemberList').load('/Households/TempMemberList/@Model.ID');
                         },
                         error: function() {
                             alert("Operation Failed.  There was a problem maintaing the data.");
                         }
                     });
                 }
+  
                 return false;
             });
-        $('#tempMemberModal').on('hide.bs.modal',
+        $('#tempMemberModal').on('hide.bs.modal', ".temp-modal-link",
             function () {
                 const memID = $('#TempID').val();
-                $('#TempMemberList').load('/Household/TempMemberList/@tempID');
-                $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
+                $('#TempMemberList').load('/Households/TempMemberList/@Model.ID');
             });
-    </script>
+</script>
     <script type="text/javascript">
         //New for modal
         function refreshSituationModal(actionForm, memberSituationID) {
@@ -209,12 +222,16 @@
                         data: form.serialize(),
                         success: function() {
                             $('#theMemberSituationModal').modal('hide');
+                            const memID = $('#TempID').val();
+                            $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
                         },
                         error: function() {
                             alert("Operation Failed.  There was a problem maintaing the data.");
                         }
                     });
+
                 }
+        
                 return false;
             });
         $('#theMemberSituationModal').on('hide.bs.modal',
@@ -261,4 +278,4 @@
         <div class="form-group">
             <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
         </div>
-    </div>*@
+    </di   v>*@

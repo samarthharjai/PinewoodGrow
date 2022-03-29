@@ -1,4 +1,4 @@
-﻿/*Households Map Report for Map Report*/
+/*Households Map Report for Map Report*/
 .title {
     height: 200px;
     width: 70vw;
@@ -34,6 +34,10 @@ dl {
     top: -50px;
     left: -50px;
 }
+.actionsContainer-center {
+    width: 100%;
+}
+
 modal-lg {
     width: 1200px;
 }
@@ -110,7 +114,47 @@ modal-lg {
             transform: translateY(-2px);
         }
 
+.btn-add-member a {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #397a4c;
+    font-weight: bold;
+    border: #397a4c 1px solid;
+    margin: 0 auto;
+}
+.btn-add-member span {
+        color: #397a4c;
+}
+    .btn-add-member a > svg {
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        color: #397a4c;
+        transition: all 0.4s ease-in;
+    }
 
+.btn-add-member a:hover > svg {
+        font-size: 1.2em;
+        transform: translateX(-5px);
+    }
+
+.btn-add-member a:hover {
+        box-shadow: 9px 9px 33px #d7e5db, -9px -9px 33px #d7e5db;
+        transform: translateY(-2px);
+    }
+
+     
 
 .btn-view a {
     color: #090909;
@@ -122,6 +166,9 @@ modal-lg {
     transition: all .3s;
     box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
 }
+
+
+
 
 .btn-view a:hover {
     border: 1px solid white;

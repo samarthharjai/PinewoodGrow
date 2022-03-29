@@ -32,7 +32,7 @@ namespace PinewoodGrow.Controllers
 
             var tempMember = new TempMember()
             {
-
+                TempHouseholdID = ID
             };
             _context.TempMembers.Add(tempMember);
             _context.SaveChanges();
@@ -119,7 +119,6 @@ namespace PinewoodGrow.Controllers
 
             var Tempmember = new TempMember()
             {
-
             };
             _context.TempMembers.Add(Tempmember);
             _context.SaveChanges();
@@ -143,7 +142,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Age,DOB,Telephone,Email,FamilySize,Income" +
             ",Notes,Consent,VolunteerID,CompletedOn,HouseholdID,GenderID")] TempMember member,
-                 string[] selectedOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles, int TempID
+                 string[] selectedOptions, string[] selectedSituationOptions, string[] selectedIllnessOptions, List<IFormFile> theFiles, int TempID, int memID
                  )
         //string Lat, string Lng, string AddressName, string postal, string city
         {
@@ -214,16 +213,17 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string[] selectedOptions, string[] selectedSituationOptions
+        public async Task<IActionResult> Edit(int TempID, int id, string[] selectedOptions, string[] selectedSituationOptions
             , string[] selectedIllnessOptions, List<IFormFile> theFiles)
         {
+            id = TempID;
             var tempMemberToUpdate = await _context.TempMembers
                 //.Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.ID == TempID);
 
             if (tempMemberToUpdate == null)
             {
@@ -234,7 +234,7 @@ namespace PinewoodGrow.Controllers
             UpdateMemberSituation(selectedSituationOptions, tempMemberToUpdate);
             UpdateMemberIllnesses(selectedIllnessOptions, tempMemberToUpdate);
 
-            if (await TryUpdateModelAsync<TempMember>(tempMemberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age,
+            if (await TryUpdateModelAsync<TempMember>(tempMemberToUpdate, "", m => m.FirstName, m => m.LastName,
                     m => m.DOB, m => m.Telephone,
                     m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn,
                     m => m.HouseholdID, m => m.GenderID))

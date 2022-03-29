@@ -20,51 +20,10 @@ namespace PinewoodGrow.Models.Temp
 
 		public string FullName => FirstName + " " + LastName;
 
-		public string TelephoneFormatted
-		{
-			get
-			{
-				if (Telephone.Length == 10)
-					return "(" + Telephone.Substring(0, 3) + ") " + Telephone.Substring(3, 3) + "-" + Telephone[6..];
-				return Telephone.Substring(0, 1) + "(" + Telephone.Substring(1, 3) + ") " + Telephone.Substring(4, 3) + "-" + Telephone[7..];
-			}
-		}
 
-		public string Age
-		{
-			get
-			{
-				DateTime today = DateTime.Today;
-				int? a = today.Year - DOB?.Year
-					- ((today.Month < DOB?.Month || (today.Month == DOB?.Month && today.Day < DOB?.Day) ? 1 : 0));
-				return a?.ToString(); /*Note: You could add .PadLeft(3) but spaces disappear in a web page. */
-			}
-		}
 
-		[Display(Name = "Age (DOB)")]
-		public string AgeSummary
-		{
-			get
-			{
-				string ageSummary = "Unknown";
-				if (DOB.HasValue)
-				{
-					ageSummary = Age + " (" + String.Format("{0:yyyy-MM-dd}", DOB) + ")";
-				}
-				return ageSummary;
-			}
-		}
 
-		[DataType(DataType.Currency)]
-		public double IncomeTotal
-		{
-			get
-			{
-				double incomeTotal = Income + MemberSituations.Select(a => a.SituationIncome).ToList().Sum();
-
-				return incomeTotal;
-			}
-		}
+	
 
 		public int ID { get; set; }
 
