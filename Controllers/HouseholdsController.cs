@@ -30,6 +30,18 @@ namespace PinewoodGrow.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> DeleteTempHousehold(int ID)
+        {
+            var house = _context.TempHouseholds.FirstOrDefault(a => a.ID == ID);
+
+            _context.Remove(house);
+            await _context.SaveChangesAsync();
+
+
+            //return View(await households.ToListAsync());
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Households
         public async Task<IActionResult> Index(int? page, int? pageSizeID)
         {
@@ -270,8 +282,9 @@ namespace PinewoodGrow.Controllers
         public PartialViewResult TempMemberList(int id)
         {
             ViewBag.TempMembers = _context.TempMembers.Where(a => a.TempHouseholdID == id)
+                .Include(a=> a.Gender).Include(a=> a.MemberSituations)
                 .ToList();
-            var x = _context.TempMembers.Where(a => a.TempHouseholdID == id).ToList();
+
             return PartialView("_TempMemberList");
         }
 
@@ -685,5 +698,15 @@ namespace PinewoodGrow.Controllers
         {
             ViewData["returnURL"] = MaintainURL.ReturnURL(HttpContext, ControllerName());
         }
+
+
+
+
+
+
+        
+
+
+
     }
 }

@@ -1,13 +1,23 @@
 /*Households Map Report for Map Report*/
 .title {
-    height: 200px;
+    height: 100px;
     width: 70vw;
+    margin-top: 170px;
 }
 .title h1 {
-    padding-top: 100px;
     font-size: 34px;
 
 }
+.title-info {
+    display: flex;
+    height: 2em;
+    gap: 10px;
+}
+    .title-info svg {
+        float: left;
+        transform: translateY(40%);
+        color: #397a4c;
+    }
  h2 {
     color: #397a4c;
     font-size: 24px;
@@ -33,6 +43,24 @@ dl {
     gap: 20px;
     top: -50px;
     left: -50px;
+}
+.actionsContainer-trash {
+    display: flex;
+    float: right;
+    justify-content: right;
+    position: relative;
+    gap: 20px;
+}
+.actionsContainer-center-float {
+    width: 20vw;
+    display: flex;
+  
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 40px;
+    margin: 0 auto;
+  
 }
 .actionsContainer-center {
     width: 100%;
@@ -77,6 +105,43 @@ modal-lg {
         transform: translateY(-2px);
     }
 
+.btn-trash a {
+    display: flex;
+    height: 3em;
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #b22222;
+    border: #b22222 1px solid;
+}
+
+    .btn-trash a > svg {
+        color: #b22222;
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        transition: all 0.4s ease-in;
+    }
+
+    .btn-trash a:hover > svg {
+        font-size: 1.2em;
+        transform: scale(1.1);
+    }
+
+    .btn-trash a:hover {
+        box-shadow: 9px 9px 33px #ECC8C8, -9px -9px 33px #ECC8C8;
+        transform: translateY(-2px);
+    }
+
+ 
 
     .btn-add a {
         display: flex;
@@ -154,7 +219,48 @@ modal-lg {
         transform: translateY(-2px);
     }
 
-     
+.btn-draft a {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #00416a;
+    font-weight: bold;
+    border: #00416a 1px solid;
+    margin: 0 auto;
+}
+
+.btn-draft span {
+    color: #00416a;
+}
+
+.btn-draft a > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    color: #00416a;
+    transition: all 0.4s ease-in;
+}
+
+.btn-draft a:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+}
+
+.btn-draft a:hover {
+    box-shadow: 9px 9px 33px #BFD0DA, -9px -9px 33px #BFD0DA;
+    transform: translateY(-2px);
+}
+
 
 .btn-view a {
     color: #090909;

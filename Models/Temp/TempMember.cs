@@ -20,10 +20,32 @@ namespace PinewoodGrow.Models.Temp
 
 		public string FullName => FirstName + " " + LastName;
 
+        [Display(Name = "Age (DOB)")]
+        public string AgeSummary
+        {
+            get
+            {
+                string ageSummary = "Unknown";
+                if (DOB.HasValue)
+                {
+                    ageSummary = Age + " (" + String.Format("{0:yyyy-MM-dd}", DOB) + ")";
+                }
+                return ageSummary;
+            }
+        }
 
+        public string Age
+        {
+            get
+            {
+                DateTime today = DateTime.Today;
+                int? a = today.Year - DOB?.Year
+                                    - ((today.Month < DOB?.Month || (today.Month == DOB?.Month && today.Day < DOB?.Day) ? 1 : 0));
+                return a?.ToString(); /*Note: You could add .PadLeft(3) but spaces disappear in a web page. */
+            }
+        }
 
-
-	
+        public double TotalIncome => MemberSituations.Select(a=> a.SituationIncome).ToList().Sum();
 
 		public int ID { get; set; }
 
@@ -37,6 +59,10 @@ namespace PinewoodGrow.Models.Temp
 		[Range(1, 115, ErrorMessage = "Age must be greater than 0.")]
 		public int Age { get; set; }*/
 
+        [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date)]
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 
 		public DateTime? DOB { get; set; }
 

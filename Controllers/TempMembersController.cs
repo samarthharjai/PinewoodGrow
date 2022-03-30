@@ -58,10 +58,17 @@ namespace PinewoodGrow.Controllers
         public PartialViewResult EditTempMember(int ID)
         {
             //Get the TempMemberSituation to edit
-            var TempMember = _context.TempMembers.FirstOrDefault(a => a.ID == ID); 
+            var tempMember = _context.TempMembers.Include(a=> a.MemberSituations).Include(a=> a.MemberDietaries).Include(a=> a.MemberIllnesses).FirstOrDefault(a => a.ID == ID);
+            PopulateAssignedDietaryData(tempMember);
+            PopulateAssignedSituationData(tempMember);
+            PopulateAssignedIllnessData(tempMember);
+            PopulateDropDownLists();
 
+            ViewData["MemberIncomeTypes"] = _context.Situations.Select(a => a);
+            ViewData["TempMemberID"] = tempMember.ID;
+            ViewData["HouseholdID"] = ID;
 
-            return PartialView("_EditTempMember", TempMember);
+            return PartialView("_EditTempMember", tempMember);
         }
 
         public PartialViewResult DeleteTempMember(int ID)
@@ -221,7 +228,6 @@ namespace PinewoodGrow.Controllers
                 //.Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
-                .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                 .FirstOrDefaultAsync(m => m.ID == TempID);
 

@@ -2,11 +2,8 @@
 
 
 
-<h1 style="text-align:center">Create a New Member</h1>
-<hr />
-
 <partial name="_MemberSituationModal" />
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
+<form asp-action="Edit" asp-controller="TempMembers" id="TempMemberForm" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
     </div>
@@ -164,123 +161,12 @@
                     <a asp-action="Index" class="btn btn-primary">Back</a>
                 </div>
                 <div class="form-group">
-                    <input type="submit" id="submitTempMemberForm" value="Create" class="btn btn-info" />
+                    <input type="submit" id="submitTempMemberForm" value="Save" class="btn btn-info temp-modal-link" />
                 </div>
             </div>
         </div>
 
     </form>
-    @*@section Scripts {
-            @{
-                var tempID = ViewData["TempMemberID"];
-            }
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script type="text/javascript">
-            //New for modal
-
-            function refreshModal(actionForm, memberSituationID) {
-                switch (actionForm) {
-                    case 'CreateForm': $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation' + @tempID);
-                    break;
-                    case 'EditForm': $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
-                    break;
-                    case 'DeleteForm':
-                        $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation' + memberSituationID);
-                    break;
-                default: break;
-                };
-                return;
-            };
-            $(document).on("click", ".modal-link", function () {
-                var actionForm = $(this).attr("name");
-                var memberSituationID = $(this).attr("tag");
-                refreshModal(actionForm, memberSituationID);
-            });
-            $(document).on("click", "#submitMemberSituationForm", function (event) {
-                event.preventDefault();
-                var form = $('#theMemberSituationForm');
-                if (form.valid()) {
-                    $.ajax({
-                        type: "POST",
-                        url: form.attr('action'),
-                        data: form.serialize(),
-                        success: function () {
-                            $('#theMemberSituationModal').modal('hide');
-                        },
-                        error: function () {
-                            alert("Operation Failed.  There was a problem maintaing the data.");
-                        }
-                    });
-                }
-                return false;
-            });
-            $('#theMemberSituationModal').on('hide.bs.modal', function () {
-                $('#MemberSituationList').load('/Members/MemberSituationList/@tempID');
-            });*@
-
-    @section Scripts {
-        @{
-            var tempID = ViewData["TempMemberID"];
-        }
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script src="~/js/multiselect.js"></script>
-        <script type="text/javascript">
-        //New for modal
-        function refreshModal(actionForm, memberSituationID) {
-            switch (actionForm) {
-            case 'CreateForm':
-                $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + @tempID);
-                break;
-            case 'EditForm':
-                $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
-                break;
-            case 'DeleteForm':
-                $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation/' + memberSituationID);
-                break;
-            default:
-                break;
-            };
-            return;
-        };
-
-        $(document).on("click",
-            ".modal-link",
-            function() {
-                var actionForm = $(this).attr("name");
-                var memberSituationID = $(this).attr("tag");
-                refreshModal(actionForm, memberSituationID);
-            });
-        $(document).on("click",
-            "#submitMemberSituationForm",
-            function(event) {
-                event.preventDefault();
-                var form = $('#theMemberSituationForm');
-                if (form.valid()) {
-                    $.ajax({
-                        type: "POST",
-                        url: form.attr('action'),
-                        data: form.serialize(),
-                        success: function() {
-                            $('#theMemberSituationModal').modal('hide');
-                        },
-                        error: function() {
-                            alert("Operation Failed.  There was a problem maintaing the data.");
-                        }
-                    });
-                }
-                return false;
-            });
-        $('#theMemberSituationModal').on('hide.bs.modal',
-            function() {
-                $('#MemberSituationList').load('/TempMembers/MemberSituationList/@tempID');
-            });
-        </script>
-
-
-    }
-
-
-
 
 
 

@@ -248,6 +248,9 @@ namespace PinewoodGrow.Data
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
 
+            modelBuilder.Entity<TempMember>().HasMany(a => a.MemberSituations)
+                .WithOne(a => a.Member).HasForeignKey(a => a.MemberID)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             //Adds One? to many Household to address
