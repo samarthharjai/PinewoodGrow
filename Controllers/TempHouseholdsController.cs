@@ -119,7 +119,12 @@ namespace PinewoodGrow.Controllers
         {
 
             var tmpHousehold = _context.TempHouseholds.FirstOrDefault(a => a.ID == ID);
-            var tmpMembers = _context.TempMembers.Where(a => a.TempHouseholdID == ID).ToList();
+            var tmpMembers = _context.TempMembers.Where(a => a.TempHouseholdID == ID)
+                .Include(a=> a.MemberSituations)
+                .Include(a=> a.MemberDietaries)
+                .Include(a=> a.MemberDocuments)
+                .Include(a=> a.MemberDietaries)
+                .Include(a=> a.MemberIllnesses).ToList();
             int? AddressID = null;
             if (isFixedAddress.ToLower() == "true")
             {
@@ -190,14 +195,44 @@ namespace PinewoodGrow.Controllers
             _context.Members.Add(member);
             _context.SaveChanges();
 
+            var memberID = member.ID;
+
            var memberIncomes = tmpMember.MemberSituations.Select(a=> new MemberSituation
             {
-                MemberID = member.ID,
+                MemberID = memberID,
                 SituationID = a.SituationID,
                 SituationIncome = a.SituationIncome
             }).ToList();
-            _context.MemberSituations.AddRange(memberIncomes);
+            if(memberIncomes.Any())
+                _context.MemberSituations.AddRange(memberIncomes);
+   
+
+            var memberIllnesses = tmpMember.MemberIllnesses.Select(a => new MemberIllness
+            {
+                MemberID = member.ID,
+                IllnessID = a.IllnessID
+            }).ToList();
+
+            if (memberIllnesses.Any())
+                _context.MemberIllnesses.AddRange(memberIllnesses);
+
+            var MemberDietaries = tmpMember.MemberDietaries.Select(a => new MemberDietary
+            {
+                MemberID = memberID,
+                DietaryID = a.DietaryID,
+            }).ToList();
+            if(MemberDietaries.Any()) 
+                _context.MemberDietaries.AddRange(MemberDietaries);
+
+            var MemberDocuments = tmpMember.MemberDocuments.Select(a => new MemberDocument
+            {
+                MemberID = memberID,
+                FileContent = a.FileContent,
+                FileName = a.FileName
+            }).ToList();
+            _context.MemberDocuments.AddRange(MemberDocuments);
             _context.SaveChanges();
+
             return true;
 
         }

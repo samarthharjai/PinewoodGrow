@@ -223,11 +223,19 @@
                 console.log('In /here');
                 event.preventDefault();
                 var form = $('#TempMemberForm');
+                var formData = new FormData(form[0]);
+
+                formData.append("file", $('input[type=file]')[0].files[0]);
+          
+
                 if (form.valid()) {
                     $.ajax({
                         type: "POST",
-                        url: form.attr('action'),
-                        data: form.serialize(),
+                        enctype: 'multipart/form-data',
+                        url: '/TempMembers/Edit/' + $('#TempID').val(),
+                        data: formData,
+                        processData: false,
+                        contentType: false,
                         success: function() {
                             $('#tempMemberModal').modal('hide');
                             $('#TempMemberList').load('/Households/TempMemberList/@Model.ID');

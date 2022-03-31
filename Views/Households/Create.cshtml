@@ -197,14 +197,16 @@
                 console.log('In /here');
                 event.preventDefault();
                 var form = $('#TempMemberForm');
+                var formData = new FormData(form);
+                formData.append("theFiles", $('input[type=file]'));
                 if (form.valid()) {
-                    $.ajax({
+                    window.$.ajax({
                         type: "POST",
                         url: form.attr('action'),
-                        data: form.serialize(),
+                        data: formData,
                         success: function() {
-                            $('#tempMemberModal').modal('hide');
-                            $('#TempMemberList').load('/Households/TempMemberList/@Model.ID');
+                            window.$('#tempMemberModal').modal('hide');
+                            window.$('#TempMemberList').load('/Households/TempMemberList/@Model.ID');
                         },
                         error: function() {
                             alert("Operation Failed.  There was a problem maintaing the data.");
