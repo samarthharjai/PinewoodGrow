@@ -1,0 +1,123 @@
+﻿.title {
+    margin-top: 120px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+    .title h1 {
+        font-size: 34px;
+        display: inline-block;
+        margin-right: 5px;
+    }
+    .title h2 {
+        display: inline-block;
+        color: #397a4c;
+        font-size: 34px;
+        font-weight: 500;
+    }
+
+    .small a{
+        width: 50px !important;
+    }
+
+.actionsContainer-table {
+    display: flex;
+    float: right;
+    justify-content: right;
+    position: relative;
+    gap: 10px;
+}
+.actionsContainer-index {
+    width: 30vw;
+    display: flex;
+    float: right;
+    justify-content: right;
+    position: relative;
+    gap: 20px;
+    top: 20px;
+    left: -10px;
+}
+.btn-index a {
+    display: flex;
+    height: 2.5em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #397a4c;
+    font-weight: bold;
+    border: #397a4c 1px solid;
+    margin: 0 auto;
+}
+
+.btn-index span {
+    color: #397a4c;
+}
+
+.btn-index a > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    color: #397a4c;
+    transition: all 0.4s ease-in;
+}
+
+.btn-index a:hover > svg {
+    font-size: 1.2em;
+    transform: scale(1.1)
+}
+
+.btn-index a:hover {
+    box-shadow: 2px 2px 10px #d7e5db, -2px -2px 10px #d7e5db;
+    transform: translateY(-2px);
+}
+.blue a {
+    color: #00416a !important;
+    border: #00416a 1px solid !important;
+}
+.blue span{
+    color: #00416a !important;
+}
+.blue svg {
+    color: #00416a !important;
+}
+
+.blue a:hover {
+    box-shadow: 2px 2px 10px #BFD0DA, -2px -2px 10px #BFD0DA !important;
+}
+
+.custom-table {
+
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow:  0 0 20px rgba(0,0,0,0.15)
+}
+.custom-table thead tr {
+    background-color: #397a4c;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+    .custom-table th, .custom-table  td {
+        padding: 12px 15px;
+    }
+    .custom-table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
+.custom-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3
+}
+        .custom-table tbody tr:last-of-type {
+            border-bottom: 2px solid #397a4c;
+        }

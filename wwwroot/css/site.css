@@ -3,7 +3,301 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 
+.actionsContainer {
+    width: 30vw;
+    display: flex;
+    float: right;
+    justify-content: right;
+    position: relative;
+    gap: 20px;
+    top: -50px;
+    left: -50px;
+}
 
+.actionsContainer-trash {
+    display: flex;
+    float: right;
+    justify-content: right;
+    position: relative;
+    gap: 20px;
+}
+
+.actionsContainer-center-float {
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 40px;
+    margin: 0 auto;
+}
+
+.actionsContainer-center {
+    width: 100%;
+}
+
+modal-lg {
+    width: 1200px;
+}
+
+.btn-back a {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #397a4c;
+    border: #397a4c 1px solid;
+}
+
+    .btn-back a > svg {
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        transition: all 0.4s ease-in;
+    }
+
+    .btn-back a:hover > svg {
+        font-size: 1.2em;
+        transform: translateX(-5px);
+    }
+
+    .btn-back a:hover {
+        box-shadow: 9px 9px 33px #d7e5db, -9px -9px 33px #d7e5db;
+        transform: translateY(-2px);
+    }
+
+.btn-trash a {
+    display: flex;
+    height: 3em;
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #b22222;
+    border: #b22222 1px solid;
+}
+
+    .btn-trash a > svg {
+        color: #b22222;
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        transition: all 0.4s ease-in;
+    }
+
+    .btn-trash a:hover > svg {
+        font-size: 1.2em;
+        transform: scale(1.1);
+    }
+
+    .btn-trash a:hover {
+        box-shadow: 9px 9px 33px #ECC8C8, -9px -9px 33px #ECC8C8;
+        transform: translateY(-2px);
+    }
+
+
+
+.btn-add a {
+    display: flex;
+    height: 2.2em;
+    width: 90px;
+    align-items: center;
+    justify-content: center;
+    background-color: #397a4c;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #ffffff;
+    border: #397a4c 1px solid;
+}
+
+    .btn-add a > svg {
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        transition: all 0.4s ease-in;
+    }
+
+    .btn-add a:hover > svg {
+        font-size: 1.2em;
+        transform: translateX(-5px);
+    }
+
+    .btn-add a:hover {
+        box-shadow: 9px 9px 33px #d7e5db, -9px -9px 33px #d7e5db;
+        background-color: #3A7D4E;
+        transform: translateY(-2px);
+    }
+
+.btn-add-member a {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #397a4c;
+    font-weight: bold;
+    border: #397a4c 1px solid;
+    margin: 0 auto;
+}
+
+.btn-add-member span {
+    color: #397a4c;
+}
+
+.btn-add-member a > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    color: #397a4c;
+    transition: all 0.4s ease-in;
+}
+
+.btn-add-member a:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+}
+
+.btn-add-member a:hover {
+    box-shadow: 9px 9px 33px #d7e5db, -9px -9px 33px #d7e5db;
+    transform: translateY(-2px);
+}
+
+
+.btn-submit button {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #397a4c;
+    font-weight: bold;
+    border: #397a4c 1px solid;
+    margin: 0 auto;
+}
+
+.btn-submit span {
+    color: #397a4c;
+}
+
+.btn-submit button > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    color: #397a4c;
+    transition: all 0.4s ease-in;
+}
+
+.btn-submit button:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+}
+
+.btn-submit button:hover {
+    box-shadow: 9px 9px 33px #d7e5db, -9px -9px 33px #d7e5db;
+    transform: translateY(-2px);
+}
+
+
+.btn-draft a {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d1d1;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #00416a;
+    font-weight: bold;
+    border: #00416a 1px solid;
+    margin: 0 auto;
+}
+
+.btn-draft span {
+    color: #00416a;
+}
+
+.btn-draft a > svg {
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 20px;
+    color: #00416a;
+    transition: all 0.4s ease-in;
+}
+
+.btn-draft a:hover > svg {
+    font-size: 1.2em;
+    transform: translateX(-5px);
+}
+
+.btn-draft a:hover {
+    box-shadow: 9px 9px 33px #BFD0DA, -9px -9px 33px #BFD0DA;
+    transform: translateY(-2px);
+}
+
+
+.btn-view a {
+    color: #090909;
+    padding: 0.7em 1.7em;
+    font-size: 18px;
+    border-radius: 0.5em;
+    background: #e8e8e8;
+    border: 1px solid #e8e8e8;
+    transition: all .3s;
+    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+
+
+
+    .btn-view a:hover {
+        border: 1px solid white;
+    }
+
+    .btn-view a:active {
+        box-shadow: 4px 4px 12px #c5c5c5, -4px -4px 12px #ffffff;
+    }
 
 
 

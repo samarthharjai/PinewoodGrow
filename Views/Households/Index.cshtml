@@ -1,119 +1,154 @@
 ﻿@model IEnumerable<PinewoodGrow.Models.Household>
 
 @{ ViewData["Title"] = "Index"; }
+<link rel="stylesheet" href="/css/Index.css?version=1" />
 <br />
-<h1 style="text-align: center">Household</h1>
+<div class="title">
+    <h1 style="text-align: center">Household</h1>
+    <h2>Index</h2>
+</div>
+<div class="actionsContainer-index">
+    <div class="btn-index blue">
+        <a style="width: 120px;" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+            </svg>
+            <span>Drafts</span>
+        </a>
+    </div>
+    <div class="btn-index">
+        <a style="width: 120px;" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+            </svg>
+            <span>Create</span>
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create" asp-controller="TempHouseholds" class="btn btn-sm btn-info right float-right">Create Household</a>
-</p>
+</div>
+    <style>
+        table {
+            margin: 0 auto;
+        }
+    </style>
 
-<style>
-    table {
-        margin: 0 auto;
-    }
-</style>
-
-<br />
-<br />
-<form asp-action="Index" method="get">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ID)
-                </th>
-                <th>
-                    Family Name
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HouseIncome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LICO)
-                </th>
-                <th>
-                    Family Size
-                </th>
-                <th>
-                    Address
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <br />
+    <br />
+    <form asp-action="Index" method="get">
+        <table class="custom-table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FamilyName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HouseIncome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LICO)
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ID)
+                    </th>
+                    <th>
+                        Family Name
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HouseIncome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LICO)
+                    </th>
+                    <th>
+                        Family Size
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FamilyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HouseIncome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LICO)
+                        </td>
 
-                    @*<td>
-                            @{
-                                int memberCount = item.Members.Count;
-                                if (memberCount > 0)
-                                {
-                                    string firstMember = item.Members.FirstOrDefault().FullName;
-                                    if (memberCount > 1)
+                        @*<td>
+                                @{
+                                    int memberCount = item.Members.Count;
+                                    if (memberCount > 0)
                                     {
-                                        string memberList = "";
-                                        var c = item.Members.ToList();
-                                        for (int i = 1; i < memberCount; i++)
+                                        string firstMember = item.Members.FirstOrDefault().FullName;
+                                        if (memberCount > 1)
                                         {
-                                            memberList += c[i].FullName + " <br />";
+                                            string memberList = "";
+                                            var c = item.Members.ToList();
+                                            for (int i = 1; i < memberCount; i++)
+                                            {
+                                                memberList += c[i].FullName + " <br />";
+                                            }
+                                            <a class="" role="button" data-toggle="collapse" href="#collapseAthlete@(item.ID)"
+                                               aria-expanded="false" aria-controls="collapseAthlete@(item.ID)">
+                                                @firstMember... <span class="badge badge-info">@memberCount</span>
+                                            </a>
+                                            <div class="collapse" id="collapseAthlete@(item.ID)">
+                                                @Html.Raw(memberList)
+                                            </div>
                                         }
-                                        <a class="" role="button" data-toggle="collapse" href="#collapseAthlete@(item.ID)"
-                                           aria-expanded="false" aria-controls="collapseAthlete@(item.ID)">
-                                            @firstMember... <span class="badge badge-info">@memberCount</span>
-                                        </a>
-                                        <div class="collapse" id="collapseAthlete@(item.ID)">
-                                            @Html.Raw(memberList)
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        @firstMember
+                                        else
+                                        {
+                                            @firstMember
+                                        }
                                     }
                                 }
-                            }
-                        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FamilySize)
-                    </td>
-                    <td>
-                        @{
-                            var display = "";
-                            if (item.IsFixedAddress)
-                            {
-                                display = item.Address.FullAddress + ", " + item.Address.City;
-                            }
-                            else
-                            {
-                                display = "No Fixed Address";
-                            }
+                            </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FamilySize)
+                        </td>
+                        <td>
+                            @{
+                                var display = "";
+                                if (item.IsFixedAddress)
+                                {
+                                    display = item.Address.FullAddress + ", " + item.Address.City;
+                                }
+                                else
+                                {
+                                    display = "No Fixed Address";
+                                }
 
-                        }   @display
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Details</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <partial name="_PagingNavBar" />
-</form>
+                            }   @display
+                        </td>
+                        <td>
+                            <div class="actionsContainer-table">
+                                <div class="btn-index small blue">
+                                    <a title="View" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="btn-index small">
+                                    <a title="Edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <partial name="_PagingNavBar" />
+    </form>
 
