@@ -118,6 +118,33 @@ namespace PinewoodGrow.Controllers
             string isActive)
         {
 
+            var householdToupdate = await _context.TempHouseholds
+                .Include(d => d.Address)
+                .Include(d => d.Members)
+                .Include(d => d.MemberHouseholds)
+                .ThenInclude(d => d.Member)
+                .FirstOrDefaultAsync(m => m.ID == ID);
+
+            if (householdToupdate == null)
+            {
+                return NotFound();
+            }
+
+            householdToupdate.IsFixedAddress = isFixedAddress == "true";
+
+            /*household.FamilySize = householdToupdate.Members.Count + household.Dependants;*/
+
+            householdToupdate.AddressID = householdToupdate.IsFixedAddress ? await GetAddressID(Lat, Lng, AddressName, placeID, postal, city) : (int?)null;
+
+
+            if (await TryUpdateModelAsync(householdToupdate, ""))
+                //Try updating it with the values posted
+                if (await TryUpdateModelAsync<TempHousehold>(householdToupdate, "",
+                    d => d.ID, d => d.AddressID, d => d.Dependants, d => d.FamilyName, d => d.FamilySize))
+                    await _context.SaveChangesAsync();
+
+            
+
             var tmpHousehold = _context.TempHouseholds.FirstOrDefault(a => a.ID == ID);
             var tmpMembers = _context.TempMembers.Where(a => a.TempHouseholdID == ID)
                 .Include(a=> a.MemberSituations)
@@ -139,6 +166,7 @@ namespace PinewoodGrow.Controllers
 
 
         }
+
 
         private int ValidateAddress(int? id)
         {

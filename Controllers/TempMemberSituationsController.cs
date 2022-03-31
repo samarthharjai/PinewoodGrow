@@ -46,7 +46,7 @@ namespace PinewoodGrow.Controllers
         public PartialViewResult EditMemberSituation(int ID)
         {
             //Get the TempMemberSituation to edit
-            var TempMemberSituation = _context.MemberSituations.Find(ID);
+            var TempMemberSituation = _context.TempMemberSituations.Find(ID);
 
             var unusedSituations = from si in _context.Situations
                 where !(from p in _context.TempMemberSituations
@@ -86,10 +86,11 @@ namespace PinewoodGrow.Controllers
             //Get the one to delete
             var TempMemberSituation = _context.TempMemberSituations
                 .Include(p => p.Situation)
-                .FirstOrDefault(p => p.SituationID == Id);
+                .FirstOrDefault(p => p.ID == Id);
 
             return PartialView("_DeleteMemberSituation", TempMemberSituation);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MemberID,SituationID,SituationIncome")] TempMemberSituation TempMemberSituation)
@@ -154,10 +155,10 @@ namespace PinewoodGrow.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int ID)
         {
-            var TempMemberSituation = await _context.MemberSituations.FindAsync(ID);
+            var TempMemberSituation = await _context.TempMemberSituations.FindAsync(ID);
             try
             {
-                _context.MemberSituations.Remove(TempMemberSituation);
+                _context.TempMemberSituations.Remove(TempMemberSituation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

@@ -1,6 +1,75 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
+
+
+
+
+
+
+.content-detail-pagination {
+    width: max-content;
+    margin: 50px auto;
+}
+.content-detail-pagination button{
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 250ms;
+  display: inline-block;
+  text-transform: uppercase;
+  margin: 0 3px 6px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 38px;
+  border: 2px solid #666;
+  line-height: 38px;
+  padding: 0;
+  color: #555;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+text-align: center;
+line-height: 36px;
+}
+.content-detail-pagination p{
+  display: inline-block;
+  margin: 0 10px;
+}
+.content-detail-pagination button:hover{
+  border: 2px solid #397a4c;
+  color: #397a4c;
+  background-color: #eee;
+  transform: scale(1.1);
+}
+
+
+.prev{
+  margin-left: 10px;
+  padding: 0 32px;
+}
+.next{
+  margin-right: 10px;
+  padding: 0 16px;
+}
+
+#sel{
+  color: #397a4c;
+  border: 2px solid #397a4c;
+}
+
+#dots{
+  border: none;
+  font-size: 32px;
+}
+
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;

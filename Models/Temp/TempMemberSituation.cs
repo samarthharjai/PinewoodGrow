@@ -17,13 +17,7 @@ namespace PinewoodGrow.Models.Temp
         public TempMember Member { get; set; }
 
 
-        public string Summary
-        {
-            get
-            {
-                return Situation?.Name + ": " + SituationIncome.ToString("c");
-            }
-        }
+        public string Summary => Situation?.Name + ": " + SituationIncome.ToString("c");
 
 
         public double SituationIncome { get; set; }
