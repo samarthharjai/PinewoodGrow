@@ -605,8 +605,7 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AddressID")
-                        .IsUnique();
+                    b.HasIndex("AddressID");
 
                     b.ToTable("TempHouseholds");
                 });
@@ -1084,8 +1083,8 @@ namespace PinewoodGrow.Data.GMigrations
             modelBuilder.Entity("PinewoodGrow.Models.Temp.TempHousehold", b =>
                 {
                     b.HasOne("PinewoodGrow.Models.Temp.TempAddress", "Address")
-                        .WithOne("Household")
-                        .HasForeignKey("PinewoodGrow.Models.Temp.TempHousehold", "AddressID");
+                        .WithMany("Households")
+                        .HasForeignKey("AddressID");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Temp.TempMember", b =>

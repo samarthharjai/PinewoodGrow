@@ -20,7 +20,15 @@ namespace PinewoodGrow.Controllers
     public class TempMembersController : Controller
     {
         private readonly GROWContext _context;
-
+        public PartialViewResult MemberSituationList(int id)
+        {
+            ViewBag.MemberSituations = _context.TempMemberSituations
+                .Include(s => s.Situation)
+                .Where(s => s.MemberID == id)
+                .OrderBy(s => s.Situation.Name)
+                .ToList();
+            return PartialView("_MemberSituationList");
+        }
         public TempMembersController(GROWContext context)
         {
             _context = context;
@@ -32,7 +40,8 @@ namespace PinewoodGrow.Controllers
 
             var tempMember = new TempMember()
             {
-                TempHouseholdID = ID
+                TempHouseholdID = ID,
+                CompletedOn = DateTime.Today
             };
             _context.TempMembers.Add(tempMember);
             _context.SaveChanges();
@@ -250,7 +259,7 @@ namespace PinewoodGrow.Controllers
                 {
                     await AddDocumentsAsync(tempMemberToUpdate, theFiles);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Details", new { tempMemberToUpdate.ID });
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (RetryLimitExceededException /* dex */)
                 {
@@ -326,15 +335,7 @@ namespace PinewoodGrow.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public PartialViewResult MemberSituationList(int id)
-        {
-            ViewBag.TempMemberSituations = _context.TempMemberSituations
-                .Include(s => s.Situation)
-                .Where(s => s.MemberID == id)
-                .OrderBy(s => s.Situation.Name)
-                .ToList();
-            return PartialView("_MemberSituationList");
-        }
+
         private bool TempMemberExists(int id)
         {
             return _context.TempMembers.Any(e => e.ID == id);

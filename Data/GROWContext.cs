@@ -254,10 +254,10 @@ namespace PinewoodGrow.Data
 
 
             //Adds One? to many Household to address
-            modelBuilder.Entity<TempHousehold>()
-                .HasOne(h => h.Address)
-                .WithOne(a => a.Household)
-                .HasForeignKey<TempHousehold>(h=> h.AddressID)
+            modelBuilder.Entity<TempAddress>()
+                .HasMany(h => h.Households)
+                .WithOne(a => a.Address)
+                .HasForeignKey(h=> h.AddressID)
                 .IsRequired(false);
 
             //Many to Many Intersection

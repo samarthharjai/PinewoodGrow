@@ -924,8 +924,7 @@ namespace PinewoodGrow.Data.GMigrations
             migrationBuilder.CreateIndex(
                 name: "IX_TempHouseholds_AddressID",
                 table: "TempHouseholds",
-                column: "AddressID",
-                unique: true);
+                column: "AddressID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TempMemberDietaries_MemberID",

@@ -7,7 +7,10 @@ namespace PinewoodGrow.Models.Temp
 {
     public class TempAddress
     {
-   
+        public TempAddress()
+        {
+            Households = new HashSet<TempHousehold>();
+        }
 
         public string FormalAddress => FullAddress + ", " + City + ", " + PostalCode;
         public int ID { get; set; }
@@ -24,7 +27,7 @@ namespace PinewoodGrow.Models.Temp
 
         public double? Longitude { get; set; }
 
-        public TempHousehold Household { get; set; }
+        public ICollection<TempHousehold> Households { get; set; }
 
     }
 }

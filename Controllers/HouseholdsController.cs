@@ -79,7 +79,7 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
-            ViewData["TravelStats"] = household.IsFixedAddress? new TravelStats(household.Address.TravelDetail): new TravelStats();
+            ViewData["TravelStats"] = (household.IsFixedAddress && household.Address.TravelDetail != null) ? new TravelStats(household.Address.TravelDetail): new TravelStats();
             ViewData["IncomeStats"] = household.Members.OrderByDescending(a => a.Income).Select(a=> new IncomeStats{Name = a.FullName, Income = a.Income}).ToList();
             return View(household);
         }

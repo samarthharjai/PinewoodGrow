@@ -1,0 +1,338 @@
+﻿@model PinewoodGrow.Models.Temp.TempHousehold
+
+@{
+    ViewData["Title"] = "Create";
+}
+<link rel="stylesheet" href="/css/HouseHold.css" />
+<div class="title">
+    <div class="title-info">
+    <h1>Create</h1>
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+        </svg>
+    </div>
+    <h2 style="margin-top: 20px;">New Household</h2>
+</div>
+<hr />
+<partial name="_TempMemberModal" />
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    @*<div class="form-group">
+            <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
+        </div>*@
+    <input type="hidden" id="Lat" name="Lat" />
+    <input type="hidden" id="Lng" name="Lng" />
+    <input type="hidden" id="AddressName" name="AddressName" />
+    <input type="hidden" id="PlaceID" name="placeID" />
+    <input type="hidden" id="city" name="city" />
+    <input type="hidden" id="IsFixedAddress" name="IsFixedAddress" value="true" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div>
+    
+        <h2>Address</h2>
+        <div class="custom-control custom-switch m-3">
+            <input type="checkbox" checked="checked" class="custom-control-input green" id="chkFixed">
+            <label class="custom-control-label green" for="chkFixed" style="font-size: 18px;">Fixed Address</label>
+        </div>
+        <div class="row" style="padding-left: 50px;">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Address</label>
+                    <input class="form-control" id="autocomplete"/>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Postal Code</label>
+                    <input class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal"/>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <h2 style="margin-top: 40px">Members</h2>
+    <div class="form-group" id="ListMemberSituations">
+        <div class="col-md-offset-1" id="TempMemberList">
+            <table>
+                @{
+                    foreach (var item in Model.Members)
+                    {
+                        @:<tr><td>
+                        @item.FirstName
+                        @:</td><td>
+                        @:&nbsp; &nbsp;
+                        <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#tempMemberModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
+                        <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
+                        @:</td></tr>
+                    }
+                    
+                }
+            </table>
+            <div class="actionsContainer-center" style="top: -10px;">
+                <div class="btn-add-member">
+                    <a  style="width: 360px" class="temp-modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"  fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+                        <span>Add</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="actionsContainer-center-float" style="top: -10px; margin-top: 50px;">
+    <div class="btn-trash">
+        <a style="width: 80px"  asp-action="Delete" asp-route-ID="@Model.ID"  onclick="return confirm('Are you sure you want to delete this?')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+            <span></span>
+        </a>
+    </div>
+    <div class="btn-draft">
+        <a style="width: 120px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-save2" viewBox="0 0 16 16">
+                <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
+            </svg>
+            <span>Draft</span>
+        </a>
+    </div>
+   
+        <div class="btn-add-member">
+            <a style="width: 120px;"  >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                    <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                </svg>
+                <span>Create</span>
+            </a>
+        </div>
+    </div>
+
+</form>
+
+
+
+@*<script>
+        document.getElementById("btnSampleDataHouse").addEventListener("click", function () {
+            document.getElementById("autocomplete").value = "5951 Main St, Niagara Falls, ON , Canada";
+            document.getElementById("postal").value = "L2G 5Z7";
+            document.getElementById("txtDependants").value = "2";
+            document.getElementById("txtFamilyName").value = "Doe";
+            document.getElementById("txtFirstName").value = "Jane";
+            document.getElementById("txtLastName").value = "Doe";
+            document.getElementById("txtAge").value = "1984-02-04";
+            document.getElementById("ddlGender").value = "2";
+            document.getElementById("txtPhone").value = "6367727614";
+            document.getElementById("txtEmail").value = "sample@gmail.com";
+            document.getElementById("txtIncome").value = "1600";
+            document.getElementById("txtComplete").value = "2";
+            document.getElementById("chkIllnesses").value = "2";
+            document.getElementById("chkSituations").value = "7";
+        })
+    </script>*@
+<script>
+    document.getElementById("chkFixed").addEventListener("click",
+        function () {
+            if (this.checked) {
+                document.getElementById("autocomplete").disabled = false;
+                document.getElementById("postal").disabled = false;
+                document.getElementById("IsFixedAddress").value = true;
+
+            } else {
+                document.getElementById("autocomplete").disabled = true;
+                document.getElementById("postal").disabled = true;
+                document.getElementById("IsFixedAddress").value = false;
+            }
+
+
+        })
+
+</script>
+<script src="~/js/GeoLocateAutoComplete.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer></script>
+@*<script src="~/js/multiselect.js"></script>*@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        var tempID = ViewData["TempMemberID"];
+    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @*<script src="~/js/multiselect.js"></script>*@
+<script type="text/javascript">
+        //New for modal
+        function refreshModal(actionForm, memberSituationID) {
+            switch (actionForm) {
+            case 'CreateForm':
+                $('#formTempMemberBody').load(('/TempMembers/CreateTempMember/@Model.ID'));
+                break;
+            case 'EditForm':
+                $('#formTempMemberBody').load('/TempMembers/EditTempMember/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                $('#formTempMemberBody').load('/TempMembers/DeleteTempMember/' + memberSituationID);
+                break;
+            default:
+                break;
+            };
+            return;
+        };
+
+        $(document).on("click",
+            ".temp-modal-link",
+            function() {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshModal(actionForm, memberSituationID);
+            });
+        $(document).on("click",
+            "#submitTempMemberForm",
+            function (event) {
+                console.log('In /here');
+                event.preventDefault();
+                var form = $('#TempMemberForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function() {
+                            $('#tempMemberModal').modal('hide');
+                            $('#TempMemberList').load('/Households/TempMemberList/@Model.ID');
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+                }
+  
+                return false;
+            });
+        $('#tempMemberModal').on('hide.bs.modal', ".temp-modal-link",
+            function () {
+     
+            });
+</script>
+    <script type="text/javascript">
+        //New for modal
+        function refreshSituationModal(actionForm, memberSituationID) {
+            const memberID = $('#TempID').val();
+            switch (actionForm) {
+            case 'CreateForm':
+                    $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + memberID) ;
+                break;
+            case 'EditForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation/' + memberSituationID);
+                break;
+            default:
+                break;
+            };
+            return;
+        };
+
+        $(document).on("click",
+            ".modal-link",
+            function() {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshSituationModal(actionForm, memberSituationID);
+            });
+        $(document).on("click",
+            "#submitMemberSituationForm",
+            function(event) {
+                event.preventDefault();
+                var form = $('#theMemberSituationForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function() {
+                            $('#theMemberSituationModal').modal('hide');
+                            const memID = $('#TempID').val();
+                            $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+
+                }
+        
+                return false;
+            });
+        $('#theMemberSituationModal').on('hide.bs.modal',
+            function () {
+                const memID = $('#TempID').val();
+                $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
+            });
+    </script>
+
+}
+<script type="text/javascript">
+    function JSconfirm(){
+        swal({ 
+                title: "Redirect to main page!",   
+                text: "Redirect me to home page?",   
+                type: "warning",   
+                showCancelButton: true,   
+                confirmButtonColor: "#DD6B55",   
+                confirmButtonText: "Yes",   
+                cancelButtonText: "No",   
+                closeOnConfirm: false,   
+                closeOnCancel: false }, 
+            function(isConfirm){   
+                if (isConfirm) 
+                {   
+                    window.location = "https://www.jquery-az.com/";   
+                } 
+                else {     
+                    swal("You are not redirected!", "success");   
+                } });
+    }
+</script>
+
+@*<div class="row">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input class="form-control" id="autocomplete" />
+                <span asp-validation-for="Household.Address.FullAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Household.Address.PostalCode" class="control-label"></label>
+                <input asp-for="Household.Address.PostalCode" class="form-control" id="postal" placeholder="e.g. L2J 3Y2" name="postal" />
+                <span asp-validation-for="Household.Address.PostalCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Household.Dependants" class="control-label"></label>
+                <input asp-for="Household.Dependants" name="Dependants" id="txtDependants" placeholder="e.g. 2" class="form-control" />
+                <span asp-validation-for="Household.Dependants" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Household.FamilyName" class="control-label"></label>
+                <input asp-for="Household.FamilyName" name="FamilyName" id="txtFamilyName" placeholder="e.g. Doe" class="form-control" />
+                <span asp-validation-for="Household.FamilyName" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 0 auto; padding: 10px; align-content: center; justify-content:center;">
+        <div class="form-group" style="padding-right: 20px">
+            <a asp-action="Index" class="btn btn-primary">Back</a>
+        </div>
+        <div class="form-group">
+            <input type="submit" id="btnSubmit" value="Create" class="btn btn-info" />
+        </div>
+    </di   v>*@
