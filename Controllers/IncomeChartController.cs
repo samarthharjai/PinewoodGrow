@@ -30,7 +30,7 @@ namespace PinewoodGrow.Controllers
 		public async Task <IActionResult> Index()
 		{
 
-			var member = from m in _context.Members
+			var member = from m in _context.Members.Include(m=> m.MemberSituations)
 						 select m;
 
 			//sort income by datapoint

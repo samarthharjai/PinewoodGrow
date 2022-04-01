@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using PinewoodGrow.Models.Audit;
 
 namespace PinewoodGrow.Models
 {
-	public class MemberSituation
+	public class MemberSituation : Auditable
 	{
 		public int ID { get; set; }
 

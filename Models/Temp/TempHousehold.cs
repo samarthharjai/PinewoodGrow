@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using PinewoodGrow.Models.Audit;
 
 namespace PinewoodGrow.Models.Temp
 {
-    public class TempHousehold
+    public class TempHousehold : Auditable 
     {
 		public TempHousehold()
 		{
@@ -14,7 +15,7 @@ namespace PinewoodGrow.Models.Temp
 			MemberHouseholds = new HashSet<TempMemberHousehold>();
 		}
 
-	
+        public DateTime TimeCreated { get; set; }
 		public int ID { get; set; }
 
 		public double HouseIncome => Members.Select(a => a.Income).ToList().Sum();

@@ -117,7 +117,7 @@
                                 Total Income
                             </dt>
                             <dd class="col-sm-8">
-                                @Html.DisplayFor(model => model.IncomeTotal)
+                                @Html.DisplayFor(model => model.Income)
                             </dd>
                         </dl>
                         <h2>Member Info</h2>
@@ -132,7 +132,10 @@
                                 Household Income
                             </dt>
                             <dd class="col-sm-8">
-                                @Html.DisplayFor(model => model.Household.HouseIncome)
+                                
+                                    @ViewData["HouseholdIncome"]
+
+                           
                             </dd>
                             <dt class="col-sm-4">
                                 # of Members

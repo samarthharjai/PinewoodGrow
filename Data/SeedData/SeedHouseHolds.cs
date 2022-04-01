@@ -78,7 +78,7 @@ namespace PinewoodGrow.Data.SeedData
                 context.SaveChanges();
 
                 //Add members to household
-                var Members = GetMembers(house.ID, FamilyCount, GetHouseIncome(FamilyCount));
+                var (Members, Incomes) = GetMembers(house.ID, FamilyCount, GetHouseIncome(FamilyCount));
 
                 house.FamilyName = Members.FirstOrDefault().LastName;
 
@@ -87,7 +87,11 @@ namespace PinewoodGrow.Data.SeedData
 
                 var MemberSituations = new List<MemberSituation>();
 
-                foreach (var m in Members) MemberSituations.AddRange(GetMemberSituations(MemberSituations, m.Income, m));
+                for (var i = 0; i < Members.Count; i++)
+                {
+                    MemberSituations.AddRange(GetMemberSituations(MemberSituations, Incomes[i], Members[i]));
+                }
+
                     
                 context.AddRange(MemberSituations);
                 context.SaveChanges();
@@ -109,7 +113,7 @@ namespace PinewoodGrow.Data.SeedData
                 {
                     MemberID = member.ID,
                     SituationID = t,
-                    SituationIncome = temp,
+                    SituationIncome = Math.Round(temp,2),
                 });
             }
 
@@ -146,11 +150,11 @@ namespace PinewoodGrow.Data.SeedData
                 _ => rnd.Next(40000, 58712)
             };
         }
-        private static List<Member> GetMembers(int houseID, int count, int HouseIncome)
+        private static Tuple<List<Member>, List<double>> GetMembers(int houseID, int count, int HouseIncome)
         {
             var Members = new List<Member>();
             var FamilyName = GetRandomLastName();
-            var incomes = GetIncomes(count, HouseIncome);
+            var Incomes = GetIncomes(count, HouseIncome);
             for (var i = 0; i < count; i++)
             {
 
@@ -162,7 +166,6 @@ namespace PinewoodGrow.Data.SeedData
                     LastName = FamilyName,
                     Telephone = GetRandomPhone(),
                     Email = GetRandomEmail(firstName, FamilyName),
-                    Income = incomes[i],
                     Notes = LoremIpsum(10, 50, 1, 4, 1),
                     Consent = true,
                     VolunteerID = getRandomVolunteer(),
@@ -173,13 +176,13 @@ namespace PinewoodGrow.Data.SeedData
                 Members.Add(member);
             }
 
-            return Members;
+            return Tuple.Create(Members, Incomes);
         }
 
 
-        private static int[] GetIncomes(int count, int HouseIncome)
+        private static List<double> GetIncomes(int count, int HouseIncome)
         {
-            var incomes = new int[count];
+            var incomes = new double[count];
 
             var AvalIncome = HouseIncome / count;
 
@@ -195,7 +198,7 @@ namespace PinewoodGrow.Data.SeedData
                 incomes[^1] += (int)(incomes.Sum() * .6);
             }
 
-            return incomes;
+            return incomes.ToList();
         }
 
 

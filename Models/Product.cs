@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using PinewoodGrow.Models.Audit;
 
 namespace PinewoodGrow.Models
 {
-	public class Product
-	{
+	public class Product : Auditable
+    {
         public Product()
         {
             SaleDetails = new HashSet<SaleDetail>();

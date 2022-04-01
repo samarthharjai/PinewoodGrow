@@ -3,3 +3,5 @@
 Update-Database -Context GROWContext
 
 Update-Database -Context ApplicationDbContext
+
+ExtraMigration.Steps(migrationBuilder);

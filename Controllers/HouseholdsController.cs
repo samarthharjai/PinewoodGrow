@@ -46,9 +46,9 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> Index(int? page, int? pageSizeID)
         {
             var households = from h in _context.Households
-                             .Include(h => h.Members)
+                         
                              .Include(h => h.Address)
-                             .Include(h => h.MemberHouseholds)
+                             .Include(h => h.Members).ThenInclude(m=> m.MemberSituations)
                              select h;
 
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
@@ -69,10 +69,10 @@ namespace PinewoodGrow.Controllers
             }
 
             var household = await _context.Households
-                .Include(h => h.Members)
+             
                 .Include(h => h.Address)
                 .ThenInclude(a=> a.TravelDetail)
-                .Include(h => h.MemberHouseholds)
+                .Include(h => h.Members).ThenInclude(m=> m.MemberSituations)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (household == null)
             {
@@ -323,44 +323,7 @@ namespace PinewoodGrow.Controllers
             ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
 
-        private void UpdateHouseholdMembers(string[] selectedOptions, Household householdToUpdate)
-        {
-            //This is an alternate approach to what I demonstrated in class.
-            //Instetad of trying to follow the logic in the tutorial, we are
-            //just clearing them out and adding the selected ones back in.
-            //Note: the earlier code is shown below in comments
 
-            if (selectedOptions == null)
-            {
-                householdToUpdate.MemberHouseholds = new List<MemberHousehold>();
-                return;
-            }
-
-            var selectedOptionsHS = new HashSet<string>(selectedOptions);
-            var currentOptionsHS = new HashSet<int>(householdToUpdate.MemberHouseholds.Select(b => b.MemberID));
-            foreach (var s in _context.Members)
-            {
-                if (selectedOptionsHS.Contains(s.ID.ToString()))//it is selected
-                {
-                    if (!currentOptionsHS.Contains(s.ID))//but not currently in the Doctor's collection - Add it!
-                    {
-                        householdToUpdate.MemberHouseholds.Add(new MemberHousehold
-                        {
-                            MemberID = s.ID,
-                            HouseholdID = householdToUpdate.ID
-                        });
-                    }
-                }
-                else //not selected
-                {
-                    if (currentOptionsHS.Contains(s.ID))//but is currently in the Doctor's collection - Remove it!
-                    {
-                        MemberHousehold specToRemove = householdToUpdate.MemberHouseholds.FirstOrDefault(d => d.MemberID == s.ID);
-                        _context.Remove(specToRemove);
-                    }
-                }
-            }
-        }
         private void PopulateAssignedDietaryData(Member member)
         {
             //For this to work, you must have Included the PatientConditions 
@@ -379,36 +342,7 @@ namespace PinewoodGrow.Controllers
             }
             ViewData["DietaryOptions"] = checkBoxes;
         }
-        private void UpdateMemberDietaries(string[] selectedDietaryOptions, Member memberToUpdate)
-        {
-            if (selectedDietaryOptions == null)
-            {
-                memberToUpdate.MemberDietaries = new List<MemberDietary>();
-                return;
-            }
 
-            var selectedOptionsHS = new HashSet<string>(selectedDietaryOptions);
-            var memberOptionsHS = new HashSet<int>
-                (memberToUpdate.MemberDietaries.Select(d => d.DietaryID));
-            foreach (var option in _context.Dietaries)
-            {
-                if (selectedOptionsHS.Contains(option.ID.ToString()))
-                {
-                    if (!memberOptionsHS.Contains(option.ID))
-                    {
-                        memberToUpdate.MemberDietaries.Add(new MemberDietary { MemberID = memberToUpdate.ID, DietaryID = option.ID });
-                    }
-                }
-                else
-                {
-                    if (memberOptionsHS.Contains(option.ID))
-                    {
-                        MemberDietary dietaryToRemove = memberToUpdate.MemberDietaries.SingleOrDefault(d => d.DietaryID == option.ID);
-                        _context.Remove(dietaryToRemove);
-                    }
-                }
-            }
-        }
 
         private void PopulateAssignedSituationData(Member member)
         {
@@ -428,36 +362,7 @@ namespace PinewoodGrow.Controllers
             }
             ViewData["SituationOptions"] = checkBoxes;
         }
-        private void UpdateMemberSituation(string[] selectedSituationOptions, Member memberToUpdate)
-        {
-            if (selectedSituationOptions == null)
-            {
-                memberToUpdate.MemberSituations = new List<MemberSituation>();
-                return;
-            }
 
-            var selectedOptionsHS = new HashSet<string>(selectedSituationOptions);
-            var memberOptionsHS = new HashSet<int>
-                (memberToUpdate.MemberSituations.Select(s => s.SituationID));
-            foreach (var option in _context.Dietaries)
-            {
-                if (selectedOptionsHS.Contains(option.ID.ToString()))
-                {
-                    if (!memberOptionsHS.Contains(option.ID))
-                    {
-                        memberToUpdate.MemberSituations.Add(new MemberSituation { MemberID = memberToUpdate.ID, SituationID = option.ID });
-                    }
-                }
-                else
-                {
-                    if (memberOptionsHS.Contains(option.ID))
-                    {
-                        MemberSituation situationToRemove = memberToUpdate.MemberSituations.SingleOrDefault(s => s.SituationID == option.ID);
-                        _context.Remove(situationToRemove);
-                    }
-                }
-            }
-        }
 
         private void PopulateAssignedIllnessData(Member member)
         {
@@ -475,36 +380,7 @@ namespace PinewoodGrow.Controllers
             }
             ViewData["IllnessOptions"] = checkBoxes;
         }
-        private void UpdateMemberIllnesses(string[] selectedIllnessOptions, Member memberToUpdate)
-        {
-            if (selectedIllnessOptions == null)
-            {
-                memberToUpdate.MemberIllnesses = new List<MemberIllness>();
-                return;
-            }
 
-            var selectedOptionsHS = new HashSet<string>(selectedIllnessOptions);
-            var memberOptionsHS = new HashSet<int>
-                (memberToUpdate.MemberIllnesses.Select(i => i.IllnessID));
-            foreach (var option in _context.Illnesses)
-            {
-                if (selectedOptionsHS.Contains(option.ID.ToString()))
-                {
-                    if (!memberOptionsHS.Contains(option.ID))
-                    {
-                        memberToUpdate.MemberIllnesses.Add(new MemberIllness { MemberID = memberToUpdate.ID, IllnessID = option.ID });
-                    }
-                }
-                else
-                {
-                    if (memberOptionsHS.Contains(option.ID))
-                    {
-                        MemberIllness illnessToRemove = memberToUpdate.MemberIllnesses.SingleOrDefault(i => i.IllnessID == option.ID);
-                        _context.Remove(illnessToRemove);
-                    }
-                }
-            }
-        }
 
         private async Task AddDocumentsAsync(Member member, List<IFormFile> theFiles)
         {

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using PinewoodGrow.Models.Audit;
 
 namespace PinewoodGrow.Models.Temp
 {
-    public class TempMember
+    public class TempMember : Auditable
     {
 		public TempMember()
 		{
@@ -45,7 +46,7 @@ namespace PinewoodGrow.Models.Temp
             }
         }
 
-        public double TotalIncome => MemberSituations.Select(a=> a.SituationIncome).ToList().Sum();
+        public double Income => MemberSituations.Select(a=> a.SituationIncome).ToList().Sum();
 
 		public int ID { get; set; }
 
@@ -70,10 +71,6 @@ namespace PinewoodGrow.Models.Temp
 		public string Telephone { get; set; }
 
 		public string Email { get; set; }
-
-
-		public double Income { get; set; }
-
 
         public string Notes { get; set; }
 

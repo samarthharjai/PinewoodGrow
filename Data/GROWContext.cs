@@ -4,19 +4,35 @@ using PinewoodGrow.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using PinewoodGrow.Models.Audit;
 using PinewoodGrow.Models.Temp;
 
 namespace PinewoodGrow.Data
 {
 	public class GROWContext : DbContext
 	{
+        //To give access to IHttpContextAccessor for Audit Data with IAuditable
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
+		public string UserName
+        {
+            get; private set;
+        }
+		public GROWContext(DbContextOptions<GROWContext> options, IHttpContextAccessor httpContextAccessor)
+            : base(options)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            UserName = _httpContextAccessor.HttpContext?.User.Identity.Name;
+            UserName ??= "Unknown";
+        }
 
 		public GROWContext(DbContextOptions<GROWContext> options)
 			: base(options)
 		{
 		}
+
 
 		public DbSet<Member> Members { get; set; }
 		public DbSet<Household> Households { get; set; }
@@ -281,7 +297,47 @@ namespace PinewoodGrow.Data
 
 		}
 
+		#region Audit Functions
+		public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            OnBeforeSaving();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
 
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            OnBeforeSaving();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        private void OnBeforeSaving()
+        {
+            var entries = ChangeTracker.Entries();
+            foreach (var entry in entries)
+            {
+                if (entry.Entity is IAuditable trackable)
+                {
+                    var now = DateTime.UtcNow;
+                    switch (entry.State)
+                    {
+                        case EntityState.Modified:
+                            trackable.UpdatedOn = now;
+                            trackable.UpdatedBy = UserName;
+                            break;
+
+                        case EntityState.Added:
+                            trackable.CreatedOn = now;
+                            trackable.CreatedBy = UserName;
+                            trackable.UpdatedOn = now;
+                            trackable.UpdatedBy = UserName;
+                            break;
+                    }
+                }
+            }
+        }
+
+
+		#endregion
 
 
 

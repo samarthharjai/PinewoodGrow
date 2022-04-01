@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 using PinewoodGrow.Models.Temp;
+using PinewoodGrow.Utilities;
 
 namespace PinewoodGrow.Controllers
 {
@@ -216,7 +217,6 @@ namespace PinewoodGrow.Controllers
                 CompletedOn = tmpMember.CompletedOn,
                 GenderID = tmpMember.GenderID.GetValueOrDefault(),
                 HouseholdID = HouseID,
-                Income = 0,
                 Notes = tmpMember.Notes,
                 VolunteerID = tmpMember.VolunteerID.GetValueOrDefault(),
             };
@@ -282,10 +282,18 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: TempHouseholds
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, int? pageSizeID)
         {
-            var gROWContext = _context.TempHouseholds.Include(t => t.Address);
-            return View(await gROWContext.ToListAsync());
+            var households = from t in _context.TempHouseholds
+                .Include(t => t.Address)
+                .Include(a=> a.Members)
+                    select  t;
+
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<TempHousehold>.CreateAsync(households.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
         // GET: TempHouseholds/Details/5

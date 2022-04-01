@@ -119,12 +119,12 @@ namespace PinewoodGrow.Controllers
                 if (sortDirection == "asc")
                 {
                     members = members
-                        .OrderBy(m => m.IncomeTotal);
+                        .OrderBy(m => m.Income);
                 }
                 else
                 {
                     members = members
-                        .OrderByDescending(m => m.IncomeTotal);
+                        .OrderByDescending(m => m.Income);
                 }
             }
             else 
@@ -173,6 +173,15 @@ namespace PinewoodGrow.Controllers
                 .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
+
+
+
+            ViewData["HouseholdIncome"] = _context.Households
+                .Include(a => a.Members)
+                .ThenInclude(a => a.MemberSituations)
+                .FirstOrDefault(a => a.ID == member.HouseholdID)
+                ?.HouseIncome.ToString("C"); ;
+
             if (member == null)
             {
                 return NotFound();

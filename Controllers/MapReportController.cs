@@ -64,14 +64,13 @@ namespace PinewoodGrow.Controllers
             var households = _context.Households.Include(a => a.Address)
                 .ThenInclude(t => t.TravelDetail)
                 .ThenInclude(t => t.GroceryStore)
-                .Include(a => a.Members)
-                .ThenInclude(a => a.Household)
+                .Include(a => a.Members).ThenInclude(m=> m.MemberSituations)
                 .Where(a => a.AddressID != null && a.Address.Latitude != 0 && a.Address.Longitude != 0);
            
 
             //Converts List of Addresses to map markers exudes all entries that do not have enter lat/longs
 
-            Markers = households.Select(a => new MapMarker(a, a.HouseIncome, a.Members.Count)).ToList();
+            Markers = households.Select(a => new MapMarker(a, Math.Round(a.HouseIncome), a.Members.Count)).ToList();
 
             
             ViewData["Stores"] = households.Select(g =>

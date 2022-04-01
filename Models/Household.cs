@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using PinewoodGrow.Models.Audit;
 
 namespace PinewoodGrow.Models
 {
-	public class Household
+	public class Household : Auditable
 	{
 		public Household()
 		{
@@ -21,8 +22,10 @@ namespace PinewoodGrow.Models
 		//[Required(ErrorMessage = "You cannot leave the House Income blank.")]
 		[DataType(DataType.Currency)]
 		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
-		public double HouseIncome => Members.Select(a=> a.Income).ToList().Sum(); 
-        
+		public double HouseIncome => Members.Select(a=> a.Income).ToList().Sum();
+
+
+
 
 		public string HouseSummary =>  ID + " - " + FamilyName;
 

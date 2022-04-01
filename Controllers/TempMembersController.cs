@@ -251,7 +251,7 @@ namespace PinewoodGrow.Controllers
 
             if (await TryUpdateModelAsync<TempMember>(tempMemberToUpdate, "", m => m.FirstName, m => m.LastName,
                     m => m.DOB, m => m.Telephone,
-                    m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn,
+                    m => m.Email, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn,
                     m => m.HouseholdID, m => m.GenderID))
                 //m => m.FamilySize, m => m.AddressID, m => m.Address
             {
