@@ -43,13 +43,52 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Households
-        public async Task<IActionResult> Index(int? page, int? pageSizeID)
+        public async Task<IActionResult> Index(int? page, int? pageSizeID, string SearchFamily, string SearchSize, string SearchID, string SearchAddress)
         {
+            string[] sortOptions = new[] { "SearchFamily", "SearchSize", "SearchID", "SearchAddress" };
+
+            ViewData["Filtering"] = ""; //Asume not filtering
             var households = from h in _context.Households
                          
                              .Include(h => h.Address)
                              .Include(h => h.Members).ThenInclude(m=> m.MemberSituations)
                              select h;
+
+            if (!String.IsNullOrEmpty(SearchFamily))
+            {
+                households = households.Where(m => m.FamilyName.ToUpper().Contains(SearchFamily.ToUpper()));
+                ViewData["Filtering"] = "show";
+            }
+            if (!String.IsNullOrEmpty(SearchAddress))
+            {
+                households = households.Where(m => m.Address.FullAddress.ToUpper().Contains(SearchAddress.ToUpper()));
+                ViewData["Filtering"] = "show";
+            }
+            if (!String.IsNullOrEmpty(SearchID))
+            {
+                try
+                {
+                    var searchID = Convert.ToInt32(SearchID);
+                    households = households.Where(m => m.ID == searchID );
+                    ViewData["Filtering"] = "show";
+                }
+                catch
+                {
+                }
+            }
+            if (!String.IsNullOrEmpty(SearchSize))
+            {
+                try
+                {
+                    var sizeID = Convert.ToInt32(SearchSize);
+                    households = households.Where(m => m.FamilySize == sizeID);
+                    ViewData["Filtering"] = "show";
+                }
+                catch
+                {
+                }
+            }
+            
 
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
             ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);

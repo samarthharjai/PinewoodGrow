@@ -56,23 +56,23 @@ namespace PinewoodGrow.Controllers
             if (DietaryID.HasValue)
 			{
                 members = members.Where(m => m.MemberDietaries.Any(d => d.DietaryID == DietaryID));
-                ViewData["Filtering"] = " show";
+                ViewData["Filtering"] = "show";
             }
             if (SituationID.HasValue)
             {
                 members = members.Where(m => m.MemberSituations.Any(s => s.SituationID == SituationID));
-                ViewData["Filtering"] = " show";
+                ViewData["Filtering"] = "show";
             }
             if (IllnessID.HasValue)
             {
                 members = members.Where(m => m.MemberIllnesses.Any(i => i.IllnessID == IllnessID));
-                ViewData["Filtering"] = " show";
+                ViewData["Filtering"] = "show";
             }
             if (!String.IsNullOrEmpty(SearchString))
             {
                 members = members.Where(m => m.LastName.ToUpper().Contains(SearchString.ToUpper())
                                         || m.FirstName.ToUpper().Contains(SearchString.ToUpper()));
-                ViewData["Filtering"] = " show";
+                ViewData["Filtering"] = "show";
             }
 
             if (!String.IsNullOrEmpty(actionButton))
@@ -101,30 +101,19 @@ namespace PinewoodGrow.Controllers
                         .OrderBy(m => m.DOB);
                 }
             }
-            else if (sortField == "Family Size")
-            {
-                if (sortDirection == "asc")
-                {
-                    members = members
-                        .OrderBy(m => m.Household.FamilySize);
-                }
-                else
-                {
-                    members = members
-                        .OrderByDescending(m => m.Household.FamilySize);
-                }
-            }
             else if (sortField == "Income")
             {
                 if (sortDirection == "asc")
                 {
                     members = members
-                        .OrderBy(m => m.Income);
+                        .OrderBy(m => m.MemberSituations.ToList().Select(a => a.SituationIncome).Sum())
+                        .ThenBy(m=> m.LastName);
                 }
                 else
                 {
                     members = members
-                        .OrderByDescending(m => m.Income);
+                        .OrderByDescending(m => m.MemberSituations.ToList().Select(a=> a.SituationIncome).Sum())
+                        .ThenBy(m => m.LastName); ;
                 }
             }
             else 
