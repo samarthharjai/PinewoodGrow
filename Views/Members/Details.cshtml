@@ -244,19 +244,19 @@
             </section>
             <section>
                 <div class="content-display-container">
-                    <div class="content-display left" style="width: 50%">
+                    <div class="content-display left" style="width: 40%">
                         <h2>Income Breakdown</h2>
                         @{
                             var Incomes = Model.MemberSituations;
 
                             if (Incomes.Count > 0)
                             {
-                                <table class="table">
+                                <table class="custom-table">
                                     <thead>
                                     <tr>
                                         <th>Income Type</th>
                                         <th>Amount</th>
-                                        <th></th>
+                                      
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -270,9 +270,7 @@
                                                 <td>
                                                     @income.SituationIncome
                                                 </td>
-                                                <td style="text-align: right">
-                                                    <a href="#">Remove</a> | <a href="#">Edit</a>
-                                                </td>
+                                            
                                             </tr>
                                         }
                                     }
@@ -281,14 +279,14 @@
                             }
                             else
                             {
-                                <p style="height: 100px">No Documents</p>
+                                <p style="height: 100px">No Income Types</p>
                             }
                         }
 
 
                     </div>
-                    <div class="content-display right" style="width: 50%">
-                        <h3>Income Chart</h3>
+                    <div class="content-display right" style="width: 60%">
+                        <h3>Income Breakdown</h3>
                         <div class="IncomeChart">
                             <canvas id="IncomeByMember" style="width: 100%"></canvas>
                         </div>
@@ -301,7 +299,7 @@
 
                     if (documents.Count > 0)
                     {
-                        <table class="table">
+                        <table class="custom-table">
                             <thead>
                             <tr>
                                 <th>Document Name</th>
@@ -321,7 +319,7 @@
                                             NAN
                                         </td>
                                         <td>
-                                            <a href="#">Download</a> | <a href="#">Remove</a> | <a href="#">Edit</a>
+                                            <a href="#">Download</a>
                                         </td>
                                     </tr>
                                 }
@@ -571,14 +569,23 @@
 <script>
     var Names = [];
     var IncomeData = [];
+    var colors1 = [];
 
     @{
-              var Points = @Model.MemberSituations;
-        foreach (var point in Points)
+
+        List<PinewoodGrow.ViewModels.IncomeStats> incomeStats = ViewBag.IncomeStats;
+        foreach (var point in incomeStats)
         {
             <text>
-                Names.push('@point.Situation.Name');
-                IncomeData.push(@point.SituationIncome);
+                Names.push('@point.Name');
+                IncomeData.push(@point.Income);
+            </text>
+        }
+              string[] Colors1 = ViewBag.Colors1;
+        foreach (var color in Colors1)
+        {
+            <text>
+                colors1.push('@color');
             </text>
         }
 
@@ -591,7 +598,7 @@
         datasets: [{
             label: 'My First Dataset',
             data: IncomeData,
-            backgroundColor: ['#3caf85', '#309fdb', '#854e9b', '#fbce4a', '#e95b54', '#fbb84aff', '#fb4ab0', '#93fb4a', '#1c0048'],
+            backgroundColor: colors1,
             hoverOffset: 4
         }]
     };

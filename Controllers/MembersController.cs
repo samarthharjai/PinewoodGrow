@@ -164,12 +164,24 @@ namespace PinewoodGrow.Controllers
                 .FirstOrDefaultAsync(m => m.ID == id);
 
 
-
-            ViewData["HouseholdIncome"] = _context.Households
+            var household = _context.Households
                 .Include(a => a.Members)
                 .ThenInclude(a => a.MemberSituations)
-                .FirstOrDefault(a => a.ID == member.HouseholdID)
-                ?.HouseIncome.ToString("C"); ;
+                .FirstOrDefault(a => a.ID == member.HouseholdID);
+
+            if (household != null)
+            {
+                ViewData["HouseholdIncome"] = household.HouseIncome.ToString("C");
+                
+
+            }
+
+            var stats = member.MemberSituations.OrderByDescending(a => a.SituationIncome)
+                    .Select(a => new IncomeStats { Name = a.Situation.Name, Income = a.SituationIncome }).ToList();
+            
+            ViewData["IncomeStats"] = stats;
+            ViewData["Colors1"] = new PieChartData(stats).Colors;
+       
 
             if (member == null)
             {
