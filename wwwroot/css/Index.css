@@ -1,14 +1,14 @@
-﻿.title {
+﻿.title-index {
     margin-top: 120px;
     text-align: center;
     margin-bottom: 20px;
 }
-    .title h1 {
+.title-index h1 {
         font-size: 34px;
         display: inline-block;
         margin-right: 5px;
     }
-    .title h2 {
+.title-index h2 {
         display: inline-block;
         color: #397a4c;
         font-size: 34px;
@@ -74,7 +74,10 @@
     border: #397a4c 1px solid;
     margin: 0 auto;
 }
-
+.fix-center svg {
+    margin: 0;
+    padding: 0;
+}
 
 .btn-index span {
     color: #397a4c;
@@ -115,6 +118,28 @@
 
 .btn-index a:hover {
     box-shadow: 2px 2px 10px #d7e5db, -2px -2px 10px #d7e5db;
+    transform: translateY(-2px);
+}
+.purple a {
+    /*#7a3967*/
+    color: #7a3967 !important;
+    border: #7a3967 1px solid !important;
+}
+
+.purple span {
+    color: #7a3967 !important;
+}
+
+.purple svg {
+    color: #7a3967 !important;
+}
+
+.purple a:hover {
+    box-shadow: 2px 2px 10px #7a3967, -2px -2px 10px #BFD0DA !important;
+}
+
+.btn-index a:hover {
+    box-shadow: 2px 2px 10px #d4a3ce, -2px -2px 10px #d4a3ce;
     transform: translateY(-2px);
 }
 .grey a {
@@ -166,7 +191,7 @@
 
     border-collapse: collapse;
     margin: 25px 0;
-    font-size: 0.9em;
+    font-size: .9em;
     min-width: 400px;
     width: 100%;
     border-radius: 5px 5px 0 0;

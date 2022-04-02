@@ -132,6 +132,62 @@ namespace PinewoodGrow.ViewModels
         public double Income { get; set; }
     }
 
+    
+    public class PieChartData
+    {
+        private string[] AvalColors = new []{"#397A4C", "#397A6D", "#39677A", "#39477A", "#4C397A", "#6D397A", "#8F1D0E", "#CE550B", "#7A3967" };
+
+        public List<IncomeStats> IncomeStats { get; set; }
+
+        public string[] Colors { get; set; }
+
+        public PieChartData(List<IncomeStats> incomeStats)
+        {
+
+            IncomeStats = incomeStats;
+            Colors = GetColors(incomeStats.Count);
+
+
+        }
+
+        private string[] GetColors(int count)
+        {
+            var colors = new List<string>();
+
+            colors.Add(AvalColors[0]);
+
+            if (count == 3)
+            {
+                colors.Add(AvalColors[AvalColors.Length/2]);
+            }
+
+            if (count > 3 && count <= 7)
+            {
+                double multi = (AvalColors.Length - 4) / (count - 2);
+                multi = Math.Floor(multi);
+
+                for (var i = multi; i < AvalColors.Length - 4; i+=multi)
+                {
+                    colors.Add(AvalColors[(int)i]);
+                }
+
+            }else if(count > 7 )
+
+            {
+                double multi = (AvalColors.Length - 2) / (count - 2);
+                multi = Math.Floor(multi);
+
+                for (var i = multi; i < AvalColors.Length; i += multi)
+                {
+                    colors.Add(AvalColors[(int)i]);
+                }
+            }
+            colors.Add(AvalColors[^1]);
+            return colors.ToArray();
+
+        }
+
+    }
 
 
 }

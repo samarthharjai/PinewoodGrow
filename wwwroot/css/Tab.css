@@ -3,6 +3,25 @@
 /* tab setting */
 /* breakpoints */
 /* selectors relative to radio inputs */
+
+
+.list-time {
+    font-size: 1rem;
+
+}
+.list-time img {
+    width: 36px;
+    height: 36px;
+}
+h4 {
+    padding-left: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #397a4c;
+    font-weight: 600;
+}
+
 .IncomeChart {
    width: 70%;
     transform: translateX(25%);
@@ -120,7 +139,7 @@ dl {
                     margin-right: 0.2em;
                     transition: all 0.2s ease-in-out;
                 }
-svg {
+label> svg {
     font-size: 1em;
     transform: translateX(-20%);
 }
