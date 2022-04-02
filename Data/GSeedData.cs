@@ -21,8 +21,6 @@ namespace PinewoodGrow.Data
 			using (var context = new GROWContext(
 				serviceProvider.GetRequiredService<DbContextOptions<GROWContext>>()))
 			{
-				
-
 				if (!context.Genders.Any())
 				{
 					var genders = new List<Gender>
@@ -159,30 +157,153 @@ namespace PinewoodGrow.Data
                 {
                     var products = new List<Product>
                     {
-                        new Product { ID = 101, Name = "Apples", UnitPrice = 0.10, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
-                        new Product { ID = 104, Name = "Bananas ", UnitPrice = 0.10, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
-                        new Product { ID = 127, Name = "Cabbage", UnitPrice = 2.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 101, Name = "Apples", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 102, Name = "Avocado large*", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 103, Name = "Avocado small*", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 104, Name = "Bananas", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 105, Name = "Blueberries / Blackberries", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 106, Name = "Broccoli", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 107, Name = "Cantaloupe", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 108, Name = "Carrots", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 109, Name = "Cauliflower", UnitPrice = 2.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 110, Name = "Celery", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 111, Name = "Clementine", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
                         new Product { ID = 112, Name = "Corn", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
-                        new Product { ID = 201, Name = "Chicken Legs (2)", UnitPrice = 1.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
-                        new Product { ID = 203, Name = "Chicken Thighs (4lbs)", UnitPrice = 3.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
+                        new Product { ID = 113, Name = "Cucumber", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 114, Name = "Cucumber Mini", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 115, Name = "Eggplant", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 116, Name = "Garlic*", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 117, Name = "Grapes*", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 118, Name = "Green Onions", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 119, Name = "Kale", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 120, Name = "Kiwi", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 121, Name = "Lemon*", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 122, Name = "Lettuce Romaine Hearts", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 123, Name = "Limes", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 124, Name = "Mango", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 125, Name = "Micro Greens", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 126, Name = "Mushrooms*", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 127, Name = "Cabbage*", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 128, Name = "Onion", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 129, Name = "Oranges", UnitPrice = 0.2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 130, Name = "Peaches/Nectarines", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 131, Name = "Pear", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 132, Name = "Peppers", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 133, Name = "Peppers Hot 3", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 134, Name = "Peppers Mini ", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 135, Name = "Plums", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 136, Name = "Potatoes", UnitPrice = 0.05 / 1.50, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 137, Name = "Potatoes Baby Basket", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 138, Name = "Potatoes Sweet (Yam)", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 139, Name = "Raspberries", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 140, Name = "Squash", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 141, Name = "Strawberries", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 142, Name = "Swiss Chard", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 143, Name = "Tomato Cherry / Grape Basket", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 144, Name = "Tomatoes ", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 145, Name = "Watermelon", UnitPrice = 2.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 146, Name = "Zucchini", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 147, Name = "Brussel Sprouts", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 148, Name = "Shallots", UnitPrice = 0.05, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+                        new Product { ID = 149, Name = "Anise / Fennel", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Produce").ID,},
+
+                        new Product { ID = 201, Name = "Chicken Legs (2)", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
+                        new Product { ID = 202, Name = "Chicken Drumsticks 4lbs", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
+                        new Product { ID = 203, Name = "Chicken Thighs 4lbs", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
+                        new Product { ID = 204, Name = "Chicken Wings 2lbs", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
                         new Product { ID = 205, Name = "Ground Beef", UnitPrice = 2.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
-                        new Product { ID = 207, Name = "Fish (Haddock / Basa)", UnitPrice = 1.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
-                        new Product { ID = 302, Name = "Bread Costco", UnitPrice = 0.50, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
-                        new Product { ID = 303, Name = "Butter", UnitPrice = 1.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
-                        new Product { ID = 306, Name = "Eggs (12)", UnitPrice = 2.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
-                        new Product { ID = 311, Name = "Milk - 1L", UnitPrice = 1.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
-                        new Product { ID = 401, Name = "Apple Sauce", UnitPrice = 1.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
-                        new Product { ID = 445, Name = "Coffee", UnitPrice = 4.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 206, Name = "Veggie Burger 2pc", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
+                        new Product { ID = 207, Name = "Fish (Haddock / Basa)", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Freezer").ID,},
+
+                        new Product { ID = 301, Name = "Almond Milk 2L", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 302, Name = "Bread Costco", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 303, Name = "Butter", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 304, Name = "Cheese Large", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 305, Name = "Cream Cheese", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 306, Name = "Eggs (12) / Eggs (18)", UnitPrice = 2.00 / 3.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 307, Name = "Goat Milk 1l", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 308, Name = "Hummus", UnitPrice = 2.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 309, Name = "Hummus Mini", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 310, Name = "Margerine", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 311, Name = "Milk - 1L", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 312, Name = "Milk - 4L", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 313, Name = "Oat Milk 1l", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 314, Name = "Orange Juice", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 315, Name = "Pizza Dough", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 316, Name = "Sour Crème", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 317, Name = "Soy Milk 1l", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 318, Name = "Tofu", UnitPrice = 2.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 319, Name = "Yogurt 4 pack", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 320, Name = "Yogurt Greek", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 321, Name = "Yogurt Tub", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 322, Name = "Yogurt 6 pack", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 323, Name = "Sliced Cheese", UnitPrice = 2.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+                        new Product { ID = 324, Name = "Bread Commisso's", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Dairy/Eggs/Bread").ID,},
+
+                        new Product { ID = 401, Name = "Apple Sauce", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 402, Name = "Baking Powder", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 403, Name = "Bars Cereal, Protein, Cookie", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 404, Name = "BBQ Sauce", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 405, Name = "Bleach", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 406, Name = "Broth", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 407, Name = "Canned Beans, Veggies, and Fruit", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 408, Name = "Canola Oil", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 409, Name = "Cereal all other", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 410, Name = "Cereal Rice Krispies", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 411, Name = "Crackers ", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 412, Name = "Dried Legumes/Beans", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 413, Name = "Flour", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 414, Name = "Garden Cocktail", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 415, Name = "Granola Bars 6 pack", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 416, Name = "Jam", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 417, Name = "Kraft Dinner", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 418, Name = "Laundry Soap large", UnitPrice = 6, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 419, Name = "Laundry Soap small", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 420, Name = "Miracle Whip", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 421, Name = "Nuts", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 422, Name = "Oats", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 423, Name = "Olive Oil", UnitPrice = 6, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 424, Name = "Passata", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
                         new Product { ID = 425, Name = "Pasta", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
-                        new Product { ID = 417, Name = "Kraft Dinner", UnitPrice = 1.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
-                        new Product { ID = 501, Name = "Cat Food (Wet)", UnitPrice = 0.50, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID, },
-                        new Product { ID = 502, Name = "GROW Soup", UnitPrice = 2.50, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
-                        new Product { ID = 503, Name = "Deoderant", UnitPrice = 1.00, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
-                        new Product { ID = 504, Name = "Ramen", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 426, Name = "Pasta Sauce", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 427, Name = "Peanut Butter", UnitPrice = 2.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 428, Name = "Polenta", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 429, Name = "Rice", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 430, Name = "Salad Dressing", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 431, Name = "Soap ", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 432, Name = "Soup Small", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 433, Name = "Spices", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 434, Name = "Sugar White and Brown", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 435, Name = "Tea", UnitPrice = 2, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 436, Name = "Tea Green Tea", UnitPrice = 4.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 437, Name = "Tea Orange Pekoe", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 438, Name = "Tea Red Rose", UnitPrice = 5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 439, Name = "Toilet Paper", UnitPrice = 5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 440, Name = "Tomato Paste", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 441, Name = "Tooth Paste / Brush / Floss", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 442, Name = "Tuna", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 443, Name = "Wild Rice Blend", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 444, Name = "Yeast", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 445, Name = "Coconut Milk", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 446, Name = "Coffee", UnitPrice = 4, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 447, Name = "Protein Drink", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 448, Name = "Salsa", UnitPrice = 1.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 449, Name = "Gummies", UnitPrice = 0.1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+                        new Product { ID = 450, Name = "Raisins", UnitPrice = 4, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Pantry").ID,},
+
+                        new Product { ID = 501, Name = "Cat Food (wet)", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 502, Name = "Sweets (Costco)", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 503, Name = "Drinks ", UnitPrice = 0.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 504, Name = "GROW Soup", UnitPrice = 2.5, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 505, Name = "Deoderant", UnitPrice = 1, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 506, Name = "Polenta", UnitPrice = 3, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 507, Name = "Orzo", UnitPrice = 0.75, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
+                        new Product { ID = 508, Name = "Ramen / Rice Krispies", UnitPrice = 0.25, ProductTypeID=context.ProductTypes.FirstOrDefault(d => d.Type == "Specials").ID,},
                     };
                     context.Products.AddRange(products);
                     context.SaveChanges();
                 }
+
                 if (!context.ProductUnitPrices.Any())
                 {
                     var products = context.Products.Select(a => a).ToList();
@@ -982,7 +1103,6 @@ namespace PinewoodGrow.Data
                     SeedHouseHolds.Initialize(serviceProvider);
                 }
 
-
 				if (!context.MemberSituations.Any())
 				{
                     var Members = context.Members.Select(a=> a).ToList();
@@ -1065,7 +1185,7 @@ namespace PinewoodGrow.Data
                     context.AddRange(ToAdd);
                     context.SaveChanges();
 
-                }
+                }                
             }
 		}
 	}

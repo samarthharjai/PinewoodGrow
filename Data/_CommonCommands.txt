@@ -1,7 +1,7 @@
 ﻿add-Migration -Context GROWContext -o Data\GMigrations Initial
 
+ExtraMigration.Steps(migrationBuilder);
+
 Update-Database -Context GROWContext
 
 Update-Database -Context ApplicationDbContext
-
-ExtraMigration.Steps(migrationBuilder);
