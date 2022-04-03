@@ -3,38 +3,48 @@
 @{
 	ViewBag.Title = "Index";
 }
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@*For Cookies*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <h2>User Role Assignments</h2>
 
 <table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.UserName)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.UserRoles)
-		</th>
-		<th></th>
-	</tr>
-
-	@foreach (var item in Model)
+	@if (SignInManager.IsSignedIn(User))
 	{
+		var userName = User.Identity.Name;
 		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.UserName)
-			</td>
-			<td>
-				@{
-					foreach (var r in item.UserRoles)
-					{
-						@:  @r <br />
-					}
-				}
-			</td>
-			<td>
-				@Html.ActionLink("Edit", "Edit", new { id = item.Id })
-			</td>
+			<th>
+				@Html.DisplayNameFor(model => model.UserName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.UserRoles)
+			</th>
+			<th></th>
 		</tr>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.UserName)
+				</td>
+				<td>
+					@{
+						foreach (var r in item.UserRoles)
+						{
+							@:  @r <br />
+						}
+					}
+				</td>
+				<td>
+					@if (item.UserName != userName)
+						@Html.ActionLink("Edit", "Edit", new { id = item.Id })
+				</td>
+			</tr>
+		}
 	}
 
 </table>

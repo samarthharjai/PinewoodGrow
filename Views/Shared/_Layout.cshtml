@@ -35,7 +35,7 @@
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Receipts" asp-action="Index">POS</a>
 						</li>
-						@if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
+						@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
 						{
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,24 +51,24 @@
 									<a class="dropdown-item" asp-area="" asp-controller="MapReport" asp-action="Index">Map Report</a>
 								</div>
 							</li>
-						}
-						@if (User.IsInRole("Admin"))
-						{
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Lookup Values<b class="caret"></b>
-								</a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" asp-area="" asp-controller="Dietaries" asp-action="Index">Dietary Concerns</a>
-									<a class="dropdown-item" asp-area="" asp-controller="Genders" asp-action="Index">Genders</a>
-									<a class="dropdown-item" asp-area="" asp-controller="Illnesses" asp-action="Index">Health Concerns</a>
-									<a class="dropdown-item" asp-area="" asp-controller="Situations" asp-action="Index">Income Sources</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" asp-area="" asp-controller="Volunteers" asp-action="Index">Volunteers</a>
-									<a class="dropdown-item" asp-area="" asp-controller="UserRoles" asp-action="Index">Manage Roles</a>
-								</div>
-							</li>
-						}
+						}						
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Lookup Values<b class="caret"></b>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" asp-area="" asp-controller="Dietaries" asp-action="Index">Dietary Concerns</a>
+								<a class="dropdown-item" asp-area="" asp-controller="Genders" asp-action="Index">Genders</a>
+								<a class="dropdown-item" asp-area="" asp-controller="Illnesses" asp-action="Index">Health Concerns</a>
+								<a class="dropdown-item" asp-area="" asp-controller="Situations" asp-action="Index">Income Sources</a>
+								@if (User.IsInRole("SuperAdmin"))
+								{
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" asp-area="" asp-controller="Volunteers" asp-action="Index">Volunteers</a>
+								<a class="dropdown-item" asp-area="" asp-controller="UserRoles" asp-action="Index">Manage Roles</a>
+								}
+							</div>
+						</li>						
 					</ul>
 				</div>
             </div>

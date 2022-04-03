@@ -14,7 +14,7 @@ namespace PinewoodGrow.Data
         {
             //Create Roles
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roleNames = { "Admin", "Supervisor", "Volunteer", "Security" };
+            string[] roleNames = { "Admin", "SuperAdmin", "Volunteer" };
             IdentityResult roleResult;
             foreach (var roleName in roleNames)
             {
@@ -53,22 +53,7 @@ namespace PinewoodGrow.Data
 
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(user, "Supervisor").Wait();
-                }
-            }
-            if (userManager.FindByEmailAsync("security1@outlook.com").Result == null)
-            {
-                IdentityUser user = new IdentityUser
-                {
-                    UserName = "security1@outlook.com",
-                    Email = "security1@outlook.com"
-                };
-
-                IdentityResult result = userManager.CreateAsync(user, "password").Result;
-
-                if (result.Succeeded)
-                {
-                    userManager.AddToRoleAsync(user, "Security").Wait();
+                    userManager.AddToRoleAsync(user, "SuperAdmin").Wait();
                 }
             }
             if (userManager.FindByEmailAsync("volunteer1@outlook.com").Result == null)

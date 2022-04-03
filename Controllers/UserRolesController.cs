@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PinewoodGrow.Controllers
 {
-	[Authorize(Roles = "Admin,Security")]
+	[Authorize(Roles = "SuperAdmin")]
     public class UserRolesController : Controller
     {
         private readonly ApplicationDbContext _context;

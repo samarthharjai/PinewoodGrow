@@ -13,7 +13,7 @@ using PinewoodGrow.Utilities;
 
 namespace PinewoodGrow.Controllers
 {
-    [Authorize(Roles = "Admin,Security")]
+    [Authorize(Roles = "SuperAdmin")]
     public class VolunteersController : Controller
     {
         private readonly GROWContext _context;

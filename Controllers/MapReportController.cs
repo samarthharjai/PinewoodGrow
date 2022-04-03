@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
-    [Authorize(Roles = "Admin, Supervisor")]
+    [Authorize(Roles = "Admin, SuperAdmin")]
     public class MapReportController : Controller
     {
         private readonly GROWContext _context;
