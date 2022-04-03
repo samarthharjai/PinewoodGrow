@@ -4,18 +4,37 @@
     ViewData["Title"] = "Index";
 }
 
-<br />
-<h1 style="text-align:center;">Product</h1>
+<link rel="stylesheet" href="/css/Index.css?version=2" />
 
+<br />
+<div class="title-index">
+    <h1 style="text-align: center">Product</h1>
+    <h2>Index</h2>
+</div>
+<div class="actionsContainer-index" style="top: 45px;">
+
+    <div class="btn-index">
+        <a style="width: 120px;" asp-controller="Products" asp-action="Create">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
+            </svg>
+            <span>Create</span>
+        </a>
+    </div>
+
+</div>
 <style>
     table {
         margin: 0 auto;
     }
 </style>
 
-<p>
+<br />
+
+@*<p>
     <a asp-action="Create" class="btn btn-sm btn-info right float-right">Create Products</a>
-</p>
+</p>*@
 <form asp-action="Index" method="get">
     <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
     <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
@@ -46,20 +65,93 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped">
+    <table class="custom-table">
         <thead>
             <tr>
                 <th>
-                    <input type="submit" disabled="disabled" value="ID" class="btn btn-link" />
+                    ID
+                    @*<input type="submit" disabled="disabled" value="ID" class="btn btn-link" />*@
                 </th>
                 <th>
-                    <input type="submit" name="actionButton" value="Name" class="btn btn-link" />
+                    <input type="submit" name="actionButton" value="Name" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "Name")
+                        {
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
+
+                        }
+                        else if ((string)ViewData["sortField"] == "")
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                            </svg>
+                        }
+                    }
                 </th>
                 <th>
-                    <input type="submit" name="actionButton" value="Unit Price" class="btn btn-link" />
+                    <input type="submit" name="actionButton" value="Unit Price" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "Unit Price")
+                        {
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
+
+                        }
+                        else if ((string)ViewData["sortField"] == "")
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                            </svg>
+                        }
+                    }
                 </th>
                 <th>
-                    <input type="submit" name="actionButton" value="Product Type" class="btn btn-link" />
+                    <input type="submit" name="actionButton" value="Product Type" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "Product Type")
+                        {
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
+
+                        }
+                        else if ((string)ViewData["sortField"] == "")
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                            </svg>
+                        }
+                    }
                 </th>
                 <th></th>
             </tr>

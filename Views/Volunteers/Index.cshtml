@@ -1,91 +1,147 @@
 ﻿@model IEnumerable<PinewoodGrow.Models.Volunteer>
 
 @{
-	ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 
-<br />
-<h1 style="text-align:center;">Volunteers</h1>
+<link rel="stylesheet" href="/css/Index.css?version=2" />
 
-<p>
-	<a asp-action="Create" class="btn btn-sm btn-info right float-right">Create New Volunteer</a>
-</p>
+<br />
+<div class="title-index">
+    <h1 style="text-align: center">Volunteers</h1>
+</div>
+<div class="actionsContainer-index" style="top: 45px;">
+    <div class="btn-index">
+        <a style="width: 120px;" asp-controller="Members" asp-action="Create">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+            </svg>
+            <span>Create</span>
+        </a>
+    </div>
+
+</div>
+<style>
+    table {
+        margin: 0 auto;
+    }
+</style>
+
+<br />
+
 
 <div class="text-danger">@TempData["message"]</div>
 
 <form asp-action="Index" method="get">
-	<input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
-	<input type="hidden" name="sortField" value="@ViewData["sortField"]" />
-	<div class="form-horizontal">
-		<br />
-		<button class="btn btn-outline-secondary" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-			Filter/Search
-		</button>
-		<div class="collapse @(ViewData["Filtering"])" id="collapseFilter">
-			<div class="card card-body bg-light">
-				<div class="row">
-					<div class="form-group col-md-6">
-						<label class="control-label">Search by Name:</label>
-						@Html.TextBox("SearchString", null, new { @class = "form-control" })
-					</div>
-					<div class="form-group col-md-4">
-						<label class="control-label">Filter by Inactive:</label>
-						@Html.CheckBox("IsActive", false, new { @class = "form-control" })
-					</div>
-				</div>
-				<div class="row">
-					<div class="form-group col-md-4 align-self-end">
-						<input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
-						<a asp-action="Index" class="btn btn-outline-dark">Clear</a>
-					</div>
+    <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
+    <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
+    <div class="form-horizontal">
+        <br />
+        <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+            Filter/Search
+        </button>
+        <div class="collapse @(ViewData["Filtering"])" id="collapseFilter">
+            <div class="card card-body bg-light">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Search by Name:</label>
+                        @Html.TextBox("SearchString", null, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Filter by Inactive:</label>
+                        @Html.CheckBox("IsActive", false, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4 align-self-end">
+                        <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                        <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                    </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>
-					<input type="submit" name="actionButton" value="Name" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" disabled="disabled" value="Email" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" disabled="disabled" value="Phone Number" class="btn btn-link" />
-				</th>
-				<th>
-					<input type="submit" disabled="disabled" value="Active" class="btn btn-link" />
-				</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.FullName)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Email)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.PhoneNumber)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Active)
-					</td>
-					<td>
-						<div class="btn-group">
-							<a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
-						</div>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="submit" name="actionButton" value="Name" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "Name")
+                        {
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
 
-	<partial name="_PagingNavBar" />
+                        }
+                        else if ((string)ViewData["sortField"] == "")
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                            </svg>
+                        }
+                    }
+                </th>
+                <th>
+                    Email
+                    @*<input type="submit" disabled="disabled" value="Email" class="btn btn-link" />*@
+                </th>
+                <th>
+                    Phone Number
+                    @*<input type="submit" disabled="disabled" value="Phone Number" class="btn btn-link" />*@
+                </th>
+                <th>
+                    Active
+                    @*<input type="submit" disabled="disabled" value="Active" class="btn btn-link" />*@
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+                        <div class="actionsContainer-table">
+                            
+                            <div class="btn-index small">
+                                <a title="Edit" asp-action="Edit" asp-route-id="@item.ID">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                    </svg>
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <partial name="_PagingNavBar" />
 </form>

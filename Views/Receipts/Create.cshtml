@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
 }
+<link rel="stylesheet" href="/css/Index.css?version=2" />
 
 <style>
     #firstdiv {
@@ -18,7 +19,8 @@
 
 <br />
 
-<h1 style="text-align: center;">Point Of Sale</h1>
+<h1 style="text-align: center;">Create a New Sale</h1>
+<br />
 
 <hr />
 <form asp-action="Create">
@@ -87,10 +89,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-9">
+                            @*<div class="col-9">
                                 <input type="button" class="btn btn-outline-dark" id="btnAddQan" value="+ Quantity" />
                                 <input type="button" class="btn btn-outline-secondary" id="btnMinQan" value="- Quantity" />
-                            </div>
+                            </div>*@
                         </div>
                     </div>
 
