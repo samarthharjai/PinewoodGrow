@@ -7,28 +7,33 @@
 //      option at the top of the list.
 //  defaultText - string value to display as the default/prompt value
 // fadeOutIn - Boolean for visual effect after refresh
-function refreshDDL(ddl_ID, URL, showNoDataMsg, noDataMsg, addDefault, defaultText, fadeOutIn) {
+function refreshCheckbox(ddl_ID, URL, showNoDataMsg, noDataMsg, addDefault, defaultText, fadeOutIn) {
     var theDDL = $("#" + ddl_ID);
     $(function () {
         $.getJSON(URL, function (data) {
             if (data !== null && !jQuery.isEmptyObject(data)) {
                 theDDL.empty();
-                if (addDefault) {
-                    if (defaultText == null || jQuery.isEmptyObject(defaultText)) {
-                        defaultText = 'Select'
-                    };
-                    theDDL.append($('<option/>', {
-                        value: "",
-                        text: defaultText
-                    }));
-                }
                 $.each(data, function (index, item) {
-                    theDDL.append($('<option/>', {
-                        value: item.value,
-                        text: item.text,
-                        name:'selectedDietaryOptions',
-                        selected: item.selected
+                    console.log(item);
+                    var div = $('<div>');
+
+                    var row = $('<label>');
+                    row.append($('<input>', {
+                        type: 'checkbox',
+                        value: item.id,
+                        name: item.name,
+                        checked: item.assigned
                     }));
+
+                    var span = $('<span>');
+                    span.append(item.displayText);
+
+                    row.append(span);
+                    div.append(row);
+
+                
+                    theDDL.append(div);
+
                 });
                 theDDL.trigger("chosen:updated");
             } else {

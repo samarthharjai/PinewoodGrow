@@ -112,29 +112,26 @@
 			<div class="form-group">
 				<label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
 				<div class="col-md-offset-1">
-					<table>
-						<tr>
-							@{
-								int cntI = 0;
-								List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
+
+						<div class="checkContainer" id="illness">
+                        @{
+                            List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
 								foreach (var checkbox in illnessCheckboxes)
 								{
-									if (cntI++ % 3 == 0)
-									{
-									@:</tr><tr>
-									}
-									@:<td>
-										<input type="checkbox"
-											   name="selectedIllnessOptions"
-											   value="@checkbox.ID"
-											   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-										@checkbox.DisplayText
-										@:&nbsp;&nbsp;
-									@:</td>
+								    <div>
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="selectedIllnessOptions"
+                                                   value="@checkbox.ID"
+                                                   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                            <span>
+                                                @checkbox.DisplayText
+                                            </span>
+                                        </label>
+									</div>
 								}
-							@:</tr>
-							}
-						</table>
+                        }
+					
 					</div>
 				</div>
 				<div class="form-group" id="ListMemberSituations">
@@ -171,7 +168,8 @@
 	@section Scripts {
 		@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 		<script src="~/js/multiselect.js"></script>
-		<script src="~/js/refreshDDL.js"></script>
+        <script src="~/js/refreshDDL.js"></script>
+        <script src="~/js/refreshCheckBox.js"></script>
         <script type="text/javascript">
 		//New for modal
             function refreshModal(actionForm, memberSituationID) {
@@ -243,8 +241,8 @@
             });
             var URI = "/Members/GetDietaries?skip=" + qstring.substring(0, qstring.length - 1);
             refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);
-
-        });
+            /*var URI2 = "/Members/GetDietariesCheckbox";
+            refreshCheckbox("illness", URI2, true, "No Data Available", false, null, false); */       });
 
         </script>
 	}

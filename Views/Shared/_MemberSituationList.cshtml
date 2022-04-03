@@ -1,13 +1,13 @@
-﻿<table>
+﻿<table style="margin-top: 20px;">
     @{
         foreach (var item in ViewBag.MemberSituations)
         {
             <tr>
-            <td>
+            <td style="width: 50%">
                 @item.Summary
             </td>
-            <td>
-                <div class="actionsContainer-trash">
+            <td style="width: 50%">
+                <div class="actionsContainer-trash" style="margin-left: 10%;">
                         <div class="btn-back">
                             <a class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -24,9 +24,7 @@
                                 </svg>
                             </a>
                         </div>
-                        <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
-                        <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
-                      </div>
+                </div>
                 </td>
             </tr>
         }

@@ -472,6 +472,19 @@ namespace PinewoodGrow.Controllers
                     });
                 }
             }
+            var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
+            var checkBoxes = new List<CheckOptionVM>();
+            foreach (var option in allOptions)
+            {
+                checkBoxes.Add(new CheckOptionVM
+                {
+                    ID = option.ID,
+                    DisplayText = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
+            }
+
+            ViewData["DietOptions"] = checkBoxes;
 
             ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
             ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
@@ -655,6 +668,41 @@ namespace PinewoodGrow.Controllers
         {
             return Json(DietarySelectList(skip));
         }
+
+        private List<CheckOptionVM> DietaryCheckboxList(string skip)
+        {
+            //default query if no values to avoid
+            var DietaryQuery = _context.Dietaries
+                .OrderBy(d => d.Name);
+            if (!String.IsNullOrEmpty(skip))
+            {
+                //Conver the string to an array of integers
+                //so we can make sure we leave them out of the data we download
+                string[] avoidStrings = skip.Split(',');
+                int[] skipKeys = Array.ConvertAll(avoidStrings, s => int.Parse(s));
+                DietaryQuery = _context.Dietaries.OrderBy(d => d.Name);
+                return DietaryQuery.Select(a => new CheckOptionVM
+                {
+                    ID = a.ID,
+                    DisplayText = a.Name,
+                    Assigned = skipKeys.Contains(a.ID)
+                }).ToList();
+
+            }
+         
+
+            return DietaryQuery.Select(a => new CheckOptionVM
+            {
+                ID = a.ID,
+                DisplayText = a.Name,
+            }).ToList();
+        }
+        [HttpGet]
+        public JsonResult GetDietariesCheckbox(string skip)
+        {
+            return Json(DietaryCheckboxList(skip));
+        }
+
 
         private void PopulateDropDownLists(Member member = null)
         {

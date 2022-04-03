@@ -2,10 +2,10 @@
 
 
 
-<h1 style="text-align:center">Create a New Member</h1>
-<hr />
+
 
 <partial name="_MemberSituationModal" />
+<partial name="_addDietaryModal" />
 <form asp-action="Edit"  asp-controller="TempMembers" id="TempMemberForm" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
@@ -19,6 +19,7 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-6">
+            <h2>Personal info</h2>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -42,6 +43,7 @@
                 </select>
                 <span asp-validation-for="GenderID" class="text-danger"></span>
             </div>
+            <h2>Contact Info</h2>
             <div class="form-group">
                 <label asp-for="Telephone" class="control-label"></label>
                 <input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345"/>
@@ -51,18 +53,6 @@
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VolunteerID" class="control-label"></label>
-                <select asp-for="VolunteerID" class="form-control" id="txtComplete" asp-items="ViewBag.VolunteerID">
-                    <option value="">Select a Volunteer</option>
-                </select>
-                <span asp-validation-for="VolunteerID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompletedOn" class="control-label"></label>
-                <input asp-for="CompletedOn" class="form-control" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" >
-                <span asp-validation-for="CompletedOn" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
@@ -80,28 +70,38 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="control-label"> Diertary Restrictions Accredited</label>
-                        <button type="button" id="btnRight" class="btn btn-danger btn-sm">
-                            <strong>-</strong>
-                        </button>
-                        @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label"> Choose Diertary Restrictions</label>
-                        <button type="button" id="btnLeft" class="btn btn-success btn-sm">
-                            <strong>+</strong>
-                        </button>
-                        @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+            <div class="form-group">
+                <h2>Dietary Restrictions</h2>
+                <div class="col-md-offset-1">
+                    <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+                            data-toggle="modal" data-target="#addDietaryModal"
+                            type="button">
+                        <strong>Add Dietary Restriction</strong>
+                    </button>
+                    <div class="checkContainer" id="DietOptions">
+                        @{
+                            List<PinewoodGrow.ViewModels.CheckOptionVM> DietOptions = ViewBag.DietOptions;
+                            foreach (var checkbox in DietOptions)
+                            {
+                                <div>
+                                    <label>
+                                        <input type="checkbox"
+                                               name="selectedDietOptions"
+                                               value="@checkbox.ID"
+                                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                        <span>
+                                            @checkbox.DisplayText
+                                        </span>
+                                    </label>
+                                </div>
+                            }
+                        }
+					
                     </div>
                 </div>
-            </div>
 
             <div class="form-group">
-                <label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
+                <h2>Illnesses</h2>
                 <div class="col-md-offset-1">
                     <table>
                         <tr>
@@ -158,7 +158,7 @@
             </div>
         </div>
     </div>
-
+        </div>
     </form>
  
 

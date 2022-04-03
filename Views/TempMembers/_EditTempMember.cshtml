@@ -2,8 +2,11 @@
 
 
 
+
+
 <partial name="_MemberSituationModal" />
-<form asp-action="Edit" asp-controller="TempMembers" id="TempMemberForm" method="post" enctype="multipart/form-data">
+<partial name="_addDietaryModal" />
+<form asp-action="Edit"  asp-controller="TempMembers" id="TempMemberForm" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
     </div>
@@ -11,25 +14,26 @@
     <input type="hidden" id="Lng" name="Lng" />
     <input type="hidden" id="AddressName" name="AddressName" />
 
-    <input type="hidden" id="TempID" name="TempID" value="@ViewData["TempMemberID"]" />
+    <input type="hidden" id="TempID" name="TempID" value="@Model.ID" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-6">
+            <h2>Personal info</h2>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" id="txtFirstName" placeholder="e.g. John" />
+                <input asp-for="FirstName" class="form-control" id="txtFirstName" placeholder="e.g. John"/>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe" />
+                <input asp-for="LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe"/>
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DOB" class="control-label"></label>
-                <input asp-for="DOB" class="form-control" id="txtAge" />
+                <input asp-for="DOB" class="form-control" id="txtAge"/>
                 <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,39 +43,16 @@
                 </select>
                 <span asp-validation-for="GenderID" class="text-danger"></span>
             </div>
+            <h2>Contact Info</h2>
             <div class="form-group">
                 <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345" />
+                <input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345"/>
                 <span asp-validation-for="Telephone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com" />
+                <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com"/>
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Income" class="control-label"></label>
-                <input asp-for="Income" class="form-control" id="txtIncome" placeholder="e.g. 1000.00" />
-                <span asp-validation-for="Income" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HouseholdID" class="control-label"></label>
-                <select asp-for="HouseholdID" class="form-control" id="ddlHousehold" asp-items="ViewBag.HouseSummary">
-                    <option value="">Select a Household</option>
-                </select>
-                <span asp-validation-for="HouseholdID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VolunteerID" class="control-label"></label>
-                <select asp-for="VolunteerID" class="form-control" id="txtComplete" asp-items="ViewBag.VolunteerID">
-                    <option value="">Select a Volunteer</option>
-                </select>
-                <span asp-validation-for="VolunteerID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompletedOn" class="control-label"></label>
-                <input asp-for="CompletedOn" class="form-control" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                <span asp-validation-for="CompletedOn" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label>
@@ -80,95 +61,106 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Upload Documents:</label>
-                <input type="file" class="" name="theFiles" multiple="multiple" />
+                <input type="file" class="" name="theFiles" multiple="multiple"/>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Consent" /> To continue, you must agree to the Privacy Policy and Terms of Use.
+                    <input class="form-check-input" asp-for="Consent"/> To continue, you must agree to the Privacy Policy and Terms of Use.
                 </label>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="control-label"> Diertary Restrictions Accredited</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
-                            <strong>-</strong>
-                        </button>
-                        @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label"> Choose Diertary Restrictions</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
-                            <strong>+</strong>
-                        </button>
-                        @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+            <div class="form-group">
+                <label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
+                <div class="col-md-offset-1">
+                    <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+                            data-toggle="modal" data-target="#addDietaryModal"
+                            type="button">
+                        <strong>Add Dietary Restriction</strong>
+                    </button>
+                    <div class="checkContainer" id="DietOptions">
+                        @{
+                            List<PinewoodGrow.ViewModels.CheckOptionVM> DietOptions = ViewBag.DietOptions;
+                            foreach (var checkbox in DietOptions)
+                            {
+                                <div>
+                                    <label>
+                                        <input type="checkbox"
+                                               name="selectedDietOptions"
+                                               value="@checkbox.ID"
+                                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                        <span>
+                                            @checkbox.DisplayText
+                                        </span>
+                                    </label>
+                                </div>
+                            }
+                        }
+					
                     </div>
                 </div>
-            </div>
 
             <div class="form-group">
                 <label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
                 <div class="col-md-offset-1">
                     <table>
                         <tr>
-                            @{
-                                int cntI = 0;
-                                List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-                                foreach (var checkbox in illnessCheckboxes)
+                        @{
+                            int cntI = 0;
+                            List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
+                            foreach (var checkbox in illnessCheckboxes)
+                            {
+                                if (cntI++ % 3 == 0)
                                 {
-                                    if (cntI++ % 3 == 0)
-                                    {
                                     @:</tr><tr>
-                                    }
-                                    @:<td>
-                                        <input id="chkIllnesses"
-                                               type="checkbox"
-                                               name="selectedIllnessOptions"
-                                               value="@checkbox.ID"
-                                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                        @checkbox.DisplayText
-                                        @:&nbsp;&nbsp;
-                                    @:</td>
                                 }
+                                @:<td>
+                                <input id="chkIllnesses"
+                                       type="checkbox"
+                                       name="selectedIllnessOptions"
+                                       value="@checkbox.ID"
+                                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : ""))/>
+                                @checkbox.DisplayText
+                                @:&nbsp;&nbsp;
+                                @:</td>
+                            }
                             @:</tr>
-                            }
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group" id="ListMemberSituations">
-                    <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
-                    <div class="col-md-offset-1" id="MemberSituationList">
-                        <table>
-                            @{
-                                foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
-                                {
-                                    @:<tr><td>
-                                    @item.Summary
-                                    @:</td><td>
-                                    @:&nbsp; &nbsp;
-                                    <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
-                                    <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
-                                    @:</td></tr>
-                                }
-                            }
-                        </table>
-                    </div>
+                        }
+                    </table>
                 </div>
             </div>
-            <div class="row" style="margin: 0 auto; padding: 10px;">
-                <div class="form-group" style="padding-right: 20px">
-                    <a asp-action="Index" class="btn btn-primary">Back</a>
-                </div>
-                <div class="form-group">
-                    <input type="submit" id="submitTempMemberForm" value="Save" class="btn btn-info temp-modal-link" />
+            <div class="form-group" id="ListMemberSituations">
+                <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
+                <div class="col-md-offset-1" id="MemberSituationList">
+                    <table>
+                        @{
+                            foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
+                            {
+                                @:<tr><td>
+                                @item.Summary
+                                @:</td><td>
+                                @:&nbsp; &nbsp;
+                                <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
+                                <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
+                                @:</td></tr>
+                            }
+                        }
+                    </table>
                 </div>
             </div>
         </div>
-
+        <div class="row" style="margin: 0 auto; padding: 10px;">
+            <div class="form-group" style="padding-right: 20px">
+                <a asp-action="Index" class="btn btn-primary">Back</a>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="submitTempMemberForm" value="Create" class="btn btn-info"/>
+            </div>
+        </div>
+    </div>
+        </div>
     </form>
-
-
+ 
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

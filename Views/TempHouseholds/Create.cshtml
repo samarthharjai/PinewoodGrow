@@ -186,6 +186,7 @@
 <script src="~/js/GeoLocateAutoComplete.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBL-MHoHXLeE8E2WJKgnX60Rq03qo9EYxU&libraries=places&callback=initAutocomplete" async defer></script>
 @*<script src="~/js/multiselect.js"></script>*@
+<script src="~/js/refreshCheckBox.js"></script>
 
 @section Scripts {
     @{
@@ -229,7 +230,7 @@
                 var formData = new FormData(form[0]);
 
                 var file = $('input[type=file]')[0];
-                if (file!= null) {
+                if (file != null) {
                     formData.append("theFiles", file.files[0]);
                 }
 
@@ -243,7 +244,7 @@
                         contentType: false,
                         success: function() {
                             $('#tempMemberModal').modal('hide');
-                            $('#TempMemberList').load('/Households/TempMemberList/@Model.ID');
+                            $('#TempMemberList').load('/TempHouseholds/TempMemberList/@Model.ID');
                         },
                         error: function() {
                             alert("Operation Failed.  There was a problem maintaing the data.");
@@ -338,9 +339,72 @@
                 const memID = $('#TempID').val();
                 $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
             });
-    </script>
 
+    </script>
+    <script type="text/javascript">
+        //Add Dietary modal
+
+        $(document).on("click",
+            "#submitDietaryCreate",
+            function(event) {
+                event.preventDefault();
+                var form = $('#createDietaryForm');
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function() {
+                            $('#addDietaryModal').modal('hide');
+                            var qstring = "";
+                            //Get the collection of currently selected options
+                            var skipData = $("#selectedDietOptions input[type=checkbox]");
+                            $.each(skipData,
+                                function() {
+                                    if (this.checked === " checked") {
+                                        qstring += this.val() + ",";
+                                    }
+
+                                });
+
+                            var URI2 = "/TempMembers/GetDietariesCheckbox?skip=" + qstring.substring(0, qstring.length - 1);
+                            refreshCheckbox("DietOptions", URI2, true, "No Data Available", false, null, false);
+                        },
+                        error: function() {
+                            alert("Create Failed.  There was a problem adding the record.");
+                        }
+                    });
+                }
+                return false;
+            });
+        $('#addDietaryModal').on('hide.bs.modal',
+            function() {
+                $('#createDietaryForm').find("input[type=text], textarea, select").val(""); //to clear the data in the popup
+                //This will be a comma separated list of the keys of the selected options and
+                //we will pass it as a QueryString parameter when we get the new data
+                var qstring = "";
+                //Get the collection of currently selected options
+                var skipData = $("#selectedDietOptions input[type=checkbox]");
+                $.each(skipData,
+                    function() {
+                        if (this.checked === " checked") {
+                            qstring += this.val() + ",";
+                        }
+
+                    });
+
+/*            var URI = "/Members/GetDietaries?skip=" + qstring.substring(0, qstring.length - 1);
+            refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);*/
+                var URI2 = "/Members/GetDietariesCheckbox?skip=" + qstring.substring(0, qstring.length - 1);
+                refreshCheckbox("DietOptions", URI2, true, "No Data Available", false, null, false);
+            });
+    
+    </script>
 }
+
+
+
+
 <script type="text/javascript">
     function JSconfirm(){
         swal({ 
