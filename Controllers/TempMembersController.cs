@@ -231,7 +231,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int TempID, int id, string[] selectedOptions, string[] selectedSituationOptions
+        public async Task<IActionResult> Edit(int TempID, int id, string[] selectedOptions, string[] selectedDietOptions, string[] selectedSituationOptions
             , string[] selectedIllnessOptions, List<IFormFile> theFiles)
         {
             id = TempID;
@@ -247,7 +247,7 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
-            UpdateMemberDietaries(selectedOptions, tempMemberToUpdate);
+            UpdateMemberDietaries(selectedDietOptions, tempMemberToUpdate);
             UpdateMemberSituation(selectedSituationOptions, tempMemberToUpdate);
             UpdateMemberIllnesses(selectedIllnessOptions, tempMemberToUpdate);
 
