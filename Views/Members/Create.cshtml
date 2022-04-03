@@ -94,51 +94,47 @@
             </div>
         </div>
         <div class="col-md-6">
-				<div class="row">
-					<div class="form-group col-md-6">
-						<label class="control-label">Chosen Diertary Restrictions</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
-							<strong>-</strong>
-						</button>
-						@Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 3, @class = "form-control" })
-					</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label class="control-label">Chosen Diertary Restrictions</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+						<strong>-</strong>
+					</button>
+					@Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selDietOpts, new { @size = 3, @class = "form-control" })
+				</div>
 
-					<div class="form-group col-md-6">
-						<label class="control-label">Choose Diertary Restrictions</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
-							<strong>+</strong>
-						</button>
-						@Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 3, @class = "form-control" })
-					</div>
+				<div class="form-group col-md-6">
+					<label class="control-label">Choose Diertary Restrictions</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
+						<strong>+</strong>
+					</button>
+					@Html.ListBox("availOptions", (MultiSelectList)ViewBag.availDietOpts, new { @size = 3, @class = "form-control" })
+					<button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+							data-toggle="modal" data-target="#addDietaryModal"
+							type="button">
+						<strong>Add Dietary Restriction</strong>
+					</button>
+				</div>
 			</div>
 
-            <div class="form-group">
-                <label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
-                <div class="col-md-offset-1">
-                    <table>
-                        <tr>
-                        @{
-                            int cntI = 0;
-                            List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-                            foreach (var checkbox in illnessCheckboxes)
-                            {
-                                if (cntI++ % 3 == 0)
-                                {
-                                    @:</tr><tr>
-                                }
-                                @:<td>
-                                <input id="chkIllnesses"
-                                       type="checkbox"
-                                       name="selectedIllnessOptions"
-                                       value="@checkbox.ID"
-                                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                @checkbox.DisplayText
-                                @:&nbsp;&nbsp;
-                                @:</td>
-                            }
-                            @:</tr>
-                        }
-                    </table>
-                </div>
-            </div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label class="control-label">Chosen Illnesses</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+						<strong>-</strong>
+					</button>
+					@Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selIllOpts, new { @size = 3, @class = "form-control" })
+				</div>
+
+				<div class="form-group col-md-6">
+					<label class="control-label">Choose Illnesses</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
+						<strong>+</strong>
+					</button>
+					@Html.ListBox("availOptions", (MultiSelectList)ViewBag.availIllOpts, new { @size = 3, @class = "form-control" })
+					<button class="btn btn-outline-secondary btn-sm" id="nowAddIllness"
+							data-toggle="modal" data-target="#addIllnessModal"
+							type="button">
+						<strong>Add Illness</strong>
+					</button>
+				</div>
+			</div>
             <div class="form-group" id="ListMemberSituations">
                 <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
                 <div class="col-md-offset-1" id="MemberSituationList">
@@ -225,7 +221,6 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/multiselect.js"></script>    
 	<script src="~/js/refreshDDL.js"></script>
-    <script src="~/js/multiselect.js"></script>
     <script type="text/javascript">
         //New for modal
         function refreshModal(actionForm, memberSituationID) {
@@ -277,6 +272,73 @@
                
                 $('#MemberSituationList').load('/TempMembers/MemberSituationList/@tempID');
             });
+        //Add Dietary modal
+        $('#submitDietaryCreate').click(function (event) {
+            event.preventDefault();
+            var form = $('#createDietaryForm');
+            if (form.valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function () {
+                        $('#addDietaryModal').modal('hide');
+                    },
+                    error: function () {
+                        alert("Create Failed.  There was a problem adding the record.");
+                    }
+                });
+            }
+            return false;
+        });
+        $('#addDietaryModal').on('hide.bs.modal', function () {
+            $('#createDietaryForm').find("input[type=text], textarea, select").val("");//to clear the data in the popup
+            //This will be a comma separated list of the keys of the selected options and
+            //we will pass it as a QueryString parameter when we get the new data
+            var qstring = "";
+            //Get the collection of currently selected options
+            var skipData = $("#selectedOptions option");
+            $.each(skipData, function () {
+                qstring += $(this).val() + ",";
+            });
+            var URI = "/Members/GetDietaries?skip=" + qstring.substring(0, qstring.length - 1);
+            refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);
+            /*var URI2 = "/Members/GetDietariesCheckbox";
+            refreshCheckbox("illness", URI2, true, "No Data Available", false, null, false); */       });
+
+        //Add Illness modal
+        $('#submitIllnessCreate').click(function (event) {
+            event.preventDefault();
+            var form = $('#createIllnessForm');
+            if (form.valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function () {
+                        $('#addIllnessModal').modal('hide');
+                    },
+                    error: function () {
+                        alert("Create Failed.  There was a problem adding the record.");
+                    }
+                });
+            }
+            return false;
+        });
+        $('#addIllnessModal').on('hide.bs.modal', function () {
+            $('#createIllnessForm').find("input[type=text], textarea, select").val("");//to clear the data in the popup
+            //This will be a comma separated list of the keys of the selected options and
+            //we will pass it as a QueryString parameter when we get the new data
+            var qstring = "";
+            //Get the collection of currently selected options
+            var skipData = $("#selectedOptions option");
+            $.each(skipData, function () {
+                qstring += $(this).val() + ",";
+            });
+            var URI = "/Members/GetIllnesses?skip=" + qstring.substring(0, qstring.length - 1);
+            refreshDDL("availOptions", URI, true, "No Data Available", false, null, false);
+            /*var URI2 = "/Members/GetIllnessesCheckbox";
+            refreshCheckbox("illness", URI2, true, "No Data Available", false, null, false); */       });
     </script>
 
 

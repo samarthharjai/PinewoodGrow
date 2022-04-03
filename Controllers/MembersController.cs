@@ -238,7 +238,8 @@ namespace PinewoodGrow.Controllers
             {
                 //member.AddressID =  await GetAddressID(Lat, Lng, AddressName, postal, city);
                 UpdateMemberDietaries(selectedOptions, member);
-            
+                UpdateMemberIllnesses(selectedIllnessOptions, member);
+
                 if (ModelState.IsValid)
                 {
                     await AddDocumentsAsync(member, theFiles);
@@ -267,14 +268,14 @@ namespace PinewoodGrow.Controllers
                             member.MemberSituations.Add(situationToAdd);
                         }
                     }
-                    if (selectedIllnessOptions != null)
+                    /*if (selectedIllnessOptions != null)
                     {
                         foreach (var illness in selectedIllnessOptions)
                         {
                             var illnessToAdd = new MemberIllness { MemberID = member.ID, IllnessID = int.Parse(illness) };
                             member.MemberIllnesses.Add(illnessToAdd);
                         }
-                    }
+                    }*/
 
 
                     return RedirectToAction(nameof(Index));
@@ -472,7 +473,7 @@ namespace PinewoodGrow.Controllers
                     });
                 }
             }
-            var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
+            /*var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
             var checkBoxes = new List<CheckOptionVM>();
             foreach (var option in allOptions)
             {
@@ -484,10 +485,10 @@ namespace PinewoodGrow.Controllers
                 });
             }
 
-            ViewData["DietOptions"] = checkBoxes;
+            ViewData["DietOptions"] = checkBoxes;*/
 
-            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
-            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["selDietOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availDietOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
         private void UpdateMemberDietaries(string[] selectedOptions, Member memberToUpdate)
         {
@@ -575,46 +576,64 @@ namespace PinewoodGrow.Controllers
 
         private void PopulateAssignedIllnessData(Member member)
         {
+            //For this to work, you must have Included the child collection in the parent object
             var allOptions = _context.Illnesses;
-            var currentOptionIDs = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
-            var checkBoxes = new List<CheckOptionVM>();
-            foreach (var option in allOptions)
+            var currentOptionsHS = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var d in allOptions)
             {
-                checkBoxes.Add(new CheckOptionVM
+                if (currentOptionsHS.Contains(d.ID))
                 {
-                    ID = option.ID,
-                    DisplayText = option.Name,
-                    Assigned = currentOptionIDs.Contains(option.ID)
-                });
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
             }
-            ViewData["IllnessOptions"] = checkBoxes;
+
+            ViewData["selIllOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availIllOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
-        private void UpdateMemberIllnesses(string[] selectedIllnessOptions, Member memberToUpdate)
+        private void UpdateMemberIllnesses(string[] selectedOptions, Member memberToUpdate)
         {
-            if (selectedIllnessOptions == null)
+            if (selectedOptions == null)
             {
                 memberToUpdate.MemberIllnesses = new List<MemberIllness>();
                 return;
             }
 
-            var selectedOptionsHS = new HashSet<string>(selectedIllnessOptions);
-            var memberOptionsHS = new HashSet<int>
-                (memberToUpdate.MemberIllnesses.Select(i => i.IllnessID));
-            foreach (var option in _context.Illnesses)
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(memberToUpdate.MemberIllnesses.Select(b => b.IllnessID));
+            foreach (var d in _context.Illnesses)
             {
-                if (selectedOptionsHS.Contains(option.ID.ToString()))
+                if (selectedOptionsHS.Contains(d.ID.ToString()))//it is selected
                 {
-                    if (!memberOptionsHS.Contains(option.ID))
+                    if (!currentOptionsHS.Contains(d.ID))//but not currently in the Member's collection - Add it!
                     {
-                        memberToUpdate.MemberIllnesses.Add(new MemberIllness { MemberID = memberToUpdate.ID, IllnessID = option.ID });
+                        memberToUpdate.MemberIllnesses.Add(new MemberIllness
+                        {
+                            IllnessID = d.ID,
+                            MemberID = memberToUpdate.ID
+                        });
                     }
                 }
-                else
+                else //not selected
                 {
-                    if (memberOptionsHS.Contains(option.ID))
+                    if (currentOptionsHS.Contains(d.ID))//but is currently in the Member's collection - Remove it!
                     {
-                        MemberIllness illnessToRemove = memberToUpdate.MemberIllnesses.SingleOrDefault(i => i.IllnessID == option.ID);
-                        _context.Remove(illnessToRemove);
+                        MemberIllness illToRemove = memberToUpdate.MemberIllnesses.FirstOrDefault(m => m.IllnessID == d.ID);
+                        _context.Remove(illToRemove);
                     }
                 }
             }
@@ -667,6 +686,30 @@ namespace PinewoodGrow.Controllers
         public JsonResult GetDietaries(string skip)
         {
             return Json(DietarySelectList(skip));
+        }
+
+        //For Adding Illness
+        private SelectList IllnessSelectList(string skip)
+        {
+            //default query if no values to avoid
+            var IllnessQuery = _context.Illnesses
+                .OrderBy(d => d.Name);
+            if (!String.IsNullOrEmpty(skip))
+            {
+                //Conver the string to an array of integers
+                //so we can make sure we leave them out of the data we download
+                string[] avoidStrings = skip.Split(',');
+                int[] skipKeys = Array.ConvertAll(avoidStrings, s => int.Parse(s));
+                IllnessQuery = _context.Illnesses
+                    .Where(s => !skipKeys.Contains(s.ID))
+                .OrderBy(d => d.Name);
+            }
+            return new SelectList(IllnessQuery, "ID", "Name");
+        }
+        [HttpGet]
+        public JsonResult GetIllnesses(string skip)
+        {
+            return Json(IllnessSelectList(skip));
         }
 
         private List<CheckOptionVM> DietaryCheckboxList(string skip)
@@ -784,8 +827,8 @@ namespace PinewoodGrow.Controllers
                 }
             }
 
-            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
-            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["selDietOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availDietOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
 
         private void PopulateAssignedTempSituationData(TempMember member)
@@ -811,19 +854,34 @@ namespace PinewoodGrow.Controllers
 
         private void PopulateAssignedTempIllnessData(TempMember member)
         {
+            //For this to work, you must have Included the child collection in the parent object
             var allOptions = _context.Illnesses;
-            var currentOptionIDs = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
-            var checkBoxes = new List<CheckOptionVM>();
-            foreach (var option in allOptions)
+            var currentOptionsHS = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var d in allOptions)
             {
-                checkBoxes.Add(new CheckOptionVM
+                if (currentOptionsHS.Contains(d.ID))
                 {
-                    ID = option.ID,
-                    DisplayText = option.Name,
-                    Assigned = currentOptionIDs.Contains(option.ID)
-                });
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = d.ID,
+                        DisplayText = d.Name
+                    });
+                }
             }
-            ViewData["IllnessOptions"] = checkBoxes;
+
+            ViewData["selIllOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availIllOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
 
 
