@@ -3,25 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-<<<<<<< Updated upstream
 <link rel="stylesheet" href="/css/Index.css?version=2" />
 
 <br />
-<div class="title-index">
-    <h1 style="text-align: center">Order List</h1>
-    <h2>Index</h2>
-</div>
-<div class="actionsContainer-index" style="top: 45px;">
 
-    <div class="btn-index">
-        <a style="width: 120px;" asp-controller="Receipts" asp-action="Create">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-=======
-<link rel="stylesheet" href="/css/Index.css?version=1" />
-<br />
-@*<h1 style="text-align:center;">Order List</h1>*@
 <div class="title-index" style="margin: 10px">
     <h1 style="text-align: center">All Saved</h1>
     <h2>Orders</h2>
@@ -43,14 +28,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
                 <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                 <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
->>>>>>> Stashed changes
             </svg>
             <span>Create</span>
         </a>
     </div>
 
 </div>
-<<<<<<< Updated upstream
+
 <style>
     table {
         margin: 0 auto;
@@ -58,23 +42,14 @@
 </style>
 
 <br />
-@*<br />
-<h1 style="text-align:center;">Order List</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-sm btn-info right float-right">Create New Order</a>
-</p>*@
-
-=======
-
->>>>>>> Stashed changes
 <form asp-action="Index" method="get">
     <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
     <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
     <div class="form-horizontal">
         <br />
         <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                Filter /Search
+            Filter /Search
         </button>
         <div class="collapse @(ViewData["Filtering"])" id="collapseFilter" style="margin: 10px">
             <div class="card card-body bg-light">
@@ -104,100 +79,98 @@
     </div>
     <table class="custom-table">
         <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CompletedOn)
-                    @*<input type="submit" disabled="disabled" value="ID" class="btn btn-link" />*@
-                </th>
-                <th>
-                    <input type="submit" name="actionButton" value="Family Name" class="btn btn-link no-decoration" />
-                    @{
-                        if ((string)ViewData["sortField"] == "Family Name")
-                        {
-                            if ((string)ViewData["sortDirection"] == "asc")
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-                                </svg>
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                                </svg>
-                            }
-
-                        }
-                        else if ((string)ViewData["sortField"] == "")
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompletedOn)
+            </th>
+            <th>
+                <input type="submit" name="actionButton" value="Family Name" class="btn btn-link no-decoration" />
+                @{
+                    if ((string)ViewData["sortField"] == "Family Name")
+                    {
+                        if ((string)ViewData["sortDirection"] == "asc")
                         {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
                             </svg>
                         }
-                    }
-                </th>
-                <th>
-<<<<<<< Updated upstream
-                    <input type="submit" name="actionButton" value="Volunteer" class="btn btn-link no-decoration" />
-                    @{
-                        if ((string)ViewData["sortField"] == "Volunteer")
-=======
-                    <input type="submit" name="actionButton" value="Member" class="btn btn-link no-decoration" />
-                    @{
-                        if ((string)ViewData["sortField"] == "Member")
+                        else
                         {
-                            if ((string)ViewData["sortDirection"] == "asc")
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-                                </svg>
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                                </svg>
-                            }
-
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                            </svg>
                         }
-                        else if ((string)ViewData["sortField"] == "")
+
+                    }
+                    else if ((string)ViewData["sortField"] == "")
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                        </svg>
+                    }
+                }
+            </th>
+            <th>
+
+                <input type="submit" name="actionButton" value="Volunteer" class="btn btn-link no-decoration" />
+            <th>
+                <input type="submit" name="actionButton" value="Member" class="btn btn-link no-decoration" />
+                @{
+                    if ((string)ViewData["sortField"] == "Member")
+                    {
+                        if ((string)ViewData["sortDirection"] == "asc")
                         {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
                             </svg>
                         }
-                    }
-                </th>
-                <th>
-                    <input type="submit" name="actionButton" value="Volunteer" class="btn btn-link no-decoration" />
-                    @{
-                        if ((string)ViewData["sortField"] == "VolunteerID")
->>>>>>> Stashed changes
+                        else
                         {
-                            if ((string)ViewData["sortDirection"] == "asc")
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-                                </svg>
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                                </svg>
-                            }
-
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                            </svg>
                         }
-                        else if ((string)ViewData["sortField"] == "")
+
+                    }
+                    else if ((string)ViewData["sortField"] == "")
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                        </svg>
+                    }
+                }
+
+            </th>
+            <th>
+                <input type="submit" name="actionButton" value="Volunteer" class="btn btn-link no-decoration" />
+                @{
+                    if ((string)ViewData["sortField"] == "VolunteerID")
+
+                    {
+                        if ((string)ViewData["sortDirection"] == "asc")
                         {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
                             </svg>
                         }
+                        else
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                            </svg>
+                        }
+
                     }
-                </th>
-                <th></th>
-            </tr>
+                    else if ((string)ViewData["sortField"] == "")
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                        </svg>
+                    }
+                }
+            </th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
@@ -229,8 +202,6 @@
 
     <partial name="_PagingNavBar" />
 </form>
-
-
 
 
 

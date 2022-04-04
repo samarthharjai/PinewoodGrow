@@ -2,8 +2,6 @@
 
 @{
     ViewData["Title"] = "Index";
-<<<<<<< Updated upstream
-=======
 }
 @if (TempData["AlertMessage"] != null)
 {
@@ -13,7 +11,7 @@
             <span>&times;</span>
         </button>
     </div>
->>>>>>> Stashed changes
+
 }
 
 <link rel="stylesheet" href="/css/Index.css?version=2" />
@@ -42,12 +40,9 @@
 
 <br />
 
-<<<<<<< Updated upstream
-=======
 <p>
     <a asp-action="Create" class="btn btn-sm btn-info right float-right">Create New Volunteer</a>
 </p>
->>>>>>> Stashed changes
 
 <div class="text-danger">@TempData["message"]</div>
 
@@ -81,7 +76,6 @@
             </div>
         </div>
     </div>
-<<<<<<< Updated upstream
     <table class="custom-table">
         <thead>
             <tr>
@@ -123,7 +117,8 @@
                 <th>
                     Active
                     @*<input type="submit" disabled="disabled" value="Active" class="btn btn-link" />*@
-=======
+                </th>
+    </table>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -138,7 +133,6 @@
                 </th>
                 <th>
                     <input type="submit" disabled="disabled" value="Active" class="btn btn-link" />
->>>>>>> Stashed changes
                 </th>
                 <th></th>
             </tr>
@@ -160,9 +154,8 @@
                         @Html.DisplayFor(modelItem => item.Active)
                     </td>
                     <td>
-<<<<<<< Updated upstream
                         <div class="actionsContainer-table">
-                            
+
                             <div class="btn-index small">
                                 <a title="Edit" asp-action="Edit" asp-route-id="@item.ID">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -178,19 +171,6 @@
             }
         </tbody>
     </table>
-
-    <partial name="_PagingNavBar" />
-</form>
-=======
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
     <partial name="_PagingNavBar" />
 </form>
 
@@ -203,4 +183,3 @@
         })
     </script>
 }
->>>>>>> Stashed changes
