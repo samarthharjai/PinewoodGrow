@@ -243,6 +243,7 @@ namespace PinewoodGrow.Controllers
                 if (ModelState.IsValid)
                 {
                     await AddDocumentsAsync(member, theFiles);
+                    TempData["AlertMessage"] = "Member Information Saved Successfully....!";
                     _context.Add(member);
                     await _context.SaveChangesAsync();
 

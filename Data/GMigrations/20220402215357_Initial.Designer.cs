@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220402143515_Initial")]
+    [Migration("20220402215357_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -595,6 +595,9 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("HouseholdID")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("MemberID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("PaymentID")
                         .HasColumnType("INTEGER");
 
@@ -634,6 +637,8 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasKey("ID");
 
                     b.HasIndex("HouseholdID");
+
+                    b.HasIndex("MemberID");
 
                     b.HasIndex("PaymentID");
 
@@ -1256,6 +1261,12 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Household", "Household")
                         .WithMany()
                         .HasForeignKey("HouseholdID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -115,7 +115,7 @@ namespace PinewoodGrow.Controllers
                 {
                     _context.Add(volunteer);
                     await _context.SaveChangesAsync();
-
+                    TempData["AlertMessage"] = "Volunteer Added Successfully....!";
                     //Send Email to new Volunteer - commented out till email configured
                     //await InviteUserToRegister(volunteer, null);
 

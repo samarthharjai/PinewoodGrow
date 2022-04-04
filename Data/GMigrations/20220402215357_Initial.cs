@@ -574,6 +574,7 @@ namespace PinewoodGrow.Data.GMigrations
                     SubTotal = table.Column<double>(nullable: false),
                     ProductUnitPriceID = table.Column<int>(nullable: false),
                     CompletedOn = table.Column<DateTime>(nullable: false),
+                    MemberID = table.Column<int>(nullable: false),
                     HouseholdID = table.Column<int>(nullable: false),
                     VolunteerID = table.Column<int>(nullable: false),
                     PaymentID = table.Column<int>(nullable: false)
@@ -585,6 +586,12 @@ namespace PinewoodGrow.Data.GMigrations
                         name: "FK_Receipts_Households_HouseholdID",
                         column: x => x.HouseholdID,
                         principalTable: "Households",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Receipts_Members_MemberID",
+                        column: x => x.MemberID,
+                        principalTable: "Members",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -935,6 +942,11 @@ namespace PinewoodGrow.Data.GMigrations
                 column: "HouseholdID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Receipts_MemberID",
+                table: "Receipts",
+                column: "MemberID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Receipts_PaymentID",
                 table: "Receipts",
                 column: "PaymentID");
@@ -1067,7 +1079,9 @@ namespace PinewoodGrow.Data.GMigrations
                 table: "Volunteers",
                 column: "Email",
                 unique: true);
+
             ExtraMigration.Steps(migrationBuilder);
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

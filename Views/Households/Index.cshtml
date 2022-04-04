@@ -4,6 +4,16 @@
 <link rel="stylesheet" href="/css/Index.css?version=2" />
 
 <br />
+
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success !</strong> @TempData["AlertMessage"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+}
 <div class="title-index">
     <h1 style="text-align: center">Household</h1>
     <h2>Index</h2>
@@ -12,8 +22,8 @@
     <div class="btn-index purple">
         <a style="width: 120px;" asp-controller="TempHouseholds" asp-action="Index">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
             </svg>
             <span>Drafts</span>
         </a>
@@ -21,21 +31,21 @@
     <div class="btn-index">
         <a style="width: 120px;" asp-controller="TempHouseholds" asp-action="Create">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
             </svg>
             <span>Create</span>
         </a>
     </div>
 
 </div>
-    <style>
-        table {
-            margin: 0 auto;
-        }
-    </style>
+<style>
+    table {
+        margin: 0 auto;
+    }
+</style>
 
-    <br />
+<br />
 <form asp-action="Index" method="get">
     <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
     <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
@@ -44,9 +54,9 @@
         <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" id="filterToggle" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
             Filter/Search
         </button>
-    <div class="collapse @(ViewData["Filtering"])" id="collapseFilter">
-        <div class="card card-body bg-light">
-         
+        <div class="collapse @(ViewData["Filtering"])" id="collapseFilter">
+            <div class="card card-body bg-light">
+
                 <div class="row" style=" padding-left: 6%;">
                     <div class="custom-control custom-switch m-3">
                         <input type="checkbox" checked="checked" class="custom-control-input green" name="FixedAddress" id="chkFixed">
@@ -57,205 +67,214 @@
                         <label class="custom-control-label green" for="chkFixed" style="font-size: 18px;">LICO</label>
                     </div>
                     <div class="custom-control custom-switch m-3">
-                        <input type="checkbox" checked="checked" class="custom-control-input green" name="Active" >
+                        <input type="checkbox" checked="checked" class="custom-control-input green" name="Active">
                         <label class="custom-control-label green" for="chkFixed" style="font-size: 18px; ">Active</label>
                     </div>
                 </div>
-            <div class="row" style="width: 100%; padding-left: 5%;">
-                <div class="filter-container">
-                    <div class="wrap">
-                        <div class="search">
-                            <div class="searchButton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                </svg>
+                <div class="row" style="width: 100%; padding-left: 5%;">
+                    <div class="filter-container">
+                        <div class="wrap">
+                            <div class="search">
+                                <div class="searchButton">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="SearchFamily" class="searchTerm" placeholder="Family Name">
+
                             </div>
-                            <input type="text" name="SearchFamily" class="searchTerm" placeholder="Family Name">
+                            <div class="search">
+                                <div class="searchButton">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="SearchAddress" class="searchTerm" placeholder="Address">
+
+                            </div>
 
                         </div>
-                        <div class="search">
-                            <div class="searchButton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                </svg>
-                            </div>
-                            <input type="text" name="SearchAddress" class="searchTerm" placeholder="Address">
+                    </div>
+                    <div class="filter-container">
+                        <div class="wrap">
+                            <div class="search">
+                                <div class="searchButton">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="SearchID" class="searchTerm" placeholder="Member #">
 
+                            </div>
+                            <div class="search">
+                                <div class="searchButton">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </div>
+                                <input type="text" name="SearchSize" class="searchTerm" placeholder="Family Size">
+                            </div>
                         </div>
-             
                     </div>
                 </div>
-                <div class="filter-container">
-                    <div class="wrap">
-                        <div class="search">
-                            <div class="searchButton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                </svg>
-                            </div>
-                            <input type="text" name="SearchID" class="searchTerm" placeholder="Member #">
+                <div class="form-group col-md-4 align-self-center" style="left: -60px;">
+                    <div class="actionsContainer-index">
 
+                        <div class="btn-index">
+                            <input style="width: 120px;" type="submit" name="actionButton" value="Filter" />
                         </div>
-                        <div class="search">
-                            <div class="searchButton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                </svg>
-                            </div>
-                            <input type="text" name="SearchSize" class="searchTerm" placeholder="Family Size">
+                        <div class="btn-index purple">
+                            <a style="width: 120px;" asp-action="Index">
+
+                                <span>Clear</span>
+                            </a>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col-md-4 align-self-center" style="left: -60px;">
-                <div class="actionsContainer-index">
-                   
-                    <div class="btn-index">
-                        <input style="width: 120px;" type="submit" name="actionButton" value="Filter"/>
-                    </div>
-                    <div class="btn-index purple">
-                        <a style="width: 120px;" asp-action="Index">
 
-                            <span>Clear</span>
-                        </a>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-    </div>
     <table class="custom-table">
         <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th>
-                Family Name
-            </th>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID)
+                </th>
+                <th>
+                    Family Name
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.LICO)
-            </th>
-            <th>
-                Family Size
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HouseIncome)
-            </th>
-            <th>
-                Address
-            </th>
-            <th></th>
-        </tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LICO)
+                </th>
+                <th>
+                    Family Size
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HouseIncome)
+                </th>
+                <th>
+                    Address
+                </th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FamilyName)
-                </td>
-                <td>
-                    @{
-                        if (item.LICO)
-                        {
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-                            </svg>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FamilyName)
+                    </td>
+                    <td>
+                        @{
+                            if (item.LICO)
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
                         }
-                        else
-                        {
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
-                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                            </svg>
-                        }
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FamilySize)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HouseIncome)
-                </td>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FamilySize)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HouseIncome)
+                    </td>
 
 
-                @*<td>
-                                @{
-                                    int memberCount = item.Members.Count;
-                                    if (memberCount > 0)
+                    @*<td>
+                            @{
+                                int memberCount = item.Members.Count;
+                                if (memberCount > 0)
+                                {
+                                    string firstMember = item.Members.FirstOrDefault().FullName;
+                                    if (memberCount > 1)
                                     {
-                                        string firstMember = item.Members.FirstOrDefault().FullName;
-                                        if (memberCount > 1)
+                                        string memberList = "";
+                                        var c = item.Members.ToList();
+                                        for (int i = 1; i < memberCount; i++)
                                         {
-                                            string memberList = "";
-                                            var c = item.Members.ToList();
-                                            for (int i = 1; i < memberCount; i++)
-                                            {
-                                                memberList += c[i].FullName + " <br />";
-                                            }
-                                            <a class="" role="button" data-toggle="collapse" href="#collapseAthlete@(item.ID)"
-                                               aria-expanded="false" aria-controls="collapseAthlete@(item.ID)">
-                                                @firstMember... <span class="badge badge-info">@memberCount</span>
-                                            </a>
-                                            <div class="collapse" id="collapseAthlete@(item.ID)">
-                                                @Html.Raw(memberList)
-                                            </div>
+                                            memberList += c[i].FullName + " <br />";
                                         }
-                                        else
-                                        {
-                                            @firstMember
-                                        }
+                                        <a class="" role="button" data-toggle="collapse" href="#collapseAthlete@(item.ID)"
+                                           aria-expanded="false" aria-controls="collapseAthlete@(item.ID)">
+                                            @firstMember... <span class="badge badge-info">@memberCount</span>
+                                        </a>
+                                        <div class="collapse" id="collapseAthlete@(item.ID)">
+                                            @Html.Raw(memberList)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @firstMember
                                     }
                                 }
-                            </td>*@
+                            }
+                        </td>*@
 
-                <td>
-                    @{
-                        var display = "";
-                        if (item.IsFixedAddress)
-                        {
-                            display = item.Address.FullAddress + ", " + item.Address.City;
+                    <td>
+                        @{
+                            var display = "";
+                            if (item.IsFixedAddress)
+                            {
+                                display = item.Address.FullAddress + ", " + item.Address.City;
+                            }
+                            else
+                            {
+                                display = "No Fixed Address";
+                            }
+
                         }
-                        else
-                        {
-                            display = "No Fixed Address";
-                        }
+                        @display
+                    </td>
+                    <td>
+                        <div class="actionsContainer-table">
+                            <div class="btn-index small purple">
+                                <a title="View" asp-action="Details" asp-route-id="@item.ID">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="btn-index small">
+                                <a title="Edit" asp-action="Edit" asp-route-id="@item.ID">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                    </svg>
+                                </a>
+                            </div>
 
-                    }
-                    @display
-                </td>
-                <td>
-                    <div class="actionsContainer-table">
-                        <div class="btn-index small purple">
-                            <a title="View" asp-action="Details" asp-route-id="@item.ID">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                </svg>
-                            </a>
+
                         </div>
-                        <div class="btn-index small">
-                            <a title="Edit" asp-action="Edit" asp-route-id="@item.ID">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                </svg>
-                            </a>
-                        </div>
-
-
-                    </div>
-                </td>
-            </tr>
-        }
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
-    <partial name="_PagingNavBar"/>
+    <partial name="_PagingNavBar" />
 </form>
 
+@section Scripts {
+    <script type="text/javascript">
+        window.setTimeout(function () {
+            $(".alert").fadeTo(2000, 0).slideUp(2000, function () {
+                $(this).remove();
+            })
+        })
+    </script>
+}
