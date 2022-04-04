@@ -32,7 +32,7 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> Index(string SearchString, int? VolunteerID, int? page, int? pageSizeID, string actionButton,
             string sortDirection = "asc", string sortField = "Name")
         {
-            string[] sortOptions = new[] { "Family Name", "VolunteerID", "Member" };
+            string[] sortOptions = new[] { "Family Name", "VolunteerID", "Member", "Total" };
 
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName");
 
@@ -101,6 +101,21 @@ namespace PinewoodGrow.Controllers
                     receipts = receipts
                         .OrderBy(p => p.Member.LastName)
                         .ThenByDescending(p => p.Member.FirstName);
+                }
+            }
+            else if (sortField == "Total")
+            {
+                if (sortDirection == "asc")
+                {
+                    receipts = receipts
+                        .OrderByDescending(p => p.Total)
+                        .ThenByDescending(p => p.Total);
+                }
+                else
+                {
+                    receipts = receipts
+                        .OrderBy(p => p.Total)
+                        .ThenByDescending(p => p.Total);
                 }
             }
             else

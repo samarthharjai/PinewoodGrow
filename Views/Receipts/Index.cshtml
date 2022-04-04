@@ -79,123 +79,149 @@
     </div>
     <table class="custom-table">
         <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CompletedOn)
-            </th>
-            <th>
-                <input type="submit" name="actionButton" value="Family Name" class="btn btn-link no-decoration" />
-                @{
-                    if ((string)ViewData["sortField"] == "Family Name")
-                    {
-                        if ((string)ViewData["sortDirection"] == "asc")
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompletedOn)
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Family Name" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "Family Name")
+                        {
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
+
+                        }
+                        else if ((string)ViewData["sortField"] == "")
                         {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
                             </svg>
                         }
-                        else
+                    }
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Volunteer" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "VolunteerID")
+
                         {
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                            </svg>
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
+
                         }
-
-                    }
-                    else if ((string)ViewData["sortField"] == "")
-                    {
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-                        </svg>
-                    }
-                }
-            </th>
-            <th>
-
-                <input type="submit" name="actionButton" value="Volunteer" class="btn btn-link no-decoration" />
-            <th>
-                <input type="submit" name="actionButton" value="Member" class="btn btn-link no-decoration" />
-                @{
-                    if ((string)ViewData["sortField"] == "Member")
-                    {
-                        if ((string)ViewData["sortDirection"] == "asc")
+                        else if ((string)ViewData["sortField"] == "")
                         {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
                             </svg>
                         }
-                        else
+                    }
+                <th>
+                    <input type="submit" name="actionButton" value="Member" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "Member")
                         {
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                            </svg>
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
+
                         }
-
-                    }
-                    else if ((string)ViewData["sortField"] == "")
-                    {
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-                        </svg>
-                    }
-                }
-
-            </th>
-            <th>
-                <input type="submit" name="actionButton" value="Volunteer" class="btn btn-link no-decoration" />
-                @{
-                    if ((string)ViewData["sortField"] == "VolunteerID")
-
-                    {
-                        if ((string)ViewData["sortDirection"] == "asc")
+                        else if ((string)ViewData["sortField"] == "")
                         {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
                             </svg>
                         }
-                        else
+                    }
+
+                </th>
+                <th>
+                    <input type="submit" name="actionButton" value="Total" class="btn btn-link no-decoration" />
+                    @{
+                        if ((string)ViewData["sortField"] == "Total")
                         {
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                            if ((string)ViewData["sortDirection"] == "asc")
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            }
+
+                        }
+                        else if ((string)ViewData["sortField"] == "")
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
                             </svg>
                         }
-
                     }
-                    else if ((string)ViewData["sortField"] == "")
-                    {
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-                        </svg>
-                    }
-                }
-            </th>
-            <th></th>
-        </tr>
+                </th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CompletedOn)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Household.FamilyName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Member.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Volunteer.FullName)
-                    </td>
-                    <td>
-                        <div class="btn-index green">
-                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Receipts</a>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompletedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Household.FamilyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Member.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Volunteer.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubTotal)
+                </td>
+                <td>
+                    <div class="btn-index green">
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-primary ml-1">Receipts</a>
 
-                        </div>
-                    </td>
+                    </div>
+                </td>
 
-                </tr>
+            </tr>
             }
         </tbody>
     </table>
