@@ -290,16 +290,16 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET/POST: MedicalTrials/Notification/5
-        public async Task<IActionResult> Notification(int? id, string Subject, string emailContent)
+        public async Task<IActionResult> Notification(/*int? id, */string Subject, string emailContent)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            Product t = await _context.Products.FindAsync(id);
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+            //Product t = await _context.Products.FindAsync(id);
 
-            ViewData["id"] = id;
-            ViewData["ProductName"] = t.Name;
+            //ViewData["id"] = id;
+            //ViewData["ProductName"] = t.Name;
 
             if (string.IsNullOrEmpty(Subject) || string.IsNullOrEmpty(emailContent))
             {
