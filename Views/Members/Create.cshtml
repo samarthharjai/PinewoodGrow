@@ -3,11 +3,18 @@
 @{
 	ViewData["Title"] = "Create";
 }
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@*For Cookies*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <h1 style="text-align:center">Create a New Member</h1>
 <hr />
 
 <partial name="_MemberSituationModal" />
+<partial name="_addDietaryModal" />
+<partial name="_addIllnessModal" />
 <form asp-action="Create" method="post" enctype="multipart/form-data">
 	<div class="form-group">
 		<input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
@@ -15,6 +22,11 @@
 	<input type="hidden" id="Lat" name="Lat" />
 	<input type="hidden" id="Lng" name="Lng" />
     <input type="hidden" id="AddressName" name="AddressName" />
+    
+    @if (SignInManager.IsSignedIn(User))
+	{
+		var userName = User.Identity.Name;
+	}
     
     <input type="hidden" id="TempID" name="TempID" value="@ViewData["TempMemberID"]"/>
 
@@ -53,11 +65,6 @@
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Income" class="control-label"></label>
-                <input asp-for="Income" class="form-control" id="txtIncome" placeholder="e.g. 1000.00" />
-                <span asp-validation-for="Income" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HouseholdID" class="control-label"></label>

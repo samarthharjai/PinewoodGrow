@@ -144,6 +144,7 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public IActionResult Create()
         {
             PopulateDropDownLists();
@@ -187,6 +188,7 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin, SuperAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

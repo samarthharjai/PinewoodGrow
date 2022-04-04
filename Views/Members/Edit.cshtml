@@ -3,6 +3,11 @@
 @{
 	ViewData["Title"] = "Edit";
 }
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@*For Cookies*@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <h1 style="text-align: center;">@Html.DisplayFor(model => model.FullName)</h1>
 
@@ -10,6 +15,7 @@
 <hr />
 <partial name="_MemberSituationModal" />
 <partial name="_addDietaryModal" />
+<partial name="_addIllnessModal" />
 <form asp-action="Edit" enctype="multipart/form-data">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<div class="row">
@@ -46,11 +52,6 @@
 				<label asp-for="Email" class="control-label"></label>
 				<input asp-for="Email" class="form-control" placeholder="johndoe@gmail.com" />
 				<span asp-validation-for="Email" class="text-danger"></span>
-			</div>
-			<div class="form-group">
-				<label asp-for="Income" class="control-label"></label>
-				<input asp-for="Income" class="form-control" placeholder="1000.00" />
-				<span asp-validation-for="Income" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="HouseholdID" class="control-label"></label>

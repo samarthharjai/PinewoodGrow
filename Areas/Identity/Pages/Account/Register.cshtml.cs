@@ -26,17 +26,20 @@ namespace PinewoodGrow.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly GROWContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender, 
             GROWContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _context = context;
         }
@@ -99,6 +102,7 @@ namespace PinewoodGrow.Areas.Identity.Pages.Account
                     var result = await _userManager.CreateAsync(user, Input.Password);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(user, "Volunteer");
                         string msg = "Success: Account for " + Input.Email + " has been created with password.";
                         _logger.LogInformation(msg);
                         ViewData["msg"] = msg;
