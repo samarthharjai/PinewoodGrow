@@ -26,7 +26,6 @@ function refreshDDL(ddl_ID, URL, showNoDataMsg, noDataMsg, addDefault, defaultTe
                     theDDL.append($('<option/>', {
                         value: item.value,
                         text: item.text,
-                        name:'selectedDietaryOptions',
                         selected: item.selected
                     }));
                 });

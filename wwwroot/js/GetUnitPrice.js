@@ -1,5 +1,5 @@
 ﻿
-function refreshDDL(txt_ID, URL) {
+function refreshUnitPrice(txt_ID, URL) {
 
     const theTxt = $("#" + txt_ID);
 

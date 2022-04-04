@@ -137,12 +137,12 @@ namespace PinewoodGrow.Controllers
             /*household.FamilySize = householdToupdate.Members.Count + household.Dependants;*/
 
             householdToupdate.AddressID = householdToupdate.IsFixedAddress ? await GetAddressID(Lat, Lng, AddressName, placeID, postal, city) : (int?)null;
-
+            householdToupdate.IsActive = true;
 
             if (await TryUpdateModelAsync(householdToupdate, ""))
                 //Try updating it with the values posted
                 if (await TryUpdateModelAsync<TempHousehold>(householdToupdate, "",
-                    d => d.ID, d => d.AddressID, d => d.Dependants, d => d.FamilyName, d => d.FamilySize))
+                    d => d.ID, d => d.AddressID, d => d.Dependants, d => d.FamilyName, d => d.FamilySize, d=> d.IsActive))
                     await _context.SaveChangesAsync();
 
             

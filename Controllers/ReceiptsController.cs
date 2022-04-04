@@ -330,13 +330,14 @@ namespace PinewoodGrow.Controllers
         private SelectList ProductCatSelectList(int? ProductTypeID, int? selectedId)
         {
             //The ProvinceID has been added so we can filter by it.
-            var query = from c in _context.ProductTypes.Include(c => c.Products)
+            var query = from c in _context.Products.Include(c => c.ProductType)
                         select c;
             if (ProductTypeID.HasValue)
             {
-                query = query.Where(p => p.ID == ProductTypeID);
+                query = query.Where(p => p.ProductTypeID == ProductTypeID);
             }
-            return new SelectList(query.OrderBy(p => p.Type), "Type", "Type", selectedId);
+            var x = new SelectList(query, "ID", "Name", selectedId);
+            return new SelectList(query, "ID", "Name", selectedId);
         }
 
 
@@ -373,6 +374,25 @@ namespace PinewoodGrow.Controllers
         public JsonResult GetProductType(int? ID)
         {
             return Json(ProductCatSelectList(ID, null));
+        }
+
+
+        private SelectList getMemberSelectList(int? HouseholdID, int? selectedId)
+        {
+            //The ProvinceID has been added so we can filter by it.
+            var query = from c in _context.Members.Include(c => c.Household)
+                select c;
+            if (HouseholdID.HasValue)
+            {
+                query = query.Where(p => p.HouseholdID == HouseholdID);
+            }
+            var x = new SelectList(query, "ID", "FullName", selectedId);
+            return new SelectList(query, "ID", "FullName", selectedId);
+        }
+        [HttpGet]
+        public JsonResult GetMembers(int? ID)
+        {
+            return Json(getMemberSelectList(ID, null));
         }
 
         private bool ReceiptExists(int id)
