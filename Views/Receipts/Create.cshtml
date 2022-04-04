@@ -107,7 +107,7 @@
                     </div>
 					<div class="d-grid gap-2 col-6 mx-auto">
 						<label class="d-print-none">Members: <label class="text-danger d-print-none" style="margin:0px;padding:0;">*</label></label>
-						<select asp-for="MemberID" class="form-control" asp-items="ViewBag.MemberID">
+						<select asp-for="MemberID"  id="MemberID" class="form-control" asp-items="ViewBag.MemberID">
 							<option>Select Member</option>
 						</select>
 					</div>
@@ -277,6 +277,20 @@
             refreshDDL('txtUnitPrice', URL, true);
 
         });
+
+        $('#ProductTypeID').change(function () {
+            var selectedProductType = $("#ProductTypeID").val();
+            var URL2 = "/Receipts/GetProductType/" + selectedProductType;
+            refreshDDL('ProductID', URL2, true);
+            console.log($('#ProductID'));
+        });
+        $('#selecthide').change(function () {
+            var selectedHousehold = $("#selecthide").val();
+            var URL3 = "/Receipts/GetMembers/" + selectedHousehold;
+            refreshDDL('MemberID', URL3, true);
+            console.log($('#MemberID'));
+        });
+
 
         $(document).ready(function () {
             $("input[type=text]").change(function () {
