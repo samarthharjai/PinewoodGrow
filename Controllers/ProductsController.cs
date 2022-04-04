@@ -162,6 +162,7 @@ namespace PinewoodGrow.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.Add(product);
+                    TempData["AlertMessage"] = "Product Saved Successfully....!";
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }

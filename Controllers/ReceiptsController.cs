@@ -10,6 +10,12 @@ using PinewoodGrow.Data;
 using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using System.Text;
+using System.Data;
+using System.Xml;
+using SelectPdf;
+using Rotativa;
 
 namespace PinewoodGrow.Controllers
 {
@@ -27,12 +33,13 @@ namespace PinewoodGrow.Controllers
         public async Task<IActionResult> Index(string SearchString, int? VolunteerID, int? page, int? pageSizeID, string actionButton,
             string sortDirection = "asc", string sortField = "Name")
         {
-            string[] sortOptions = new[] { "Family Name", "VolunteerID" };
+            string[] sortOptions = new[] { "Family Name", "VolunteerID", "Member" };
 
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName");
 
             var receipts = from p in _context.Receipts
                            .Include(r => r.Household)
+                           .Include(r => r.Member)
                            .Include(r => r.Payment)
                            .Include(r => r.Product)
                            .Include(r => r.ProductUnitPrice)
@@ -48,6 +55,11 @@ namespace PinewoodGrow.Controllers
             if (!String.IsNullOrEmpty(SearchString))
             {
                 receipts = receipts.Where(p => p.Household.FamilyName.ToUpper().Contains(SearchString.ToUpper()));
+                ViewData["Filtering"] = " show";
+            }
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                receipts = receipts.Where(p => p.Member.LastName.ToUpper().Contains(SearchString.ToUpper()));
                 ViewData["Filtering"] = " show";
             }
 
@@ -77,6 +89,21 @@ namespace PinewoodGrow.Controllers
                         .OrderBy(p => p.Household.FamilyName);
                 }
             }
+            else if (sortField == "Member")
+            {
+                if (sortDirection == "asc")
+                {
+                    receipts = receipts
+                        .OrderByDescending(p => p.Member.LastName)
+                        .ThenByDescending(p => p.Member.FirstName);
+                }
+                else
+                {
+                    receipts = receipts
+                        .OrderBy(p => p.Member.LastName)
+                        .ThenByDescending(p => p.Member.FirstName);
+                }
+            }
             else
             {
                 if (sortDirection == "asc")
@@ -92,6 +119,7 @@ namespace PinewoodGrow.Controllers
                         .ThenByDescending(p => p.Volunteer.FirstName);
                 }
             }
+
 
             ViewData["sortField"] = sortField;
             ViewData["sortDirection"] = sortDirection;
@@ -119,6 +147,7 @@ namespace PinewoodGrow.Controllers
 
             var Receipt = await _context.Receipts
                 .Include(r => r.Household)
+                .Include(r => r.Member)
                 .Include(r => r.Payment)
                 .Include(r => r.Product)
                 .Include(r => r.ProductUnitPrice)
@@ -145,7 +174,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProductTypeID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
+        public async Task<IActionResult> Create([Bind("ID,ProductTypeID,MemberID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
         {
 
             var Price = UnitPrice(Receipt.ProductID);
@@ -165,12 +194,15 @@ namespace PinewoodGrow.Controllers
             {
                 Receipt.ProductUnitPriceID = Price.ID;
             }
-            
+
 
             if (ModelState.IsValid)
             {
                 _context.Add(Receipt);
                 await _context.SaveChangesAsync();
+                TempData["AlertMessage"] = "Order Saved Successfully....!";
+
+
                 return RedirectToAction(nameof(Index));
             }
             PopulateDropDownLists(Receipt);
@@ -199,7 +231,7 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,ProductTypeID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,ProductTypeID,MemberID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice)
         {
             if (id != Receipt.ID)
             {
@@ -258,6 +290,7 @@ namespace PinewoodGrow.Controllers
 
             var Receipt = await _context.Receipts
                 .Include(r => r.Household)
+                .Include(r => r.Member)
                 .Include(r => r.Payment)
                 .Include(r => r.Product)
                 .Include(r => r.ProductUnitPrice)
@@ -325,8 +358,10 @@ namespace PinewoodGrow.Controllers
             ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName");
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary");
             ViewData["PaymentID"] = new SelectList(_context.Payments, "ID", "Type");
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "FullName");
             ViewData["ProductTypeID"] = ProductTypeSelectList(null);
         }
+
 
         [HttpGet]
         public JsonResult GetUnitPrice(int? ID)
