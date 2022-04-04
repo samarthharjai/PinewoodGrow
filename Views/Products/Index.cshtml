@@ -3,21 +3,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-<<<<<<< Updated upstream
 
 <link rel="stylesheet" href="/css/Index.css?version=2" />
 
-=======
-@if (TempData["AlertMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Success !</strong> @TempData["AlertMessage"]
-        <button type="button" class="close" data-dismiss="alert">
-            <span>&times;</span>
-        </button>
-    </div>
-}
->>>>>>> Stashed changes
 <br />
 <div class="title-index">
     <h1 style="text-align: center">Product</h1>
@@ -201,14 +189,3 @@
 
     <partial name="_PagingNavBar" />
 </form>
-
-
-@section Scripts {
-    <script type="text/javascript">
-        window.setTimeout(function () {
-            $(".alert").fadeTo(2000, 0).slideUp(2000, function () {
-                $(this).remove();
-            })
-        })
-    </script>
-}

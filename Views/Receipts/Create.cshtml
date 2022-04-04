@@ -3,152 +3,68 @@
 @{
     ViewData["Title"] = "Create";
 }
-<<<<<<< Updated upstream
 <link rel="stylesheet" href="/css/Index.css?version=2" />
 
-=======
->>>>>>> Stashed changes
 <style>
-    #hiddenPrint {
-        display: none;
-        -webkit-transform: scale(1.1);
-    }
-    #printhide {
-        
-    }
-    @@media print {
-        #secdiv {
-            margin: 0 auto;
-        }
-        #saletable {
-            margin-top: 100px;
-            -webkit-transform: scale(1.8);
-        }
-        #hiddenPrint {
-            display: block !important;
-        }
-        #hiddentSelect {
-            -webkit-transform: scale(1.1);
-        }
-        #selecthide {
-            border: none;
-            margin: -72px;
-            margin-right: -90px;
-        }
-
+    #firstdiv {
+        border: 1px solid lightgray;
+        padding: 20px;
+        margin: 10px;
     }
 
-
+    #secdiv {
+        padding: 10px;
+    }
 </style>
 
-
-
 <br />
 
-<<<<<<< Updated upstream
 <h1 style="text-align: center;">Create a New Sale</h1>
 <br />
-=======
-<div class="row" id="hiddenPrint">
-    @*<h6 class="mb-3">From:</h6>
-    <div>
-        <strong>GROW <small>Community Food Literacy Centre</small></strong>
-    </div>
-    <div>4377 Fourth Ave.</div>
-    <div>Niagara Falls, Ontario, L2E 4N1</div>
-    <div>info@growcflc.com</div>
-    <div>Phone: 1-905-262-6812</div>*@
-    <h1 style="text-align: center;">Order Reciept</h1>
-
-    <div class="card-body">
-        <div class="col-sm-4">
-            <h6 class="mb-3">From:</h6>
-            <div>
-                <strong>GROW <small>Community Food Literacy Centre</small></strong>
-            </div>
-            <div>4377 Fourth Ave.</div>
-            <div>Niagara Falls, Ontario, L2E 4N1</div>
-            <div>info@growcflc.com</div>
-            <div>Phone: 1-905-262-6812</div>
-            <strong>@Html.DisplayNameFor(model => model.Volunteer) :</strong>
-            @Html.DisplayFor(model => model.Volunteer.FullName)
-        </div>
-        <div class="col-sm-4">
-            <h6 class="mb-3">TO:</h6>
-            <div style="margin-bottom: 10px;">
-                <strong>@Html.DisplayNameFor(model => model.CompletedOn) :</strong>
-                @Html.DisplayFor(model => model.CompletedOn)
-            </div>
-            <strong>@Html.DisplayNameFor(model => model.Household) :</strong>
-            @Html.DisplayFor(model => model.Household.FamilyName)
-            <div style="margin-top: 10px;">
-                <strong>@Html.DisplayNameFor(model => model.Payment) :</strong>
-                @Html.DisplayFor(model => model.Payment.Type)
-            </div>
-
-
-        </div>
-    </div>
-
-
-
-</div>
-
-<h1 style="text-align: center;" class="d-print-none">Point Of Sale</h1>
->>>>>>> Stashed changes
 
 <hr />
 <form asp-action="Create">
     <div class="container">
         <div class="row">
 
-            <div id="hiddentSelect">
-                <div class="row " style="margin-bottom: 50px;">
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <label class="d-print-none">Household: </label>
-                        <select asp-for="HouseholdID" class="form-control" id="selecthide" asp-items="ViewBag.HouseSummary">
-                            <option>Select Household</option>
-                        </select>
-                    </div>
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <label class="d-print-none">Members: </label>
-                        <select asp-for="MemberID" class="form-control" asp-items="ViewBag.MemberID">
-                            <option>Select Member</option>
-                        </select>
-                    </div>
+            <div>
+                <div class="form-group">
+                    <label>Household: </label>
+                    <select asp-for="HouseholdID" class="form-control" asp-items="ViewBag.HouseSummary">
+                        <option>Select Household</option>
+                    </select>
                 </div>
                 <div class="row" style="margin-bottom: 50px;">
                     <div class="d-grid gap-2 col-6 mx-auto">
-                        <label class="d-print-none">Volunteer: </label>
+                        <label>Volunteer: </label>
                         <select asp-for="VolunteerID" class="form-control" asp-items="ViewBag.VolunteerID">
-                            <option>Select Volunteer</option>
-                        </select>
+                        <option>Select Volunteer</option>
+                    </select>
                     </div>
 
                     <div class="d-grid gap-2 col-6 mx-auto">
-                        <label class="">Completed On: </label>
+                        <label>Completed On: </label>
                         <input asp-for="CompletedOn" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                     </div>
                 </div>
             </div>
-            <div id="firstdiv" class="col d-print-none" style="border: 0.5px solid; padding: 15px; margin-bottom: 10px;">
+                <div id="firstdiv" class="col">
 
-                <figure class="text-center">
-                    <h3>New Sale</h3>
-                </figure>
+                    <figure class="text-center">
+                        <h3>New Sale</h3>
+                    </figure>
 
-                <div class="mb-3 d-print-none">
-                    <label for="validationTooltip02" class="form-label">Product Categories: </label>
-                    <select asp-for="ProductTypeID" id="ProductTypeID" name="ProductTypeID" class="form-control" asp-items="ViewBag.ProductTypeID">
-                        <option selected disabled value="">Select Product Categories</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid state.
+                    <div class="mb-3">
+                        <label for="validationTooltip02" class="form-label">ProductType: </label>
+                        <select asp-for="ProductTypeID" id="ProductTypeID" name="ProductTypeID" class="form-control" asp-items="ViewBag.ProductTypeID">
+                            <option selected disabled value="">Product Categories</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid state.
+                        </div>
                     </div>
-                </div>
 
 
-<<<<<<< Updated upstream
                     <!-- Need to select something -->
                     <div class="mb-3">
                         <label for="validationTooltip02" class="form-label">Product: </label>
@@ -178,56 +94,34 @@
                                 <input type="button" class="btn btn-outline-secondary" id="btnMinQan" value="- Quantity" />
                             </div>*@
                         </div>
-=======
-                <!-- Need to select something -->
-                <div class="mb-3 d-print-none">
-                    <label for="validationTooltip02" class="form-label">Product: </label>
-                    <select asp-for="ProductID" id="ProductID" class="form-control" asp-items="ViewBag.ProductID">
-                        <option selected disabled value="">Select Product</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid state.
->>>>>>> Stashed changes
                     </div>
-                </div>
 
-                <!-- number validation it should be over 1 -->
-                <div class="mb-3 d-print-none">
-                    <label for="validationTooltip02" class="form-label">Quantity: </label>
-                    <div class="form-group">
-                        <input asp-for="Quantity" type="text" id="Quantity" placeholder="0" class="form-control" />
-                        @*<input value="0" class="form-control" type="number" id="txtQan" required>*@
+                    <!-- can not be blank -->
+                    <label for="validationCustom01">Unit Price: </label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input id="txtUnitPrice" name="unitPrice" class="form-control" type="text" value="@ViewBag.UnitPrice" />
+                        @*<input type="number" class="form-control" id="txtPrice" placeholder="0.00" disabled required>*@
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-                </div>
+                    <label for="validationCustom01">Total: </label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input asp-for="SubTotal" name="SubTotal" type="text" id="SubTotal" class="form-control" />
+                        @*<input type="number" class="form-control" id="txtPrice" placeholder="0.00" disabled required>*@
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
+                    <div class="form-group">
+                        <figure class="text-center">
+                            <input type="button" onclick="addSale()" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" id="btnAdd" value="Add" />
+                            <input type="reset" class="btn btn-outline-danger btn-lg btn-block" style="width: 30%; margin-bottom: 9px" id="btnClear" />
+                        </figure>
+                    </div>
+                    
 
-                <!-- can not be blank -->
-                <label for="validationCustom01 d-print-none">Unit Price: </label>
-                <div class="input-group mb-3 d-print-none">
-                    <span class="input-group-text">$</span>
-                    <input id="txtUnitPrice" name="unitPrice" class="form-control" type="text" value="@ViewBag.UnitPrice" />
-                    @*<input type="number" class="form-control" id="txtPrice" placeholder="0.00" disabled required>*@
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
-                <label for="validationCustom01 d-print-none">Total: </label>
-                <div class="input-group mb-3 d-print-none">
-                    <span class="input-group-text">$</span>
-                    <input asp-for="SubTotal" name="SubTotal" type="text" id="SubTotal" value="0" class="form-control" />
-                    @*<input type="number" class="form-control" id="txtPrice" placeholder="0.00" disabled required>*@
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                </div>
-                <div class="form-group d-print-none">
-                    <figure class="text-center">
-                        <input type="button" onclick="addSale()" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" id="btnAdd" value="Add" />
-                        <input type="reset" class="btn btn-outline-danger btn-lg btn-block" style="width: 30%; margin-bottom: 9px" id="btnClear" />
-                    </figure>
-                </div>
-
-
-            </div>
 
             <div id="secdiv" class="col-8">
 
@@ -239,7 +133,7 @@
                             <th scope="col">Quantity</th>
                             <th scope="col">Unit Price</th>
                             <th scope="col">Total</th>
-                            <th scope="col" class="d-print-none">Delete</th>
+                            <th scope="col">Delete</th>
                         </tr>
                     </thead>
 
@@ -253,13 +147,16 @@
                             <td id="txtTotalQan">0</td>
                             <td></td>
                             <td id="txtTotal">$0</td>
-                            <td class="d-print-none"></td>
+                            <td></td>
                         </tr>
                     </tfoot>
 
                 </table>
                 <div class="row">
-                    <div class="d-grid gap-2 col-4 mx-auto">
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <input type="submit" id="Save" value="Save Order" class="btn Save btn-outline-success btn-lg" />
+                    </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
                         <select asp-for="PaymentID" id="PaymentID" style="-webkit-appearance: none;" class="btn btn-outline-success btn-lg" asp-items="ViewBag.PaymentID">
                             <option>Select Payment Type</option>
                         </select>
@@ -267,13 +164,6 @@
                             Please select a valid state.
                         </div>
                     </div>
-                    <div class="d-grid gap-2 col-4 mx-auto">
-                        <input type="submit" id="Save" value="Save Order" class="btn Save btn-outline-success btn-lg d-print-none" />
-                    </div>
-                    <div class="d-grid gap-2 col-4 mx-auto">
-                        <input type="button" id="btnPdf" value="Print Reciept" class="btn Save btn-outline-success btn-lg d-print-none" />
-                    </div>
-
                 </div>
             </div>
 
@@ -282,7 +172,7 @@
 </form>
 
 <div class="form-group" style="padding-right: 20px; margin-bottom: 60px">
-    <a asp-action="Index" class="btn btn-primary d-print-none">Back to Orders List</a>
+    <a asp-action="Index" class="btn btn-primary">Back to Orders List</a>
 </div>
 
 @section Scripts {
@@ -295,7 +185,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="~/js/refreshDDL.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="~/js/GetUnitPrice.js"></script>
@@ -305,6 +194,11 @@
             var URL = "/Receipts/GetUnitPrice/" + selectedProduct;
             refreshDDL('txtUnitPrice', URL, true);
 
+        });
+        $('#ProductTypeID').change(function () {
+            var selectedProvince = $("#ProductTypeID").val();
+            var URL = "/Receipts/GetProductType/" + selectedProvince;
+            refreshDDL('ProductID', URL, true);
         });
 
         $(document).ready(function () {
@@ -317,9 +211,6 @@
             });
 
         });
-
-
-
 
         function CalculateSubTotal() {
             var UnitPrice = $("#txtUnitPrice").val();
@@ -364,8 +255,7 @@
             document.getElementById("ProductTypeID").value = "";
             document.getElementById("ProductID").value = "";
             document.getElementById("Quantity").value = 0;
-            document.getElementById("txtUnitPrice").value = 0;
-            document.getElementById("SubTotal").value = 0;
+            document.getElementById("txtUnitPrice").value = "";
             /*$("#SubTotal").val() = "";*/
         }
 
@@ -388,7 +278,7 @@
             cell5 = newRow.insertCell(4);
             cell5.innerHTML = data.Subtotal;
             cell6 = newRow.insertCell(5);
-            cell6.innerHTML = `<a class="btn btn-outline-danger d-print-none" onClick="deleteSale(this)">Delete</a>`;
+            cell6.innerHTML = `<a class="btn btn-outline-danger" onClick="deleteSale(this)">Delete</a>`;
         }
 
         function saleTotal() {
@@ -422,13 +312,20 @@
             }
         }
 
+        document.getElementById("btnAddQan").addEventListener("click", function () {
+            let qan = document.getElementById("Quantity").value;
+            document.getElementById("Quantity").value = Number(qan) + 1;
+        });
 
-        $('#btnPdf').click(function () {
-            window.print();
+        document.getElementById("btnMinQan").addEventListener("click", function () {
+            let qan = document.getElementById("Quantity").value;
+            if (qan == 0)
+                document.getElementById("Quantity").value = 0
+            else document.getElementById("Quantity").value = qan - 1;
         });
 
 
-
+        
 
     </script>
 

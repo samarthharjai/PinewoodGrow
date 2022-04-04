@@ -2,18 +2,6 @@
 
 @{
     ViewData["Title"] = "Index";
-<<<<<<< Updated upstream
-=======
-}
-@if (TempData["AlertMessage"] != null)
-{
-    <div class="alert alert-success">
-        <strong>Success !</strong> @TempData["AlertMessage"]
-        <button type="button" class="close" data-dismiss="alert">
-            <span>&times;</span>
-        </button>
-    </div>
->>>>>>> Stashed changes
 }
 
 <link rel="stylesheet" href="/css/Index.css?version=2" />
@@ -42,12 +30,6 @@
 
 <br />
 
-<<<<<<< Updated upstream
-=======
-<p>
-    <a asp-action="Create" class="btn btn-sm btn-info right float-right">Create New Volunteer</a>
-</p>
->>>>>>> Stashed changes
 
 <div class="text-danger">@TempData["message"]</div>
 
@@ -81,7 +63,6 @@
             </div>
         </div>
     </div>
-<<<<<<< Updated upstream
     <table class="custom-table">
         <thead>
             <tr>
@@ -123,22 +104,6 @@
                 <th>
                     Active
                     @*<input type="submit" disabled="disabled" value="Active" class="btn btn-link" />*@
-=======
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    <input type="submit" name="actionButton" value="Name" class="btn btn-link" />
-                </th>
-                <th>
-                    <input type="submit" disabled="disabled" value="Email" class="btn btn-link" />
-                </th>
-                <th>
-                    <input type="submit" disabled="disabled" value="Phone Number" class="btn btn-link" />
-                </th>
-                <th>
-                    <input type="submit" disabled="disabled" value="Active" class="btn btn-link" />
->>>>>>> Stashed changes
                 </th>
                 <th></th>
             </tr>
@@ -160,7 +125,6 @@
                         @Html.DisplayFor(modelItem => item.Active)
                     </td>
                     <td>
-<<<<<<< Updated upstream
                         <div class="actionsContainer-table">
                             
                             <div class="btn-index small">
@@ -181,26 +145,3 @@
 
     <partial name="_PagingNavBar" />
 </form>
-=======
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <partial name="_PagingNavBar" />
-</form>
-
-@section Scripts {
-    <script type="text/javascript">
-        window.setTimeout(function () {
-            $(".alert").fadeTo(2000, 0).slideUp(2000, function () {
-                $(this).remove();
-            })
-        })
-    </script>
-}
->>>>>>> Stashed changes
