@@ -3,7 +3,19 @@
 @{
     ViewData["Title"] = "Index";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+}
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success !</strong> @TempData["AlertMessage"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+>>>>>>> Stashed changes
 }
 @if (TempData["AlertMessage"] != null)
 {
@@ -81,6 +93,7 @@
             </div>
         </div>
     </div>
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     <table class="custom-table">
         <thead>
@@ -194,6 +207,55 @@
     <partial name="_PagingNavBar" />
 </form>
 
+=======
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <input type="submit" name="actionButton" value="Name" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" value="Email" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" value="Phone Number" class="btn btn-link" />
+                </th>
+                <th>
+                    <input type="submit" disabled="disabled" value="Active" class="btn btn-link" />
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-info">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <partial name="_PagingNavBar" />
+</form>
+
+>>>>>>> Stashed changes
 @section Scripts {
     <script type="text/javascript">
         window.setTimeout(function () {
@@ -202,5 +264,9 @@
             })
         })
     </script>
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes
