@@ -344,7 +344,6 @@ namespace PinewoodGrow.Controllers
                 //.Include(m => m.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
-                .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
                 .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
@@ -398,7 +397,15 @@ namespace PinewoodGrow.Controllers
             PopulateAssignedDietaryData(memberToUpdate);
             PopulateAssignedIllnessData(memberToUpdate);
             PopulateDropDownLists(memberToUpdate);
-            return View(memberToUpdate);
+
+            var memberToDisplay = await _context.Members
+                //.Include(m => m.Address)
+                .Include(m => m.MemberDocuments)
+                .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
+                .Include(m => m.MemberIllnesses).ThenInclude(m => m.Illness)
+                .Include(a=> a.MemberSituations).ThenInclude(a=> a.Situation)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            return View(memberToDisplay);
         }
 
         // GET: Members/Delete/5

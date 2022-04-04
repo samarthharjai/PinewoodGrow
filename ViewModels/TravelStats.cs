@@ -167,10 +167,10 @@ namespace PinewoodGrow.ViewModels
 
             if (count > 3 && count <= 7)
             {
-                double multi = (AvalColors.Length - 4) / (count - 2);
+                double multi = (AvalColors.Length - 3) / (count - 2);
                 multi = Math.Floor(multi);
 
-                for (var i = multi; i < AvalColors.Length - 4; i+=multi)
+                for (var i = multi; i < AvalColors.Length - 3; i+=multi)
                 {
                     colors.Add(AvalColors[(int)i]);
                 }

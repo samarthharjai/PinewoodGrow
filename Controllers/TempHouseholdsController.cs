@@ -105,7 +105,7 @@ namespace PinewoodGrow.Controllers
                         }
                     }
                 }
-
+            TempData["AlertMessage"] = "Household Information Saved Successfully....!";
             return RedirectToAction("Details", new { householdToupdate.ID });
         }
 
@@ -164,6 +164,7 @@ namespace PinewoodGrow.Controllers
 
             tmpMembers.ForEach(a=> ValidateMembers(householdID, a));
 
+            TempData["AlertMessage"] = "Household Information Saved Successfully....!";
             return RedirectToAction("Details", "Households", new { id = householdID });
 
 
