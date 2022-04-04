@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220404010717_Initial")]
+    [Migration("20220404060658_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1357,7 +1357,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Temp.TempHousehold", "TempHousehold")
                         .WithMany("Members")
                         .HasForeignKey("TempHouseholdID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
                         .WithMany()

@@ -408,7 +408,7 @@ namespace PinewoodGrow.Data.GMigrations
                         column: x => x.TempHouseholdID,
                         principalTable: "TempHouseholds",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TempMembers_Volunteers_VolunteerID",
                         column: x => x.VolunteerID,
@@ -1079,9 +1079,7 @@ namespace PinewoodGrow.Data.GMigrations
                 table: "Volunteers",
                 column: "Email",
                 unique: true);
-
             ExtraMigration.Steps(migrationBuilder);
-
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

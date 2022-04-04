@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PinewoodGrow.Data;
+using PinewoodGrow.Data.Repositorys;
 using PinewoodGrow.Models;
 using PinewoodGrow.Models.Temp;
 using PinewoodGrow.Utilities;
@@ -16,7 +17,7 @@ namespace PinewoodGrow.Controllers
     public class TempHouseholdsController : Controller
     {
         private readonly GROWContext _context;
-
+        private readonly TravelDataRepository travelDataRepository = new TravelDataRepository();
         #region Partial Views
 
         public PartialViewResult TempMemberList(int id)
@@ -156,7 +157,7 @@ namespace PinewoodGrow.Controllers
             int? AddressID = null;
             if (isFixedAddress.ToLower() == "true")
             {
-                AddressID = ValidateAddress(tmpHousehold.AddressID);
+                AddressID =  await ValidateAddress(tmpHousehold.AddressID);
             }
 
             var householdID = ValidateHouseHold(tmpHousehold, AddressID, tmpMembers.Count);
@@ -169,7 +170,7 @@ namespace PinewoodGrow.Controllers
         }
 
 
-        private int ValidateAddress(int? id)
+        private async Task<int> ValidateAddress(int? id)
         {
             if (id == null) return -1;
             var tmpAddress = _context.TempAddresses.FirstOrDefault(a => a.ID == id);
@@ -183,12 +184,29 @@ namespace PinewoodGrow.Controllers
                 PlaceID = tmpAddress.PlaceID,
                 PostalCode = tmpAddress.PostalCode,
             };
-            _context.Addresses.Add(addressToAdd);
-             _context.SaveChanges();
 
+            var alreadyExist = _context.Addresses.FirstOrDefault(a => a.PlaceID == tmpAddress.PlaceID);
+
+
+            if (alreadyExist != null) return alreadyExist.ID;
+
+        _context.Addresses.Add(addressToAdd);
+             await _context.SaveChangesAsync();
+
+             var (travel, store) = await TravelDataRepository.GetTravelTimes(addressToAdd);
+
+            if (_context.GroceryStores.All(a => a.ID != store.ID))
+            {
+                _context.Add(store);
+                await _context.SaveChangesAsync();
+            }
+            _context.Add(travel);
+            await _context.SaveChangesAsync();
+      
             return addressToAdd.ID;
 
         }
+
         private int ValidateHouseHold(TempHousehold tmpHouse, int? addressID, int familySize)
         {
             var House = new Household
@@ -214,11 +232,10 @@ namespace PinewoodGrow.Controllers
                 Telephone = tmpMember.Telephone,
                 Consent = tmpMember.Consent,
                 DOB = tmpMember.DOB,
-                CompletedOn = tmpMember.CompletedOn,
                 GenderID = tmpMember.GenderID.GetValueOrDefault(),
                 HouseholdID = HouseID,
                 Notes = tmpMember.Notes,
-                VolunteerID = tmpMember.VolunteerID.GetValueOrDefault(),
+                VolunteerID = 1,
             };
             _context.Members.Add(member);
             _context.SaveChanges();
@@ -284,9 +301,18 @@ namespace PinewoodGrow.Controllers
         // GET: TempHouseholds
         public async Task<IActionResult> Index(int? page, int? pageSizeID)
         {
+            var toRemove =
+                _context.TempHouseholds.Include(a => a.Members)
+                    .Where(a=> a.Members.Count == 0 && string.IsNullOrEmpty(a.FamilyName)).ToList();
+                   
+
+            _context.TempHouseholds.RemoveRange(toRemove);
+            _context.SaveChanges();
+
+
             var households = from t in _context.TempHouseholds
                 .Include(t => t.Address)
-                .Include(a=> a.Members)
+                .Include(a=> a.Members).ThenInclude(m=> m.MemberSituations)
                     select  t;
 
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
@@ -357,11 +383,43 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
-            var tempHousehold = await _context.TempHouseholds.FindAsync(id);
-            if (tempHousehold == null)
+            var tempHousehold =  await _context.TempHouseholds.Include(a=> a.Address).FirstOrDefaultAsync(a=> a.ID == id);
+            var members = _context.TempMembers
+                .Include(a => a.MemberSituations)
+                .Include(a => a.MemberDietaries)
+                .Include(a => a.MemberDocuments)
+                .Include(a=> a.Gender)
+                .Include(a => a.MemberIllnesses).Where(a => a.TempHouseholdID == id).ToList();
+
+
+            TempAddress AddressInfo = null;
+
+
+            if (tempHousehold.IsFixedAddress)
             {
-                return NotFound();
+                if (!string.IsNullOrEmpty(tempHousehold.Address.PlaceID))
+                {
+                    AddressInfo = tempHousehold.Address;
+                }
             }
+            else
+            {
+                AddressInfo = new TempAddress
+                {
+                    Latitude = 0,
+                    Longitude = 0,
+                    FullAddress = "No Fixed Address",
+                    PostalCode = "No Fixed Address",
+                    PlaceID = "",
+                };
+            }
+
+
+
+            ViewData["AddressInfo"] = AddressInfo;
+
+
+            ViewData["TempMembers"] = members;
             ViewData["AddressID"] = new SelectList(_context.TempAddresses, "ID", "ID", tempHousehold.AddressID);
             return View(tempHousehold);
         }

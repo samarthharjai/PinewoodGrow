@@ -50,9 +50,10 @@ namespace PinewoodGrow.Data.Repositorys
 
 
         public TravelDataRepository()
+        
         {
-            client.BaseAddress =
-                new Uri("https://maps.googleapis.com/maps/api/place/nearbysearch");
+            if(client.BaseAddress != new Uri("https://maps.googleapis.com/maps/api/place/nearbysearch"))
+                client.BaseAddress = new Uri("https://maps.googleapis.com/maps/api/place/nearbysearch");
         }
 
         /// <summary>

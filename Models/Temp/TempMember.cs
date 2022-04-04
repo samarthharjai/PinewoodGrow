@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using PinewoodGrow.Models.Audit;
 
@@ -9,17 +10,25 @@ namespace PinewoodGrow.Models.Temp
 {
     public class TempMember : Auditable
     {
-		public TempMember()
-		{
-			MemberSituations = new HashSet<TempMemberSituation>();
-			MemberDietaries = new HashSet<TempMemberDietary>();
-			MemberIllnesses = new HashSet<TempMemberIllness>();
-			MemberDocuments = new HashSet<TempMemberDocument>();
-			MemberHouseholds = new HashSet<TempMemberHousehold>();
-		}
+        public TempMember()
+        {
+            MemberSituations = new HashSet<TempMemberSituation>();
+            MemberDietaries = new HashSet<TempMemberDietary>();
+            MemberIllnesses = new HashSet<TempMemberIllness>();
+            MemberDocuments = new HashSet<TempMemberDocument>();
+            MemberHouseholds = new HashSet<TempMemberHousehold>();
+        }
+
+        public bool isValid => CheckValid();
 
 
-		public string FullName => FirstName + " " + LastName;
+
+
+
+
+
+
+        public string FullName => FirstName + " " + LastName;
 
         [Display(Name = "Age (DOB)")]
         public string AgeSummary
@@ -100,6 +109,37 @@ namespace PinewoodGrow.Models.Temp
         public ICollection<TempMemberDocument> MemberDocuments { get; set; }
 
 		public ICollection<TempMemberHousehold> MemberHouseholds { get; set; }
+
+
+        private bool CheckValid()
+        {
+            if (!ValidateName(FirstName)) return false;
+            if (!ValidateName(LastName)) return false;
+            if (string.IsNullOrEmpty(Telephone)) return false;
+            if (Telephone.Length > 11) return false;
+            if (string.IsNullOrEmpty(Email)) return false;
+            if(!string.IsNullOrEmpty(Notes)) if (Notes.Length > 2000) return false;
+            if (GenderID == null || GenderID == 0) return false;
+            if (DOB.GetValueOrDefault() > DateTime.Today) return false;
+            var age = (DateTime.Today.Year - DOB.GetValueOrDefault().Year) -
+                      ((-DOB.GetValueOrDefault().Month + DOB.GetValueOrDefault().Day) >=
+                       (-DateTime.Today.Month + DateTime.Today.Day) ? 1 : 0);
+
+            if (age > 100 || age < 18) return false; 
+              
+
+
+            return Consent;
+
+
+        }
+
+        private bool ValidateName(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return false;
+            if (name.Length > 50) return false;
+            return true;
+        }
 	}
 }
 

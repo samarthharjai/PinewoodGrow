@@ -132,6 +132,9 @@ namespace PinewoodGrow.Controllers
 
 
             ViewData["TravelStats"] = (household.IsFixedAddress && household.Address.TravelDetail != null) ? new TravelStats(household.Address.TravelDetail): new TravelStats();
+            ViewData["StoreName"] = (household.IsFixedAddress && household.Address.TravelDetail != null)
+                ? household.Address.TravelDetail.GroceryStore.Name
+                : "No Data";
             ViewData["IncomeStats"] = stats;
             ViewData["IncomeByType"] = IncomesByType;
             ViewData["Colors1"] = new PieChartData(stats).Colors;

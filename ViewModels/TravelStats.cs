@@ -29,9 +29,11 @@ namespace PinewoodGrow.ViewModels
         public Avg Grow { get; set; }
 
         public Avg Store { get; set; }
+   
 
         public TravelStats(List<TravelDetail> details)
         {
+
             var len = details.Count;
            var TempGrow = new Avg();
             var TempStore = new Avg();
@@ -65,7 +67,7 @@ namespace PinewoodGrow.ViewModels
         }
         public TravelStats(TravelDetail detail)
         {
- 
+            
     
             Grow = new Avg()
             {
@@ -82,6 +84,7 @@ namespace PinewoodGrow.ViewModels
                 Drive = detail.GroceryDrive,
                 Distance = detail.GroceryDistance,
             };
+
         }
         public TravelStats()
         {
@@ -110,6 +113,7 @@ namespace PinewoodGrow.ViewModels
         public string DriveFormat => GetMin(Drive);
         public string BikeFormat => GetMin(Bike);
         public string WalkFormat => GetMin(Walk);
+
 
         public string DistanceFormat => $"{Math.Round(Distance,0)}M";
         public double Drive { get; set; }

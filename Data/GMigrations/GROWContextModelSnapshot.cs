@@ -1355,7 +1355,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Temp.TempHousehold", "TempHousehold")
                         .WithMany("Members")
                         .HasForeignKey("TempHouseholdID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
                         .WithMany()
