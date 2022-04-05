@@ -274,7 +274,7 @@
         $('#ProductID').change(function () {
             var selectedProduct = $("#ProductID").val();
             var URL = "/Receipts/GetUnitPrice/" + selectedProduct;
-            refreshDDL('txtUnitPrice', URL, true);
+            refreshUnitPrice('txtUnitPrice', URL, true);
 
         });
 
@@ -328,7 +328,7 @@
 
             if (quan != 0 && price != "") {
                 if (selectedRow == null)
-                    insertNewRecord(formData)
+                    insertNewRecord(formData);
                 saleTotal()
             }
 
@@ -339,12 +339,14 @@
             var saleData = {};
             /*saleData["productCat"] = $("#ProductTypeID").val();*/
             saleData["Product"] = $("#ProductID").val();
+       
             saleData["quantity"] = $("#Quantity").val();
             saleData["UnitPrice"] = $("#txtUnitPrice").val();
             saleData["Subtotal"] = (Number($("#txtUnitPrice").val()) * Number($("#Quantity").val())).toFixed(2);
+            saleData["ProductName"] = $("#ProductID option:selected").text();
             return saleData;
         }
-
+     
         function resetSale() {
             document.getElementById("ProductTypeID").value = "";
             document.getElementById("ProductID").value = "";
@@ -365,7 +367,7 @@
             var newRow = table.insertRow(table.length);
             cell1 = newRow.insertCell(0);
             cell2 = newRow.insertCell(1);
-            cell2.innerHTML = data.Product;
+            cell2.innerHTML = data.ProductName;
             cell3 = newRow.insertCell(2);
             cell3.innerHTML = data.quantity;
             cell4 = newRow.insertCell(3);
