@@ -72,12 +72,12 @@ namespace PinewoodGrow.Controllers
                 if (sortDirection == "asc")
                 {
                     products = products
-                        .OrderByDescending(p => p.Name);
+                        .OrderBy(p => p.Name);
                 }
                 else
                 {
                     products = products
-                        .OrderBy(p => p.Name);
+                        .OrderByDescending(p => p.Name);
                 }
             }
             else if (sortField == "Unit Price")

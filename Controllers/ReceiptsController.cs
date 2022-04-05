@@ -109,13 +109,13 @@ namespace PinewoodGrow.Controllers
                 {
                     receipts = receipts
                         .OrderByDescending(p => p.Total)
-                        .ThenByDescending(p => p.Total);
+                        .ThenByDescending(p => p.Household.FamilyName);
                 }
                 else
                 {
                     receipts = receipts
                         .OrderBy(p => p.Total)
-                        .ThenByDescending(p => p.Total);
+                        .ThenByDescending(p => p.Household.FamilyName);
                 }
             }
             else
