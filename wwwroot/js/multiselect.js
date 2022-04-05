@@ -11,7 +11,7 @@ function switchOptions(event, senderDDL, receiverDDL) {
     event.preventDefault();
 
     if (selectedOptions.length === 0) {
-        alert("Nothing to move.");
+        //alert("Nothing to move.");
     }
     else {
         selectedOptions.forEach(function (o, idx) {
