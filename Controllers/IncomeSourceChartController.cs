@@ -49,18 +49,19 @@ namespace PinewoodGrow.Controllers
 
 
 
-			//sort income source total by datapoint
-			double mInc11 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 1)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 1)).Select(a => a.Income).ToList().Sum();
-			double mInc22 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 2)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 2)).Select(a => a.Income).ToList().Sum();
-			double mInc33 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 3)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 3)).Select(a => a.Income).ToList().Sum();
-			double mInc44 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 4)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 4)).Select(a => a.Income).ToList().Sum();
-			double mInc55 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 5)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 5)).Select(a => a.Income).ToList().Sum();
-			double mInc66 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 6)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 6)).Select(a => a.Income).ToList().Sum();
-			double mInc77 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 7)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 7)).Select(a => a.Income).ToList().Sum();
-			double mInc88 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 8)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 8)).Select(a => a.Income).ToList().Sum();
+            //sort income source total by datapoint
+            double mInc11 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 1)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
+            //double mInc11 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 1)).Select(a => a.Income).ToList().Sum() - member.Where(m => m.MemberSituations.Any(s => s.SituationID == 1)).Select(a => a.Income).ToList().Sum();
+			double mInc22 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 2)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
+            double mInc33 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 3)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
+            double mInc44 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 4)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
+            double mInc55 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 5)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
+            double mInc66 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 6)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
+            double mInc77 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 7)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
+            double mInc88 = member.Where(m => m.MemberSituations.Any(s => s.SituationID == 8)).SelectMany(a => a.MemberSituations).Select(m => m.SituationIncome).ToList().Sum();
 
 
-			List<DataPoint> dataPoints = new List<DataPoint>();
+            List<DataPoint> dataPoints = new List<DataPoint>();
 
 			dataPoints.Add(new DataPoint("ODSP", mInc1));
 			dataPoints.Add(new DataPoint("Ontario Works", mInc2));

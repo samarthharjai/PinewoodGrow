@@ -377,6 +377,12 @@ namespace PinewoodGrow.Controllers
             ViewData["ProductTypeID"] = ProductTypeSelectList(null);
         }
 
+        //public ActionResult PrintSalarySlip(int id)
+        //{
+        //    var report = new ActionAsPdf("IndexById", new { id = id });
+        //    return report;
+        //}
+
 
         [HttpGet]
         public JsonResult GetUnitPrice(int? ID)
