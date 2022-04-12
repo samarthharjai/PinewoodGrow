@@ -51,7 +51,7 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+            Address
             </th>
             <th></th>
         </tr>
@@ -76,7 +76,16 @@
                 @Html.DisplayFor(modelItem => item.LICO)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address.FullAddress)
+               @{
+                   if (!item.IsFixedAddress)
+                   {
+                       @: Grow Community Center
+                   }
+                   else
+                   {
+                       @item.Address.FullAddress
+                   }
+               }
             </td>
             <td>
                 <div class="actionsContainer-table">

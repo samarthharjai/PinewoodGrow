@@ -16,6 +16,7 @@ namespace PinewoodGrow.Controllers
 {
     public class TempHouseholdsController : Controller
     {
+        public const string GrowAddress = "ChIJCcNF0TND04kRWpYDE3PBq1A";
         private readonly GROWContext _context;
         private readonly TravelDataRepository travelDataRepository = new TravelDataRepository();
         #region Partial Views
@@ -154,11 +155,11 @@ namespace PinewoodGrow.Controllers
                 .Include(a=> a.MemberDocuments)
                 .Include(a=> a.MemberDietaries)
                 .Include(a=> a.MemberIllnesses).ToList();
-            int? AddressID = null;
-            if (isFixedAddress.ToLower() == "true")
-            {
-                AddressID =  await ValidateAddress(tmpHousehold.AddressID);
-            }
+
+       
+
+           var AddressID = isFixedAddress.ToLower() == "true" ? await ValidateAddress(tmpHousehold.AddressID) : await GetDefaultAddress(); ;
+
 
             var householdID = ValidateHouseHold(tmpHousehold, AddressID, tmpMembers.Count);
 
@@ -170,7 +171,12 @@ namespace PinewoodGrow.Controllers
 
         }
 
+        private async Task<int> GetDefaultAddress()
+        {
+            var id = await _context.Addresses.FirstOrDefaultAsync(a => a.PlaceID == GrowAddress);
+            return id.ID;
 
+        }
         private async Task<int> ValidateAddress(int? id)
         {
             if (id == null) return -1;
@@ -238,9 +244,15 @@ namespace PinewoodGrow.Controllers
                 Notes = tmpMember.Notes,
                 VolunteerID = 1,
             };
-            _context.Members.Add(member);
-            _context.SaveChanges();
-
+            try
+            {
+                _context.Members.Add(member); 
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
             var memberID = member.ID;
 
            var memberIncomes = tmpMember.MemberSituations.Select(a=> new MemberSituation
@@ -409,8 +421,8 @@ namespace PinewoodGrow.Controllers
                 {
                     Latitude = 0,
                     Longitude = 0,
-                    FullAddress = "No Fixed Address",
-                    PostalCode = "No Fixed Address",
+                    FullAddress = "",
+                    PostalCode = "",
                     PlaceID = "",
                 };
             }
@@ -418,7 +430,10 @@ namespace PinewoodGrow.Controllers
 
 
             ViewData["AddressInfo"] = AddressInfo;
+            var xy = tempHousehold.IsFixedAddress ? "checked" : "unchecked";
 
+            ViewData["AddressChecked"] = tempHousehold.IsFixedAddress ? "Checked = \"checked\"": "";
+            ViewData["AddressActive"] = !tempHousehold.IsFixedAddress ? "disabled = \"disabled\"" : "";
 
             ViewData["TempMembers"] = members;
             ViewData["AddressID"] = new SelectList(_context.TempAddresses, "ID", "ID", tempHousehold.AddressID);

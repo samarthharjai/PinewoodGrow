@@ -73,6 +73,7 @@ namespace PinewoodGrow.Data.SeedData
                     FamilyName = "",
                     Dependants = DependantCount,
                     IsFixedAddress = true,
+                    IsActive = true,
                 };
                 context.Add(house);
                 context.SaveChanges();

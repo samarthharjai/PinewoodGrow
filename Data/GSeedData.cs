@@ -601,6 +601,15 @@ namespace PinewoodGrow.Data
                         PostalCode = "L2E 4S9",
                         Latitude = 43.1096581,
                         Longitude = -79.0812546
+                    },
+                    new Address()
+                    {
+                        PlaceID = "ChIJCcNF0TND04kRWpYDE3PBq1A",
+                        FullAddress = "4377 Fourth Ave",
+                        City = "Niagara Falls",
+                        PostalCode = "L2E 4N1",
+                        Latitude = 43.1103374,
+                        Longitude= -79.07902519999999
                     }
                 };
                     context.Addresses.AddRange(addresses);
@@ -642,7 +651,8 @@ namespace PinewoodGrow.Data
                             Name = "Your everything store",
                             Latitude = 43.106465,
                             Longitude = -79.070678
-                        }
+                        },
+              
                     };
                     context.GroceryStores.AddRange(stores);
                     context.SaveChanges();
@@ -1089,6 +1099,20 @@ namespace PinewoodGrow.Data
                         GrowBike = 40,
                         GrowWalk = 185,
                         AddressID = addressDictionary["ChIJn2d9UjFD04kRTT9FztB_U3o"]
+                    },
+                    new TravelDetail()
+                    {
+                        GroceryID = "ChIJnW3xZDpD04kRPFDm3Gj7_FE",
+                        GroceryDistance = 693,
+                        GroceryDrive = 124,
+                        GroceryBike = 174,
+                        GroceryWalk = 524,
+                        GrowDistance = 0,
+                        GrowBike = 0,
+                        GrowDrive = 0,
+                        GrowWalk = 0,
+                        AddressID =  addressDictionary["ChIJCcNF0TND04kRWpYDE3PBq1A"]
+
                     }
                 };
 

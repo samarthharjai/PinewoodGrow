@@ -64,17 +64,17 @@
             <div class="col-md-5">
                 <h2>Address</h2>
                 <div class="custom-control custom-switch m-3">
-                    <input type="checkbox" checked="checked" class="custom-control-input green" id="chkFixed">
+                    <input type="checkbox" @ViewData["AddressChecked"]  class="custom-control-input green" id="chkFixed">
                     <label class="custom-control-label green" for="chkFixed" style="font-size: 18px;">Fixed Address</label>
                 </div>
                 <div style="padding-left: 30px;" class="form-group">
                     <label class="control-label">Address</label>
-                    <input class="form-control" value="@addressInfo.FullAddress" id="autocomplete" />
+                    <input class="form-control" @ViewData["AddressActive"] value="@addressInfo.FullAddress" id="autocomplete" />
 
                 </div>
                 <div style="padding-left: 30px;" class="form-group">
                     <label class="control-label">Postal Code</label>
-                    <input class="form-control" id="postal" value="@addressInfo.PostalCode" placeholder="e.g. L2J 3Y2" name="postal" />
+                    <input class="form-control"  @ViewData["AddressActive"] id="postal" value="@addressInfo.PostalCode" placeholder="e.g. L2J 3Y2" name="postal" />
                 </div>
 
             </div>
