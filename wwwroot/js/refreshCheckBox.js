@@ -14,7 +14,7 @@ function refreshCheckbox(ddl_ID, URL, showNoDataMsg, noDataMsg, addDefault, defa
             if (data !== null && !jQuery.isEmptyObject(data)) {
                 theDDL.empty();
                 $.each(data, function (index, item) {
-                    console.log(item);
+               
                     var div = $('<div>');
 
                     var row = $('<label>');

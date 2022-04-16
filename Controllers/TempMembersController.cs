@@ -423,6 +423,43 @@ namespace PinewoodGrow.Controllers
             return Json(DietaryCheckboxList(skip));
         }
 
+        private List<CheckOptionVM> IllnessCheckboxList(string skip)
+        {
+            //default query if no values to avoid
+            var DietaryQuery = _context.Illnesses
+                .OrderBy(d => d.Name);
+            if (!String.IsNullOrEmpty(skip))
+            {
+                //Conver the string to an array of integers
+                //so we can make sure we leave them out of the data we download
+                string[] avoidStrings = skip.Split(',');
+                int[] skipKeys = Array.ConvertAll(avoidStrings, s => int.Parse(s));
+                DietaryQuery = _context.Illnesses.OrderBy(d => d.Name);
+                return DietaryQuery.Select(a => new CheckOptionVM
+                {
+                    ID = a.ID,
+                    DisplayText = a.Name,
+                    Assigned = skipKeys.Contains(a.ID),
+                    Name = "selectedIllnessOptions"
+                }).ToList();
+
+            }
+
+
+            return DietaryQuery.Select(a => new CheckOptionVM
+            {
+                ID = a.ID,
+                DisplayText = a.Name,
+            }).ToList();
+        }
+        [HttpGet]
+        public JsonResult GetIllnessCheckbox(string skip)
+        {
+            return Json(IllnessCheckboxList(skip));
+        }
+
+
+
         private void UpdateMemberDietaries(string[] selectedOptions, TempMember tempMemberToUpdate)
         {
             if (selectedOptions == null)
@@ -522,6 +559,10 @@ namespace PinewoodGrow.Controllers
                 });
             }
             ViewData["IllnessOptions"] = checkBoxes;
+
+
+
+
         }
         private void UpdateMemberIllnesses(string[] selectedIllnessOptions, TempMember tempMemberToUpdate)
         {

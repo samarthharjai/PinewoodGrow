@@ -6,6 +6,7 @@
 
 <partial name="_MemberSituationModal" />
 <partial name="_addDietaryModal" />
+<partial name="_addIllnessModal" />
 <form asp-action="Edit"  asp-controller="TempMembers" id="TempMemberForm" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
@@ -71,12 +72,12 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
+                <h2>Dietary Restrictions</h2>
                 <div class="col-md-offset-1">
                     <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
                             data-toggle="modal" data-target="#addDietaryModal"
                             type="button">
-                        <strong>Add Dietary Restriction</strong>
+                        <strong>Add Restriction</strong>
                     </button>
                     <div class="checkContainer" id="DietOptions">
                         @{
@@ -99,66 +100,71 @@
 					
                     </div>
                 </div>
+      
 
-            <div class="form-group">
-                <label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
-                <div class="col-md-offset-1">
-                    <table>
-                        <tr>
-                        @{
-                            int cntI = 0;
-                            List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-                            foreach (var checkbox in illnessCheckboxes)
-                            {
-                                if (cntI++ % 3 == 0)
+                <div class="form-group">
+                    <h2>Illnesses</h2>
+                    <div class="col-md-offset-1">
+                        <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+                                data-toggle="modal" data-target="#addIllnessModal"
+                                type="button">
+                            <strong>Add Illness</strong>
+                        </button>
+                        <div class="checkContainer" id="IllnessOptions">
+                            @{
+                                List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
+                                foreach (var checkbox in illnessCheckboxes)
                                 {
-                                    @:</tr><tr>
+                                    <div>
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="selectedIllnessOptions"
+                                                   value="@checkbox.ID"
+                                                   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+                                            <span>
+                                                @checkbox.DisplayText
+                                            </span>
+                                        </label>
+                                    </div>
                                 }
-                                @:<td>
-                                <input id="chkIllnesses"
-                                       type="checkbox"
-                                       name="selectedIllnessOptions"
-                                       value="@checkbox.ID"
-                                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : ""))/>
-                                @checkbox.DisplayText
-                                @:&nbsp;&nbsp;
-                                @:</td>
                             }
-                            @:</tr>
-                        }
-                    </table>
+					
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="ListMemberSituations">
+                    <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
+                    <div class="col-md-offset-1" id="MemberSituationList">
+                        <table>
+                            @{
+                                foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
+                                {
+                                    @:<tr><td>
+                                    @item.Summary
+                                    @:</td><td>
+                                    @:&nbsp; &nbsp;
+                                    <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
+                                    <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
+                                    @:</td></tr>
+                                }
+                            }
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="form-group" id="ListMemberSituations">
-                <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>
-                <div class="col-md-offset-1" id="MemberSituationList">
-                    <table>
-                        @{
-                            foreach (var item in Model.MemberSituations.OrderBy(s => s.Situation.Name))
-                            {
-                                @:<tr><td>
-                                @item.Summary
-                                @:</td><td>
-                                @:&nbsp; &nbsp;
-                                <button class="btn btn-sm modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Edit @item.Summary" type="button">&#x270D;</button>
-                                <button class="btn btn-sm modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Delete @item.Summary" type="button">&#x274C;</button>
-                                @:</td></tr>
-                            }
-                        }
-                    </table>
-                </div>
-            </div>
+  
         </div>
+        
+        
         <div class="row" style="margin: 0 auto; padding: 10px;">
             <div class="form-group" style="padding-right: 20px">
-                <a asp-action="Index" class="btn btn-primary">Back</a>
+                <a data-dismiss="modal" class="btn btn-primary">Back</a>
             </div>
             <div class="form-group">
-                <input type="submit" id="submitTempMemberForm" value="Create" class="btn btn-info"/>
+                <input type="submit" id="submitTempMemberForm" value="Save" class="btn btn-info"/>
             </div>
         </div>
     </div>
-        </div>
     </form>
  
 

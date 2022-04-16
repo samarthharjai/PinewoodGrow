@@ -22,17 +22,19 @@ for details on configuring this project to bundle and minify static web assets. 
     transform: translateY(-2px);
 }
 .checkContainer {
+    margin-top: 15px;
     width: 100%;
-
     display: flex;
     flex-wrap: wrap;
 
+
 }
 .checkContainer div {
-    margin: 5px;
+    margin: 2px 3px;
 }
 .checkContainer div label{
     cursor: pointer;
+    margin: 0;
 }
 .checkContainer div label input[type="checkbox"] {
     cursor: pointer;
@@ -42,15 +44,21 @@ for details on configuring this project to bundle and minify static web assets. 
         position: relative;
         display: inline-block;
         padding: 4px 12px;
-        background: #f7f7f7;
-        color: #397a4c;
-        border: #397a4c solid 1px;
+        background: #f9f9f9;
+        color: #444;
+        border: #444 solid 1.2px;
         border-radius: 30px;
-        font-weight: 600;
-        font-size: 1rem;
+        font-weight: 500;
+        font-size: 0.9rem;
         user-select: none;
         overflow: hidden;
     }
+    .checkContainer div label :hover {
+        transform: scale(1.01);
+        transition: all 0.2s ease-in;
+        box-shadow: 2px 2px 3px #666, -2px -2px 3px #666 !important;
+    }
+
 
 .checkContainer div label span:before {
     content: '';
@@ -61,11 +69,11 @@ for details on configuring this project to bundle and minify static web assets. 
     height: 50%
  
 }
-.checkContainer div label input[type="checkbox"]:checked ~ span
-{
+    .checkContainer div label input[type="checkbox"]:checked ~ span {
+        border: #397a4c solid 1.2px;
         background: #397a4c;
         color: #fff
-}
+    }
 
 
 .custom-table {
