@@ -50,6 +50,7 @@ namespace PinewoodGrow.Controllers
 
 
 
+            PopulateAssignedDietaryData(tempMember);
             PopulateAssignedSituationData(tempMember);
             PopulateAssignedIllnessData(tempMember);
             PopulateAssignedDietaryData(tempMember);
@@ -370,7 +371,7 @@ namespace PinewoodGrow.Controllers
                     });
                 }
             }
-            /*var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
+            var currentOptionIDs = new HashSet<int>(member.MemberDietaries.Select(b => b.DietaryID));
             var checkBoxes = new List<CheckOptionVM>();
             foreach (var option in allOptions)
             {
@@ -382,10 +383,10 @@ namespace PinewoodGrow.Controllers
                 });
             }
 
-            ViewData["DietOptions"] = checkBoxes;*/
+            ViewData["DietOptions"] = checkBoxes;
 
-            ViewData["selDietOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
-            ViewData["availDietOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
         private List<CheckOptionVM> DietaryCheckboxList(string skip)
         {
@@ -506,67 +507,48 @@ namespace PinewoodGrow.Controllers
             }
         }
 
-
         private void PopulateAssignedIllnessData(TempMember member)
         {
-            //For this to work, you must have Included the child collection in the parent object
             var allOptions = _context.Illnesses;
-            var currentOptionsHS = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
-            //Instead of one list with a boolean, we will make two lists
-            var selected = new List<ListOptionVM>();
-            var available = new List<ListOptionVM>();
-            foreach (var d in allOptions)
+            var currentOptionIDs = new HashSet<int>(member.MemberIllnesses.Select(b => b.IllnessID));
+            var checkBoxes = new List<CheckOptionVM>();
+            foreach (var option in allOptions)
             {
-                if (currentOptionsHS.Contains(d.ID))
+                checkBoxes.Add(new CheckOptionVM
                 {
-                    selected.Add(new ListOptionVM
-                    {
-                        ID = d.ID,
-                        DisplayText = d.Name
-                    });
-                }
-                else
-                {
-                    available.Add(new ListOptionVM
-                    {
-                        ID = d.ID,
-                        DisplayText = d.Name
-                    });
-                }
+                    ID = option.ID,
+                    DisplayText = option.Name,
+                    Assigned = currentOptionIDs.Contains(option.ID)
+                });
             }
-
-            ViewData["selIllOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
-            ViewData["availIllOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["IllnessOptions"] = checkBoxes;
         }
-        private void UpdateMemberIllnesses(string[] selectedOptions, TempMember memberToUpdate)
+        private void UpdateMemberIllnesses(string[] selectedIllnessOptions, TempMember tempMemberToUpdate)
         {
-            if (selectedOptions == null)
+            if (selectedIllnessOptions == null)
             {
-                memberToUpdate.MemberIllnesses = new List<TempMemberIllness>();
+                tempMemberToUpdate.MemberIllnesses = new List<TempMemberIllness>();
                 return;
             }
 
-            var selectedOptionsHS = new HashSet<string>(selectedOptions);
-            var currentOptionsHS = new HashSet<int>(memberToUpdate.MemberIllnesses.Select(b => b.IllnessID));
-            foreach (var d in _context.Illnesses)
+            var selectedOptionsHS = new HashSet<string>(selectedIllnessOptions);
+            var memberOptionsHS = new HashSet<int>
+                (tempMemberToUpdate.MemberIllnesses.Select(i => i.IllnessID));
+            foreach (var option in _context.Illnesses)
             {
-                if (selectedOptionsHS.Contains(d.ID.ToString()))//it is selected
+                if (selectedOptionsHS.Contains(option.ID.ToString()))
                 {
-                    if (!currentOptionsHS.Contains(d.ID))//but not currently in the Member's collection - Add it!
+                    if (!memberOptionsHS.Contains(option.ID))
                     {
-                        memberToUpdate.MemberIllnesses.Add(new TempMemberIllness
-                        {
-                            IllnessID = d.ID,
-                            MemberID = memberToUpdate.ID
-                        });
+                        tempMemberToUpdate.MemberIllnesses.Add(new TempMemberIllness { MemberID = tempMemberToUpdate.ID, IllnessID = option.ID });
                     }
                 }
-                else //not selected
+                else
                 {
-                    if (currentOptionsHS.Contains(d.ID))//but is currently in the Member's collection - Remove it!
+                    if (memberOptionsHS.Contains(option.ID))
                     {
-                        var illToRemove = memberToUpdate.MemberIllnesses.FirstOrDefault(m => m.IllnessID == d.ID);
-                        _context.Remove(illToRemove);
+                        TempMemberIllness illnessToRemove = tempMemberToUpdate.MemberIllnesses.SingleOrDefault(i => i.IllnessID == option.ID);
+                        _context.Remove(illnessToRemove);
                     }
                 }
             }
