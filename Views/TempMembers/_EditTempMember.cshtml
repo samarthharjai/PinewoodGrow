@@ -6,7 +6,8 @@
 
 <partial name="_MemberSituationModal" />
 <partial name="_addDietaryModal" />
-<form asp-action="Edit"  asp-controller="TempMembers" id="TempMemberForm" method="post" enctype="multipart/form-data">
+<partial name="_addIllnessModal" />
+<form asp-action="Edit" asp-controller="TempMembers" id="TempMemberForm" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input type="button" id="btnSampleData" value="Sample Data" class="btn btn-info" />
     </div>
@@ -23,17 +24,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" id="txtFirstName" placeholder="e.g. John"/>
+                <input asp-for="FirstName" class="form-control" id="txtFirstName" placeholder="e.g. John" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe"/>
+                <input asp-for="LastName" class="form-control" id="txtLastName" placeholder="e.g. Doe" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DOB" class="control-label"></label>
-                <input asp-for="DOB" class="form-control" id="txtAge"/>
+                <input asp-for="DOB" class="form-control" id="txtAge" />
                 <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -46,12 +47,12 @@
             <h2>Contact Info</h2>
             <div class="form-group">
                 <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345"/>
+                <input asp-for="Telephone" class="form-control" id="txtPhone" placeholder="e.g. 6367727345" />
                 <span asp-validation-for="Telephone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com"/>
+                <input asp-for="Email" class="form-control" id="txtEmail" placeholder="e.g. johndoe@gmail.com" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -61,72 +62,53 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Upload Documents:</label>
-                <input type="file" class="" name="theFiles" multiple="multiple"/>
+                <input type="file" class="" name="theFiles" multiple="multiple" />
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Consent"/> To continue, you must agree to the Privacy Policy and Terms of Use.
+                    <input class="form-check-input" asp-for="Consent" /> To continue, you must agree to the Privacy Policy and Terms of Use.
                 </label>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="form-group">
-                <label class="control-label">@Html.DisplayNameFor(model => model.MemberDietaries)</label>
-                <div class="col-md-offset-1">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Chosen Dietary Restrictions</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selDietOpts, new { @size = 3, @class = "form-control" })
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="control-label">Choose Dietary Restrictions</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availDietOpts, new { @size = 3, @class = "form-control" })
                     <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
                             data-toggle="modal" data-target="#addDietaryModal"
                             type="button">
                         <strong>Add Dietary Restriction</strong>
                     </button>
-                    <div class="checkContainer" id="DietOptions">
-                        @{
-                            List<PinewoodGrow.ViewModels.CheckOptionVM> DietOptions = ViewBag.DietOptions;
-                            foreach (var checkbox in DietOptions)
-                            {
-                                <div>
-                                    <label>
-                                        <input type="checkbox"
-                                               name="selectedDietOptions"
-                                               value="@checkbox.ID"
-                                               @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                        <span>
-                                            @checkbox.DisplayText
-                                        </span>
-                                    </label>
-                                </div>
-                            }
-                        }
-					
-                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Chosen Illnesses</label> <button type="button" id="btnIllnessRight" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedIllnessOptions", (MultiSelectList)ViewBag.selIllOpts, new { @size = 3, @class = "form-control" })
                 </div>
 
-            <div class="form-group">
-                <label class="control-label">@Html.DisplayNameFor(model => model.MemberIllnesses)</label>
-                <div class="col-md-offset-1">
-                    <table>
-                        <tr>
-                        @{
-                            int cntI = 0;
-                            List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-                            foreach (var checkbox in illnessCheckboxes)
-                            {
-                                if (cntI++ % 3 == 0)
-                                {
-                                    @:</tr><tr>
-                                }
-                                @:<td>
-                                <input id="chkIllnesses"
-                                       type="checkbox"
-                                       name="selectedIllnessOptions"
-                                       value="@checkbox.ID"
-                                       @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : ""))/>
-                                @checkbox.DisplayText
-                                @:&nbsp;&nbsp;
-                                @:</td>
-                            }
-                            @:</tr>
-                        }
-                    </table>
+                <div class="form-group col-md-6">
+                    <label class="control-label">Choose Illnesses</label> <button type="button" id="btnIllnessLeft" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availIllnessOptions", (MultiSelectList)ViewBag.availIllOpts, new { @size = 3, @class = "form-control" })
+                    <button class="btn btn-outline-secondary btn-sm" id="nowAddIllness"
+                            data-toggle="modal" data-target="#addIllnessModal"
+                            type="button">
+                        <strong>Add Illness</strong>
+                    </button>
                 </div>
             </div>
             <div class="form-group" id="ListMemberSituations">
@@ -154,13 +136,13 @@
                 <a asp-action="Index" class="btn btn-primary">Back</a>
             </div>
             <div class="form-group">
-                <input type="submit" id="submitTempMemberForm" value="Create" class="btn btn-info"/>
+                <input type="submit" id="submitTempMemberForm" value="Create" class="btn btn-info" />
             </div>
         </div>
     </div>
-        </div>
-    </form>
- 
 
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</form>
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
