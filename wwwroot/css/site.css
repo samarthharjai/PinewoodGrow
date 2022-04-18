@@ -78,7 +78,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .custom-table {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 25px 0 10px 0;
     font-size: .9em;
     min-width: 400px;
     width: 100%;
@@ -575,11 +575,15 @@ modal-lg {
     }
 
 
+.pagination-container {
+    width: 100%;
+}
 
 
 .content-detail-pagination {
     width: max-content;
-    margin: 50px auto;
+    margin: 0 auto;
+    margin-bottom: 25px;
 }
 .content-detail-pagination button{
   background: none;
@@ -611,12 +615,33 @@ line-height: 36px;
   display: inline-block;
   margin: 0 10px;
 }
-.content-detail-pagination button:hover{
-  border: 2px solid #397a4c;
-  color: #397a4c;
-  background-color: #eee;
-  transform: scale(1.1);
+    .content-detail-pagination button:hover {
+        border: 2px solid #397a4c;
+        color: #397a4c;
+        background-color: #eee;
+        transform: scale(1.1);
+        transition: all 0.2s ease-in;
+    }
+
+
+
+.settings {
+    margin: 0 10px 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: end;
 }
+.settings > button {
+    border: none;
+    background: none;
+}
+    .settings > button > svg:hover{
+        color: #397a4c;
+    
+        transform: rotate(90deg);
+        transition: all 0.3s ease-in;
+    }
+
 
 
 .prev{
