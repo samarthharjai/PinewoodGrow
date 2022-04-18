@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220404060658_Initial")]
+    [Migration("20220418061759_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,44 @@ namespace PinewoodGrow.Data.GMigrations
                         .IsUnique();
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.Dependant", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DOB")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("HouseholdID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("HouseholdID");
+
+                    b.ToTable("Dependents");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Dietary", b =>
@@ -267,6 +305,56 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasIndex("ReceiptID");
 
                     b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.LICOInfo", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FamilySize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HouseholdID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Income")
+                        .HasColumnType("REAL");
+
+                    b.Property<bool>("IsOverride")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("MaxIncome")
+                        .HasColumnType("REAL");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("HouseholdID");
+
+                    b.ToTable("LICOInfos");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Member", b =>
@@ -1122,6 +1210,15 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasDiscriminator().HasValue("TempMemberDocument");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.Dependant", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Household", "Household")
+                        .WithMany("Dependant")
+                        .HasForeignKey("HouseholdID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.FileContent", b =>
                 {
                     b.HasOne("PinewoodGrow.Models.UploadedFile", "UploadedFile")
@@ -1156,6 +1253,15 @@ namespace PinewoodGrow.Data.GMigrations
                         .WithMany()
                         .HasForeignKey("ReceiptID")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.LICOInfo", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Household", "Household")
+                        .WithMany("LICOHistory")
+                        .HasForeignKey("HouseholdID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

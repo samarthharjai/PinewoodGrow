@@ -253,7 +253,7 @@ namespace PinewoodGrow.Controllers
 
                     await _context.AddRangeAsync(Situations);
                     await _context.SaveChangesAsync();
-
+                    UpdateLicoInformation(member.HouseholdID);
                     /*if (selectedDietaryOptions != null)
                     {
                         foreach (var dietary in selectedDietaryOptions)
@@ -357,6 +357,8 @@ namespace PinewoodGrow.Controllers
             UpdateMemberSituation(selectedSituationOptions, memberToUpdate);
             UpdateMemberIllnesses(selectedIllnessOptions, memberToUpdate);
 
+
+
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, 
                 m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, m => m.GenderID))
             //m => m.FamilySize, m => m.AddressID, m => m.Address
@@ -365,6 +367,17 @@ namespace PinewoodGrow.Controllers
                 {
                     await AddDocumentsAsync(memberToUpdate, theFiles);
                     await _context.SaveChangesAsync();
+
+                    var HouseholdUpdate =
+                        await _context.Households.Include(a => a.Members).ThenInclude(a => a.MemberSituations)
+                            .FirstOrDefaultAsync(a => a.ID == memberToUpdate.HouseholdID);
+                    var licoInfos = _context.LICOInfos.Where(a => a.HouseholdID == HouseholdUpdate.ID);
+
+                    if (Math.Abs(licoInfos.FirstOrDefault(a=> a.CreatedOn == licoInfos.Max(b=> b.CreatedOn)).Income - HouseholdUpdate.HouseIncome) > 0.1)
+                    {
+                        UpdateLicoInformation(memberToUpdate.HouseholdID);
+                    }
+
                     return RedirectToAction("Details", new { memberToUpdate.ID });
                 }
                 catch (RetryLimitExceededException /* dex */)
@@ -455,6 +468,11 @@ namespace PinewoodGrow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        #region Data Display
+
+        
+
+ 
         private void PopulateAssignedDietaryData(Member member)
         {
             //For this to work, you must have Included the child collection in the parent object
@@ -902,6 +920,25 @@ namespace PinewoodGrow.Controllers
 
 
         #endregion
+        #endregion
+
+        private async void UpdateLicoInformation(int householdID)
+        {
+            var household = await _context.Households.Include(a => a.Members).ThenInclude(a => a.MemberSituations)
+                .Include(a => a.Dependant).FirstOrDefaultAsync(a => a.ID == householdID);
+
+            var LicoInfo = new LICOInfo()
+            {
+                HouseholdID = householdID,
+                FamilySize = household.Dependant.Count + household.Members.Count,
+                Income = household.HouseIncome,
+            };
+            LicoInfo.Verify();
+            _context.Add(LicoInfo);
+            await _context.SaveChangesAsync();
+
+
+        }
 
         private bool MemberExists(int id)
         {

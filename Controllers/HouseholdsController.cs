@@ -52,6 +52,7 @@ namespace PinewoodGrow.Controllers
                          
                              .Include(h => h.Address)
                              .Include(h => h.Members).ThenInclude(m=> m.MemberSituations)
+                             .Include(h=> h.LICOHistory)
                              select h;
 
             if (!String.IsNullOrEmpty(SearchFamily))
@@ -112,6 +113,7 @@ namespace PinewoodGrow.Controllers
                 .ThenInclude(a=> a.TravelDetail).ThenInclude(a=> a.GroceryStore)
                 .Include(h => h.Members).ThenInclude(m=> m.MemberSituations)
                 .Include(h=> h.Members).ThenInclude(h=> h.Gender)
+                .Include(a=> a.LICOHistory)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (household == null)
             {
@@ -142,8 +144,47 @@ namespace PinewoodGrow.Controllers
             return View(household);
         }
 
- 
-        
+
+
+        public async Task<IActionResult> OverrideLICO(int? ID)
+        {
+            if (ID == null) return NotFound();
+
+            var licoInfo = await _context.LICOInfos
+                .Where(a => a.HouseholdID == ID)
+                .OrderBy(a => a.CreatedOn).FirstAsync();
+
+            licoInfo.Override();
+
+            _context.Update(licoInfo);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction("Details", "Households", new { id = ID });
+
+
+
+        }
+        public async Task<IActionResult> RemoveOverrideLICO(int? ID)
+        {
+            if (ID == null) return NotFound();
+
+            var licoInfo = await _context.LICOInfos
+                .Where(a => a.HouseholdID == ID)
+                .OrderBy(a => a.CreatedOn).FirstAsync();
+
+            licoInfo.RemoveOverride();
+
+            _context.Update(licoInfo);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction("Details", "Households", new { id = ID });
+
+
+
+        }
+
 
         /*public async Task<IActionResult> AddMember(int HouseHoldID)
         {

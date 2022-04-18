@@ -72,6 +72,50 @@ namespace PinewoodGrow.Data
                         WHERE rowid = NEW.rowid;
                     END
                 ");
+            //LICO INFO
+            migrationBuilder.Sql(
+                @"
+                    CREATE TRIGGER UpdateLICOINFOsTimestampOnInsert
+                    AFTER UPDATE ON LICOInfos
+                    BEGIN
+                        UPDATE LICOInfos
+                        SET RowVersion = randomblob(8)
+                        WHERE rowid = NEW.rowid;
+                    END
+                ");
+            migrationBuilder.Sql(
+                @"
+                    CREATE TRIGGER SetLICOINFOTimestampOnInsert
+                    AFTER INSERT ON LICOInfos
+                    BEGIN
+                        UPDATE LICOInfos
+                        SET RowVersion = randomblob(8)
+                        WHERE rowid = NEW.rowid;
+                    END
+                ");
+            //Dependents
+            migrationBuilder.Sql(
+                @"
+                    CREATE TRIGGER UpdateDependentsTimestampOnInsert
+                    AFTER UPDATE ON Dependents
+                    BEGIN
+                        UPDATE Dependents
+                        SET RowVersion = randomblob(8)
+                        WHERE rowid = NEW.rowid;
+                    END
+                ");
+
+            migrationBuilder.Sql(
+                @"
+                    CREATE TRIGGER SetDependentsTimestampOnInsert
+                    AFTER INSERT ON Dependents
+                    BEGIN
+                        UPDATE Dependents
+                        SET RowVersion = randomblob(8)
+                        WHERE rowid = NEW.rowid;
+                    END
+                ");
+
             //Receipts * no need for concurency on Receipts
             /*migrationBuilder.Sql(
                 @"

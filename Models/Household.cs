@@ -13,6 +13,8 @@ namespace PinewoodGrow.Models
 		{
 			Members = new HashSet<Member>();
 			MemberHouseholds = new HashSet<MemberHousehold>();
+			LICOHistory = new HashSet<LICOInfo>();
+            Dependant = new HashSet<Dependant>();
 		}
 
 		[Display(Name = "Member #")]
@@ -43,41 +45,28 @@ namespace PinewoodGrow.Models
 		public int Dependants { get; set; }
 
 		//[Required(ErrorMessage = "You cannot leave the LICO unselected.")]
-		public bool LICO {
-			get
-			{
-				{
-					bool calcLICO = false;
+		public LICOInfo LICO => LICOHistory.Any()? LICOHistory.OrderByDescending(a=> a.CreatedOn).First(): new LICOInfo();
 
-					switch (FamilySize)
-                    {
-                        case 1 when HouseIncome <= 22186:
-                        case 2 when HouseIncome <= 27619:
-                        case 3 when HouseIncome <= 33953:
-                        case 4 when HouseIncome <= 41225:
-                        case 5 when HouseIncome <= 46757:
-                        case 6 when HouseIncome <= 52734:
-                        case 7 when HouseIncome <= 58712:
-                            calcLICO = true;
-                            break;
-                    }
 
-					return calcLICO;
-				};
-			}
-        }
 
-        public bool IsFixedAddress { get; set; }
+		public bool IsFixedAddress { get; set; }
 
 		public bool IsActive { get; set; }
 
 
 		public int? AddressID { get; set; }
 		public Address Address { get; set; }
-
+        [Display(Name = "Dependants")]
+        public ICollection<Dependant> Dependant { get; set; }
 		public ICollection<Member> Members { get; set; }
+        [Display(Name = "LICO Records")]
+		public ICollection<LICOInfo> LICOHistory { get; set; }
+
 
 		[Display(Name = "Member Households")]
 		public ICollection<MemberHousehold> MemberHouseholds { get; set; }
+
+      
+
 	}
 }

@@ -93,10 +93,39 @@ namespace PinewoodGrow.Data.SeedData
                     MemberSituations.AddRange(GetMemberSituations(MemberSituations, Incomes[i], Members[i]));
                 }
 
-                    
                 context.AddRange(MemberSituations);
                 context.SaveChanges();
+
+                context.AddRange(dependants(rnd.Next(1, 3), house.ID));
+                context.SaveChanges();
+
+                var h= context.Households.Include(a => a.Members).ThenInclude(a => a.MemberSituations).FirstOrDefault(a=> a.ID == house.ID);
+
+                var LicoInfo = new LICOInfo()
+                {
+                    HouseholdID = house.ID,
+                    FamilySize = house.Dependant.Count + house.Members.Count,
+                    Income = h.HouseIncome,
+                };
+                LicoInfo.Verify();
+                context.Add(LicoInfo);
+                context.SaveChanges();
             }
+        }
+
+        private static List<Dependant> dependants(int count, int houseID)
+        {
+            var Dependant = new List<Dependant>();
+            for (var i = 0; i < count; i++)
+            {
+                Dependant.Add(new Dependant
+                {
+                    DOB = RandomDate(),
+                    HouseholdID = houseID
+                });
+            }
+
+            return Dependant;
         }
 
         internal static List<MemberSituation> GetMemberSituations(List<MemberSituation> list,double income, Member member)
@@ -252,7 +281,12 @@ namespace PinewoodGrow.Data.SeedData
             int range = (new DateTime(2001, 1, 1) - start).Days;
             return start.AddDays(rnd.Next(range));
         }
-
+        private static DateTime RandomDate()
+        {
+            DateTime start = new DateTime(2002, 1, 1);
+            int range = (new DateTime(2022, 1, 1) - start).Days;
+            return start.AddDays(rnd.Next(range));
+        }
 
         private static int getRandomGender()
         {

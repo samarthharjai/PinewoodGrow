@@ -164,6 +164,7 @@ namespace PinewoodGrow.Controllers
             var householdID = ValidateHouseHold(tmpHousehold, AddressID, tmpMembers.Count);
 
             tmpMembers.ForEach(a=> ValidateMembers(householdID, a));
+            UpdateLicoInformation(householdID);
 
             TempData["AlertMessage"] = "Household Information Saved Successfully....!";
             return RedirectToAction("Details", "Households", new { id = householdID });
@@ -295,7 +296,23 @@ namespace PinewoodGrow.Controllers
 
         }
 
+        private async void UpdateLicoInformation(int householdID)
+        {
+            var household = await _context.Households.Include(a => a.Members).ThenInclude(a => a.MemberSituations)
+                .Include(a => a.Dependant).FirstOrDefaultAsync(a => a.ID == householdID);
 
+            var LicoInfo = new LICOInfo()
+            {
+                HouseholdID = householdID,
+                FamilySize = household.Dependant.Count + household.Members.Count,
+                Income = household.HouseIncome,
+            };
+            LicoInfo.Verify();
+            _context.Add(LicoInfo);
+            await _context.SaveChangesAsync();
+
+
+        }
         #endregion
 
 
