@@ -347,13 +347,13 @@ namespace PinewoodGrow.Controllers
         // GET: TempHouseholds
         public async Task<IActionResult> Index(int? page, int? pageSizeID)
         {
-            var toRemove =
+            /*var toRemove =
                 _context.TempHouseholds.Include(a => a.Members)
                     .Where(a=> a.Members.Count == 0 && string.IsNullOrEmpty(a.FamilyName)).ToList();
                    
 
             _context.TempHouseholds.RemoveRange(toRemove);
-            _context.SaveChanges();
+            _context.SaveChanges();*/
 
 
             var households = from t in _context.TempHouseholds

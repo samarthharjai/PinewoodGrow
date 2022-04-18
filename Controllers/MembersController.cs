@@ -176,6 +176,20 @@ namespace PinewoodGrow.Controllers
 
             }
 
+            var orders = _context.Receipts
+                .Include(a => a.Volunteer)
+                .Include(a => a.Payment)
+                .Include(r => r.Product)
+                .Include(r => r.ProductUnitPrice)
+                .Include(r => r.ProductType)
+                .Where(a => a.MemberID == member.ID)
+                .OrderBy(a => a.CreatedOn)
+                .ToList();
+
+            ViewData["Orders"] = orders;
+
+
+
             var stats = member.MemberSituations.OrderByDescending(a => a.SituationIncome)
                     .Select(a => new IncomeStats { Name = a.Situation.Name, Income = a.SituationIncome }).ToList();
             

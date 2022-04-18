@@ -153,8 +153,7 @@ namespace PinewoodGrow.Data
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Dependant>().HasOne(h => h.Household).WithMany(h => h.Dependant)
                 .HasForeignKey(h => h.HouseholdID).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<TempDependant>().HasOne(h => h.Household).WithMany(h => h.Dependant)
-                .HasForeignKey(h => h.HouseholdID).OnDelete(DeleteBehavior.Restrict);
+        
 
             /*
                         modelBuilder.Entity<Household>()
@@ -279,6 +278,9 @@ namespace PinewoodGrow.Data
                 .WithOne(a => a.Member).HasForeignKey(a => a.MemberID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<TempHousehold>().HasMany(a => a.Dependant)
+                .WithOne(a => a.Household).HasForeignKey(a => a.HouseholdID)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //Adds One? to many Household to address
             modelBuilder.Entity<TempAddress>()

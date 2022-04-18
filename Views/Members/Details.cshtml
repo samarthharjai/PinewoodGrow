@@ -335,11 +335,74 @@
             </section>
             <section>
                 <h2>Purchase History</h2>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.
+                <table class="custom-table">
+                    <thead>
+                    <tr>
+                        <th>
+                            Completes On
+                        </th>
+                        <th>
+                            Volunteer
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                        <th>
+                            Payment Type
+                        </th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (Receipt item in ViewBag.Orders)
+                    {
+                        <tr>
+                            <td>
+                                @item.CompletedOn
+                            </td>
+                            
+                            <td>
+                                @item.Volunteer.FullName
+                            </td>
+                            <td>
+                                @item.SubTotal.ToString("C")
+                            </td>
+                            <td>
+                                @item.Payment.Type
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
             </section>
             <section>
                 <h2>Member History</h2>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa dicta vero rerum? Eaque repudiandae architecto libero reprehenderit aliquam magnam ratione quidem? Nobis doloribus molestiae enim deserunt necessitatibus eaque quidem incidunt.
+                <dl class="row dlist" style="width: 100%">
+                    <dt class="col-sm-4">
+                        Created
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.CreatedOn)
+                    </dd>
+                    <dt class="col-sm-4">
+                        Created By
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.CreatedBy)
+                    </dd>
+                    <dt class="col-sm-4">
+                        Updated
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.UpdatedOn)
+                    </dd>
+                    <dt class="col-sm-4">
+                        Updated By
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.UpdatedBy)
+                    </dd>
+                </dl>
             </section>
         </div>
     </div>

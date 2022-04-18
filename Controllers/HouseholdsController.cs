@@ -143,6 +143,7 @@ namespace PinewoodGrow.Controllers
                 .Where(a => a.HouseholdID == household.ID)
                 .OrderBy(a=> a.CreatedOn)
                 .ToList();
+
             ViewData["Orders"] = orders;
             ViewData["TravelStats"] = (household.IsFixedAddress && household.Address.TravelDetail != null) ? new TravelStats(household.Address.TravelDetail): new TravelStats();
             ViewData["StoreName"] = (household.IsFixedAddress && household.Address.TravelDetail != null)

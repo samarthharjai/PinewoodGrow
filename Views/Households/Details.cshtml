@@ -558,30 +558,36 @@
                 <h2>Purchase History</h2>
                 <table class="custom-table">
                     <thead>
-                        <tr>
-                            <th>
-                                Completes On
-                            </th>
-                            <th>
-                                Volunteer
-                            </th>
-                            <th>
-                                Total
-                            </th>
-                            <th>
-                                Payment Type
-                            </th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>
+                            Member
+                        </th>
+                        <th>
+                            Completes On
+                        </th>
+                        <th>
+                            Volunteer
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                        <th>
+                            Payment Type
+                        </th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody>
                         @foreach (Receipt item in ViewBag.Orders)
                         {
                             <tr>
                                 <td>
+                                    @item.Member.FullName
+                                </td>
+                                <td>
                                     @item.CompletedOn
                                 </td>
-                            
+
                                 <td>
                                     @item.Volunteer.FullName
                                 </td>
