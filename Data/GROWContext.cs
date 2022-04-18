@@ -35,7 +35,9 @@ namespace PinewoodGrow.Data
 
 
 		public DbSet<Member> Members { get; set; }
-		public DbSet<Household> Households { get; set; }
+        public DbSet<LICOInfo> LICOInfos { get; set; }
+        public DbSet<Dependant> Dependents { get; set; }
+        public DbSet<Household> Households { get; set; }
 		public DbSet<Gender> Genders { get; set; }
 		public DbSet<Address> Addresses { get; set; }
 		public DbSet<MemberSituation> MemberSituations { get; set; }
@@ -144,13 +146,20 @@ namespace PinewoodGrow.Data
                 .HasForeignKey(h => h.AddressID)
                 .IsRequired(false);
 
+            modelBuilder.Entity<LICOInfo>().HasOne(h => h.Household)
+                .WithMany(h => h.LICOHistory)
+                .HasForeignKey(a => a.HouseholdID)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Dependant>().HasOne(h => h.Household).WithMany(h => h.Dependant)
+                .HasForeignKey(h => h.HouseholdID).OnDelete(DeleteBehavior.Restrict);
 
-			/*
-						modelBuilder.Entity<Household>()
-							.HasOne(a => a.Address)
-							.WithOne(h => h.Household)
-							.HasForeignKey<Address>(a => a.ID);
-			*/
+
+            /*
+                        modelBuilder.Entity<Household>()
+                            .HasOne(a => a.Address)
+                            .WithOne(h => h.Household)
+                            .HasForeignKey<Address>(a => a.ID);
+            */
 
             modelBuilder.Entity<Product>()
                 .HasMany<ProductUnitPrice>(d => d.ProductUnitPrices)

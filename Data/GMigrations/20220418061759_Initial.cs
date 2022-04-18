@@ -293,6 +293,60 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Dependents",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedOn = table.Column<DateTime>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false),
+                    HouseholdID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dependents", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Dependents_Households_HouseholdID",
+                        column: x => x.HouseholdID,
+                        principalTable: "Households",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LICOInfos",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedOn = table.Column<DateTime>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    HouseholdID = table.Column<int>(nullable: false),
+                    IsVerified = table.Column<bool>(nullable: false),
+                    FamilySize = table.Column<int>(nullable: false),
+                    Income = table.Column<double>(nullable: false),
+                    MaxIncome = table.Column<double>(nullable: false),
+                    IsOverride = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LICOInfos", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_LICOInfos_Households_HouseholdID",
+                        column: x => x.HouseholdID,
+                        principalTable: "Households",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Members",
                 columns: table => new
                 {
@@ -848,6 +902,11 @@ namespace PinewoodGrow.Data.GMigrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Dependents_HouseholdID",
+                table: "Dependents",
+                column: "HouseholdID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Households_AddressID",
                 table: "Households",
                 column: "AddressID");
@@ -872,6 +931,11 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "IX_Invoices_ReceiptID",
                 table: "Invoices",
                 column: "ReceiptID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LICOInfos_HouseholdID",
+                table: "LICOInfos",
+                column: "HouseholdID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MemberDietaries_MemberID",
@@ -1085,10 +1149,16 @@ namespace PinewoodGrow.Data.GMigrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Dependents");
+
+            migrationBuilder.DropTable(
                 name: "FileContent");
 
             migrationBuilder.DropTable(
                 name: "Invoices");
+
+            migrationBuilder.DropTable(
+                name: "LICOInfos");
 
             migrationBuilder.DropTable(
                 name: "MemberDietaries");
