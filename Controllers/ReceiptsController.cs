@@ -141,7 +141,7 @@ namespace PinewoodGrow.Controllers
 
             ViewData["sortField"] = sortField;
             ViewData["sortDirection"] = sortDirection;
-
+            TempData["AlertMessage"] = "Email Sent Successfully....!";
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
             ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
             var pagedData = await PaginatedList<Receipt>.CreateAsync(receipts.AsNoTracking(), page ?? 1, pageSize);
@@ -160,8 +160,6 @@ namespace PinewoodGrow.Controllers
             {
                 return NotFound();
             }
-
-
 
             var Receipt = await _context.Receipts
                 .Include(r => r.Household)
