@@ -45,12 +45,14 @@ namespace PinewoodGrow.Controllers
             return View(dietary);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // GET: Dietaries/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // POST: Dietaries/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -75,6 +77,7 @@ namespace PinewoodGrow.Controllers
             return View(dietary);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // GET: Dietaries/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

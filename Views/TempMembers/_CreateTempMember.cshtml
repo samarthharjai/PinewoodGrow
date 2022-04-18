@@ -73,63 +73,69 @@
         <div class="col-md-6">
         <div class="form-group">
             <h2>Dietary Restrictions</h2>
-            <div class="col-md-offset-1">
-                <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
-                        data-toggle="modal" data-target="#addDietaryModal"
-                        type="button">
-                    <strong>Add Restriction</strong>
-                </button>
-                <div class="checkContainer" id="DietOptions">
-                    @{
-                        List<PinewoodGrow.ViewModels.CheckOptionVM> DietOptions = ViewBag.DietOptions;
-                        foreach (var checkbox in DietOptions)
-                        {
-                            <div>
-                                <label>
-                                    <input type="checkbox"
-                                           name="selectedDietOptions"
-                                           value="@checkbox.ID"
-                                           @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                    <span>
-                                        @checkbox.DisplayText
-                                    </span>
-                                </label>
-                            </div>
-                        }
-                    }
-					
-                </div>
-            </div>
+			<div class="col-md-offset-1">
+				@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+				{
+					<button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+							data-toggle="modal" data-target="#addDietaryModal"
+							type="button">
+						<strong>Add Restriction</strong>
+					</button>
+				}
+				<div class="checkContainer" id="DietOptions">
+					@{
+						List<PinewoodGrow.ViewModels.CheckOptionVM> DietOptions = ViewBag.DietOptions;
+						foreach (var checkbox in DietOptions)
+						{
+							<div>
+								<label>
+									<input type="checkbox"
+										   name="selectedDietOptions"
+										   value="@checkbox.ID"
+										   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+									<span>
+										@checkbox.DisplayText
+									</span>
+								</label>
+							</div>
+						}
+					}
+
+				</div>
+			</div>
         </div>
         <div class="form-group">
             <h2>Illnesses</h2>
-            <div class="col-md-offset-1">
-                <button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
-                        data-toggle="modal" data-target="#addIllnessModal"
-                        type="button">
-                    <strong>Add Illness</strong>
-                </button>
-                <div class="checkContainer" id="IllnessOptions">
-                    @{
-                        List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
-                        foreach (var checkbox in illnessCheckboxes)
-                        {
-                            <div>
-                                <label>
-                                    <input type="checkbox"
-                                           name="selectedIllnessOptions"
-                                           value="@checkbox.ID"
-                                           @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
-                                    <span>
-                                        @checkbox.DisplayText
-                                    </span>
-                                </label>
-                            </div>
-                        }
-                    }
-					
-                </div>
-            </div>
+			<div class="col-md-offset-1">
+				@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+				{
+					<button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+							data-toggle="modal" data-target="#addIllnessModal"
+							type="button">
+						<strong>Add Illness</strong>
+					</button>
+				}
+				<div class="checkContainer" id="IllnessOptions">
+					@{
+						List<PinewoodGrow.ViewModels.CheckOptionVM> illnessCheckboxes = ViewBag.IllnessOptions;
+						foreach (var checkbox in illnessCheckboxes)
+						{
+							<div>
+								<label>
+									<input type="checkbox"
+										   name="selectedIllnessOptions"
+										   value="@checkbox.ID"
+										   @(Html.Raw(checkbox.Assigned ? "checked=\"checked\"" : "")) />
+									<span>
+										@checkbox.DisplayText
+									</span>
+								</label>
+							</div>
+						}
+					}
+
+				</div>
+			</div>
         </div>
             <div class="form-group" id="ListMemberSituations">
                 <label class="control-label"><strong>Income Sources</strong> &nbsp; &nbsp;</label><button class="btn btn-outline-success modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#theMemberSituationModal" title="Add Situation" type="button">&#x271A;</button>

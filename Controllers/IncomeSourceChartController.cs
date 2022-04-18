@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PinewoodGrow.Controllers
 {
-    [Authorize(Roles = "Admin, SuperAdmin")]
+    [Authorize(Roles = "SuperAdmin")]
     public class IncomeSourceController : Controller
     {
 		private readonly GROWContext _context;
