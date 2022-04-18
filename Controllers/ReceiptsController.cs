@@ -15,6 +15,10 @@ using System.Text;
 using System.Data;
 using System.Xml;
 using SelectPdf;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
+using System.Net.Mail;
+using PinewoodGrow.ViewModels;
 
 namespace PinewoodGrow.Controllers
 {
@@ -170,6 +174,7 @@ namespace PinewoodGrow.Controllers
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (Receipt == null)
             {
+                TempData["AlertMessage"] = "Order Saved Successfully....!";
                 return NotFound();
             }
 
@@ -209,6 +214,7 @@ namespace PinewoodGrow.Controllers
                 Receipt.ProductUnitPriceID = Price.ID;
             }
 
+            
 
             if (ModelState.IsValid)
             {
@@ -216,8 +222,8 @@ namespace PinewoodGrow.Controllers
                 await _context.SaveChangesAsync();
                 TempData["AlertMessage"] = "Order Saved Successfully....!";
 
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Receipts", new { id = Receipt.ID });
+                //return RedirectToAction(nameof(Index));
             }
             PopulateDropDownLists(Receipt);
             return View(Receipt);
@@ -415,6 +421,83 @@ namespace PinewoodGrow.Controllers
         {
             return Json(getMemberSelectList(ID, null));
         }
+
+
+        public async Task<IActionResult> Notification1(/*int? id, */string Subject, string emailContent)
+        {
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+            //Product t = await _context.Products.FindAsync(id);
+
+            //ViewData["id"] = id;
+            //ViewData["ProductName"] = t.Name;
+
+            if (string.IsNullOrEmpty(Subject) || string.IsNullOrEmpty(emailContent))
+            {
+                ViewData["Message"] = "You must enter both a Subject and some message Content before sending the message.";
+            }
+            else
+            {
+                int folksCount = 0;
+                try
+                {
+                    //Send a Notice.
+                    List<EmailAddress> folks = (from p in _context.Members
+                                                select new EmailAddress
+                                                {
+                                                    Name = p.FullName,
+                                                    Address = p.Email
+                                                }).ToList();
+                    folksCount = folks.Count();
+                    if (folksCount > 0)
+                    {
+                        MailMessage message = new MailMessage();
+                        SmtpClient smtp = new SmtpClient();
+                        message.From = new MailAddress("PinewoodSolutions1@gmail.com");
+                        //message.To.Add(new MailAddress("taewoo0109@gmail.com"));
+                        //message.To.Add(new MailAddress("tryoo1@ncstudents.niagaracollege.ca"));
+                        foreach (EmailAddress v in folks)
+                        {
+                            message.To.Add(new MailAddress(v.Address, v.Name));
+                        }
+                        message.Subject = Subject;
+                        message.IsBodyHtml = true; //to make message body as html  
+                        message.Body = "<p>" + emailContent + "</p><p>Please access the <strong>Niagara College</strong> web site to review.</p>";
+                        smtp.Port = 587;
+                        smtp.Host = "smtp.gmail.com"; //for gmail host  
+                        smtp.EnableSsl = true;
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = new NetworkCredential("PinewoodSolutions1@gmail.com", "Pinewood11");
+                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        smtp.Send(message);
+                        //var msg = new EmailMessage()
+                        //{
+                        //    ToAddresses = folks,
+                        //    Subject = Subject,
+                        //    Content = "<p>" + emailContent + "</p><p>Please access the <strong>Niagara College</strong> web site to review.</p>"
+
+                        //};
+                        //await _emailSender.SendToManyAsync(msg);
+                        //ViewData["Message"] = "Message sent to " + folksCount + " Member"
+                        //    + ((folksCount == 1) ? "." : "s.");
+                    }
+                    else
+                    {
+                        ViewData["Message"] = "Message NOT sent!";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errMsg = ex.GetBaseException().Message;
+                    ViewData["Message"] = "Error: Could not send email message to the " + folksCount + " Member"
+                        + ((folksCount == 1) ? "" : "s");
+                }
+            }
+            return View();
+        }
+
 
         private bool ReceiptExists(int id)
         {

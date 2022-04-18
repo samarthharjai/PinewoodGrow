@@ -113,12 +113,13 @@
 					</div>
                 </div>
                 <div class="row" style="margin-bottom: 50px;">
-					<div class="d-grid gap-2 col-6 mx-auto">
-						<label class="d-print-none">Volunteer: <label class="text-danger d-print-none" style="margin:0px;padding:0;">*</label></label>
-						<select asp-for="VolunteerID" class="form-control" asp-items="ViewBag.VolunteerID">
-							<option>Select Volunteer</option>
-						</select>
-					</div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <label class="d-print-none">Volunteer: <label class="text-danger d-print-none" style="margin:0px;padding:0;">*</label></label>
+                        <select asp-for="VolunteerID" class="form-control" asp-items="ViewBag.VolunteerID">
+                            <option>Select Volunteer</option>
+                        </select>
+                        <p>User is: @User.Identity.Name</p>
+                    </div>
 
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <label class="">Completed On: </label>
@@ -159,7 +160,7 @@
                         <div class="row" style="margin:auto">
                             <div class="col">
                                 <div class="form-group">
-                                    <input asp-for="Quantity" type="text" id="Quantity" placeholder="0" class="form-control" />
+                                    <input asp-for="Quantity" type="text" id="Quantity" value="1" placeholder="0" class="form-control" />
                                     @*<input value="0" class="form-control" type="number" id="txtQan" required>*@
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">Please fill out this field.</div>
@@ -230,7 +231,7 @@
 
                 </table>
                 <div class="row">
-                    <div class="d-grid gap-2 col-4 mx-auto">
+                    <div class="d-grid col-6" style="margin-left: 30px;">
                         <select asp-for="PaymentID" id="PaymentID" style="-webkit-appearance: none;" class="btn btn-outline-success btn-lg" asp-items="ViewBag.PaymentID">
                             <option>Select Payment Type</option>
                         </select>
@@ -238,12 +239,13 @@
                             Please select a valid state.
                         </div>
                     </div>
-                    <div class="d-grid gap-2 col-4 mx-auto">
-                        <input type="submit" id="Save" value="Save Order" class="btn Save btn-outline-success btn-lg d-print-none" />
+                    <div class="d-grid col-5" >
+                        <input type="submit" id="Save" value="Save Order" class="btn Save btn-outline-success btn-lg d-print-none" onclick="window.location= '@Url.Action( "Details", "Receipts")'" />
+                        
                     </div>
-                    <div class="d-grid gap-2 col-4 mx-auto">
+                    @*<div class="d-grid gap-2 col-4 mx-auto">
                         <input type="button" id="btnPdf" value="Print Reciept" class="btn Save btn-outline-success btn-lg d-print-none" />
-                    </div>
+                    </div>*@
 
                 </div>
             </div>
@@ -350,7 +352,7 @@
         function resetSale() {
             document.getElementById("ProductTypeID").value = "";
             document.getElementById("ProductID").value = "";
-            document.getElementById("Quantity").value = 0;
+            document.getElementById("Quantity").value = 1;
             document.getElementById("txtUnitPrice").value = 0;
             document.getElementById("SubTotal").value = 0;
             /*$("#SubTotal").val() = "";*/
