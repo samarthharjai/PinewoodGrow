@@ -46,7 +46,7 @@ namespace PinewoodGrow.Controllers
             var members = from m in _context.Members
                 //.Include(m => m.Address)
                 .Include(m => m.Gender)
-                .Include(m => m.Volunteer)
+                //.Include(m => m.Volunteer)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -154,7 +154,7 @@ namespace PinewoodGrow.Controllers
             var member = await _context.Members
                 //.Include(m => m.Address)
                 .Include(m => m.Gender)
-                .Include(m => m.Volunteer)
+                //.Include(m => m.Volunteer)
                 .Include(m => m.Household).ThenInclude(h=> h.Address)
                 .Include(m => m.MemberDocuments)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
@@ -360,7 +360,7 @@ namespace PinewoodGrow.Controllers
 
 
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "", m => m.FirstName, m => m.LastName, m => m.Age, m => m.DOB, m => m.Telephone, 
-                m => m.Email, m => m.Income, m => m.Notes, m => m.Consent, m => m.VolunteerID, m => m.CompletedOn, m => m.HouseholdID, m => m.GenderID))
+                m => m.Email, m => m.Income, m => m.Notes, m => m.Consent,  m => m.CompletedOn, m => m.HouseholdID, m => m.GenderID))
             //m => m.FamilySize, m => m.AddressID, m => m.Address
             {
                 try
@@ -433,7 +433,7 @@ namespace PinewoodGrow.Controllers
             var member = await _context.Members
                 //.Include(m => m.Address)
                 .Include(m => m.Gender)
-                .Include(m => m.Volunteer)
+                //.Include(m => m.Volunteer)
                 .Include(m => m.Household)
                 .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                 .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -456,7 +456,7 @@ namespace PinewoodGrow.Controllers
             var member = await _context.Members
                //.Include(m => m.Address)
                .Include(m => m.Gender)
-               .Include(m => m.Volunteer)
+               //.Include(m => m.Volunteer)
                .Include(m => m.Household)
                .Include(m => m.MemberDietaries).ThenInclude(m => m.Dietary)
                .Include(m => m.MemberSituations).ThenInclude(m => m.Situation)
@@ -778,7 +778,7 @@ namespace PinewoodGrow.Controllers
         {
             //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
             ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
-            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName", member?.VolunteerID);
+            //ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName", member?.VolunteerID);
             ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary", member?.HouseholdID);
             ViewData["MemberSituationID"] = new SelectList(_context.MemberSituations, "ID", "Summary", member?.MemberSituations);
         }

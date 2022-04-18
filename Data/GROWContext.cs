@@ -223,12 +223,12 @@ namespace PinewoodGrow.Data
 				.HasForeignKey(g => g.GenderID)
 				.OnDelete(DeleteBehavior.Restrict);
 
-			//Prevent Cascade Delete
+			/*//Prevent Cascade Delete
 			modelBuilder.Entity<Volunteer>()
 				.HasMany<Member>(m => m.Members)
 				.WithOne(v => v.Volunteer)
 				.HasForeignKey(v => v.VolunteerID)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.Restrict);*/
 
 			//Prevent Cascade Delete
 			modelBuilder.Entity<Sale>()
