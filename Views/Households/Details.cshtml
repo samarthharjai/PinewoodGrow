@@ -90,7 +90,7 @@
                 <label for="tab4" role="button"  disabled="disabled">
                     <svg viewBox="0 0 24 24">
                         <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
-                    </svg><br><span>Member History</span>
+                    </svg><br><span>LICO History</span>
                 </label>
             </li>
         </ul>
@@ -161,118 +161,118 @@
                             </dd>
                         </dl>
                         @*<h2>Documents</h2>
-        @{
-            var documents = @Model.MemberDocuments;
+                @{
+                    var documents = @Model.MemberDocuments;
 
-            if (documents.Count > 0)
-            {
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Document Name</th>
-                        <th>Document Type</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @{
-                        foreach (var document in documents)
-                        {
+                    if (documents.Count > 0)
+                    {
+                        <table class="table">
+                            <thead>
                             <tr>
-                                <td>
-                                    <a href="#">@document.FileName</a>
-                                </td>
-                                <td>
-                                    NAN
-                                </td>
-                                <td>
-                                    <a href="#">Download</a> | <a href="#">Remove</a> | <a href="#">Edit</a>
-                                </td>
+                                <th>Document Name</th>
+                                <th>Document Type</th>
+                                <th></th>
                             </tr>
-                        }
+                            </thead>
+                            <tbody>
+                            @{
+                                foreach (var document in documents)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="#">@document.FileName</a>
+                                        </td>
+                                        <td>
+                                            NAN
+                                        </td>
+                                        <td>
+                                            <a href="#">Download</a> | <a href="#">Remove</a> | <a href="#">Edit</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
                     }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <p style="height: 100px">No Documents</p>
-            }
-        }*@
+                    else
+                    {
+                        <p style="height: 100px">No Documents</p>
+                    }
+                }*@
                         @{
                             TravelStats stats = ViewBag.TravelStats;
                         }
                     </div>
-                <div class="content-display right" style="width: 40%">
-                    <h2>Travel Info</h2>
-                    <h4>GROW Community Food Literacy Centre</h4>
-                    <ul styl="text-align: center">
-                        <li class="list-time">
-                            <img src="/svg/distance.svg" alt="Distance to Grow community Center, in meters" />
-                            <p id="growDistance">@stats.Grow.DistanceFormat</p>
-                        </li>
-                        <li class="list-time">
-                            <img src="/svg/drive.svg" alt="Time to Drive to Grow Community Center, in seconds" />
-                            <p id="growDrive">@stats.Grow.DriveFormat</p>
-                        </li>
-                        <li class="list-time">
-                            <img src="/svg/bike.svg" alt="Time to bike" />
-                            <p id="growBike">@stats.Grow.BikeFormat</p>
-                        </li>
-                        <li class="list-time">
-                            <img src="/svg/walk.svg" alt="time to walk" />
-                            <p id="growWalk">@stats.Grow.WalkFormat</p>
-                        </li>
-                    </ul>
-                    <h4 style="margin-top: 50px;"> @ViewData["StoreName"] </h4>
-                    <ul styl="text-align: center">
-                        <li class="list-time">
-                            <img src="/svg/distance.svg" alt="Distance to Grow community Center, in meters" />
-                            <p id="">@stats.Store.DistanceFormat</p>
-                        </li>
-                        <li class="list-time">
-                            <img src="/svg/drive.svg" alt="Time to Drive to Grow Community Center, in seconds" />
-                            <p id="">@stats.Store.DriveFormat</p>
-                        </li>
-                        <li class="list-time">
-                            <img src="/svg/bike.svg" alt="Time to bike" />
-                            <p id="">@stats.Store.BikeFormat</p>
-                        </li>
-                        <li class="list-time">
-                            <img src="/svg/walk.svg" alt="time to walk" />
-                            <p id="">@stats.Store.WalkFormat</p>
-                        </li>
-                    </ul>
+                    <div class="content-display right" style="width: 40%">
+                        <h2>Travel Info</h2>
+                        <h4>GROW Community Food Literacy Centre</h4>
+                        <ul styl="text-align: center">
+                            <li class="list-time">
+                                <img src="/svg/distance.svg" alt="Distance to Grow community Center, in meters" />
+                                <p id="growDistance">@stats.Grow.DistanceFormat</p>
+                            </li>
+                            <li class="list-time">
+                                <img src="/svg/drive.svg" alt="Time to Drive to Grow Community Center, in seconds" />
+                                <p id="growDrive">@stats.Grow.DriveFormat</p>
+                            </li>
+                            <li class="list-time">
+                                <img src="/svg/bike.svg" alt="Time to bike" />
+                                <p id="growBike">@stats.Grow.BikeFormat</p>
+                            </li>
+                            <li class="list-time">
+                                <img src="/svg/walk.svg" alt="time to walk" />
+                                <p id="growWalk">@stats.Grow.WalkFormat</p>
+                            </li>
+                        </ul>
+                        <h4 style="margin-top: 50px;"> @ViewData["StoreName"] </h4>
+                        <ul styl="text-align: center">
+                            <li class="list-time">
+                                <img src="/svg/distance.svg" alt="Distance to Grow community Center, in meters" />
+                                <p id="">@stats.Store.DistanceFormat</p>
+                            </li>
+                            <li class="list-time">
+                                <img src="/svg/drive.svg" alt="Time to Drive to Grow Community Center, in seconds" />
+                                <p id="">@stats.Store.DriveFormat</p>
+                            </li>
+                            <li class="list-time">
+                                <img src="/svg/bike.svg" alt="Time to bike" />
+                                <p id="">@stats.Store.BikeFormat</p>
+                            </li>
+                            <li class="list-time">
+                                <img src="/svg/walk.svg" alt="time to walk" />
+                                <p id="">@stats.Store.WalkFormat</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                </div>
-                    <div style="width: 100%; margin-top: 20px; padding-left: 40px;">
-                        <h2>Members</h2>
-                        <div class="actionsContainer" style="top: -10px;">
-                            <div class="btn-custom">
-                                <a  style="width: 140px; left: 10px;" asp-controller="Members" asp-action="Create" asp-route-HouseHoldID="@Model.ID" >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"  fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
-                                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-                                    </svg>
-                                    <span>Add</span>
-                                </a>
-                            </div>
+                <div style="width: 100%; margin-top: 20px; padding-left: 40px;">
+                    <h2>Members</h2>
+                    <div class="actionsContainer" style="top: -10px;">
+                        <div class="btn-custom">
+                            <a style="width: 140px; left: 10px;" asp-controller="Members" asp-action="Create" asp-route-HouseHoldID="@Model.ID">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                    <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                                </svg>
+                                <span>Add</span>
+                            </a>
                         </div>
+                    </div>
 
                     <table class="custom-table">
                         <thead>
                             <tr>
                                 <th>
-                                 Member
+                                    Member
                                 </th>
                                 <th>
-                                  Age
+                                    Age
                                 </th>
                                 <th>
                                     Gender
                                 </th>
                                 <th>
-                                  Income
+                                    Income
                                 </th>
                                 <th>
                                     Telephone
@@ -316,7 +316,7 @@
                                                 </a>
                                             </div>
                                             <div class="btn-index small fix-center">
-                                                <a title="Edit" asp-action="Edit" asp-controller="Members"  asp-route-id="@item.ID">
+                                                <a title="Edit" asp-action="Edit" asp-controller="Members" asp-route-id="@item.ID">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
                                                     </svg>
@@ -328,52 +328,34 @@
                             }
                         </tbody>
                     </table>
-                </div>
-            </section>
-            <section>
-                <div class="content-display-container">
-                    <div class="content-display left" style="width: 50%">
-                        <h2>Income Breakdown</h2>
+                    <div style="width: 40%; margin-top: 60px;">
+                        <h2>Dependant Info</h2>
                         <table class="custom-table">
                             <thead>
                             <tr>
                                 <th>
-                                    Member
-                                </th>
-                                <th>
                                     Age
                                 </th>
                                 <th>
-                                    Income
+                                    DOB
                                 </th>
-                                 
+
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var item in Model.Members)
+                            @foreach (var item in Model.Dependant)
                             {
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FullName)
-                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Age)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Income)
+                                        @Html.DisplayFor(modelItem => item.DOB)
                                     </td>
                                     <td>
                                         <div class="actionsContainer-table">
-                                            <div class="btn-index small purple">
-                                                <a title="View" asp-action="Details" asp-controller="Members" asp-route-id="@item.ID">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                            <div class="btn-index small">
+                                            <div class="btn-index small fix-center">
                                                 <a title="Edit" asp-action="Edit" asp-controller="Members" asp-route-id="@item.ID">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
@@ -386,17 +368,78 @@
                             }
                             </tbody>
                         </table>
+                    </div>
+                    </div>
+
+            </section>
+            <section>
+                <div class="content-display-container">
+                    <div class="content-display left" style="width: 50%">
+                        <h2>Income Breakdown</h2>
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Member
+                                    </th>
+                                    <th>
+                                        Age
+                                    </th>
+                                    <th>
+                                        Income
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Members)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Age)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Income)
+                                        </td>
+                                        <td>
+                                            <div class="actionsContainer-table">
+                                                <div class="btn-index small purple">
+                                                    <a title="View" asp-action="Details" asp-controller="Members" asp-route-id="@item.ID">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                                <div class="btn-index small">
+                                                    <a title="Edit" asp-action="Edit" asp-controller="Members" asp-route-id="@item.ID">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                      
                         <h2>LICO Information</h2>
                         @if (Model.LICO.IsOverride)
                         {
                             <svg class="red" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
-                                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
-                                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+                                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z" />
                             </svg>
                             @:Overridden
                         }
                         <dl class="row dlist" style="width: 100%">
-                     
+
                             <dt class="col-sm-4">
                                 Total Income
                             </dt>
@@ -413,8 +456,8 @@
                                 Eligible?
                             </dt>
                             <dd class="col-sm-8">
-                                @Html.DisplayFor(model => model.LICO.IsVerified) 
-                        
+                                @Html.DisplayFor(model => model.LICO.IsVerified)
+
                             </dd>
                             <dt class="col-sm-4">
                                 Verified On
@@ -427,10 +470,10 @@
                             </dt>
                             <dd class="col-sm-8">
                                 @Model.LICO.DaysTillNext Days
-                                
+
                             </dd>
                         </dl>
-                        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                        @if (ViewContext.HttpContext.User.IsInRole("SuperAdmin"))
                         {
                             @if (!Model.LICO.IsVerified)
                             {
@@ -438,8 +481,8 @@
                                     <a asp-controller="Households" asp-action="OverrideLICO" asp-route-ID="@Model.ID" title="Override LICO" style="width: 250px !important">
                                         Override LICO
                                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
-                                            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
-                                            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+                                            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z" />
                                         </svg>
                                     </a>
                                 </div>
@@ -450,14 +493,14 @@
                                     <a asp-controller="Households" asp-action="RemoveOverrideLICO" asp-route-ID="@Model.ID" title="Override LICO" style="width: 250px !important">
                                         Remove Override
                                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
-                                            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
-                                            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+                                            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z" />
                                         </svg>
                                     </a>
                                 </div>
                             }
                         }
-                  
+
                     </div>
                     
                     <div class="content-display right" style="width: 50%">
@@ -513,9 +556,113 @@
             </section>
             <section>
                 <h2>Purchase History</h2>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Completes On
+                            </th>
+                            <th>
+                                Volunteer
+                            </th>
+                            <th>
+                                Total
+                            </th>
+                            <th>
+                                Payment Type
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Receipt item in ViewBag.Orders)
+                        {
+                            <tr>
+                                <td>
+                                    @item.CompletedOn
+                                </td>
+                            
+                                <td>
+                                    @item.Volunteer.FullName
+                                </td>
+                                <td>
+                                    @item.SubTotal.ToString("C")
+                                </td>
+                                <td>
+                                    @item.Payment.Type
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </section>
             <section>
-                <h2>Member History</h2>
+                <h2>LICO History</h2>
+                <table class="custom-table">
+                    <thead>
+                    <tr>
+                        <th>
+                            Verified
+                        </th>
+                        <th>
+                            Date Verified
+                        </th>
+                        <th>
+                            Income
+                        </th>
+                        <th>
+                            Family Size
+                        </th>
+                        <th>
+                            Verified By
+                        </th>
+
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.LICOHistory)
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.IsVerified)
+                                    {
+                                        if (item.IsOverride)
+                                        {
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                                                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+                                                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z" />
+                                            </svg>
+                                        }
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                                    </svg>
+                                    }
+                                    else
+                                    {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                    </svg>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Income)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FamilySize)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </section>
         </div>
     </div>

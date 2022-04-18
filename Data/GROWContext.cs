@@ -69,6 +69,7 @@ namespace PinewoodGrow.Data
         #region Temp Tables
 
         public DbSet<TempHousehold> TempHouseholds { get; set; }
+        public DbSet<TempDependant> TempDependents { get; set; }
         public DbSet<TempMember> TempMembers { get; set; }
         public DbSet<TempMemberDietary> TempMemberDietaries { get; set; }
         public DbSet<TempMemberDocument> TempMemberDocuments { get; set; }
@@ -152,7 +153,8 @@ namespace PinewoodGrow.Data
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Dependant>().HasOne(h => h.Household).WithMany(h => h.Dependant)
                 .HasForeignKey(h => h.HouseholdID).OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<TempDependant>().HasOne(h => h.Household).WithMany(h => h.Dependant)
+                .HasForeignKey(h => h.HouseholdID).OnDelete(DeleteBehavior.Restrict);
 
             /*
                         modelBuilder.Entity<Household>()

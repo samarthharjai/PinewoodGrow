@@ -15,7 +15,9 @@ using PinewoodGrow.Models;
 using PinewoodGrow.Utilities;
 using PinewoodGrow.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PinewoodGrow.Models.Temp;
+using SQLitePCL;
 
 namespace PinewoodGrow.Controllers
 {
@@ -113,7 +115,7 @@ namespace PinewoodGrow.Controllers
                 .ThenInclude(a=> a.TravelDetail).ThenInclude(a=> a.GroceryStore)
                 .Include(h => h.Members).ThenInclude(m=> m.MemberSituations)
                 .Include(h=> h.Members).ThenInclude(h=> h.Gender)
-                .Include(a=> a.LICOHistory)
+                .Include(a=> a.LICOHistory).Include(a=> a.Dependant)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (household == null)
             {
@@ -132,7 +134,16 @@ namespace PinewoodGrow.Controllers
             }).Where(a=> a.Income != 0).OrderByDescending(a=> a.Income).ToList();
 
 
-
+            var orders = _context.Receipts
+                .Include(a=> a.Volunteer)
+                .Include(a=> a.Payment)
+                .Include(r => r.Product)
+                .Include(r => r.ProductUnitPrice)
+                .Include(r => r.ProductType)
+                .Where(a => a.HouseholdID == household.ID)
+                .OrderBy(a=> a.CreatedOn)
+                .ToList();
+            ViewData["Orders"] = orders;
             ViewData["TravelStats"] = (household.IsFixedAddress && household.Address.TravelDetail != null) ? new TravelStats(household.Address.TravelDetail): new TravelStats();
             ViewData["StoreName"] = (household.IsFixedAddress && household.Address.TravelDetail != null)
                 ? household.Address.TravelDetail.GroceryStore.Name

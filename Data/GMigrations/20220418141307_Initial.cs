@@ -419,6 +419,31 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TempDependents",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedOn = table.Column<DateTime>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false),
+                    HouseholdID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TempDependents", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_TempDependents_TempHouseholds_HouseholdID",
+                        column: x => x.HouseholdID,
+                        principalTable: "TempHouseholds",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TempMembers",
                 columns: table => new
                 {
@@ -1062,6 +1087,11 @@ namespace PinewoodGrow.Data.GMigrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_TempDependents_HouseholdID",
+                table: "TempDependents",
+                column: "HouseholdID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TempHouseholds_AddressID",
                 table: "TempHouseholds",
                 column: "AddressID");
@@ -1174,6 +1204,9 @@ namespace PinewoodGrow.Data.GMigrations
 
             migrationBuilder.DropTable(
                 name: "SaleDetails");
+
+            migrationBuilder.DropTable(
+                name: "TempDependents");
 
             migrationBuilder.DropTable(
                 name: "TempMemberDietaries");

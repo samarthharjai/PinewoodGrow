@@ -12,6 +12,7 @@ namespace PinewoodGrow.Models.Temp
 		public TempHousehold()
 		{
 			Members = new HashSet<TempMember>();
+            Dependant = new HashSet<TempDependant>();
 			MemberHouseholds = new HashSet<TempMemberHousehold>();
 		}
 
@@ -73,6 +74,7 @@ namespace PinewoodGrow.Models.Temp
 
 		public ICollection<TempMember> Members { get; set; }
 
+        public ICollection<TempDependant> Dependant { get; set; }
 		public ICollection<TempMemberHousehold> MemberHouseholds { get; set; }
 	}
 }

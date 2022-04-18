@@ -9,14 +9,14 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220418061759_Initial")]
+    [Migration("20220418141307_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.21");
+                .HasAnnotation("ProductVersion", "3.1.24");
 
             modelBuilder.Entity("PinewoodGrow.Models.Address", b =>
                 {
@@ -861,6 +861,44 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("TempAddresses");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.Temp.TempDependant", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DOB")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("HouseholdID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("HouseholdID");
+
+                    b.ToTable("TempDependents");
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.Temp.TempHousehold", b =>
                 {
                     b.Property<int>("ID")
@@ -1439,6 +1477,15 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Sale", "Sale")
                         .WithMany("SaleDetails")
                         .HasForeignKey("SaleID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.Temp.TempDependant", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Temp.TempHousehold", "Household")
+                        .WithMany("Dependant")
+                        .HasForeignKey("HouseholdID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

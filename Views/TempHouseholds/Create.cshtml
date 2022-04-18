@@ -16,6 +16,7 @@
 </div>
 <hr />
 <partial name="_TempMemberModal" />
+<partial name="_AddDepentandModal" />
 <form asp-action="CreateHouseHold" method="post" enctype="multipart/form-data" name="HouseholdForm" id="HouseholdForm">
     @*<div class="form-group">
             <input type="button" id="btnSampleDataHouse" value="Sample Data" class="btn btn-info" />
@@ -83,23 +84,56 @@
         <div class="col-md-offset-1" id="TempMemberList">
             <table>
                 @*@{
-                    foreach (var item in Model.Members)
-                    {
-                        @:<tr>
-                            <td>
-                                @item.FirstName
-                            @:</td><td>
-                                @:&nbsp; &nbsp;
-                                <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#tempMemberModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
-                                <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
-                            @:</td></tr>
-                        }
+                        foreach (var item in Model.Members)
+                        {
+                            @:<tr>
+                                <td>
+                                    @item.FirstName
+                                @:</td><td>
+                                    @:&nbsp; &nbsp;
+                                    <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#tempMemberModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
+                                    <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
+                                @:</td></tr>
+                            }
 
-                }*@
+                    }*@
             </table>
             <div class="actionsContainer-center" style="top: -10px;">
                 <div class="btn-add-member">
                     <a style="width: 360px" class="temp-modal-link" tag="" name="CreateForm" data-toggle="modal" data-target="#tempMemberModal" title="Add Member" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                        <span>Add</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <h2 style="margin-top: 40px">Dependants</h2>
+    <div class="form-group" id="ListDependants">
+        <div class="col-md-offset-1" id="DependantList">
+            <table>
+                @*@{
+                        foreach (var item in Model.Members)
+                        {
+                            @:<tr>
+                                <td>
+                                    @item.FirstName
+                                @:</td><td>
+                                    @:&nbsp; &nbsp;
+                                    <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="EditForm" data-toggle="modal" data-target="#tempMemberModal" title="Edit @item.FirstName" type="button">&#x270D;</button>
+                                    <button class="btn btn-sm temp-modal-link" tag="@item.ID" name="DeleteForm" data-toggle="modal" data-target="#tempMemberModal" title="Delete @item.FirstName" type="button">&#x274C;</button>
+                                @:</td></tr>
+                            }
+
+                    }*@
+            </table>
+            <div class="actionsContainer-center" style="top: -10px;">
+                <div class="btn-add-member">
+                    <a style="width: 360px" class="temp-modal-link-2" tag="" name="CreateForm" data-toggle="modal" data-target="#tempDependantModal" title="Add Dependent" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
                             <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                             <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
@@ -167,6 +201,13 @@
         })
     </script>*@
 <script>
+
+    function ShowDependantForm(parameters) {
+
+        $('#tempDependantModal').modal('show');
+        console.log("Show");
+    }
+
     document.getElementById("chkFixed").addEventListener("click",
         function () {
             if (this.checked) {
@@ -218,6 +259,7 @@
         $(document).on("click",
             ".temp-modal-link",
             function() {
+                console.log("DoingStuff");
                 var actionForm = $(this).attr("name");
                 var memberSituationID = $(this).attr("tag");
                 refreshModal(actionForm, memberSituationID);
@@ -246,6 +288,7 @@
                         success: function() {
                             $('#tempMemberModal').modal('hide');
                             $('#TempMemberList').load('/TempHouseholds/TempMemberList/@Model.ID');
+
                         },
                         error: function() {
                             alert("Operation Failed.  There was a problem maintaing the data.");
@@ -255,10 +298,14 @@
 
                 return false;
             });
-        $('#tempMemberModal').on('hide.bs.modal',
-            ".temp-modal-link",
-            function() {
 
+
+        $(document).on('hidden.bs.modal',
+            '#tempMemberModal',
+            function() {
+                if (!$('#tempMemberModal').is(':visible')) {
+                    $('#formTempMemberBody').load('/TempMembers/DeleteTempMember/');
+                }
             });
 
         $("#btnSave").click(function(event) {
@@ -282,38 +329,102 @@
             return false;
         });
 
+    </script>
+    <script type="text/javascript">
 
+
+        //
+        //
+        //
+        //
+        function refreshDependantModal(actionForm, memberSituationID) {
+            switch (actionForm) {
+            case 'CreateForm':
+                $('#formTempDependantBody').load(('/TempDependants/CreateTempDependant/@Model.ID'));
+                break;
+            case 'EditForm':
+                $('#formTempDependantBody').load('/TempDependants/EditTempDependant/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                $('#formTempDependantBody').load('/TempDependants/DeleteTempDependant/' + memberSituationID);
+                break;
+            default:
+                break;
+            };
+            return;
+        };
+
+        $(document).on("click",
+            ".temp-modal-link-2",
+            function() {
+                var actionForm = $(this).attr("name");
+                var memberSituationID = $(this).attr("tag");
+                refreshDependantModal(actionForm, memberSituationID);
+            });
+        $(document).on("click",
+            "#submitTempDependantForm",
+            function(event) {
+                console.log('In /here');
+                event.preventDefault();
+                var form = $('#TempDependantForm');
+                var formData = new FormData(form[0]);
+
+                if (form.valid()) {
+                    $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        url: form.attr('action'),
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function() {
+                            $('#tempDependantModal').modal('hide');
+                            $('#DependantList').load('/TempHouseholds/DependantList/@Model.ID');
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+                }
+
+                return false;
+            });
+        $('#tempDependantModal').on('hide.bs.modal',
+            ".temp-modal-link-2",
+            function() {
+
+            });
     </script>
     <script type="text/javascript">
         //New for modal
         function refreshSituationModal(actionForm, memberSituationID) {
             const memberID = $('#TempID').val();
             switch (actionForm) {
-                case 'CreateForm':
-                    $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + memberID);
-                    break;
-                case 'EditForm':
-                    $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
-                    break;
-                case 'DeleteForm':
-                    $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation/' + memberSituationID);
-                    break;
-                default:
-                    break;
+            case 'CreateForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/CreateMemberSituation/' + memberID);
+                break;
+            case 'EditForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/EditMemberSituation/' + memberSituationID);
+                break;
+            case 'DeleteForm':
+                $('#formMemberSituationBody').load('/TempMemberSituations/DeleteMemberSituation/' + memberSituationID);
+                break;
+            default:
+                break;
             };
             return;
         };
 
         $(document).on("click",
             ".modal-link",
-            function () {
+            function() {
                 var actionForm = $(this).attr("name");
                 var memberSituationID = $(this).attr("tag");
                 refreshSituationModal(actionForm, memberSituationID);
             });
         $(document).on("click",
             "#submitMemberSituationForm",
-            function (event) {
+            function(event) {
                 event.preventDefault();
                 var form = $('#theMemberSituationForm');
                 if (form.valid()) {
@@ -321,12 +432,12 @@
                         type: "POST",
                         url: form.attr('action'),
                         data: form.serialize(),
-                        success: function () {
+                        success: function() {
                             $('#theMemberSituationModal').modal('hide');
                             const memID = $('#TempID').val();
                             $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
                         },
-                        error: function () {
+                        error: function() {
                             alert("Operation Failed.  There was a problem maintaing the data.");
                         }
                     });
@@ -336,7 +447,7 @@
                 return false;
             });
         $('#theMemberSituationModal').on('hide.bs.modal',
-            function () {
+            function() {
                 const memID = $('#TempID').val();
                 $('#MemberSituationList').load('/TempMembers/MemberSituationList/' + memID);
             });
@@ -347,7 +458,7 @@
 
         $(document).on("click",
             "#submitDietaryCreate",
-            function (event) {
+            function(event) {
                 event.preventDefault();
                 var form = $('#createDietaryForm');
                 if (form.valid()) {
@@ -355,16 +466,16 @@
                         type: "POST",
                         url: form.attr('action'),
                         data: form.serialize(),
-                        success: function () {
+                        success: function() {
                             $('#addDietaryModal').modal('hide');
-                            var checkedVals = $("#DietOptions input[type=checkbox]").filter(":checked").map(function () {
+                            var checkedVals = $("#DietOptions input[type=checkbox]").filter(":checked").map(function() {
                                 return this.value;
                             }).get();
 
                             var URI2 = "/TempMembers/GetDietariesCheckbox?skip=" + checkedVals.join(",");
                             refreshCheckbox("DietOptions", URI2, true, "No Data Available", false, null, false);
                         },
-                        error: function () {
+                        error: function() {
                             alert("Create Failed.  There was a problem adding the record.");
                         }
                     });
@@ -372,7 +483,7 @@
                 return false;
             });
         $('#addDietaryModal').on('hide.bs.modal',
-            function () {
+            function() {
                 $('#createDietaryForm').find("input[type=text], textarea, select").val(""); //to clear the data in the popup
                 //This will be a comma separated list of the keys of the selected options and
                 //we will pass it as a QueryString parameter when we get the new data
@@ -380,7 +491,7 @@
                 //Get the collection of currently selected options
                 var skipData = $("#selectedDietOptions input[type=checkbox]");
                 $.each(skipData,
-                    function () {
+                    function() {
                         if (this.checked === "checked") {
                             qstring += this.val() + ",";
                         }
@@ -399,7 +510,7 @@
 
         $(document).on("click",
             "#submitIllnessCreate",
-            function (event) {
+            function(event) {
                 event.preventDefault();
                 var form = $('#createIllnessForm');
                 if (form.valid()) {
@@ -407,19 +518,18 @@
                         type: "POST",
                         url: form.attr('action'),
                         data: form.serialize(),
-                        success: function () {
+                        success: function() {
                             $('#addIllnessModal').modal('hide');
 
                             var checkedVals = $("#IllnessOptions input[type=checkbox]").filter(":checked").map(function() {
                                 return this.value;
                             }).get();
 
-             
 
                             var URI2 = "/TempMembers/GetIllnessCheckbox?skip=" + checkedVals.join(",");
                             refreshCheckbox("IllnessOptions", URI2, true, "No Data Available", false, null, false);
                         },
-                        error: function () {
+                        error: function() {
                             alert("Create Failed.  There was a problem adding the record.");
                         }
                     });
@@ -427,7 +537,7 @@
                 return false;
             });
         $('#addIllnessModal').on('hide.bs.modal',
-            function () {
+            function() {
                 $('#createIllnessForm').find("input[type=text], textarea, select").val(""); //to clear the data in the popup
                 //This will be a comma separated list of the keys of the selected options and
                 //we will pass it as a QueryString parameter when we get the new data
@@ -435,7 +545,7 @@
                 //Get the collection of currently selected options
                 var skipData = $("#selectedIllnessOptions input[type=checkbox]");
                 $.each(skipData,
-                    function () {
+                    function() {
                         if (this.checked === "checked") {
                             qstring += this.val() + ",";
                         }
@@ -457,21 +567,20 @@
 <script type="text/javascript">
     function JSconfirm() {
         swal({
-            title: "Redirect to main page!",
-            text: "Redirect me to home page?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        },
-            function (isConfirm) {
+                title: "Redirect to main page!",
+                text: "Redirect me to home page?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm) {
                 if (isConfirm) {
                     window.location = "https://www.jquery-az.com/";
-                }
-                else {
+                } else {
                     swal("You are not redirected!", "success");
                 }
             });

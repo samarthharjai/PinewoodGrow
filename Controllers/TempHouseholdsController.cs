@@ -38,7 +38,12 @@ namespace PinewoodGrow.Controllers
                 .ToList();
             return PartialView("_MemberSituationList");
         }
-
+        public PartialViewResult DependantList(int id)
+        {
+            ViewBag.TempDependents = _context.TempDependents.Where(a => a.HouseholdID == id).ToList();
+               
+            return PartialView("_TempDependantList");
+        }
         #endregion
 
         #region Custom Controllers
@@ -122,7 +127,7 @@ namespace PinewoodGrow.Controllers
         {
 
             var householdToupdate = await _context.TempHouseholds
-                .Include(d => d.Address)
+                .Include(d => d.Address).Include(a=> a.Dependant)
                 .Include(d => d.Members)
                 .Include(d => d.MemberHouseholds)
                 .ThenInclude(d => d.Member)
@@ -154,7 +159,8 @@ namespace PinewoodGrow.Controllers
                 .Include(a=> a.MemberDietaries)
                 .Include(a=> a.MemberDocuments)
                 .Include(a=> a.MemberDietaries)
-                .Include(a=> a.MemberIllnesses).ToList();
+                .Include(a=> a.MemberIllnesses)
+                .ToList();
 
        
 
@@ -167,6 +173,16 @@ namespace PinewoodGrow.Controllers
             UpdateLicoInformation(householdID);
 
             TempData["AlertMessage"] = "Household Information Saved Successfully....!";
+
+
+            var validDependants = householdToupdate.Dependant.Where(a => a.isValid).Select(a=> new Dependant
+            {
+                HouseholdID = householdID,
+                DOB = a.DOB,
+            }).ToList();
+            await _context.AddRangeAsync(validDependants);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Details", "Households", new { id = householdID });
 
 
