@@ -73,13 +73,13 @@
                 </select>
                 <span asp-validation-for="HouseholdID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="VolunteerID" class="control-label"></label><label class="text-danger" style="margin:5px;padding:0;">*</label>
                 <select asp-for="VolunteerID" class="form-control" id="txtComplete" asp-items="ViewBag.VolunteerID">
                     <option value="">Select a Volunteer</option>
                 </select>
                 <span asp-validation-for="VolunteerID" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="CompletedOn" class="control-label"></label>
                 <input asp-for="CompletedOn" class="form-control" id="txtDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
@@ -114,11 +114,14 @@
 						<strong>+</strong>
 					</button>
 					@Html.ListBox("availOptions", (MultiSelectList)ViewBag.availDietOpts, new { @size = 3, @class = "form-control" })
-					<button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
-							data-toggle="modal" data-target="#addDietaryModal"
-							type="button">
-						<strong>Add Dietary Restriction</strong>
-					</button>
+					@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+					{
+						<button class="btn btn-outline-secondary btn-sm" id="nowAddDietary"
+								data-toggle="modal" data-target="#addDietaryModal"
+								type="button">
+							<strong>Add Dietary Restriction</strong>
+						</button>
+					}
 				</div>
 			</div>
 
@@ -135,11 +138,14 @@
 						<strong>+</strong>
 					</button>
 					@Html.ListBox("availIllnessOptions", (MultiSelectList)ViewBag.availIllOpts, new { @size = 3, @class = "form-control" })
-					<button class="btn btn-outline-secondary btn-sm" id="nowAddIllness"
-							data-toggle="modal" data-target="#addIllnessModal"
-							type="button">
-						<strong>Add Illness</strong>
-					</button>
+					@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+					{
+						<button class="btn btn-outline-secondary btn-sm" id="nowAddIllness"
+								data-toggle="modal" data-target="#addIllnessModal"
+								type="button">
+							<strong>Add Illness</strong>
+						</button>
+					}
 				</div>
 			</div>
             <div class="form-group" id="ListMemberSituations">

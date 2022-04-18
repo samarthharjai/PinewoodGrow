@@ -198,7 +198,7 @@ namespace PinewoodGrow.Data.SeedData
                     Email = GetRandomEmail(firstName, FamilyName),
                     Notes = LoremIpsum(10, 50, 1, 4, 1),
                     Consent = true,
-                    VolunteerID = getRandomVolunteer(),
+                    //VolunteerID = getRandomVolunteer(),
                     CompletedOn = DateTime.Today,
                     GenderID = getRandomGender(),
                     DOB = RandomDay(),

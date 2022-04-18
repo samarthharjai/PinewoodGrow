@@ -259,7 +259,7 @@ namespace PinewoodGrow.Controllers
                 GenderID = tmpMember.GenderID.GetValueOrDefault(),
                 HouseholdID = HouseID,
                 Notes = tmpMember.Notes,
-                VolunteerID = 1,
+                //VolunteerID = 1,
             };
             try
             {

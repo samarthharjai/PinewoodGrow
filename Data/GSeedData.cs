@@ -146,8 +146,7 @@ namespace PinewoodGrow.Data
                         new ProductType { ID = 2, Type = "Freezer"},
                         new ProductType { ID = 3, Type = "Dairy/Eggs/Bread"},
                         new ProductType { ID = 4, Type = "Pantry"},
-                        new ProductType { ID = 5, Type = "Specials"},
-                        new ProductType { ID = 6, Type = "Other"}
+                        new ProductType { ID = 5, Type = "Specials"}
                     };
                     context.ProductTypes.AddRange(productTypes);
                     context.SaveChanges();

@@ -99,10 +99,10 @@ namespace PinewoodGrow.Models
 		[Required(ErrorMessage = "You cannot leave the Consent unselected.")]
 		public bool Consent { get; set; }
 
-		[Display(Name = "Completed By")]
+		/*[Display(Name = "Completed By")]
 		[Required(ErrorMessage = "You cannot leave the Completed By blank.")]
 		public int VolunteerID { get; set; }
-		public Volunteer Volunteer { get; set; }
+		public Volunteer Volunteer { get; set; }*/
 
 		[Display(Name = "Completed On")]
 		[Required(ErrorMessage = "You cannot leave the Completed On blank.")]

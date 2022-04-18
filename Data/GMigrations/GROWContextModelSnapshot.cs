@@ -418,7 +418,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("VolunteerID")
+                    b.Property<int?>("VolunteerID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
@@ -1314,11 +1314,9 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasForeignKey("HouseholdID")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
+                    b.HasOne("PinewoodGrow.Models.Volunteer", null)
                         .WithMany("Members")
-                        .HasForeignKey("VolunteerID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("VolunteerID");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.MemberDietary", b =>
