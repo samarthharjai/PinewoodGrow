@@ -192,7 +192,7 @@ namespace PinewoodGrow.Controllers
         }
 
         // GET: Members/Create
-        public IActionResult Create()
+        public IActionResult Create(int? HouseHoldID)
         {
 
             /*var now = DateTime.Now;
@@ -200,8 +200,9 @@ namespace PinewoodGrow.Controllers
 
             var Tempmember = new TempMember()
             {
-           
+                HouseholdID = HouseHoldID
             };
+
             _context.TempMembers.Add(Tempmember);
             _context.SaveChanges();
 
@@ -216,7 +217,7 @@ namespace PinewoodGrow.Controllers
             PopulateAssignedDietaryData(member);
             PopulateAssignedSituationData(member);
             PopulateAssignedIllnessData(member);
-            PopulateDropDownLists();
+            PopulateTempDropDownLists(Tempmember);
 
             ViewData["MemberIncomeTypes"] = _context.Situations.Select(a => a);
             ViewData["TempMemberID"] = Tempmember.ID;
@@ -806,7 +807,14 @@ namespace PinewoodGrow.Controllers
 
 
         #region MyRegion
-
+        private void PopulateTempDropDownLists(TempMember member = null)
+        {
+            //ViewData["AddressID"] = new SelectList(_context.Addresses, "ID", "City", member?.AddressID);
+            ViewData["GenderID"] = new SelectList(_context.Genders, "ID", "Name", member?.GenderID);
+            ViewData["VolunteerID"] = new SelectList(_context.Volunteers, "ID", "FullName", member?.VolunteerID);
+            ViewData["HouseSummary"] = new SelectList(_context.Households, "ID", "HouseSummary", member?.HouseholdID);
+            ViewData["MemberSituationID"] = new SelectList(_context.MemberSituations, "ID", "Summary", member?.MemberSituations);
+        }
         private void PopulateAssignedTempDietaryData(TempMember member)
         {
             //For this to work, you must have Included the child collection in the parent object
