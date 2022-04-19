@@ -423,9 +423,6 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.HasIndex("GenderID");
 
                     b.HasIndex("HouseholdID");
@@ -1482,7 +1479,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Temp.TempHousehold", "Household")
                         .WithMany("Dependant")
                         .HasForeignKey("HouseholdID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

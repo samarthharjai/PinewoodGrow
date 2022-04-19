@@ -358,6 +358,7 @@ namespace PinewoodGrow.Controllers
 
             var households = from t in _context.TempHouseholds
                 .Include(t => t.Address)
+                .Include(a=> a.Dependant)
                 .Include(a=> a.Members).ThenInclude(m=> m.MemberSituations)
                     select  t;
 
@@ -470,6 +471,8 @@ namespace PinewoodGrow.Controllers
 
             ViewData["TempMembers"] = members;
             ViewData["AddressID"] = new SelectList(_context.TempAddresses, "ID", "ID", tempHousehold.AddressID);
+
+            ViewData["TempDependents"] = _context.TempDependents.Where(a => a.HouseholdID == tempHousehold.ID).ToList();
             return View(tempHousehold);
         }
 

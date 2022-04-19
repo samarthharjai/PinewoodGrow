@@ -94,27 +94,28 @@
 
 <hr />
 <form asp-action="Create">
+    <input type="hidden" value="," name="saleData"/>
     <div class="container">
         <div class="row">
 
             <div id="hiddentSelect">
                 <div class="row " style="margin-bottom: 50px;">
                     <div class="d-grid gap-2 col-6 mx-auto">
-                        <label class="d-print-none">Household: <label class="text-danger d-print-none" style="margin:0px;padding:0;">*</label></label>
+                        <label class="d-print-none">Household: <label class="text-danger d-print-none" style="margin: 0px; padding: 0;">*</label></label>
                         <select asp-for="HouseholdID" class="form-control" id="selecthide" asp-items="ViewBag.HouseSummary">
                             <option>Select Household</option>
                         </select>
                     </div>
-					<div class="d-grid gap-2 col-6 mx-auto">
-						<label class="d-print-none">Members: <label class="text-danger d-print-none" style="margin:0px;padding:0;">*</label></label>
-						<select asp-for="MemberID"  id="MemberID" class="form-control" asp-items="ViewBag.MemberID">
-							<option>Select Member</option>
-						</select>
-					</div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <label class="d-print-none">Members: <label class="text-danger d-print-none" style="margin: 0px; padding: 0;">*</label></label>
+                        <select asp-for="MemberID" id="MemberID" class="form-control" asp-items="ViewBag.MemberID">
+                            <option>Select Member</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row" style="margin-bottom: 50px;">
                     <div class="d-grid gap-2 col-6 mx-auto">
-                        <label class="d-print-none">Volunteer: <label class="text-danger d-print-none" style="margin:0px;padding:0;">*</label></label>
+                        <label class="d-print-none">Volunteer: <label class="text-danger d-print-none" style="margin: 0px; padding: 0;">*</label></label>
                         <select asp-for="VolunteerID" class="form-control" asp-items="ViewBag.VolunteerID">
                             <option>Select Volunteer</option>
                         </select>
@@ -123,7 +124,7 @@
 
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <label class="">Completed On: </label>
-                        <input asp-for="CompletedOn" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        <input asp-for="CompletedOn" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")"/>
                     </div>
                 </div>
             </div>
@@ -134,7 +135,7 @@
                 </figure>
 
                 <div class="mb-3 d-print-none">
-                    <label for="validationTooltip02" class="form-label">Product Categories: </label><label class="text-danger" style="margin:5px;padding:0;">*</label>
+                    <label for="validationTooltip02" class="form-label">Product Categories: </label><label class="text-danger" style="margin: 5px; padding: 0;">*</label>
                     <select asp-for="ProductTypeID" id="ProductTypeID" name="ProductTypeID" class="form-control" asp-items="ViewBag.ProductTypeID">
                         <option selected disabled value="">Select Product Categories</option>
                     </select>
@@ -143,42 +144,42 @@
                     </div>
                 </div>
 
-                    <!-- Need to select something -->
-                    <div class="mb-3">
-                        <label for="validationTooltip02" class="form-label">Product: </label><label class="text-danger" style="margin:5px;padding:0;">*</label>
-                        <select asp-for="ProductID" id="ProductID" class="form-control" asp-items="ViewBag.ProductID">
-                            <option selected disabled value="">Select Product</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please select a valid state.
-                        </div>
+                <!-- Need to select something -->
+                <div class="mb-3">
+                    <label for="validationTooltip02" class="form-label">Product: </label><label class="text-danger" style="margin: 5px; padding: 0;">*</label>
+                    <select asp-for="ProductID" id="ProductID" class="form-control" asp-items="ViewBag.ProductID">
+                        <option selected disabled value="">Select Product</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a valid state.
                     </div>
+                </div>
 
-                    <!-- number validation it should be over 1 -->
-                    <div class="mb-3">
-                        <label for="validationTooltip02" class="form-label">Quantity: </label><label class="text-danger" style="margin:5px;padding:0;">*</label>
-                        <div class="row" style="margin:auto">
-                            <div class="col">
-                                <div class="form-group">
-                                    <input asp-for="Quantity" type="text" id="Quantity" value="1" placeholder="0" class="form-control" />
-                                    @*<input value="0" class="form-control" type="number" id="txtQan" required>*@
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                </div>
+                <!-- number validation it should be over 1 -->
+                <div class="mb-3">
+                    <label for="validationTooltip02" class="form-label">Quantity: </label><label class="text-danger" style="margin: 5px; padding: 0;">*</label>
+                    <div class="row" style="margin: auto">
+                        <div class="col">
+                            <div class="form-group">
+                                <input asp-for="Quantity" type="text" id="Quantity" value="1" placeholder="0" class="form-control"/>
+                                @*<input value="0" class="form-control" type="number" id="txtQan" required>*@
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
                             </div>
+                        </div>
 
-                            @*<div class="col-9">
+                        @*<div class="col-9">
                                 <input type="button" class="btn btn-outline-dark" id="btnAddQan" value="+ Quantity" />
                                 <input type="button" class="btn btn-outline-secondary" id="btnMinQan" value="- Quantity" />
                             </div>*@
-                        </div>
                     </div>
+                </div>
 
                 <!-- can not be blank -->
                 <label for="validationCustom01 d-print-none">Unit Price: </label>
                 <div class="input-group mb-3 d-print-none">
                     <span class="input-group-text">$</span>
-                    <input id="txtUnitPrice" name="unitPrice" class="form-control" type="text" value="@ViewBag.UnitPrice" />
+                    <input id="txtUnitPrice" name="unitPrice" class="form-control" type="text" value="@ViewBag.UnitPrice"/>
                     @*<input type="number" class="form-control" id="txtPrice" placeholder="0.00" disabled required>*@
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>
@@ -186,15 +187,15 @@
                 <label for="validationCustom01 d-print-none">Total: </label>
                 <div class="input-group mb-3 d-print-none">
                     <span class="input-group-text">$</span>
-                    <input asp-for="SubTotal" name="SubTotal" type="text" id="SubTotal" value="0" class="form-control" />
+                    <input asp-for="SubTotal" name="SubTotal" type="text" id="SubTotal" value="0" class="form-control"/>
                     @*<input type="number" class="form-control" id="txtPrice" placeholder="0.00" disabled required>*@
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
                 <div class="form-group d-print-none">
                     <figure class="text-center">
-                        <input type="button" onclick="addSale()" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" id="btnAdd" value="Add" />
-                        <input type="reset" class="btn btn-outline-danger btn-lg btn-block" style="width: 30%; margin-bottom: 9px" id="btnClear" />
+                        <input type="button" onclick="addSale()" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" id="btnAdd" value="Add"/>
+                        <input type="reset" class="btn btn-outline-danger btn-lg btn-block" style="width: 30%; margin-bottom: 9px" id="btnClear"/>
                     </figure>
                 </div>
 
@@ -203,30 +204,30 @@
 
             <div id="secdiv" class="col-8">
 
-                <table class="table" id="saletable">
+                <table class="table" id="saletable" name="saleTable">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Products</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Unit Price</th>
-                            <th scope="col">Total</th>
-                            <th scope="col" class="d-print-none">Delete</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Products</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Total</th>
+                        <th scope="col" class="d-print-none">Delete</th>
+                    </tr>
                     </thead>
 
                     <tbody id="saleTableData">
                     </tbody>
 
                     <tfoot id="saleTableTotal">
-                        <tr class="table-success">
-                            <th scope="row">Total</th>
-                            <td></td>
-                            <td id="txtTotalQan">0</td>
-                            <td></td>
-                            <td id="txtTotal">$0</td>
-                            <td class="d-print-none"></td>
-                        </tr>
+                    <tr class="table-success">
+                        <th scope="row">Total</th>
+                        <td></td>
+                        <td id="txtTotalQan">0</td>
+                        <td></td>
+                        <td id="txtTotal">$0</td>
+                        <td class="d-print-none"></td>
+                    </tr>
                     </tfoot>
 
                 </table>
@@ -239,9 +240,9 @@
                             Please select a valid state.
                         </div>
                     </div>
-                    <div class="d-grid col-5" >
-                        <input type="submit" id="Save" value="Save Order" class="btn Save btn-outline-success btn-lg d-print-none" onclick="window.location= '@Url.Action( "Details", "Receipts")'" />
-                        
+                    <div class="d-grid col-5">
+                        <input type="submit" id="Save" value="Save Order" class="btn Save btn-outline-success btn-lg d-print-none" onclick="window.location = '@Url.Action("Details", "Receipts")'"/>
+
                     </div>
                     @*<div class="d-grid gap-2 col-4 mx-auto">
                         <input type="button" id="btnPdf" value="Print Reciept" class="btn Save btn-outline-success btn-lg d-print-none" />
@@ -333,7 +334,8 @@
                     insertNewRecord(formData);
                 saleTotal()
             }
-
+            $("#saleData").val($("#saleData").val + "," + $("#ProductID").val() + "," + $("#Quantity").val());
+            console.log($("#saleData").val());
             resetSale();
         }
 
@@ -346,6 +348,8 @@
             saleData["UnitPrice"] = $("#txtUnitPrice").val();
             saleData["Subtotal"] = (Number($("#txtUnitPrice").val()) * Number($("#Quantity").val())).toFixed(2);
             saleData["ProductName"] = $("#ProductID option:selected").text();
+
+            
             return saleData;
         }
      
@@ -416,7 +420,9 @@
             window.print();
         });
 
-
+        $('#myform').submit(function() {
+  // your code here
+});
 
 
     </script>

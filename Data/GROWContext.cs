@@ -109,9 +109,7 @@ namespace PinewoodGrow.Data
                 .HasIndex(a => a.PlaceID)
                 .IsUnique();
 
-			modelBuilder.Entity<Member>()
-				.HasIndex(a => a.Email)
-				.IsUnique();
+	
 
 			modelBuilder.Entity<Volunteer>()
 				.HasIndex(a => a.Email)

@@ -9,7 +9,7 @@ using PinewoodGrow.Data;
 namespace PinewoodGrow.Data.GMigrations
 {
     [DbContext(typeof(GROWContext))]
-    [Migration("20220418141307_Initial")]
+    [Migration("20220419161459_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -420,13 +420,10 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("VolunteerID")
+                    b.Property<int?>("VolunteerID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
 
                     b.HasIndex("GenderID");
 
@@ -1316,11 +1313,9 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasForeignKey("HouseholdID")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
+                    b.HasOne("PinewoodGrow.Models.Volunteer", null)
                         .WithMany("Members")
-                        .HasForeignKey("VolunteerID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("VolunteerID");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.MemberDietary", b =>
@@ -1486,7 +1481,7 @@ namespace PinewoodGrow.Data.GMigrations
                     b.HasOne("PinewoodGrow.Models.Temp.TempHousehold", "Household")
                         .WithMany("Dependant")
                         .HasForeignKey("HouseholdID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

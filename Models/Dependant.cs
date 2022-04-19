@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using PinewoodGrow.Models.Audit;
@@ -32,8 +33,11 @@ namespace PinewoodGrow.Models
             }
         }
         public int ID { get; set; }
+        [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date)]
 
-    public DateTime DOB { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime DOB { get; set; }
 
     public int HouseholdID { get; set; }
 

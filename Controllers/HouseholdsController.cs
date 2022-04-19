@@ -53,6 +53,7 @@ namespace PinewoodGrow.Controllers
             var households = from h in _context.Households
                          
                              .Include(h => h.Address)
+                             .Include(a=> a.Dependant)
                              .Include(h => h.Members).ThenInclude(m=> m.MemberSituations)
                              .Include(h=> h.LICOHistory)
                              select h;
@@ -84,7 +85,7 @@ namespace PinewoodGrow.Controllers
                 try
                 {
                     var sizeID = Convert.ToInt32(SearchSize);
-                    households = households.Where(m => m.FamilySize == sizeID);
+                    households = households.Where(m => m.Dependant.Count + m.Members.Count == sizeID);
                     ViewData["Filtering"] = "show";
                 }
                 catch

@@ -364,10 +364,10 @@ namespace PinewoodGrow.Data.GMigrations
                     Email = table.Column<string>(nullable: false),
                     Notes = table.Column<string>(maxLength: 2000, nullable: true),
                     Consent = table.Column<bool>(nullable: false),
-                    VolunteerID = table.Column<int>(nullable: false),
                     CompletedOn = table.Column<DateTime>(nullable: false),
                     HouseholdID = table.Column<int>(nullable: false),
-                    GenderID = table.Column<int>(nullable: false)
+                    GenderID = table.Column<int>(nullable: false),
+                    VolunteerID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -440,7 +440,7 @@ namespace PinewoodGrow.Data.GMigrations
                         column: x => x.HouseholdID,
                         principalTable: "TempHouseholds",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -978,12 +978,6 @@ namespace PinewoodGrow.Data.GMigrations
                 column: "MemberID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Members_Email",
-                table: "Members",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Members_GenderID",
                 table: "Members",
                 column: "GenderID");
@@ -1173,6 +1167,7 @@ namespace PinewoodGrow.Data.GMigrations
                 table: "Volunteers",
                 column: "Email",
                 unique: true);
+
             ExtraMigration.Steps(migrationBuilder);
         }
 

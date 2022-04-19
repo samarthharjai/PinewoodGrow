@@ -59,17 +59,9 @@
 			<div class="card card-body bg-light">
 
 				<div class="row" style=" padding-left: 6%;">
-					<div class="custom-control custom-switch m-3">
-						<input type="checkbox" checked="checked" class="custom-control-input green" name="FixedAddress" id="chkFixed">
-						<label class="custom-control-label green" for="chkFixed" style="font-size: 18px; ">Fixed Address</label>
-					</div>
-					<div class="custom-control custom-switch m-3">
-						<input type="checkbox" checked="checked" class="custom-control-input green" name="LICO">
-						<label class="custom-control-label green" for="chkFixed" style="font-size: 18px;">LICO</label>
-					</div>
-					<div class="custom-control custom-switch m-3">
-						<input type="checkbox" checked="checked" class="custom-control-input green" name="Active">
-						<label class="custom-control-label green" for="chkFixed" style="font-size: 18px; ">Active</label>
+                    <div class="custom-control custom-switch m-3">
+						<input type="checkbox" checked="checked" class="custom-control-input green" name="Active" id="Active">
+						<label class="custom-control-label green" for="Active" style="font-size: 18px; ">Active</label>
 					</div>
 				</div>
 				<div class="row" style="width: 100%; padding-left: 5%;">
@@ -190,7 +182,10 @@
 						}
 					</td>
 					<td>
-						@Html.DisplayFor(modelItem => item.FamilySize)
+                    @{
+                       var x = item.Dependant.Count + item.Members.Count;
+                    }
+						@x
 					</td>
 					<td>
 						@Html.DisplayFor(modelItem => item.HouseIncome)

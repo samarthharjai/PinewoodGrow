@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-PinewoodGrow-F05357DF-9B12-4BA2-AADD-5BC1D8A3E392</UserSecretsId>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

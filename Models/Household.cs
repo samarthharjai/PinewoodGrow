@@ -26,10 +26,9 @@ namespace PinewoodGrow.Models
 		[Range(0.0, 58712, ErrorMessage = "Income must be between $0 and $58,712.")]
 		public double HouseIncome => Members.Select(a=> a.Income).ToList().Sum();
 
+        public int DependantCount => Dependant.Count;
 
-
-
-		public string HouseSummary =>  ID + " - " + FamilyName;
+        public string HouseSummary =>  ID + " - " + FamilyName;
 
 
 		[Display(Name = "Family Size")]
