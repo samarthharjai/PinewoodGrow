@@ -165,7 +165,7 @@ namespace PinewoodGrow.Controllers
 
             var licoInfo = await _context.LICOInfos
                 .Where(a => a.HouseholdID == ID)
-                .OrderBy(a => a.CreatedOn).FirstAsync();
+                .OrderBy(a => a.CreatedOn).LastAsync();
 
             licoInfo.Override();
 
@@ -184,7 +184,7 @@ namespace PinewoodGrow.Controllers
 
             var licoInfo = await _context.LICOInfos
                 .Where(a => a.HouseholdID == ID)
-                .OrderBy(a => a.CreatedOn).FirstAsync();
+                .OrderBy(a => a.CreatedOn).LastAsync();
 
             licoInfo.RemoveOverride();
 
