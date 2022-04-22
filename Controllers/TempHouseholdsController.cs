@@ -170,7 +170,7 @@ namespace PinewoodGrow.Controllers
             var householdID = ValidateHouseHold(tmpHousehold, AddressID, tmpMembers.Count);
 
             tmpMembers.ForEach(a=> ValidateMembers(householdID, a));
-            UpdateLicoInformation(householdID);
+    
 
             TempData["AlertMessage"] = "Household Information Saved Successfully....!";
 
@@ -182,6 +182,12 @@ namespace PinewoodGrow.Controllers
             }).ToList();
             await _context.AddRangeAsync(validDependants);
             await _context.SaveChangesAsync();
+
+
+            UpdateLicoInformation(householdID);
+            _context.Remove(tmpHousehold);
+            await _context.SaveChangesAsync();
+
 
             return RedirectToAction("Details", "Households", new { id = householdID });
 
@@ -248,7 +254,10 @@ namespace PinewoodGrow.Controllers
         }
         private bool ValidateMembers(int HouseID, TempMember tmpMember)
         {
-            var member = new Member
+            try
+            {
+                if (!tmpMember.isValid) return false;
+                var member = new Member
             {
                 FirstName = tmpMember.FirstName,
                 LastName = tmpMember.LastName,
@@ -261,15 +270,10 @@ namespace PinewoodGrow.Controllers
                 Notes = tmpMember.Notes,
                 //VolunteerID = 1,
             };
-            try
-            {
+        
                 _context.Members.Add(member); 
                 _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+          
             var memberID = member.ID;
 
            var memberIncomes = tmpMember.MemberSituations.Select(a=> new MemberSituation
@@ -307,7 +311,13 @@ namespace PinewoodGrow.Controllers
             }).ToList();
             _context.MemberDocuments.AddRange(MemberDocuments);
             _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
 
+                return false;
+
+            }
             return true;
 
         }

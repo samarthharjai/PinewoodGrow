@@ -18,6 +18,7 @@ using SelectPdf;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Net.Mail;
+using PinewoodGrow.Models.Temp;
 using PinewoodGrow.ViewModels;
 
 namespace PinewoodGrow.Controllers
@@ -32,6 +33,59 @@ namespace PinewoodGrow.Controllers
             _context = context;
         }
 
+
+        #region Custom Stuff
+        public PartialViewResult ProductSalesList(int id)
+        {
+            ViewBag.Sales = _context.TempReceiptProducts.Where(a => a.ReceiptID == id)
+                .Include(a=> a.Product)
+                .ToList();
+
+            return PartialView("_ProductSalesList");
+        }
+        public async Task<IActionResult> RemoveProduct(int ID)
+        {
+            try
+            {
+                var sale = await _context.TempReceiptProducts.FirstOrDefaultAsync(a => a.ID == ID);
+                _context.Remove(sale);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return RedirectToAction("Index", "Receipts");
+        }
+
+
+        public async Task<IActionResult> AddProduct(int ProductID,int Quantity, double unitPrice, int ReceiptID)
+        {
+            try
+            {
+                var saleProduct = new TempReceiptProduct()
+                {
+                    ReceiptID = ReceiptID,
+                    UnitPrice = unitPrice,
+                    Quantity = Quantity,
+                    ProductID = ProductID,
+                };
+                _context.Add(saleProduct);
+                await  _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return RedirectToAction("Index", "Receipts");
+        }
+
+        #endregion
+
         // GET: Receipts
         public async Task<IActionResult> Index(string SearchString, int? VolunteerID, int? page, int? pageSizeID, string actionButton,
             string sortDirection = "asc", string sortField = "Name")
@@ -44,9 +98,6 @@ namespace PinewoodGrow.Controllers
                            .Include(r => r.Household)
                            .Include(r => r.Member)
                            .Include(r => r.Payment)
-                           .Include(r => r.Product)
-                           .Include(r => r.ProductUnitPrice)
-                           .Include(r => r.ProductType)
                            .Include(r => r.Volunteer)
                            select p;
 
@@ -165,10 +216,8 @@ namespace PinewoodGrow.Controllers
                 .Include(r => r.Household)
                 .Include(r => r.Member)
                 .Include(r => r.Payment)
-                .Include(r => r.Product)
-                .Include(r => r.ProductUnitPrice)
-                .Include(r => r.ProductType)
                 .Include(r => r.Volunteer)
+                .Include(a=> a.Products).ThenInclude(a=> a.Product)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (Receipt == null)
             {
@@ -182,7 +231,11 @@ namespace PinewoodGrow.Controllers
         // GET: Receipts/Create
         public IActionResult Create()
         {
+            var tmp = new TempReceipt();
+            _context.Add(tmp);
+            _context.SaveChanges();
             PopulateDropDownLists();
+            ViewData["SaleID"] = tmp.ID;
             return View();
         }
 
@@ -191,9 +244,10 @@ namespace PinewoodGrow.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProductTypeID,MemberID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice, string saleData)
+        public async Task<IActionResult> Create([Bind("ID,ProductTypeID,MemberID,ProductID,Quantity,Total,SubTotal,CompletedOn,HouseholdID,VolunteerID,PaymentID")] Receipt Receipt, double unitPrice, string saleData, int tmpReceiptID)
         {
 
+            /*
             var Price = UnitPrice(Receipt.ProductID);
             if (Math.Abs(Price.ProductPrice - unitPrice) > 0.001)
             {
@@ -210,12 +264,21 @@ namespace PinewoodGrow.Controllers
             else
             {
                 Receipt.ProductUnitPriceID = Price.ID;
-            }
+            }*/
 
             
 
             if (ModelState.IsValid)
             {
+                var tmpProductSales = _context.TempReceiptProducts.Where(a => a.ReceiptID == tmpReceiptID);
+                Receipt.Products = tmpProductSales.Select(a => new ReceiptProduct
+                {
+                    ProductID = a.ProductID,
+                    UnitPrice = a.UnitPrice,
+                    Quantity = a.Quantity,
+                }).ToList();
+                Receipt.Total = Receipt.Products.Sum(a => a.Total);
+                Receipt.SubTotal = Receipt.Total;
                 _context.Add(Receipt);
                 await _context.SaveChangesAsync();
                 TempData["AlertMessage"] = "Order Saved Successfully....!";
@@ -256,6 +319,7 @@ namespace PinewoodGrow.Controllers
                 return NotFound();
             }
 
+            /*
             var Price = UnitPrice(Receipt.ProductID);
             if (Math.Abs(Price.ProductPrice - unitPrice) > 0.001)
             {
@@ -272,7 +336,7 @@ namespace PinewoodGrow.Controllers
             else
             {
                 Receipt.ProductUnitPriceID = Price.ID;
-            }
+            }*/
 
             if (ModelState.IsValid)
             {
@@ -310,10 +374,9 @@ namespace PinewoodGrow.Controllers
                 .Include(r => r.Household)
                 .Include(r => r.Member)
                 .Include(r => r.Payment)
-                .Include(r => r.Product)
-                .Include(r => r.ProductUnitPrice)
+
                 .Include(r => r.Volunteer)
-                .Include(r => r.ProductType)
+     
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (Receipt == null)
             {

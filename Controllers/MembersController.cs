@@ -179,9 +179,7 @@ namespace PinewoodGrow.Controllers
             var orders = _context.Receipts
                 .Include(a => a.Volunteer)
                 .Include(a => a.Payment)
-                .Include(r => r.Product)
-                .Include(r => r.ProductUnitPrice)
-                .Include(r => r.ProductType)
+   
                 .Where(a => a.MemberID == member.ID)
                 .OrderBy(a => a.CreatedOn)
                 .ToList();

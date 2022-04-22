@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using PinewoodGrow.Models.Audit;
+using PinewoodGrow.Models.Temp;
 
-namespace PinewoodGrow.Models
+namespace PinewoodGrow.Models.Temp
 {
-    public class Receipt : Auditable
+    public class TempReceipt : Auditable
     {
-        public Receipt()
+        public TempReceipt()
         {
-            Products = new HashSet<ReceiptProduct>();
+            Products = new HashSet<TempReceiptProduct>();
         }
 
         public int ID { get; set; }
@@ -34,27 +35,9 @@ namespace PinewoodGrow.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CompletedOn { get; set; }
 
-        [Display(Name = "Members")]
-        [Required(ErrorMessage = "You cannot leave Members blank")]
-        public int MemberID { get; set; }
-        public Member Member { get; set; }
 
-        [Display(Name = "Household")]
-        [Required(ErrorMessage = "You cannot leave Household blank")]
-        public int HouseholdID { get; set; }
-        public Household Household { get; set; }
 
-        [Display(Name = "Volunteer")]
-        [Required(ErrorMessage = "You cannot leave the Completed By blank.")]
-        public int VolunteerID { get; set; }
-        public Volunteer Volunteer { get; set; }
-
-        [Display(Name = "Payment")]
-        [Required(ErrorMessage = "Please Select a Payment Method")]
-        public int PaymentID { get; set; }
-        public Payment Payment { get; set; }
-
-        public ICollection<ReceiptProduct> Products { get; set; }
+        public ICollection<TempReceiptProduct> Products { get; set; }
 
         //public ICollection<Invoice> Invoices { get; set; }
     }

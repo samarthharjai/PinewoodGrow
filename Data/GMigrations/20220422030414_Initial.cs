@@ -157,6 +157,26 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TempReceipts",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedOn = table.Column<DateTime>(nullable: true),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Total = table.Column<double>(nullable: false),
+                    SubTotal = table.Column<double>(nullable: false),
+                    CompletedOn = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TempReceipts", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Volunteers",
                 columns: table => new
                 {
@@ -419,6 +439,34 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TempReceiptProducts",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ReceiptID = table.Column<int>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    UnitPrice = table.Column<double>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TempReceiptProducts", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_TempReceiptProducts_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TempReceiptProducts_TempReceipts_ReceiptID",
+                        column: x => x.ReceiptID,
+                        principalTable: "TempReceipts",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TempDependents",
                 columns: table => new
                 {
@@ -601,41 +649,6 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sales",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TransDate = table.Column<DateTime>(nullable: false),
-                    NetTotal = table.Column<double>(nullable: false),
-                    MemberID = table.Column<int>(nullable: false),
-                    VolunteerID = table.Column<int>(nullable: false),
-                    PaymentID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sales", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Sales_Members_MemberID",
-                        column: x => x.MemberID,
-                        principalTable: "Members",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sales_Payments_PaymentID",
-                        column: x => x.PaymentID,
-                        principalTable: "Payments",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Sales_Volunteers_VolunteerID",
-                        column: x => x.VolunteerID,
-                        principalTable: "Volunteers",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Receipts",
                 columns: table => new
                 {
@@ -646,12 +659,8 @@ namespace PinewoodGrow.Data.GMigrations
                     UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
                     UpdatedOn = table.Column<DateTime>(nullable: true),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    ProductTypeID = table.Column<int>(nullable: false),
-                    ProductID = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
                     Total = table.Column<double>(nullable: false),
                     SubTotal = table.Column<double>(nullable: false),
-                    ProductUnitPriceID = table.Column<int>(nullable: false),
                     CompletedOn = table.Column<DateTime>(nullable: false),
                     MemberID = table.Column<int>(nullable: false),
                     HouseholdID = table.Column<int>(nullable: false),
@@ -680,25 +689,42 @@ namespace PinewoodGrow.Data.GMigrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Receipts_Products_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "Products",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Receipts_ProductTypes_ProductTypeID",
-                        column: x => x.ProductTypeID,
-                        principalTable: "ProductTypes",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Receipts_ProductUnitPrices_ProductUnitPriceID",
-                        column: x => x.ProductUnitPriceID,
-                        principalTable: "ProductUnitPrices",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Receipts_Volunteers_VolunteerID",
+                        column: x => x.VolunteerID,
+                        principalTable: "Volunteers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sales",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TransDate = table.Column<DateTime>(nullable: false),
+                    NetTotal = table.Column<double>(nullable: false),
+                    MemberID = table.Column<int>(nullable: false),
+                    VolunteerID = table.Column<int>(nullable: false),
+                    PaymentID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sales", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Sales_Members_MemberID",
+                        column: x => x.MemberID,
+                        principalTable: "Members",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sales_Payments_PaymentID",
+                        column: x => x.PaymentID,
+                        principalTable: "Payments",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Sales_Volunteers_VolunteerID",
                         column: x => x.VolunteerID,
                         principalTable: "Volunteers",
                         principalColumn: "ID",
@@ -840,32 +866,6 @@ namespace PinewoodGrow.Data.GMigrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SaleDetails",
-                columns: table => new
-                {
-                    SaleID = table.Column<int>(nullable: false),
-                    ProductID = table.Column<int>(nullable: false),
-                    ID = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SaleDetails", x => new { x.SaleID, x.ProductID });
-                    table.ForeignKey(
-                        name: "FK_SaleDetails_Products_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "Products",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SaleDetails_Sales_SaleID",
-                        column: x => x.SaleID,
-                        principalTable: "Sales",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
@@ -899,6 +899,60 @@ namespace PinewoodGrow.Data.GMigrations
                         principalTable: "Receipts",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReceiptProducts",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ReceiptID = table.Column<int>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    UnitPrice = table.Column<double>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceiptProducts", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ReceiptProducts_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReceiptProducts_Receipts_ReceiptID",
+                        column: x => x.ReceiptID,
+                        principalTable: "Receipts",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SaleDetails",
+                columns: table => new
+                {
+                    SaleID = table.Column<int>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    ID = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleDetails", x => new { x.SaleID, x.ProductID });
+                    table.ForeignKey(
+                        name: "FK_SaleDetails_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SaleDetails_Sales_SaleID",
+                        column: x => x.SaleID,
+                        principalTable: "Sales",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1020,6 +1074,16 @@ namespace PinewoodGrow.Data.GMigrations
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ReceiptProducts_ProductID",
+                table: "ReceiptProducts",
+                column: "ProductID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReceiptProducts_ReceiptID",
+                table: "ReceiptProducts",
+                column: "ReceiptID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Receipts_HouseholdID",
                 table: "Receipts",
                 column: "HouseholdID");
@@ -1033,21 +1097,6 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "IX_Receipts_PaymentID",
                 table: "Receipts",
                 column: "PaymentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Receipts_ProductID",
-                table: "Receipts",
-                column: "ProductID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Receipts_ProductTypeID",
-                table: "Receipts",
-                column: "ProductTypeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Receipts_ProductUnitPriceID",
-                table: "Receipts",
-                column: "ProductUnitPriceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Receipts_VolunteerID",
@@ -1142,6 +1191,16 @@ namespace PinewoodGrow.Data.GMigrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_TempReceiptProducts_ProductID",
+                table: "TempReceiptProducts",
+                column: "ProductID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TempReceiptProducts_ReceiptID",
+                table: "TempReceiptProducts",
+                column: "ReceiptID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TravelDetails_AddressID",
                 table: "TravelDetails",
                 column: "AddressID",
@@ -1198,6 +1257,9 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "MemberSituations");
 
             migrationBuilder.DropTable(
+                name: "ReceiptProducts");
+
+            migrationBuilder.DropTable(
                 name: "SaleDetails");
 
             migrationBuilder.DropTable(
@@ -1216,10 +1278,16 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "TempMemberSituations");
 
             migrationBuilder.DropTable(
+                name: "TempReceiptProducts");
+
+            migrationBuilder.DropTable(
                 name: "TravelDetails");
 
             migrationBuilder.DropTable(
                 name: "UploadedFiles");
+
+            migrationBuilder.DropTable(
+                name: "ProductUnitPrices");
 
             migrationBuilder.DropTable(
                 name: "Receipts");
@@ -1237,13 +1305,16 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "Situations");
 
             migrationBuilder.DropTable(
+                name: "TempReceipts");
+
+            migrationBuilder.DropTable(
                 name: "GroceryStores");
 
             migrationBuilder.DropTable(
                 name: "TempMembers");
 
             migrationBuilder.DropTable(
-                name: "ProductUnitPrices");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Members");
@@ -1255,7 +1326,7 @@ namespace PinewoodGrow.Data.GMigrations
                 name: "TempHouseholds");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "ProductTypes");
 
             migrationBuilder.DropTable(
                 name: "Genders");
@@ -1268,9 +1339,6 @@ namespace PinewoodGrow.Data.GMigrations
 
             migrationBuilder.DropTable(
                 name: "TempAddresses");
-
-            migrationBuilder.DropTable(
-                name: "ProductTypes");
 
             migrationBuilder.DropTable(
                 name: "Addresses");

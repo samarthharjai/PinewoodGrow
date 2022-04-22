@@ -47,6 +47,7 @@ namespace PinewoodGrow.Models
         {
             MaxIncome = FamilySize switch
             {
+                0 => 0,
                 1 => 22186,
                 2 => 27619,
                 3 => 33953,

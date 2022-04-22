@@ -64,7 +64,7 @@ namespace PinewoodGrow.Data
 		public DbSet<TravelDetail> TravelDetails { get; set; }
 
 
-
+        public DbSet<ReceiptProduct> ReceiptProducts { get; set; }
 
         #region Temp Tables
 
@@ -79,7 +79,11 @@ namespace PinewoodGrow.Data
 		public DbSet<TempAddress> TempAddresses { get; set; }
 
 
-		#endregion
+        public DbSet<TempReceipt> TempReceipts { get; set; }
+        public DbSet<TempReceiptProduct> TempReceiptProducts { get; set; }
+
+
+        #endregion
 
 
 
@@ -87,8 +91,11 @@ namespace PinewoodGrow.Data
 
 
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Receipt>().HasMany(a => a.Products).WithOne(a => a.Receipt)
+                .HasForeignKey(a => a.ReceiptID);
 
 
 
@@ -249,9 +256,12 @@ namespace PinewoodGrow.Data
 				.IsUnique();
 
 
-			#region Temp Data
+            #region Temp Data
 
-	
+            modelBuilder.Entity<TempReceipt>().HasMany(a => a.Products).WithOne(a => a.Receipt)
+                .HasForeignKey(a => a.ReceiptID).IsRequired(false);
+
+
 
             modelBuilder.Entity<TempAddress>()
                 .HasIndex(a => a.PlaceID)

@@ -207,38 +207,18 @@ background-color: #f7f7ff;
                             </div>
                             <hr>
                         </div>
-                        <div class="invoice overflow-auto">
-                            <div style="min-width: 600px">
-                                <header>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a>
-                                                <img src="~/Images/Logo Trans - Grow.png" width="250" style="margin-top: 25px; margin-left: 15px" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="col company-details">
-                                            <h2 class="name">
-                                                <a>
-                                                    <strong>GROW</strong>
-                                                </a>
-
-                                            </h2>
-                                            <small>Community Food Literacy Centre</small>
-                                            <div>4377 Fourth Ave.</div>
-                                            <div>Niagara Falls, Ontario, L2E 4N1</div>
-                                            <div>info@growcflc.com</div>
-                                            <div>Phone: 1-905-262-6812</div>
-                                        </div>
-                                    </div>
-                                </header>
-                                <main>
+                        <div iclass="invoice overflow-auto">
+                           
+                            <header>
+                                <div class="row">
+                                    <div class="col-md-6">
                                     <div class="row contacts">
                                         <div class="col invoice-to">
                                             <div class="text-gray-light">INVOICE TO:</div>
                                             <h2 class="to">@Html.DisplayFor(model => model.Member.FullName)</h2>
                                             <div class="address">
-                                                <strong>@Html.DisplayNameFor(model => model.Household) :</strong>
-                                                @Html.DisplayFor(model => model.Household.FamilyName)
+                                                <strong>Membership#:</strong>
+                                                #@Html.DisplayFor(model => model.Household.ID)
                                             </div>
                                             <div class="address">
                                                 <strong>@Html.DisplayNameFor(model => model.Member.Email) :</strong>
@@ -248,26 +228,59 @@ background-color: #f7f7ff;
                                                 <strong>Phone Number :</strong>
                                                 <a>@Html.DisplayFor(model => model.Member.TelephoneFormatted)</a>
                                             </div>
-                                        </div>
-                                        <div class="col invoice-details">
-                                            <div class="date"><strong>Date of Invoice:</strong> @Html.DisplayFor(model => model.CompletedOn)</div>
+                                            <div class="date"><strong>Invoice Issued:</strong> @Html.DisplayFor(model => model.CompletedOn)</div>
                                             <div class="address"><strong>Volunteer:</strong> @Html.DisplayFor(model => model.Volunteer.FullName)</div>
                                             <div class="address"><strong>Payment Method:</strong> @Html.DisplayFor(model => model.Payment.Type)</div>
                                         </div>
+                                        <hr/>
                                     </div>
-                                    <table>
+                                    </div>
+                                    <div class="col company-details" style="text-align: right;">
+                                        <a>
+                                            <img src="~/Images/Logo Trans - Grow.png" width="250" style="margin-top: 25px; margin-left: 15px" alt="">
+                                        </a>
+                                        <div>4377 Fourth Ave.</div>
+                                        <div>Niagara Falls, Ontario, L2E 4N1</div>
+                                        <div>info@growcflc.com</div>
+                                        <div>Phone: 1-905-262-6812</div>
+                                    </div>
+                                </div>
+                            </header>
+                                <main>
+                                    <table class="table" style="margin: 30px auto 0 auto ">
                                         <thead>
-                                            <tr>
-                                                <th class="text-left">Product Catagories</th>
-                                                <th class="text-left">@Html.DisplayNameFor(model => model.Product)</th>
-                                                <th class="text-right">@Html.DisplayNameFor(model => model.Quantity)</th>
-                                                <th class="text-right">Unit Price</th>
-                                                <th class="text-right">@Html.DisplayNameFor(model => model.SubTotal)</th>
-                                            </tr>
+
+                                        <tr>
+                                            <th >Product</th>
+                                            <th >Quantity</th>
+                                                <th>Price</th>
+
+                                            <th>Sub Total</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-left">@Html.DisplayFor(model => model.ProductType.Type)</td>
+                                     
+                                            @{
+                                                foreach (ReceiptProduct product in @Model.Products)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @product.Product.Name
+                                                        </td>
+                                                        <td>
+                                                            @product.Quantity
+                                                        </td>
+                                                        <td >
+                                                            @product.UnitPrice.ToString("C")
+                                                        </td>
+                                                       
+                                                        <td>
+                                                            @product.Total.ToString("C")
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            @*<td class="text-left">@Html.DisplayFor(model => model.ProductType.Type)</td>
                                                 <td class="text-left">
                                                     <h3>
                                                         <a>
@@ -277,21 +290,12 @@ background-color: #f7f7ff;
                                                 </td>
                                                 <td class="unit">@Html.DisplayFor(model => model.Quantity)</td>
                                                 <td class="qty">@Html.DisplayFor(model => model.ProductUnitPrice.ProductPrice)</td>
-                                                <td class="total">@Html.DisplayFor(model => model.SubTotal)</td>
-                                            </tr>
+                                                <td class="total">@Html.DisplayFor(model => model.SubTotal)</td>*@
+                              
                                         </tbody>
                                         <tfoot>
-                                            <tr>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2"></td>
+                                        <tr>
+                                                <td colspan="1"></td>
                                                 <td colspan="2">GRAND TOTAL</td>
                                                 <td>@Html.DisplayFor(model => model.SubTotal)</td>
                                             </tr>

@@ -56,7 +56,7 @@
     <div>Phone: 1-905-262-6812</div>*@
     <h1 style="text-align: center;">Order Reciept</h1>
 
-    <div class="card-body">
+    @*<div class="card-body">
         <div class="col-sm-4">
             <h6 class="mb-3">From:</h6>
             <div>
@@ -84,7 +84,7 @@
 
 
         </div>
-    </div>
+    </div>*@
 
 
 
@@ -93,8 +93,10 @@
 <h1 style="text-align: center;" class="d-print-none">Point Of Sale</h1>
 
 <hr />
-<form asp-action="Create">
-    <input type="hidden" value="," name="saleData"/>
+<form asp-action="Create" name="SaleForm" id="SaleForm">
+    <input type="hidden" value="" name="saleData"/>
+    <input type="hidden" value="@ViewData["SaleID"]" name="ReceiptID"/>
+        <input type="hidden" value="@ViewData["SaleID"]" name="tmpReceiptID"/>
     <div class="container">
         <div class="row">
 
@@ -128,6 +130,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="firstdiv" class="col d-print-none" style="border: 0.5px solid; padding: 15px; margin-bottom: 10px;">
 
                 <figure class="text-center">
@@ -136,7 +139,7 @@
 
                 <div class="mb-3 d-print-none">
                     <label for="validationTooltip02" class="form-label">Product Categories: </label><label class="text-danger" style="margin: 5px; padding: 0;">*</label>
-                    <select asp-for="ProductTypeID" id="ProductTypeID" name="ProductTypeID" class="form-control" asp-items="ViewBag.ProductTypeID">
+                    <select  id="ProductTypeID" name="ProductTypeID" class="form-control" asp-items="ViewBag.ProductTypeID">
                         <option selected disabled value="">Select Product Categories</option>
                     </select>
                     <div class="invalid-feedback">
@@ -147,7 +150,7 @@
                 <!-- Need to select something -->
                 <div class="mb-3">
                     <label for="validationTooltip02" class="form-label">Product: </label><label class="text-danger" style="margin: 5px; padding: 0;">*</label>
-                    <select asp-for="ProductID" id="ProductID" class="form-control" asp-items="ViewBag.ProductID">
+                    <select id="ProductID" name="ProductID" class="form-control" asp-items="ViewBag.ProductID">
                         <option selected disabled value="">Select Product</option>
                     </select>
                     <div class="invalid-feedback">
@@ -161,7 +164,7 @@
                     <div class="row" style="margin: auto">
                         <div class="col">
                             <div class="form-group">
-                                <input asp-for="Quantity" type="text" id="Quantity" value="1" placeholder="0" class="form-control"/>
+                                <input type="text" id="Quantity" name="Quantity" value="1" placeholder="0" class="form-control"/>
                                 @*<input value="0" class="form-control" type="number" id="txtQan" required>*@
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">Please fill out this field.</div>
@@ -194,7 +197,7 @@
                 </div>
                 <div class="form-group d-print-none">
                     <figure class="text-center">
-                        <input type="button" onclick="addSale()" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" id="btnAdd" value="Add"/>
+                        <input type="button" onclick="addSale()" class="btn btn-outline-primary btn-lg btn-block" style="width: 60%;" name="btnAdd" id="btnAdd" value="Add"/>
                         <input type="reset" class="btn btn-outline-danger btn-lg btn-block" style="width: 30%; margin-bottom: 9px" id="btnClear"/>
                     </figure>
                 </div>
@@ -306,8 +309,54 @@
 
         });
 
+        $(document).on("click",
+            "#btnAdd",
+            function(event) {
+                console.log('In /here');
+                event.preventDefault();
+                var form = $('#SaleForm');
+                var formData = new FormData(form[0]);
 
 
+                    $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        url: '/Receipts/AddProduct',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function() {
+                            $('#saleTableData').load('/Receipts/ProductSalesList/@ViewData["SaleID"]');
+                        },
+                        error: function() {
+                            alert("Operation Failed.  There was a problem maintaing the data.");
+                        }
+                    });
+
+
+                return false;
+            });
+
+        $(document).on("click",
+            ".temp-modal-link",
+            function () {
+                console.log("DoingStuff");
+                var actionForm = $(this).attr("name");
+                var ProductSaleID = $(this).attr("tag");
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: '/Receipts/RemoveProduct/' + ProductSaleID,
+                    success: function() {
+                        $('#saleTableData').load('/Receipts/ProductSalesList/@ViewData["SaleID"]');
+                    },
+                    error: function() {
+                        alert("Operation Failed.  There was a problem maintaing the data.");
+                    }
+                });
+
+            });
 
         function CalculateSubTotal() {
             var UnitPrice = $("#txtUnitPrice").val();
@@ -323,7 +372,7 @@
             $("#Total").val(parseFloat(Total).toFixed(2));
         }
 
-        function addSale() {
+/*        function addSale() {
             var selectedRow = null
             var formData = saleData();
             var quan = $("#Quantity").val();
@@ -337,22 +386,22 @@
             $("#saleData").val($("#saleData").val + "," + $("#ProductID").val() + "," + $("#Quantity").val());
             console.log($("#saleData").val());
             resetSale();
-        }
+        }*/
 
         function saleData() {
             var saleData = {};
             /*saleData["productCat"] = $("#ProductTypeID").val();*/
             saleData["Product"] = $("#ProductID").val();
-       
+
             saleData["quantity"] = $("#Quantity").val();
             saleData["UnitPrice"] = $("#txtUnitPrice").val();
             saleData["Subtotal"] = (Number($("#txtUnitPrice").val()) * Number($("#Quantity").val())).toFixed(2);
             saleData["ProductName"] = $("#ProductID option:selected").text();
 
-            
+
             return saleData;
         }
-     
+
         function resetSale() {
             document.getElementById("ProductTypeID").value = "";
             document.getElementById("ProductID").value = "";

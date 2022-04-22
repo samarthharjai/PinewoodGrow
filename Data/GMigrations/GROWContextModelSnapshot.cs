@@ -684,18 +684,6 @@ namespace PinewoodGrow.Data.GMigrations
                     b.Property<int>("PaymentID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProductID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductTypeID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductUnitPriceID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
@@ -725,15 +713,36 @@ namespace PinewoodGrow.Data.GMigrations
 
                     b.HasIndex("PaymentID");
 
-                    b.HasIndex("ProductID");
-
-                    b.HasIndex("ProductTypeID");
-
-                    b.HasIndex("ProductUnitPriceID");
-
                     b.HasIndex("VolunteerID");
 
                     b.ToTable("Receipts");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.ReceiptProduct", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReceiptID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("ReceiptID");
+
+                    b.ToTable("ReceiptProducts");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.Sale", b =>
@@ -1116,6 +1125,72 @@ namespace PinewoodGrow.Data.GMigrations
                     b.ToTable("TempMemberSituations");
                 });
 
+            modelBuilder.Entity("PinewoodGrow.Models.Temp.TempReceipt", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CompletedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
+
+                    b.Property<double>("SubTotal")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(256);
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("TempReceipts");
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.Temp.TempReceiptProduct", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReceiptID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("ReceiptID");
+
+                    b.ToTable("TempReceiptProducts");
+                });
+
             modelBuilder.Entity("PinewoodGrow.Models.TravelDetail", b =>
                 {
                     b.Property<int>("ID")
@@ -1413,27 +1488,24 @@ namespace PinewoodGrow.Data.GMigrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
+                        .WithMany()
+                        .HasForeignKey("VolunteerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.ReceiptProduct", b =>
+                {
                     b.HasOne("PinewoodGrow.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PinewoodGrow.Models.ProductType", "ProductType")
-                        .WithMany()
-                        .HasForeignKey("ProductTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PinewoodGrow.Models.ProductUnitPrice", "ProductUnitPrice")
-                        .WithMany()
-                        .HasForeignKey("ProductUnitPriceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PinewoodGrow.Models.Volunteer", "Volunteer")
-                        .WithMany()
-                        .HasForeignKey("VolunteerID")
+                    b.HasOne("PinewoodGrow.Models.Receipt", "Receipt")
+                        .WithMany("Products")
+                        .HasForeignKey("ReceiptID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1564,6 +1636,19 @@ namespace PinewoodGrow.Data.GMigrations
                         .HasForeignKey("SituationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PinewoodGrow.Models.Temp.TempReceiptProduct", b =>
+                {
+                    b.HasOne("PinewoodGrow.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PinewoodGrow.Models.Temp.TempReceipt", "Receipt")
+                        .WithMany("Products")
+                        .HasForeignKey("ReceiptID");
                 });
 
             modelBuilder.Entity("PinewoodGrow.Models.TravelDetail", b =>
